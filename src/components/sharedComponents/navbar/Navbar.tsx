@@ -1,19 +1,22 @@
 "use client";
+
+import { useAppSelector } from "@/redux/hooks";
 import { Menu } from "@headlessui/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { BiCategory } from "react-icons/bi";
 import { BsSearch } from "react-icons/bs";
 import { FiShoppingCart } from "react-icons/fi";
 import { GrCompare } from "react-icons/gr";
 import { MdKeyboardArrowDown, MdOutlineAccountCircle } from "react-icons/md";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 // local
-import { useRouter } from "next/navigation";
-import useAuth from "../../../hooks/useAuth";
+import { USER_ROLE } from "@/types/common";
 import logo from "../../../../public/logo/logo.svg";
+import useAuth from "../../../hooks/useAuth";
 import { logOutUser } from "../../../redux/features/auth/customer/authSlice";
 import SideBarShoppingCart from "../../mainComponents/Home/SideBarShoppingCart";
 import Announcement from "../announcement/Announcement";
@@ -31,8 +34,8 @@ const Navbar = () => {
   const [searchProduct, setSearchProduct] = useState("");
   const [showProductCard, setShowProductCard] = useState(false);
 
-  const { products } = useSelector((state) => state.cart);
-  const { user } = useSelector((state) => state.auth);
+  const { products } = useAppSelector((state) => state.cart);
+  const { user } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -106,8 +109,8 @@ const Navbar = () => {
                     <div className="h-8 w-8 rounded-full ring ring-primary ring-offset-2 ring-offset-base-100">
                       <Image
                         alt=""
-                        height="35px"
-                        width="35px"
+                        height="35"
+                        width="35"
                         src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
                         priority
                       />
@@ -120,7 +123,7 @@ const Navbar = () => {
                       href={
                         user.role === "customer"
                           ? "/customer/profile"
-                          : user.role === "vendor-admin"
+                          : user.role === USER_ROLE.vendor
                           ? `/shop/${user?.storeName?.split(" ").join("-")}`
                           : "/"
                       }

@@ -1,11 +1,10 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { persistReducer, persistStore } from "redux-persist";
+import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import baseApi from "../features/api/baseApi";
-import authReducer from "../features/auth/customer/authSlice";
-import cartReducer from "../features/cart/cartSlice";
-import orderDetailsReducer from "../features/orders/orderDetails/orderDetailsSlice";
-import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist";
+import baseApi from "./features/api/baseApi";
+import authReducer from "./features/auth/customer/authSlice";
+import cartReducer from "./features/cart/cartSlice";
+import orderDetailsReducer from "./features/orders/orderDetails/orderDetailsSlice";
 
 // Persist Configuration
 const persistConfig = {
@@ -31,7 +30,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER], // Ignore redux-persist actions
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }).concat(baseApi.middleware),
 });

@@ -1,27 +1,25 @@
 "use client";
 
 import {
-  signOut,
+  createUserWithEmailAndPassword,
+  FacebookAuthProvider,
   getAuth,
-  updateProfile,
-  signInWithPopup,
   GoogleAuthProvider,
   onAuthStateChanged,
-  FacebookAuthProvider,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+  updateProfile,
 } from "firebase/auth";
 import Cookies from "js-cookie";
-import { useDispatch } from "react-redux";
 import { createContext, useEffect, useState } from "react";
-
-// local
+import { useDispatch } from "react-redux";
 import { app } from "../firebase/firebase.config";
 import { addUser } from "../redux/features/auth/customer/authSlice";
 import { useGetMeMutation } from "../redux/features/auth/customer/customerAuthApi";
-import { useGetJWTTokenMutation } from "../redux/features/jwt/jwtApi";
 import { useGetMyVendorMutation } from "../redux/features/auth/vendor/venAuthApi";
+import { useGetJWTTokenMutation } from "../redux/features/jwt/jwtApi";
 
 export const AuthContext = createContext(null);
 

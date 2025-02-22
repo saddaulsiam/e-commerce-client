@@ -13,7 +13,8 @@ import { BottomBar, Footer, Navbar } from "@/components/sharedComponents";
 const Home = () => {
   return (
     <>
-      <Navbar />  
+      <Navbar />
+      {/*
       <Banner />
       <FlashDeals />
       <TopCategories />
@@ -23,7 +24,8 @@ const Home = () => {
       <RandomProducts />
       <OurServices />
       <Footer />
-      <BottomBar />
+      <BottomBar /> 
+      */}
     </>
   );
 };
