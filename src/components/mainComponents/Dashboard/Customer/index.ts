@@ -1,0 +1,12 @@
+export { default as DashboardCustomersOrders } from "./Dashboard.Customers.Orders";
+export { default as DashboardCustomersOrderDetails } from "./Dashboard.Customers.Order.Details";
+export { default as DashboardCustomersOrderDetailsCart } from "./Dashboard.Customers.Order.Details.Cart";
+export { default as DashboardCustomersWishlists } from "./Dashboard.Customers.Wishlists";
+export { default as DashboardCustomersProfile } from "./Dashboard.Customers.Profile";
+export { default as DashboardCustomersProfileEdit } from "./Dashboard.Customers.Profile.Edit";
+export { default as DashboardCustomersAddresses } from "./Dashboard.Customers.Addresses";
+export { default as DashboardCustomersAddressNew } from "./Dashboard.Customers.Address.New";
+export { default as DashboardCustomersAddressEdit } from "./Dashboard.Customers.Address.Edit";
+export { default as DashboardCustomersAddressFillUpForm } from "./Dashboard.Customers.Address.FillUp.Form";
+export { default as DashboardCustomerSideBarNavigation } from "./Dashboard.Customer.SideBar.Navigation";
+export { default as DashboardCustomerNavigation } from "./Dashboard.Customer.Navigation";
