@@ -6,7 +6,7 @@ export const baseApi = createApi({
     baseUrl: "http://localhost:5000/api/v1",
   }),
   tagTypes: ["Products", "Orders", "Brands", "Auth"],
-  endpoints: (builder) => ({}),
+  endpoints: () => ({}),
 });
 
 export default baseApi;
