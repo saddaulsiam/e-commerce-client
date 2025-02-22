@@ -4,9 +4,9 @@ import { HiOutlineMail } from "react-icons/hi";
 import { AiTwotonePhone } from "react-icons/ai";
 
 // local
-import logo from "../../../images/logo/logo.svg";
-import bd from "../../../images/country/bd.svg";
-import us from "../../../images/country/us.svg";
+import logo from "../../../../public/logo/logo.svg";
+import bd from "../../../../public/country/bd.svg";
+import us from "../../../../public/country/us.svg";
 import HeadlessUIDropDown from "../HeadlessUIDropDown/HeadlessUIDropDown";
 
 const Announcement = ({ scroll }) => {

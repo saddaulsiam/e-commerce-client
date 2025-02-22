@@ -1,13 +1,7 @@
 import Image from "next/image";
-import logo from "../../../images/logo/logo.svg";
-import googlePlay from "../../../images/logo/googleplay.png";
-import {
-  FaFacebookF,
-  FaTwitter,
-  FaYoutube,
-  FaGoogle,
-  FaInstagram,
-} from "react-icons/fa";
+import logo from "../../../../public/logo/logo.svg";
+import googlePlay from "../../../../public/logo/googleplay.png";
+import { FaFacebookF, FaTwitter, FaYoutube, FaGoogle, FaInstagram } from "react-icons/fa";
 
 const Footer = () => {
   return (
@@ -18,9 +12,8 @@ const Footer = () => {
             <Image src={logo} alt="" height="35" priority />
           </p>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor
-            libero id et, in gravida. Sit diam duis mauris nulla cursus. Erat et
-            lectus vel ut sollicitudin elit at amet.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor libero id et, in gravida. Sit diam duis
+            mauris nulla cursus. Erat et lectus vel ut sollicitudin elit at amet.
           </p>
           <p className="pt-5">
             <Image src={googlePlay} alt="" priority />
@@ -29,49 +22,29 @@ const Footer = () => {
         <div className="col-span-12 sm:col-span-6 lg:col-span-2">
           <h2 className="text-2xl text-white">About Us</h2>
           <ul className="space-y-3 pt-5">
-            <li className="cursor-pointer underline-offset-2 hover:text-white hover:underline">
-              Careers
-            </li>
-            <li className="cursor-pointer underline-offset-2 hover:text-white hover:underline">
-              Our Stores
-            </li>
-            <li className="cursor-pointer underline-offset-2 hover:text-white hover:underline">
-              Our Cares
-            </li>
-            <li className="cursor-pointer underline-offset-2 hover:text-white hover:underline">
-              Terms & Conditions
-            </li>
-            <li className="cursor-pointer underline-offset-2 hover:text-white hover:underline">
-              Privacy Policy
-            </li>
+            <li className="cursor-pointer underline-offset-2 hover:text-white hover:underline">Careers</li>
+            <li className="cursor-pointer underline-offset-2 hover:text-white hover:underline">Our Stores</li>
+            <li className="cursor-pointer underline-offset-2 hover:text-white hover:underline">Our Cares</li>
+            <li className="cursor-pointer underline-offset-2 hover:text-white hover:underline">Terms & Conditions</li>
+            <li className="cursor-pointer underline-offset-2 hover:text-white hover:underline">Privacy Policy</li>
           </ul>
         </div>
         <div className="col-span-12 sm:col-span-6 lg:col-span-3">
           <h2 className="text-2xl text-white">Customer Care</h2>
           <ul className="space-y-3 pt-5">
-            <li className="cursor-pointer underline-offset-2 hover:text-white hover:underline">
-              Help Center
-            </li>
-            <li className="cursor-pointer underline-offset-2 hover:text-white hover:underline">
-              How to Buy
-            </li>
-            <li className="cursor-pointer underline-offset-2 hover:text-white hover:underline">
-              Track Your Order
-            </li>
+            <li className="cursor-pointer underline-offset-2 hover:text-white hover:underline">Help Center</li>
+            <li className="cursor-pointer underline-offset-2 hover:text-white hover:underline">How to Buy</li>
+            <li className="cursor-pointer underline-offset-2 hover:text-white hover:underline">Track Your Order</li>
             <li className="cursor-pointer underline-offset-2 hover:text-white hover:underline">
               Corporate & Bulk Purchasing
             </li>
-            <li className="cursor-pointer underline-offset-2 hover:text-white hover:underline">
-              Returns & Refunds
-            </li>
+            <li className="cursor-pointer underline-offset-2 hover:text-white hover:underline">Returns & Refunds</li>
           </ul>
         </div>
         <div className="col-span-12 sm:col-span-6 lg:col-span-3">
           <h2 className="text-2xl text-white">Contact Us</h2>
           <ul className="space-y-3 pt-5">
-            <li>
-              70 Washington Square South, New York, NY 10012, United States
-            </li>
+            <li>70 Washington Square South, New York, NY 10012, United States</li>
             <li>Email: saddaul.siam@gmail.com</li>
             <li>Phone: +88 01311-333277</li>
           </ul>

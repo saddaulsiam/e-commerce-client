@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 // local
 import { useRouter } from "next/navigation";
 import useAuth from "../../../hooks/useAuth";
-import logo from "../../../images/logo/logo.svg";
+import logo from "../../../../public/logo/logo.svg";
 import { logOutUser } from "../../../redux/features/auth/customer/authSlice";
 import SideBarShoppingCart from "../../mainComponents/Home/SideBarShoppingCart";
 import Announcement from "../announcement/Announcement";

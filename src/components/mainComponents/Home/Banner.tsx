@@ -8,7 +8,7 @@ import { Pagination, Autoplay } from "swiper/modules";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 
 // local
-import banners from "../../../../public/images/banners";
+import banners from "../../../../public/banners";
 import { useGetCategoriesQuery } from "../../../redux/features/categories/categoriesApi";
 
 const Banner = () => {
