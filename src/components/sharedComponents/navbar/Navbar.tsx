@@ -1,7 +1,6 @@
 "use client";
 
 import { useAppSelector } from "@/redux/hooks";
-import { Menu } from "@headlessui/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -9,19 +8,15 @@ import { useEffect, useState } from "react";
 import { BiCategory } from "react-icons/bi";
 import { BsSearch } from "react-icons/bs";
 import { FiShoppingCart } from "react-icons/fi";
-import { GrCompare } from "react-icons/gr";
 import { MdKeyboardArrowDown, MdOutlineAccountCircle } from "react-icons/md";
 import { useDispatch } from "react-redux";
 
-// local
+// Local imports
 import { USER_ROLE } from "@/types/common";
 import logo from "../../../../public/logo/logo.svg";
 import useAuth from "../../../hooks/useAuth";
 import { logOutUser } from "../../../redux/features/auth/customer/authSlice";
-import SideBarShoppingCart from "../../mainComponents/Home/SideBarShoppingCart";
 import Announcement from "../announcement/Announcement";
-import HeadlessUICategoriesDPD from "../HeadlessUIDropDown/HeadlessUICategoriesDPD";
-import LoginModal from "../modal/Login.modal";
 import NavbarMenu from "./NavbarMenu";
 
 const Navbar = () => {
@@ -29,136 +24,129 @@ const Navbar = () => {
   const { logOut } = useAuth();
   const dispatch = useDispatch();
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [scroll, setScroll] = useState(null);
-  const [searchProduct, setSearchProduct] = useState("");
-  const [showProductCard, setShowProductCard] = useState(false);
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   const { products } = useAppSelector((state) => state.cart);
   const { user } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
-    window.addEventListener("scroll", () => {
-      if (window.scrollY >= 80) {
-        setScroll(true);
-      } else {
-        setScroll(false);
-      }
-    });
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleSearchProduct = (e) => {
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    router.push(`/product?search=${searchProduct}`);
+    if (searchQuery.trim()) {
+      router.push(`/product?search=${searchQuery}`);
+    }
+  };
+
+  const handleLogOut = async () => {
+    await logOut();
+    dispatch(logOutUser());
+    localStorage.removeItem("access-token");
   };
 
   return (
-    <div className="fixed top-0 left-0 z-50 w-full ">
-      <Announcement scroll={scroll} />
-      <nav className={`bg-white lg:px-5 xl:px-0 ${scroll && "shadow-lg"}`}>
-        <div className="flex items-center justify-center py-4 lg:justify-between xl:container">
-          <div className="hidden items-center justify-center lg:flex">
-            <Link href="/">
-              <Image height={35} width={100} src={logo} alt="" className="cursor-pointer" priority />
-            </Link>
+    <header className="fixed top-0 left-0 z-50 w-full transition-all duration-300">
+      <Announcement scroll={isScrolled} />
+      <nav className={`bg-white shadow-md transition-all ${isScrolled ? "shadow-lg" : ""}`}>
+        <div className="container mx-auto flex items-center justify-between py-4 px-5 lg:px-10">
+          {/* Logo */}
+          <Link href="/" className="flex items-center">
+            <Image src={logo} alt="Logo" width={120} height={40} priority />
+          </Link>
 
-            <Menu as="div" className="relative z-50">
-              <Menu.Button className="inline-flex items-center justify-center space-x-1 py-2">
-                <BiCategory className={`ml-3 text-2xl text-my-gray-100 ${scroll ? "block" : "hidden"}`} />
-                <MdKeyboardArrowDown className={`text-2xl text-my-gray-100 ${scroll ? "block" : "hidden"}`} />
-              </Menu.Button>
-              <HeadlessUICategoriesDPD />
-            </Menu>
-          </div>
-          <div className="form-control mx-3 my-1 flex w-full lg:mx-0 lg:w-1/2">
-            <form onSubmit={handleSearchProduct}>
-              <div className="input-group w-full ">
-                <input
-                  type="text"
-                  className="input input-bordered w-full"
-                  placeholder="Search and hit enter..."
-                  onChange={(e) => setSearchProduct(e.target.value)}
-                />
-                <button
-                  disabled={searchProduct === "" ? true : false}
-                  type="submit"
-                  className={`btn btn-square border-none bg-primary hover:bg-secondary disabled:bg-primary`}
-                >
-                  <BsSearch className="text-xl text-white" />
-                </button>
-              </div>
+          {/* Search Bar */}
+          <div className="hidden w-1/3 lg:flex">
+            <form onSubmit={handleSearch} className="relative w-full">
+              <input
+                type="text"
+                className="w-full rounded-full border border-gray-300 px-4 py-2 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary"
+                placeholder="Search for products..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <button
+                type="submit"
+                disabled={!searchQuery.trim()}
+                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-primary p-2 text-white transition hover:bg-secondary"
+              >
+                <BsSearch className="text-lg" />
+              </button>
             </form>
           </div>
-          <div className="hidden justify-center space-x-5 lg:block xl:flex">
-            <p className="cursor-pointer rounded-full bg-slate-200 p-3" onClick={() => setShowProductCard(true)}>
-              <GrCompare className="inline h-5 w-5" />
-            </p>
-            <p
-              className="relative cursor-pointer rounded-full bg-slate-200 p-3"
-              onClick={() => setShowProductCard(true)}
-            >
-              <FiShoppingCart className="inline h-5 w-5" />
-              <span className="absolute -top-1 -right-2 rounded-full bg-primary px-2 text-sm text-white">
-                {products.length}
-              </span>
-            </p>
+
+          {/* Right Section (Icons & User Menu) */}
+          <div className="flex items-center space-x-5">
+            {/* Categories Dropdown */}
+            <div className="relative hidden lg:flex items-center cursor-pointer hover:text-primary transition">
+              <BiCategory className="text-2xl" />
+              <MdKeyboardArrowDown className="text-lg ml-1" />
+            </div>
+
+            {/* Shopping Cart */}
+            <Link href="/cart" className="relative p-3 bg-gray-100 rounded-full hover:bg-gray-200 transition">
+              <FiShoppingCart className="text-xl text-gray-700" />
+              {products.length > 0 && (
+                <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-white">
+                  {products.length}
+                </span>
+              )}
+            </Link>
+
+            {/* User Profile / Login */}
             {user?.email ? (
-              <details className="dropdown ">
-                <summary className="btn m-0 border-0 bg-white p-0 hover:bg-white">
-                  <span className="avatar cursor-pointer">
-                    <div className="h-8 w-8 rounded-full ring ring-primary ring-offset-2 ring-offset-base-100">
+              <div className="relative">
+                <details className="dropdown">
+                  <summary className="btn m-0 border-0 bg-white p-0 hover:bg-white">
+                    <div className="h-9 w-9 overflow-hidden rounded-full border border-gray-300 ring-primary">
                       <Image
-                        alt=""
-                        height="35"
-                        width="35"
                         src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                        priority
+                        alt="User"
+                        width={40}
+                        height={40}
                       />
                     </div>
-                  </span>
-                </summary>
-                <ul className="dropdown-content menu rounded-box w-52 bg-base-100 p-2 shadow">
-                  <li>
-                    <Link
-                      href={
-                        user.role === "customer"
-                          ? "/customer/profile"
-                          : user.role === USER_ROLE.vendor
-                          ? `/shop/${user?.storeName?.split(" ").join("-")}`
-                          : "/"
-                      }
-                    >
-                      Profile
-                    </Link>
-                  </li>
-                  <li>
-                    <button
-                      onClick={() => {
-                        logOut();
-                        dispatch(logOutUser());
-                        localStorage.removeItem("access-token");
-                      }}
-                    >
-                      LogOut
-                    </button>
-                  </li>
-                </ul>
-              </details>
+                  </summary>
+                  <ul className="dropdown-content menu rounded-lg bg-white p-2 shadow-lg">
+                    <li>
+                      <Link
+                        href={
+                          user.role === USER_ROLE.customer
+                            ? "/customer/profile"
+                            : user.role === USER_ROLE.vendor
+                            ? `/shop/${user?.storeName?.replace(/\s+/g, "-")}`
+                            : "/"
+                        }
+                      >
+                        Profile
+                      </Link>
+                    </li>
+                    <li>
+                      <button onClick={handleLogOut} className="text-red-500">
+                        Log Out
+                      </button>
+                    </li>
+                  </ul>
+                </details>
+              </div>
             ) : (
-              <span onClick={() => setIsOpen(true)} className="cursor-pointer rounded-full bg-slate-200 p-2">
-                <MdOutlineAccountCircle className="text-[#rgb(125, 135, 156)] inline h-7 w-7" />
-              </span>
+              <Link href="/login" className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition">
+                <MdOutlineAccountCircle className="text-2xl text-gray-700" />
+              </Link>
             )}
           </div>
         </div>
-        {/* navbar menu */}
-        <NavbarMenu scroll={scroll} user={user} />
+
+        {/* Navbar Menu */}
+        <NavbarMenu scroll={isScrolled} user={user} />
       </nav>
-      <>
-        {showProductCard && <SideBarShoppingCart setShowProductCard={setShowProductCard} />}
-        <LoginModal isOpen={isOpen} setIsOpen={setIsOpen} />
-      </>
-    </div>
+    </header>
   );
 };
 

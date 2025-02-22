@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+"use client";
+
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { auth } from "../../../../providers/AuthProvider";
 import useAuth from "../../../../hooks/useAuth";

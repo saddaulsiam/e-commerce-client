@@ -1,6 +1,5 @@
 import Image from "next/image";
-import React from "react";
-import { bkash, cash, nogad, rocket, sslcommerz, stripe } from "../../../../public/images/logo";
+import { cash, sslcommerz, stripe } from "../../../../public/logo";
 const SelectPaymentOption = ({ setPayWith }) => {
   return (
     <div className="flex w-full flex-wrap gap-5 text-base">

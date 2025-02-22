@@ -1,29 +1,32 @@
+"use client";
+
+import { useAppSelector } from "@/redux/hooks";
 import Link from "next/link";
-import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FcOk } from "react-icons/fc";
-import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux";
-import OrderSummaryCart from "./OrderSummaryCart";
-import { SSLCommerzPaymentDetails } from "../Payment";
-import { Footer, Navbar } from "../../sharedComponents";
-import SelectPaymentOption from "./OrderProductSelectPaymentOption";
-import StripePaymentModal from "../../sharedComponents/modal/Stripe.Payment.Modal";
+import Swal from "sweetalert2";
 import { clearCart } from "../../../redux/features/cart/cartSlice";
 import { removeOrderDetails } from "../../../redux/features/orders/orderDetails/orderDetailsSlice";
 import { useOrderNowMutation } from "../../../redux/features/orders/orders/ordersApi";
+import { Footer, Navbar } from "../../sharedComponents";
+import StripePaymentModal from "../../sharedComponents/modal/Stripe.Payment.Modal";
+import { SSLCommerzPaymentDetails } from "../Payment";
+import SelectPaymentOption from "./OrderProductSelectPaymentOption";
+import OrderSummaryCart from "./OrderSummaryCart";
 
 const OrderProductPayment = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useAppSelector((state) => state.auth);
 
-  const { products } = useSelector((state) => state.cart);
-  const { details } = useSelector((state) => state.orderDetails);
+  const { products } = useAppSelector((state) => state.cart);
+  const { details } = useAppSelector((state) => state.orderDetails);
 
-  let [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [payWith, setPayWith] = useState("");
 
   const [orderNow, { data, error, isSuccess }] = useOrderNowMutation();

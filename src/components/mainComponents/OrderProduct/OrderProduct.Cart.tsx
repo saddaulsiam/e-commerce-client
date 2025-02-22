@@ -1,19 +1,16 @@
-import React from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { useDispatch, useSelector } from "react-redux";
-import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+"use client";
 
+import { useAppSelector } from "@/redux/hooks";
+import Image from "next/image";
+import Link from "next/link";
+import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+import { useDispatch } from "react-redux";
+import { addToCart, decreaseQuantity, removeFromCart } from "../../../redux/features/cart/cartSlice";
 import OrderSummaryCart from "./OrderSummaryCart";
-import {
-  addToCart,
-  decreaseQuantity,
-  removeFromCart,
-} from "../../../redux/features/cart/cartSlice";
 
 const OrderProductCart = () => {
   const dispatch = useDispatch();
-  const { products } = useSelector((state) => state.cart);
+  const { products } = useAppSelector((state) => state.cart);
   return (
     <div className="bg-slate-200">
       <div className="container mt-32 lg:mt-[10.9rem]">
@@ -73,20 +70,14 @@ const OrderProductCart = () => {
                   <div className="flex w-full flex-col justify-between p-6">
                     <div className="flex w-full justify-between text-lg text-my-gray-200">
                       <h4>{product.name}</h4>
-                      <p
-                        onClick={() => dispatch(removeFromCart(product._id))}
-                        className="cursor-pointer"
-                      >
+                      <p onClick={() => dispatch(removeFromCart(product._id))} className="cursor-pointer">
                         X
                       </p>
                     </div>
                     <div className="flex w-full justify-between">
                       <p className="text-sm text-my-gray-100">
                         ${product.salePrice} x {product.quantity}
-                        <span className="text-base text-primary">
-                          {" "}
-                          = ${product.salePrice * product.quantity}
-                        </span>
+                        <span className="text-base text-primary"> = ${product.salePrice * product.quantity}</span>
                       </p>
                       <div className="flex justify-center space-x-2 text-base">
                         <span
@@ -109,9 +100,7 @@ const OrderProductCart = () => {
               ))
             ) : (
               <div>
-                <p className="text-center text-2xl text-my-gray-200">
-                  Your cart is empty
-                </p>
+                <p className="text-center text-2xl text-my-gray-200">Your cart is empty</p>
               </div>
             )}
           </div>

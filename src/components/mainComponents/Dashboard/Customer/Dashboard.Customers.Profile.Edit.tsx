@@ -1,18 +1,19 @@
+"use client";
+
+import { useUpdateMutation } from "@/redux/features/auth/customer/customerAuthApi";
+import { useAppSelector } from "@/redux/hooks";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { GiHamburgerMenu } from "react-icons/gi";
 import { BsFillCameraFill } from "react-icons/bs";
+import { GiHamburgerMenu } from "react-icons/gi";
 import { MdAccountCircle } from "react-icons/md";
-import { useDispatch, useSelector } from "react-redux";
-
-// local
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import { addUser } from "../../../../redux/features/auth/customer/authSlice";
 import DashboardCustomerSideBarNavigation from "./Dashboard.Customer.SideBar.Navigation";
-import { useUpdateMutation } from "../../../../redux/features/auth/customer/cusAuthApi";
 
 const DashboardCustomersProfileEdit = () => {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const DashboardCustomersProfileEdit = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [showSideNavigation, setShowSideNavigation] = useState(null);
 
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useAppSelector((state) => state.auth);
   const [updateProfile, { error }] = useUpdateMutation();
 
   const {

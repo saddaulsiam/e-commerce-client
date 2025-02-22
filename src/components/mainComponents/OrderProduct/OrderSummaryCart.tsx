@@ -1,5 +1,6 @@
+"use client";
+
 import { useRouter } from "next/navigation";
-import React from "react";
 
 const OrderSummaryCart = ({ products }) => {
   const router = useRouter();

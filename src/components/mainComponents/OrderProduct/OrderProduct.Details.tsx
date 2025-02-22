@@ -1,20 +1,23 @@
+"use client";
+
 import Link from "next/link";
-import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
 import { HiMinusCircle, HiOutlinePlusCircle } from "react-icons/hi";
+import { useDispatch } from "react-redux";
 
 // local
-import OrderSummaryCart from "./OrderSummaryCart";
+import { useAppSelector } from "@/redux/hooks";
+import { addOrderDetails } from "../../../redux/features/orders/orderDetails/orderDetailsSlice";
 import { Footer, Navbar } from "../../sharedComponents";
 import { DashboardCustomersAddressFillUpForm } from "../Dashboard/Customer";
-import { addOrderDetails } from "../../../redux/features/orders/orderDetails/orderDetailsSlice";
+import OrderSummaryCart from "./OrderSummaryCart";
 
 const OrderProductDetails = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { products } = useSelector((state) => state.cart);
-  const { user } = useSelector((state) => state.auth);
+  const { products } = useAppSelector((state) => state.cart);
+  const { user } = useAppSelector((state) => state.auth);
 
   const [address, setAddress] = useState(null);
   const [toggleAddressFrom, setToggleAddressFrom] = useState(false);

@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import React, { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
@@ -18,10 +20,7 @@ const DashboardCustomersAddressNew = () => {
           </h2>
         </div>
         <div className="flex justify-end lg:hidden">
-          <button
-            className="text-2xl font-thin "
-            onClick={() => setShowSideNavigation(true)}
-          >
+          <button className="text-2xl font-thin " onClick={() => setShowSideNavigation(true)}>
             <GiHamburgerMenu />
           </button>
         </div>
@@ -34,11 +33,7 @@ const DashboardCustomersAddressNew = () => {
       <div className="mt-5">
         <DashboardCustomersAddressFillUpForm />
       </div>
-      {showSideNavigation && (
-        <DashboardCustomerSideBarNavigation
-          setShowSideNavigation={setShowSideNavigation}
-        />
-      )}
+      {showSideNavigation && <DashboardCustomerSideBarNavigation setShowSideNavigation={setShowSideNavigation} />}
     </div>
   );
 };

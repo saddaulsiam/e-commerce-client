@@ -1,22 +1,21 @@
-import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+"use client";
 
-// local
+import { useAppSelector } from "@/redux/hooks";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import useAuth from "../../../../hooks/useAuth";
-import { useAddAddressToUserMutation } from "../../../../redux/features/auth/customer/cusAuthApi";
+import { useAddAddressToUserMutation } from "@/redux/features/auth/customer/customerAuthApi";
 
 const DashboardCustomersAddressFillUpForm = () => {
   const router = useRouter();
-  const dispatch = useDispatch();
   const { register, handleSubmit, reset } = useForm();
 
   const { setLoadUser } = useAuth();
 
   // redux sate
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useAppSelector((state) => state.auth);
 
   // State
   const [allRegions, setAllRegions] = useState([]);

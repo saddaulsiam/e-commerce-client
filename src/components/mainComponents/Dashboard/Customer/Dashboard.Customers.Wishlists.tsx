@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+"use client";
+
+import Head from "next/head";
+import { useState } from "react";
 import { BsFillSuitHeartFill } from "react-icons/bs";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
-import { products } from "../../../../data/products";
-import ProductsCard from "../../../sharedComponents/productsCard/Products.Card";
-import DashboardCustomerSideBarNavigation from "./Dashboard.Customer.SideBar.Navigation";
 import { useGetProductsQuery } from "../../../../redux/features/products/productsApi";
 import { Loading, Pagination } from "../../../sharedComponents";
-import Head from "next/head";
+import ProductsCard from "../../../sharedComponents/productsCard/Products.Card";
+import DashboardCustomerSideBarNavigation from "./Dashboard.Customer.SideBar.Navigation";
 
 const DashboardCustomersWishlists = () => {
   const [showSideNavigation, setShowSideNavigation] = useState(false);
@@ -38,10 +38,7 @@ const DashboardCustomersWishlists = () => {
             </h2>
           </div>
           <div className="flex justify-end lg:hidden">
-            <button
-              className="text-2xl font-thin "
-              onClick={() => setShowSideNavigation(true)}
-            >
+            <button className="text-2xl font-thin " onClick={() => setShowSideNavigation(true)}>
               <GiHamburgerMenu />
             </button>
           </div>
@@ -62,20 +59,12 @@ const DashboardCustomersWishlists = () => {
             </div>
             <div className="mt-10 text-center">
               {data?.data?.page < 1 && (
-                <Pagination
-                  currentPage={currentPage}
-                  totalPages={data?.data?.page}
-                  onPageChange={handlePageChange}
-                />
+                <Pagination currentPage={currentPage} totalPages={data?.data?.page} onPageChange={handlePageChange} />
               )}
             </div>
           </div>
         )}
-        {showSideNavigation && (
-          <DashboardCustomerSideBarNavigation
-            setShowSideNavigation={setShowSideNavigation}
-          />
-        )}
+        {showSideNavigation && <DashboardCustomerSideBarNavigation setShowSideNavigation={setShowSideNavigation} />}
       </div>
     </>
   );

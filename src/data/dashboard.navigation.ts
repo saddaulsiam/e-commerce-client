@@ -1,40 +1,43 @@
 import { BiSupport } from "react-icons/bi";
+import { BsBag, BsCreditCard2Back } from "react-icons/bs";
 import { FiHeart } from "react-icons/fi";
 import { HiOutlineLocationMarker } from "react-icons/hi";
-import { BsBag, BsCreditCard2Back } from "react-icons/bs";
 import { MdOutlineAccountCircle } from "react-icons/md";
 
+// Dashboard Menu
 export const userDashboard = [
   {
     title: "Orders",
     route: "/customer/orders",
-    icon: <BsBag />,
+    icon: BsBag,
   },
   {
     title: "Wishlists",
     route: "/customer/wishlists",
-    icon: <FiHeart />,
+    icon: FiHeart,
   },
   {
     title: "Support Tickets",
     route: "/customer/support-tickets",
-    icon: <BiSupport />,
+    icon: BiSupport,
   },
 ];
+
+// Account Settings Menu
 export const userAccounts = [
   {
     title: "Profile Info",
     route: "/customer/profile",
-    icon: <MdOutlineAccountCircle />,
+    icon: MdOutlineAccountCircle,
   },
   {
     title: "Addresses",
     route: "/customer/addresses",
-    icon: <HiOutlineLocationMarker />,
+    icon: HiOutlineLocationMarker,
   },
   {
     title: "Payment Methods",
     route: "/customer/payment-methods",
-    icon: <BsCreditCard2Back />,
+    icon: BsCreditCard2Back,
   },
 ];

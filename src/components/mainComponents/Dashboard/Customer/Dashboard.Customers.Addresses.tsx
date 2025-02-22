@@ -1,21 +1,24 @@
+"use client";
+
 import Link from "next/link";
-import Swal from "sweetalert2";
-import { toast } from "react-toastify";
-import React, { useState } from "react";
+import { useState } from "react";
 import { AiFillDelete } from "react-icons/ai";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { useDispatch, useSelector } from "react-redux";
 import { MdLocationPin, MdModeEdit } from "react-icons/md";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 // local
+import { useRemoveAddressToUserMutation } from "@/redux/features/auth/customer/customerAuthApi";
+import { useAppSelector } from "@/redux/hooks";
 import { addUser } from "../../../../redux/features/auth/customer/authSlice";
 import DashboardCustomerSideBarNavigation from "./Dashboard.Customer.SideBar.Navigation";
-import { useRemoveAddressToUserMutation } from "../../../../redux/features/auth/customer/cusAuthApi";
 
 const DashboardCustomersAddresses = () => {
   const dispatch = useDispatch();
   const [showSideNavigation, setShowSideNavigation] = useState(null);
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useAppSelector((state) => state.auth);
 
   const [removeAddress] = useRemoveAddressToUserMutation();
 
@@ -50,10 +53,7 @@ const DashboardCustomersAddresses = () => {
           </h2>
         </div>
         <div className="flex justify-end lg:hidden">
-          <button
-            className="text-2xl font-thin "
-            onClick={() => setShowSideNavigation(true)}
-          >
+          <button className="text-2xl font-thin " onClick={() => setShowSideNavigation(true)}>
             <GiHamburgerMenu />
           </button>
         </div>
@@ -73,24 +73,17 @@ const DashboardCustomersAddresses = () => {
           <p className="col-span-4 lg:col-span-1">Action</p>
         </div>
         {user?.shippingAddress?.map((address, i) => (
-          <div
-            key={i}
-            className="grid grid-cols-12 items-center gap-5 rounded-md p-3 text-xs text-my-gray-200"
-          >
+          <div key={i} className="grid grid-cols-12 items-center gap-5 rounded-md p-3 text-xs text-my-gray-200">
             <p className="col-span-4 lg:col-span-2">{address.name}</p>
             <p className="col-span-4 lg:col-span-2">
-              <span className="rounded-full bg-orange-500 px-1.5 text-white">
-                {address.addressType}
-              </span>{" "}
+              <span className="rounded-full bg-orange-500 px-1.5 text-white">{address.addressType}</span>{" "}
               {address.address}
             </p>
             <p className="col-span-4 lg:col-span-3">
               {address.region}-{address.city}-{address.area}
             </p>
             <p className="col-span-4 lg:col-span-1">{address.phone}</p>
-            <p className="col-span-4 flex lg:col-span-3 lg:justify-center">
-              {address.email}
-            </p>
+            <p className="col-span-4 flex lg:col-span-3 lg:justify-center">{address.email}</p>
             <p className="col-span-4 flex justify-end text-xl lg:col-span-1">
               <Link href="/customer/addresses/edit">
                 <span className="inline-flex cursor-pointer rounded-full p-3 hover:bg-slate-100">
@@ -108,11 +101,7 @@ const DashboardCustomersAddresses = () => {
           </div>
         ))}
       </div>
-      {showSideNavigation && (
-        <DashboardCustomerSideBarNavigation
-          setShowSideNavigation={setShowSideNavigation}
-        />
-      )}
+      {showSideNavigation && <DashboardCustomerSideBarNavigation setShowSideNavigation={setShowSideNavigation} />}
     </div>
   );
 };
