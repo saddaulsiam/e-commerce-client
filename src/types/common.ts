@@ -34,3 +34,29 @@ export const USER_ROLE = {
 } as const;
 
 export type TUserRole = keyof typeof USER_ROLE;
+
+export interface TProduct {
+  _id: string;
+  vendorId: string;
+  name: string;
+  description: string;
+  price: number;
+  stock: number;
+  category: TCategory;
+  brand: TBrand;
+  images: string[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface TCategory {
+  name: string;
+  description: string;
+  logo: string;
+}
+
+export interface TBrand {
+  name: string;
+  description: string;
+  logo: string;
+}

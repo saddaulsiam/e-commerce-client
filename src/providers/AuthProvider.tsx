@@ -19,7 +19,7 @@ import { useDispatch } from "react-redux";
 import { app } from "../firebase/firebase.config";
 import { addUser } from "../redux/features/auth/customer/authSlice";
 import { useGetMeMutation } from "../redux/features/auth/customer/customerAuthApi";
-import { useGetMyVendorMutation } from "../redux/features/auth/vendor/venAuthApi";
+import { useGetMyVendorMutation } from "../redux/features/auth/vendor/vendorApi";
 import { useGetJWTTokenMutation } from "../redux/features/jwt/jwtApi";
 
 export interface AuthContextType {

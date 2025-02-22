@@ -15,7 +15,6 @@ const persistConfig = {
 
 // Root Reducer
 const rootReducer = combineReducers({
-  [baseApi.reducerPath]: baseApi.reducer,
   auth: authReducer,
   cart: cartReducer,
   orderDetails: orderDetailsReducer,
@@ -24,9 +23,11 @@ const rootReducer = combineReducers({
 // Persisted Reducer
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-// Store Configuration
 export const store = configureStore({
-  reducer: persistedReducer,
+  reducer: {
+    auth: persistedReducer,
+    [baseApi.reducerPath]: baseApi.reducer,
+  },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
