@@ -12,7 +12,7 @@ import { Dialog, Transition } from "@headlessui/react";
 // local
 import Loading from "../loading/Loading";
 import useAuth from "../../../hooks/useAuth";
-import { useRegisterMutation } from "../../../redux/features/auth/customer/customerAuthApi";
+import { useRegisterMutation } from "../../../redux/features/auth/authApi";
 
 const LoginModal = ({ isOpen, setIsOpen }) => {
   const router = useRouter();

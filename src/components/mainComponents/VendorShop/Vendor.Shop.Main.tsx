@@ -9,7 +9,7 @@ import VendorShopProfile from "./Vendor.Shop.Profile";
 import VendorShopHomePage from "./Vendor.Shop.HomePage";
 import VendorShopAllProducts from "./Vendor.Shop.AllProducts";
 import { SearchingProductsSidebar } from "../SearchingProducts";
-import { useGetVendorByNameQuery } from "../../../redux/features/auth/vendor/vendorApi";
+import { useGetVendorByNameQuery } from "../../../redux/features/auth/vendorApi";
 
 const VendorMain = () => {
   const router = useRouter();

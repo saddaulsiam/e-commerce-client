@@ -2,16 +2,14 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { FaFacebookF } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
-
-// local
-import { useState } from "react";
-import { BsEye, BsEyeSlash } from "react-icons/bs";
 import useAuth from "../../../hooks/useAuth";
-import { useRegisterMutation } from "../../../redux/features/auth/customer/customerAuthApi";
+import { useRegisterMutation } from "../../../redux/features/auth/authApi";
 
 const Login = () => {
   const router = useRouter();
@@ -135,8 +133,15 @@ const Login = () => {
                   Forgot Password
                 </Link>
               </div>
-              <button type="submit" className="h-10 w-full rounded-md bg-rose-500 text-base font-semibold text-white ">
-                Login
+
+              <button
+                type="submit"
+                disabled={loading || isLoading}
+                className={`h-10 w-full rounded-md text-base font-semibold text-white ${
+                  loading || isLoading ? "bg-gray-400" : "bg-rose-500"
+                }`}
+              >
+                {loading || isLoading ? "  Login..." : "  Login"}
               </button>
             </div>
           </form>

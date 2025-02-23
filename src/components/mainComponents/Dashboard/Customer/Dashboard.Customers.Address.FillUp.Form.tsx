@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import useAuth from "../../../../hooks/useAuth";
-import { useAddAddressToUserMutation } from "@/redux/features/auth/customer/customerAuthApi";
+import { useAddAddressToUserMutation } from "@/redux/features/auth/authApi";
 
 const DashboardCustomersAddressFillUpForm = () => {
   const router = useRouter();

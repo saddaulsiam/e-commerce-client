@@ -1,10 +1,10 @@
-import baseApi from "../../api/baseApi";
+import baseApi from "../api/baseApi";
 
 const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     register: builder.mutation({
       query: (data) => ({
-        url: "/auth",
+        url: "/auth/register",
         method: "POST",
         body: data,
       }),
@@ -15,7 +15,7 @@ const authApi = baseApi.injectEndpoints({
         url: `/user/${email}`,
         method: "GET",
       }),
-      providesTags: ["Auth"],
+      // providesTags: ["Auth"],
     }),
 
     update: builder.mutation({

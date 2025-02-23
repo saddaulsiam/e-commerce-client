@@ -10,9 +10,9 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 
 // local
-import { useRemoveAddressToUserMutation } from "@/redux/features/auth/customer/customerAuthApi";
+import { useRemoveAddressToUserMutation } from "@/redux/features/auth/authApi";
 import { useAppSelector } from "@/redux/hooks";
-import { addUser } from "../../../../redux/features/auth/customer/authSlice";
+import { addUser } from "../../../../redux/features/auth/authSlice";
 import DashboardCustomerSideBarNavigation from "./Dashboard.Customer.SideBar.Navigation";
 
 const DashboardCustomersAddresses = () => {

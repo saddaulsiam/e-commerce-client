@@ -7,7 +7,7 @@ import { BiBell, BiChat } from "react-icons/bi";
 import us from "../../../../images/country/us.svg";
 import bd from "../../../../images/country/bd.svg";
 import HeadlessUIDropDown from "../../../sharedComponents/HeadlessUIDropDown/HeadlessUIDropDown";
-import { logOutUser } from "../../../../redux/features/auth/customer/authSlice";
+import { logOutUser } from "../../../../redux/features/auth/authSlice";
 
 const DashboardNavbar = ({ setSideBarClose }) => {
   const dispatch = useDispatch();

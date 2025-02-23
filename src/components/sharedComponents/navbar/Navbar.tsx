@@ -15,7 +15,7 @@ import { useDispatch } from "react-redux";
 import { USER_ROLE } from "@/types/common";
 import logo from "../../../../public/logo/logo.svg";
 import useAuth from "../../../hooks/useAuth";
-import { logOutUser } from "../../../redux/features/auth/customer/authSlice";
+import { logOutUser } from "../../../redux/features/auth/authSlice";
 import Announcement from "../announcement/Announcement";
 import NavbarMenu from "./NavbarMenu";
 
@@ -92,9 +92,9 @@ const Navbar = () => {
             {/* Shopping Cart */}
             <Link href="/cart" className="relative p-3 bg-gray-100 rounded-full hover:bg-gray-200 transition">
               <FiShoppingCart className="text-xl text-gray-700" />
-              {products.length > 0 && (
+              {products?.length > 0 && (
                 <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-white">
-                  {products.length}
+                  {products?.length}
                 </span>
               )}
             </Link>

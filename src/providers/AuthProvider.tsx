@@ -6,6 +6,7 @@ import {
   getAuth,
   GoogleAuthProvider,
   onAuthStateChanged,
+  sendEmailVerification,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
@@ -14,12 +15,13 @@ import {
   User,
 } from "firebase/auth";
 import Cookies from "js-cookie";
-import { createContext, useEffect, useState, ReactNode } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import { app } from "../firebase/firebase.config";
-import { addUser } from "../redux/features/auth/customer/authSlice";
-import { useGetMeMutation } from "../redux/features/auth/customer/customerAuthApi";
-import { useGetMyVendorMutation } from "../redux/features/auth/vendor/vendorApi";
+import { useGetMeMutation } from "../redux/features/auth/authApi";
+import { addUser } from "../redux/features/auth/authSlice";
+import { useGetMyVendorMutation } from "../redux/features/auth/vendorApi";
 import { useGetJWTTokenMutation } from "../redux/features/jwt/jwtApi";
 
 export interface AuthContextType {
@@ -62,22 +64,45 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [getVendor] = useGetMyVendorMutation();
   const [getJWTToken] = useGetJWTTokenMutation();
 
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [loadUser, setLoadUser] = useState<boolean>(false);
 
   const googleProvider = new GoogleAuthProvider();
   const facebookProvider = new FacebookAuthProvider();
 
-  const createUser = (email: string, password: string) => {
+  const createUser = async (email: string, password: string) => {
     setLoading(true);
-    return createUserWithEmailAndPassword(auth, email, password);
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      await sendEmailVerification(userCredential.user);
+      toast.info("A verification email has been sent. Please check your inbox.");
+      return userCredential;
+    } catch (error: any) {
+      toast.error(error.message);
+      setLoading(false);
+      throw error;
+    }
   };
 
   const forgotPassword = (email: string) => sendPasswordResetEmail(auth, email);
 
-  const signIn = (email: string, password: string) => {
+  const signIn = async (email: string, password: string) => {
     setLoading(true);
-    return signInWithEmailAndPassword(auth, email, password);
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      if (!userCredential.user.emailVerified) {
+        await sendEmailVerification(userCredential.user);
+        toast.error("Please verify your email before logging in.");
+        await signOut(auth);
+        setLoading(false);
+        return;
+      }
+      return userCredential;
+    } catch (error: any) {
+      toast.error(error.message);
+      setLoading(false);
+      throw error;
+    }
   };
 
   const googleLogIn = () => {
@@ -94,18 +119,26 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setLoading(true);
     await signOut(auth);
     Cookies.remove("access-token");
+    setLoading(false);
   };
 
   const updateUserProfile = async (name: string, photo: string) => {
     if (auth.currentUser) {
       setLoading(true);
       await updateProfile(auth.currentUser, { displayName: name, photoURL: photo });
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser: User | null) => {
+      console.log(currentUser);
       if (currentUser) {
+        if (!currentUser.emailVerified) {
+          await signOut(auth);
+          return;
+        }
+        localStorage.setItem("accessToken", currentUser.accessToken);
         try {
           const res = await getMe(currentUser.email!);
           if (res.data?.user) {
@@ -130,6 +163,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         Cookies.remove("access-token");
       }
     });
+
     return () => unsubscribe();
   }, [dispatch, getMe, getVendor, getJWTToken]);
 

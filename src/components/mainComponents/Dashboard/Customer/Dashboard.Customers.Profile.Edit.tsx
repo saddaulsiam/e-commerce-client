@@ -1,6 +1,6 @@
 "use client";
 
-import { useUpdateMutation } from "@/redux/features/auth/customer/customerAuthApi";
+import { useUpdateMutation } from "@/redux/features/auth/authApi";
 import { useAppSelector } from "@/redux/hooks";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,7 +12,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { MdAccountCircle } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { addUser } from "../../../../redux/features/auth/customer/authSlice";
+import { addUser } from "../../../../redux/features/auth/authSlice";
 import DashboardCustomerSideBarNavigation from "./Dashboard.Customer.SideBar.Navigation";
 
 const DashboardCustomersProfileEdit = () => {

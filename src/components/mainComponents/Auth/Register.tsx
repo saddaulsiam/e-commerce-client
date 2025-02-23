@@ -1,4 +1,5 @@
 "use client";
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -7,7 +8,7 @@ import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
 import useAuth from "../../../hooks/useAuth";
-import { useRegisterMutation } from "../../../redux/features/auth/customer/customerAuthApi";
+import { useRegisterMutation } from "../../../redux/features/auth/authApi";
 
 const Register = () => {
   const router = useRouter();
@@ -19,47 +20,26 @@ const Register = () => {
   } = useForm();
 
   const [postUser, { isLoading }] = useRegisterMutation();
-  const { loading, setLoading, createUser, updateUserProfile } = useAuth();
+  const { loading, setLoading, createUser } = useAuth();
 
   const [showPass, setShowPass] = useState(false);
 
-  const onSubmit = async (data) => {
-    createUser(data.email, data.password, data.name)
-      .then((userCredential) => {
-        console.log(userCredential);
-        if (userCredential.user) {
-          // sendEmailVerification(userCredential.user).then(() => {
-          //   Swal.fire({
-          //     icon: "info",
-          //     title: "Check your email & verify",
-          //   }).then((result) => {
-          //     if (result.isConfirmed) {
-          //       window.open(
-          //         "https://mail.google.com/mail/u/0/#inbox",
-          //         "_blank"
-          //       );
-          //     }
-          //   });
-          // });
-
-          updateUserProfile(data.name).then(() => {
-            // reset();
-            postUser(userCredential.user).then((res) => {
-              console.log(res);
-              if (res.data?.success) {
-                toast.success(res.data?.message);
-                setLoading(false);
-                router.push("/login");
-              }
-            });
-          });
+  const onSubmit = async (data: any) => {
+    setLoading(true);
+    try {
+      const userCredential = await createUser(data.email, data.password);
+      if (userCredential?.user) {
+        const res = await postUser(data).unwrap();
+        if (res?.success) {
+          router.push("/login");
         }
-      })
-      .catch((error) => {
-        toast.error(error.message);
-      });
+      }
+    } catch (error: any) {
+      toast.error(error?.message);
+    } finally {
+      setLoading(false);
+    }
   };
-
   return (
     <section className="flex justify-center bg-slate-100 pt-52 pb-6">
       <div className="w-[500px] rounded-lg bg-white px-16 py-10 shadow-sm">
@@ -75,16 +55,32 @@ const Register = () => {
                   Full Name
                 </label>
                 <input
-                  {...register("name", { required: true, minLength: 4 })}
-                  // autoComplete="off"
+                  {...register("displayName", { required: true, minLength: 4 })}
                   className="block h-10 w-full rounded-md border px-3"
                   placeholder="Saddaul Siam"
                   type="text"
-                  name="name"
                   id="email"
                 />
-                {formError?.name?.type === "required" && <p className="text-secondary">Name is required</p>}
-                {formError?.name?.type === "minLength" && <p className="text-secondary">Name must be 4 characters</p>}
+                {formError?.displayName?.type === "required" && <p className="text-secondary">Name is required</p>}
+                {formError?.displayName?.type === "minLength" && (
+                  <p className="text-secondary">Name must be 4 characters</p>
+                )}
+              </div>
+              <div>
+                <label className="text-sm text-my-gray-200" htmlFor="email">
+                  Phone Number
+                </label>
+                <input
+                  {...register("phoneNumber", { required: true, minLength: 4 })}
+                  className="block h-10 w-full rounded-md border px-3"
+                  placeholder="type your number"
+                  type="text"
+                  id="email"
+                />
+                {formError?.phoneNumber?.type === "required" && <p className="text-secondary">Number is required</p>}
+                {formError?.phoneNumber?.type === "minLength" && (
+                  <p className="text-secondary">Number must be 11 characters</p>
+                )}
               </div>
               <div>
                 <label className="text-sm text-my-gray-200" htmlFor="email">
@@ -92,11 +88,9 @@ const Register = () => {
                 </label>
                 <input
                   {...register("email", { required: true })}
-                  // autoComplete="off"
                   className="block h-10 w-full rounded-md border px-3"
                   placeholder="exmple@gmail.com"
                   type="email"
-                  name="email"
                   id="email"
                 />
                 {formError?.email && <p className="text-secondary">Email is required</p>}
@@ -107,12 +101,9 @@ const Register = () => {
                 </label>
                 <input
                   className="block h-10 w-full rounded-md border px-3 text-sm"
-                  // placeholder="minimum 6 character 1 number 1 uppercase 1 symbol"
                   placeholder="Password"
                   type={showPass ? "text" : "password"}
-                  name="password"
                   id="password"
-                  // autoComplete="off"
                   {...register("password", {
                     required: true,
                     minLength: 6,
@@ -170,8 +161,14 @@ const Register = () => {
                   </Link>
                 </label>
               </div>
-              <button type="submit" className="h-10 w-full rounded-md bg-rose-500 text-base font-semibold text-white ">
-                Create Account
+              <button
+                type="submit"
+                disabled={loading || isLoading}
+                className={`h-10 w-full rounded-md text-base font-semibold text-white ${
+                  loading || isLoading ? "bg-gray-400" : "bg-rose-500"
+                }`}
+              >
+                {loading || isLoading ? "Creating Account..." : "Create Account"}
               </button>
             </div>
           </form>
@@ -194,16 +191,6 @@ const Register = () => {
           </div>
         </div>
       </div>
-      {/* {loading && (
-        <div className="absolute flex h-full w-full items-center justify-center bg-gray-900/40">
-          <Loading />
-        </div>
-      )}
-      {isLoading && (
-        <div className="absolute flex h-full w-full items-center justify-center bg-gray-900/40">
-          <Loading />
-        </div>
-      )} */}
     </section>
   );
 };

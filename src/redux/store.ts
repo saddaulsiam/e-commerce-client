@@ -2,7 +2,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // Local storage for persistence
 import baseApi from "./features/api/baseApi";
-import authReducer from "./features/auth/customer/authSlice";
+import authReducer from "./features/auth/authSlice";
 import cartReducer from "./features/cart/cartSlice";
 import orderDetailsReducer from "./features/orders/orderDetails/orderDetailsSlice";
 

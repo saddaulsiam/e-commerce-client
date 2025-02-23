@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 // local
-import { useDeleteVendorMutation, useRegisterVendorMutation } from "../../../../redux/features/auth/vendor/vendorApi";
+import { useDeleteVendorMutation, useRegisterVendorMutation } from "../../../../redux/features/auth/vendorApi";
 import cartBasket from "../../../../images/banners/cartBasket.png";
 import useAuth from "../../../../hooks/useAuth";
 import { logo } from "../../../../../public/images/logo";
