@@ -1,6 +1,6 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from "redux-persist";
-import storage from "redux-persist/lib/storage";
+import storage from "redux-persist/lib/storage"; // Local storage for persistence
 import baseApi from "./features/api/baseApi";
 import authReducer from "./features/auth/customer/authSlice";
 import cartReducer from "./features/cart/cartSlice";
@@ -10,7 +10,7 @@ import orderDetailsReducer from "./features/orders/orderDetails/orderDetailsSlic
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth", "cart", "orderDetails"],
+  whitelist: ["auth", "cart"],
 };
 
 // Root Reducer
@@ -25,7 +25,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: {
-    auth: persistedReducer,
+    persistedReducer,
     [baseApi.reducerPath]: baseApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>

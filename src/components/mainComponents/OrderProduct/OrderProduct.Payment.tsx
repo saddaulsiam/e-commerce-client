@@ -21,10 +21,10 @@ const OrderProductPayment = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const { user } = useAppSelector((state) => state.auth);
+  const { user } = useAppSelector((state) => state.persistedReducer.auth);
 
-  const { products } = useAppSelector((state) => state.cart);
-  const { details } = useAppSelector((state) => state.orderDetails);
+  const cart = useAppSelector((state) => state.persistedReducer.cart);
+  const { details } = useAppSelector((state) => state.persistedReducer.orderDetails);
 
   const [isOpen, setIsOpen] = useState(false);
   const [payWith, setPayWith] = useState("");

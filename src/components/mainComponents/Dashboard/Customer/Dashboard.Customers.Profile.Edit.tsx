@@ -23,7 +23,7 @@ const DashboardCustomersProfileEdit = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [showSideNavigation, setShowSideNavigation] = useState(null);
 
-  const { user } = useAppSelector((state) => state.auth);
+  const { user } = useAppSelector((state) => state.persistedReducer.auth);
   const [updateProfile, { error }] = useUpdateMutation();
 
   const {

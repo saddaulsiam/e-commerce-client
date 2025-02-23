@@ -11,7 +11,7 @@ import DashboardCustomersOrders from "./Dashboard.Customers.Orders";
 
 const DashboardCustomersProfile = () => {
   const [showSideNavigation, setShowSideNavigation] = useState(null);
-  const { user } = useAppSelector((state) => state.auth);
+  const { user } = useAppSelector((state) => state.persistedReducer.auth);
 
   return (
     <div className="mb-10">

@@ -27,8 +27,8 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  const { products } = useAppSelector((state) => state.cart);
-  const { user } = useAppSelector((state) => state.auth);
+  const { products } = useAppSelector((state) => state.persistedReducer.cart);
+  const { user } = useAppSelector((state) => state.persistedReducer.auth);
 
   useEffect(() => {
     const handleScroll = () => {
