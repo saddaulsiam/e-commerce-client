@@ -26,7 +26,7 @@ const Register = () => {
     try {
       const userCredential = await createUser(data.email, data.password);
       if (userCredential.user) {
-        await updateUserProfile({ displayName: data.name });
+        await updateUserProfile(data.name);
 
         const userData = {
           displayName: data.name,
@@ -37,7 +37,7 @@ const Register = () => {
         if (res.success) {
           toast.success("Registration Successful");
           reset();
-          router.replace("/dashboard");
+          router.replace("/");
         }
       }
     } catch (error: any) {

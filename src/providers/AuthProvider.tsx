@@ -35,7 +35,7 @@ export interface AuthContextType {
   googleLogIn: () => Promise<any>;
   facebookLogIn: () => Promise<any>;
   logOut: () => Promise<void>;
-  updateUserProfile: (name: string, photo: string) => Promise<void>;
+  updateUserProfile: (name: string) => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -122,10 +122,10 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setLoading(false);
   };
 
-  const updateUserProfile = async (name: string, photo: string) => {
+  const updateUserProfile = async (name: string) => {
     if (auth.currentUser) {
       setLoading(true);
-      await updateProfile(auth.currentUser, { displayName: name, photoURL: photo });
+      await updateProfile(auth.currentUser, { displayName: name });
       setLoading(false);
     }
   };
