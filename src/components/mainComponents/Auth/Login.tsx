@@ -1,11 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
-import { FaFacebookF } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
 import useAuth from "../../../hooks/useAuth";
@@ -13,179 +12,128 @@ import { useRegisterMutation } from "../../../redux/features/auth/authApi";
 
 const Login = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirectTo") || "/";
+
   const { register, handleSubmit, reset } = useForm();
   const [postUser, { isLoading }] = useRegisterMutation();
-  const { setLoading, loading, signIn, googleLogIn, facebookLogIn } = useAuth();
-
+  const { setLoading, loading, signIn, googleLogIn } = useAuth();
   const [showPass, setShowPass] = useState(false);
 
-  const onSubmit = (data) => {
-    signIn(data.email, data.password)
-      .then((userCredential) => {
-        console.log(userCredential);
-        const user = userCredential.user;
-        if (user) {
-          reset();
+  const onSubmit = async (data: FieldValues) => {
+    try {
+      const userCredential = await signIn(data.email, data.password);
+      if (userCredential.user) {
+        reset();
+        toast.success("Login Successful");
+        router.replace(redirectTo);
+      }
+    } catch (error: any) {
+      toast.error(error.message);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      const userCredential = await googleLogIn();
+      if (userCredential.user) {
+        const data = {
+          displayName: userCredential.user.displayName,
+          email: userCredential.user.email,
+        };
+
+        const res = await postUser(data).unwrap();
+        if (res.success) {
           toast.success("Login Successful");
-          router.replace(router.query.redirectTo || "/");
+          router.replace(redirectTo);
         }
-      })
-      .catch((error) => {
-        toast.error(error.code);
-        setLoading(false);
-      });
+      }
+    } catch (error: any) {
+      toast.error(error.code);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleGoogleLogin = () => {
-    googleLogIn()
-      .then((userCredential) => {
-        if (userCredential.user) {
-          postUser(userCredential.user).then((res) => {
-            if (res.data?.status === "success") {
-              toast.success("Login Successful");
-              router.replace(router.query.redirectTo || "/");
-            }
-          });
-        }
-      })
-      .catch((error) => {
-        toast.error(error.code);
-      });
-  };
-
-  const handleFacebookLogin = () => {
-    facebookLogIn()
-      .then((userCredential) => {
-        if (userCredential.user) {
-          postUser(userCredential.user)
-            .then((res) => {
-              if (res.data?.status === "success") {
-                toast.success("Login Successful");
-                router.replace(router.query.redirectTo || "/");
-              }
-            })
-            .catch((error) => {
-              console.log(error);
-              toast.error(error);
-            });
-        }
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const email = error.customData.email;
-
-        if (errorCode === "auth/account-exists-with-different-credential") {
-          toast.error(email + " This email exists please try google signIn");
-        }
-      });
-  };
   return (
-    <section className="flex justify-center bg-slate-100 pt-60 pb-14">
-      <div className="w-[500px] rounded-lg bg-white px-16 py-10 shadow-sm">
-        <div>
-          <div className="mb-10 flex flex-col items-center justify-center space-y-1">
-            <h2 className="text-xl font-semibold">Welcome To E-commerce</h2>
-            <p className="text-sm">Log in with email & password</p>
-          </div>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="space-y-3">
-              <div>
-                <label className="text-sm text-my-gray-200" htmlFor="email">
-                  Email
-                </label>
-                <input
-                  {...register("email", { required: true })}
-                  className="block h-10 w-full rounded-md border px-3"
-                  placeholder="exmple@gmail.com"
-                  // autoComplete="off"
-                  type="email"
-                  name="email"
-                  id="email"
-                />
-              </div>
-              <div className="relative">
-                <label className=" text-sm text-my-gray-200" htmlFor="password">
-                  Password
-                </label>
-                <input
-                  {...register("password", { required: true })}
-                  className="block  h-10 w-full rounded-md border px-3"
-                  placeholder="******"
-                  type={showPass ? "text" : "password"}
-                  name="password"
-                  id="password"
-                />
-
-                <button type="button" className="absolute top-9 right-4 text-lg" onClick={() => setShowPass(!showPass)}>
-                  {showPass ? <BsEye /> : <BsEyeSlash />}
-                </button>
-              </div>
-              <div className="flex items-center justify-between">
-                <label className="label cursor-pointer">
-                  <input type="checkbox" className="checkbox checkbox-primary checkbox-sm" />
-                  <span className="label-text pl-1">Remember me</span>
-                </label>
-                <Link
-                  href="/forgot-password"
-                  className="label-text cursor-pointer bg-gradient-to-r from-secondary to-indigo-700 bg-clip-text font-semibold text-transparent decoration-violet-500 decoration-2 hover:underline"
-                >
-                  Forgot Password
-                </Link>
-              </div>
-
-              <button
-                type="submit"
-                disabled={loading || isLoading}
-                className={`h-10 w-full rounded-md text-base font-semibold text-white ${
-                  loading || isLoading ? "bg-gray-400" : "bg-rose-500"
-                }`}
-              >
-                {loading || isLoading ? "  Login..." : "  Login"}
-              </button>
-            </div>
-          </form>
+    <section className="flex min-h-screen items-center justify-center bg-gray-100 px-4">
+      <div className="w-full max-w-md rounded-lg bg-white px-8 py-10 shadow-lg">
+        <div className="mb-8 text-center">
+          <h2 className="text-2xl font-semibold">Welcome Back!</h2>
+          <p className="text-sm text-gray-600">Login to continue</p>
         </div>
-        <hr className="my-5 " />
-        <div className="space-y-3">
-          <div
-            onClick={handleGoogleLogin}
-            className="flex h-10 cursor-pointer items-center justify-center space-x-2 rounded-md bg-[#4285F4]"
+
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div>
+            <label className="text-sm font-medium text-gray-700" htmlFor="email">
+              Email Address
+            </label>
+            <input
+              {...register("email", { required: true })}
+              className="mt-1 block w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-rose-500"
+              placeholder="example@gmail.com"
+              type="email"
+              id="email"
+            />
+          </div>
+
+          <div className="relative">
+            <label className="text-sm font-medium text-gray-700" htmlFor="password">
+              Password
+            </label>
+            <input
+              {...register("password", { required: true })}
+              className="mt-1 block w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-rose-500"
+              placeholder="******"
+              type={showPass ? "text" : "password"}
+              id="password"
+            />
+            <button type="button" className="absolute top-9 right-4 text-lg" onClick={() => setShowPass(!showPass)}>
+              {showPass ? <BsEye /> : <BsEyeSlash />}
+            </button>
+          </div>
+
+          <div className="flex items-center justify-between text-sm">
+            <label className="flex items-center cursor-pointer">
+              <input type="checkbox" className="mr-2" />
+              Remember me
+            </label>
+            <Link href="/forgot-password" className="text-blue-600 hover:underline">
+              Forgot Password?
+            </Link>
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading || isLoading}
+            className={`w-full rounded-md px-4 py-2 font-semibold text-white ${
+              loading || isLoading ? "bg-gray-400" : "bg-rose-500 hover:bg-rose-600"
+            }`}
           >
-            <span className="rounded-full bg-slate-200 p-1">
-              <FcGoogle />
-            </span>
-            <p className="text-sm text-white">Continue with Google</p>
-          </div>
-          <div
-            onClick={handleFacebookLogin}
-            className="flex h-10 cursor-pointer items-center justify-center space-x-2 rounded-md bg-[#3B5998]"
-          >
-            <span className="rounded-full bg-slate-200 p-1">
-              <FaFacebookF className="text-[#3B5998]" />
-            </span>
-            <p className="text-sm text-white">Continue with Facebook</p>
-          </div>
-          <div className="flex justify-center">
-            <p className="mt-3 text-sm text-my-gray-100">
-              Don’t have account ?{" "}
-              <Link href="/register" passHref>
-                <span className="cursor-pointer text-base font-medium text-black underline">Register</span>
-              </Link>
-            </p>
-          </div>
-        </div>
+            {loading || isLoading ? "Logging in..." : "Login"}
+          </button>
+        </form>
+
+        <hr className="my-5" />
+
+        <button
+          onClick={handleGoogleLogin}
+          className="flex w-full items-center justify-center space-x-2 rounded-md bg-[#4285F4] py-2 text-white"
+        >
+          <FcGoogle className="text-xl" />
+          <span className="text-sm">Continue with Google</span>
+        </button>
+
+        <p className="mt-4 text-center text-sm text-gray-600">
+          Don’t have an account?{" "}
+          <Link href="/register" className="text-rose-500 font-medium hover:underline">
+            Register
+          </Link>
+        </p>
       </div>
-      {/* {loading && (
-        <div className="absolute flex h-full w-full items-center justify-center bg-gray-900/40">
-          <Loading />
-        </div>
-      )}
-      {isLoading && (
-        <div className="absolute flex h-full w-full items-center justify-center bg-gray-900/40">
-          <Loading />
-        </div>
-      )} */}
     </section>
   );
 };

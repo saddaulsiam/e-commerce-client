@@ -1,8 +1,10 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import useAuth from "../../../hooks/useAuth";
-import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
 
 const ForgotPassword = () => {
   const { forgotPassword } = useAuth();

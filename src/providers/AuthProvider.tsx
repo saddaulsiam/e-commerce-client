@@ -105,9 +105,9 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  const googleLogIn = () => {
+  const googleLogIn = async () => {
     setLoading(true);
-    return signInWithPopup(auth, googleProvider);
+    return await signInWithPopup(auth, googleProvider);
   };
 
   const facebookLogIn = () => {
