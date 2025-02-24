@@ -1,6 +1,8 @@
 "use client";
 
 import { authKey } from "@/contants/common";
+import { addUser } from "@/redux/features/auth/authSlice";
+import { useAppDispatch } from "@/redux/hooks";
 import { setToLocalStorage } from "@/utils/local-storage";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -14,6 +16,7 @@ import { useLoginMutation, useRegisterMutation } from "../../../redux/features/a
 
 const Login = () => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get("redirectTo") || "/";
 
@@ -32,6 +35,7 @@ const Login = () => {
         if (res.success) {
           reset();
           toast.success("Login Successful");
+          dispatch(addUser(res.data.user));
           setToLocalStorage({ key: authKey.accessToken, token: res.data.accessToken });
           router.replace(redirectTo);
         }

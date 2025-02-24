@@ -80,8 +80,9 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       return userCredential;
     } catch (error: any) {
       toast.error(error.message);
-      setLoading(false);
       throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -95,40 +96,64 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         await sendEmailVerification(userCredential.user);
         toast.error("Please verify your email before logging in.");
         await signOut(auth);
-        setLoading(false);
         return;
       }
       return userCredential;
     } catch (error: any) {
       toast.error(error.message);
-      setLoading(false);
       throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
   const googleLogIn = async () => {
     setLoading(true);
-    return await signInWithPopup(auth, googleProvider);
+    try {
+      return await signInWithPopup(auth, googleProvider);
+    } catch (error: any) {
+      toast.error(error.message);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const facebookLogIn = () => {
+  const facebookLogIn = async () => {
     setLoading(true);
-    return signInWithPopup(auth, facebookProvider);
+    try {
+      return await signInWithPopup(auth, facebookProvider);
+    } catch (error: any) {
+      toast.error(error.message);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
   };
 
   const logOut = async () => {
     setLoading(true);
-    await signOut(auth);
-    removeFromLocalStorage(authKey.accessToken);
-    deleteCookies(authKey.refreshToken);
-    setLoading(false);
+    try {
+      await signOut(auth);
+      removeFromLocalStorage(authKey.accessToken);
+      await deleteCookies(authKey.refreshToken);
+    } catch (error) {
+      console.log("Error logging out:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const updateUserProfile = async (name: string) => {
     if (auth.currentUser) {
       setLoading(true);
-      await updateProfile(auth.currentUser, { displayName: name });
-      setLoading(false);
+      try {
+        await updateProfile(auth.currentUser, { displayName: name });
+      } catch (error: any) {
+        toast.error("Error updating profile: " + error.message);
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -150,18 +175,18 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             }
           }
         } catch (error) {
-          console.error("Authentication Error:", error);
+          console.log("Error fetching user data:", error);
         } finally {
           setLoading(false);
           setLoadUser(false);
         }
       } else {
-        deleteCookies(authKey.refreshToken);
+        await deleteCookies(authKey.refreshToken);
       }
     });
 
     return () => unsubscribe();
-  }, [myData, dispatch, getAdmin]);
+  }, [myData, getAdmin]);
 
   const authInfo: AuthContextType = {
     loadUser,
