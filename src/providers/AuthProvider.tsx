@@ -5,6 +5,7 @@ import { useGetAdminByEmailMutation } from "@/redux/features/admin/adminApi";
 import { useGetMeMutation } from "@/redux/features/auth/authApi";
 import { addUser } from "@/redux/features/auth/authSlice";
 import { deleteCookies } from "@/services/deleteCookies";
+import { removeFromLocalStorage } from "@/utils/local-storage";
 import {
   createUserWithEmailAndPassword,
   FacebookAuthProvider,
@@ -118,7 +119,8 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const logOut = async () => {
     setLoading(true);
     await signOut(auth);
-    deleteCookies([authKey.refreshToken]);
+    removeFromLocalStorage(authKey.accessToken);
+    deleteCookies(authKey.refreshToken);
     setLoading(false);
   };
 
@@ -154,7 +156,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           setLoadUser(false);
         }
       } else {
-        deleteCookies([authKey.refreshToken]);
+        deleteCookies(authKey.refreshToken);
       }
     });
 

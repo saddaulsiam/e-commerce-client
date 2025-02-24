@@ -62,7 +62,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<FetchArgs, BaseQueryApi, FetchBaseQ
     } else {
       api.dispatch(logOutUser());
       removeFromLocalStorage(authKey.accessToken);
-      deleteCookies([authKey.refreshToken]);
+      deleteCookies(authKey.refreshToken);
     }
   }
 
