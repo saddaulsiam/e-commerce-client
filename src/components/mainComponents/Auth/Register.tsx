@@ -9,6 +9,8 @@ import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
 import useAuth from "../../../hooks/useAuth";
 import { useRegisterMutation } from "../../../redux/features/auth/authApi";
+import { setToLocalStorage } from "@/utils/local-storage";
+import { authKey } from "@/contants/common";
 
 const Register = () => {
   const router = useRouter();
@@ -16,6 +18,7 @@ const Register = () => {
   const [postUser, { isLoading }] = useRegisterMutation();
   const { createUser, googleLogIn, setLoading, loading, updateUserProfile } = useAuth();
   const [showPass, setShowPass] = useState(false);
+  const [showConfirmPass, setShowConfirmPass] = useState(false);
 
   const onSubmit = async (data: FieldValues) => {
     if (data.password !== data.confirmPassword) {
@@ -37,6 +40,7 @@ const Register = () => {
         if (res.success) {
           toast.success("Registration Successful");
           reset();
+          setToLocalStorage({ key: authKey, token: res.data.accessToken });
           router.replace("/");
         }
       }
@@ -60,6 +64,7 @@ const Register = () => {
         const res = await postUser(data).unwrap();
         if (res.success) {
           toast.success("Registration Successful");
+          setToLocalStorage({ key: authKey, token: res.data.accessToken });
           router.replace("/dashboard");
         }
       }
@@ -71,10 +76,12 @@ const Register = () => {
   };
 
   return (
-    <section className="flex min-h-screen items-center justify-center bg-gray-100 px-4">
-      <div className="w-full max-w-md rounded-lg bg-white px-8 py-10 shadow-lg">
+    <section className="flex min-h-screen pt-[14.5rem] justify-center bg-gray-100 px-4">
+      <div className="w-full h-full max-w-md rounded-lg bg-white px-8 py-10 shadow-lg">
         <div className="mb-6 text-center">
-          <h2 className="text-2xl font-semibold">Create an Account</h2>
+          <h2 className="bg-gradient-to-r from-secondary to-indigo-700 bg-clip-text text-3xl font-semibold text-transparent">
+            Create an Account
+          </h2>
           <p className="text-sm text-gray-600">Sign up to get started</p>
         </div>
 
@@ -116,12 +123,12 @@ const Register = () => {
               type={showPass ? "text" : "password"}
               id="password"
             />
-            <button type="button" className="absolute top-9 right-4 text-lg" onClick={() => setShowPass(!showPass)}>
+            <button type="button" className="absolute top-10 right-4 text-lg" onClick={() => setShowPass(!showPass)}>
               {showPass ? <BsEye /> : <BsEyeSlash />}
             </button>
           </div>
 
-          <div>
+          <div className="relative">
             <label className="text-sm font-medium text-gray-700" htmlFor="confirmPassword">
               Confirm Password
             </label>
@@ -129,9 +136,16 @@ const Register = () => {
               {...register("confirmPassword", { required: true })}
               className="mt-1 block w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-rose-500"
               placeholder="******"
-              type="password"
+              type={showConfirmPass ? "text" : "password"}
               id="confirmPassword"
             />
+            <button
+              type="button"
+              className="absolute top-10 right-4 text-lg"
+              onClick={() => setShowConfirmPass(!showConfirmPass)}
+            >
+              {showConfirmPass ? <BsEye /> : <BsEyeSlash />}
+            </button>
           </div>
 
           <button

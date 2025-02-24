@@ -1,13 +1,12 @@
 import ForgotPassword from "@/components/mainComponents/Auth/ForgotPassword";
-import Head from "next/head";
+import { Footer, Navbar } from "@/components/sharedComponents";
 
 const forgotPassword = () => {
   return (
     <>
-      <Head>
-        <title>Forgot Password</title>
-      </Head>
+      <Navbar />
       <ForgotPassword />
+      <Footer />
     </>
   );
 };

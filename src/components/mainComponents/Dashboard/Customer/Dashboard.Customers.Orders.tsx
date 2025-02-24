@@ -12,7 +12,7 @@ import DashboardCustomerSideBarNavigation from "./Dashboard.Customer.SideBar.Nav
 const DashboardCustomersOrders = () => {
   const [showSideNavigation, setShowSideNavigation] = useState(false);
 
-  const { user } = useAppSelector((state) => state.persistedReducer.auth);
+  const { user } = useAppSelector(({ state }) => state.auth);
   const { data: myOrders, isLoading } = useGetMyOrdersQuery(user?.email);
   return (
     <>

@@ -10,7 +10,7 @@ import OrderSummaryCart from "./OrderSummaryCart";
 
 const OrderProductCart = () => {
   const dispatch = useDispatch();
-  const { products } = useAppSelector((state) => state.persistedReducer.cart);
+  const { products } = useAppSelector(({ state }) => state.cart);
   return (
     <div className="bg-slate-200">
       <div className="container mt-32 lg:mt-[10.9rem]">

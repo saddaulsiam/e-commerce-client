@@ -17,7 +17,7 @@ const ProductsCard = (/* { product }: { product: TProduct } */) => {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
 
-  const cart = useAppSelector((state) => state.persistedReducer.cart);
+  const cart = useAppSelector(({ state }) => state.cart);
 
   const product: TProduct = {
     _id: "1",

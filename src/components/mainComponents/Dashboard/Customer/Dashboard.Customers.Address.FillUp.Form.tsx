@@ -15,7 +15,7 @@ const DashboardCustomersAddressFillUpForm = () => {
   const { setLoadUser } = useAuth();
 
   // redux sate
-  const { user } = useAppSelector((state) => state.persistedReducer.auth);
+  const { user } = useAppSelector(({ state }) => state.auth);
 
   // State
   const [allRegions, setAllRegions] = useState([]);

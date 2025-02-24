@@ -1,10 +1,11 @@
+import { USER_ROLE } from "@/contants/common";
+
 export type TUser = {
   displayName: string;
   phoneNumber: string;
   email: string;
   password: string;
   role: TUserRole;
-  isEmailVerified: boolean;
   profile: TProfile;
   createdAt: Date;
   updatedAt: Date;
@@ -25,13 +26,6 @@ export type TProfile = {
   createdAt: Date;
   updatedAt: Date;
 };
-
-export const USER_ROLE = {
-  superAdmin: "superAdmin",
-  admin: "admin",
-  customer: "customer",
-  vendor: "vendor",
-} as const;
 
 export type TUserRole = keyof typeof USER_ROLE;
 

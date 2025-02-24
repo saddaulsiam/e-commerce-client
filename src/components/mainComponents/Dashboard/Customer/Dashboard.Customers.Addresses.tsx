@@ -18,7 +18,7 @@ import DashboardCustomerSideBarNavigation from "./Dashboard.Customer.SideBar.Nav
 const DashboardCustomersAddresses = () => {
   const dispatch = useDispatch();
   const [showSideNavigation, setShowSideNavigation] = useState(null);
-  const { user } = useAppSelector((state) => state.persistedReducer.auth);
+  const { user } = useAppSelector(({ state }) => state.auth);
 
   const [removeAddress] = useRemoveAddressToUserMutation();
 

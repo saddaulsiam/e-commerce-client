@@ -12,12 +12,12 @@ import { MdKeyboardArrowDown, MdOutlineAccountCircle } from "react-icons/md";
 import { useDispatch } from "react-redux";
 
 // Local imports
-import { USER_ROLE } from "@/types/common";
 import logo from "../../../../public/logo/logo.svg";
 import useAuth from "../../../hooks/useAuth";
 import { logOutUser } from "../../../redux/features/auth/authSlice";
 import Announcement from "../announcement/Announcement";
 import NavbarMenu from "./NavbarMenu";
+import { USER_ROLE } from "@/contants/common";
 
 const Navbar = () => {
   const router = useRouter();
@@ -27,8 +27,8 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  const { products } = useAppSelector((state) => state.persistedReducer.cart);
-  const { user } = useAppSelector((state) => state.persistedReducer.auth);
+  const products = useAppSelector(({ state }) => state.cart);
+  const { user } = useAppSelector(({ state }) => state.auth);
 
   useEffect(() => {
     const handleScroll = () => {

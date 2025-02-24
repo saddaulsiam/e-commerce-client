@@ -16,8 +16,8 @@ import OrderSummaryCart from "./OrderSummaryCart";
 const OrderProductDetails = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { products } = useAppSelector((state) => state.persistedReducer.cart);
-  const { user } = useAppSelector((state) => state.persistedReducer.auth);
+  const { products } = useAppSelector(({ state }) => state.cart);
+  const { user } = useAppSelector(({ state }) => state.auth);
 
   const [address, setAddress] = useState(null);
   const [toggleAddressFrom, setToggleAddressFrom] = useState(false);

@@ -1,5 +1,7 @@
 "use client";
 
+import { useGetMeMutation } from "@/redux/features/auth/authApi";
+import { addUser } from "@/redux/features/auth/authSlice";
 import {
   createUserWithEmailAndPassword,
   FacebookAuthProvider,
@@ -19,10 +21,7 @@ import { createContext, ReactNode, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { app } from "../firebase/firebase.config";
-import { useGetMeMutation } from "../redux/features/auth/authApi";
-import { addUser } from "../redux/features/auth/authSlice";
 import { useGetMyVendorMutation } from "../redux/features/auth/vendorApi";
-import { useGetJWTTokenMutation } from "../redux/features/jwt/jwtApi";
 
 export interface AuthContextType {
   loadUser: boolean;
@@ -60,9 +59,9 @@ interface AuthProviderProps {
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const dispatch = useDispatch();
-  const [getMe] = useGetMeMutation();
+
+  const [myData] = useGetMeMutation();
   const [getVendor] = useGetMyVendorMutation();
-  const [getJWTToken] = useGetJWTTokenMutation();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [loadUser, setLoadUser] = useState<boolean>(false);
@@ -132,26 +131,20 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser: User | null) => {
-      console.log(currentUser);
       if (currentUser) {
         if (!currentUser.emailVerified) {
           await signOut(auth);
           return;
         }
-        localStorage.setItem("accessToken", currentUser.accessToken);
         try {
-          const res = await getMe(currentUser.email!);
-          if (res.data?.user) {
-            dispatch(addUser(res.data.user));
-            const jwtRes = await getJWTToken(res.data.user);
-            Cookies.set("access-token", jwtRes.data.token);
+          const res = await myData(undefined).unwrap();
+          if (res.data) {
+            dispatch(addUser(res.data));
           } else {
-            const vendorRes = await getVendor(currentUser.email!);
+            /*  const vendorRes = await getVendor(currentUser.email!);
             if (vendorRes.data?.user) {
               dispatch(addUser(vendorRes.data.user));
-              const jwtRes = await getJWTToken(vendorRes.data.user);
-              Cookies.set("access-token", jwtRes.data.token);
-            }
+            } */
           }
         } catch (error) {
           console.error("Authentication Error:", error);
@@ -165,7 +158,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     });
 
     return () => unsubscribe();
-  }, [dispatch, getMe, getVendor, getJWTToken]);
+  }, [myData]);
 
   const authInfo: AuthContextType = {
     loadUser,

@@ -1,5 +1,7 @@
 "use client";
 
+import { authKey } from "@/contants/common";
+import { setToLocalStorage } from "@/utils/local-storage";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
@@ -8,25 +10,31 @@ import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
 import useAuth from "../../../hooks/useAuth";
-import { useRegisterMutation } from "../../../redux/features/auth/authApi";
+import { useLoginMutation, useRegisterMutation } from "../../../redux/features/auth/authApi";
 
 const Login = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get("redirectTo") || "/";
 
+  const [showPass, setShowPass] = useState(false);
+
   const { register, handleSubmit, reset } = useForm();
   const [postUser, { isLoading }] = useRegisterMutation();
   const { setLoading, loading, signIn, googleLogIn } = useAuth();
-  const [showPass, setShowPass] = useState(false);
+  const [login, { isLoading: isLogin }] = useLoginMutation();
 
   const onSubmit = async (data: FieldValues) => {
     try {
       const userCredential = await signIn(data.email, data.password);
       if (userCredential.user) {
-        reset();
-        toast.success("Login Successful");
-        router.replace(redirectTo);
+        const res = await login({ email: userCredential.user.email }).unwrap();
+        if (res.success) {
+          reset();
+          toast.success("Login Successful");
+          setToLocalStorage({ key: authKey, token: res.data.accessToken });
+          router.replace(redirectTo);
+        }
       }
     } catch (error: any) {
       toast.error(error.message);
@@ -48,6 +56,7 @@ const Login = () => {
         const res = await postUser(data).unwrap();
         if (res.success) {
           toast.success("Login Successful");
+          setToLocalStorage({ key: authKey, token: res.data.accessToken });
           router.replace(redirectTo);
         }
       }
@@ -59,10 +68,12 @@ const Login = () => {
   };
 
   return (
-    <section className="flex min-h-screen items-center justify-center bg-gray-100 px-4">
-      <div className="w-full max-w-md rounded-lg bg-white px-8 py-10 shadow-lg">
+    <section className="flex min-h-screen pt-[14.5rem] justify-center bg-gray-100 px-4">
+      <div className="w-full h-full max-w-md rounded-lg bg-white px-8 py-10 shadow-lg">
         <div className="mb-8 text-center">
-          <h2 className="text-2xl font-semibold">Welcome Back!</h2>
+          <h2 className="bg-gradient-to-r from-secondary to-indigo-700 bg-clip-text text-3xl font-semibold text-transparent">
+            Welcome Back!
+          </h2>
           <p className="text-sm text-gray-600">Login to continue</p>
         </div>
 
@@ -91,7 +102,7 @@ const Login = () => {
               type={showPass ? "text" : "password"}
               id="password"
             />
-            <button type="button" className="absolute top-9 right-4 text-lg" onClick={() => setShowPass(!showPass)}>
+            <button type="button" className="absolute top-10 right-4 text-lg" onClick={() => setShowPass(!showPass)}>
               {showPass ? <BsEye /> : <BsEyeSlash />}
             </button>
           </div>
@@ -101,19 +112,22 @@ const Login = () => {
               <input type="checkbox" className="mr-2" />
               Remember me
             </label>
-            <Link href="/forgot-password" className="text-blue-600 hover:underline">
-              Forgot Password?
+            <Link
+              href="/forgot-password"
+              className="bg-gradient-to-r from-secondary to-indigo-700 bg-clip-text text-transparent hover:underline"
+            >
+              Forgot Password
             </Link>
           </div>
 
           <button
             type="submit"
-            disabled={loading || isLoading}
+            disabled={loading || isLoading || isLogin}
             className={`w-full rounded-md px-4 py-2 font-semibold text-white ${
-              loading || isLoading ? "bg-gray-400" : "bg-rose-500 hover:bg-rose-600"
+              loading || isLoading || isLogin ? "bg-gray-400" : "bg-rose-500 hover:bg-rose-600"
             }`}
           >
-            {loading || isLoading ? "Logging in..." : "Login"}
+            {loading || isLoading || isLogin ? "Logging in..." : "Login"}
           </button>
         </form>
 
