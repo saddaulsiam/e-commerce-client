@@ -40,7 +40,7 @@ const Register = () => {
         if (res.success) {
           toast.success("Registration Successful");
           reset();
-          setToLocalStorage({ key: authKey, token: res.data.accessToken });
+          setToLocalStorage({ key: authKey.accessToken, token: res.data.accessToken });
           router.replace("/");
         }
       }
@@ -64,7 +64,7 @@ const Register = () => {
         const res = await postUser(data).unwrap();
         if (res.success) {
           toast.success("Registration Successful");
-          setToLocalStorage({ key: authKey, token: res.data.accessToken });
+          setToLocalStorage({ key: authKey.accessToken, token: res.data.accessToken });
           router.replace("/dashboard");
         }
       }

@@ -32,7 +32,7 @@ const Login = () => {
         if (res.success) {
           reset();
           toast.success("Login Successful");
-          setToLocalStorage({ key: authKey, token: res.data.accessToken });
+          setToLocalStorage({ key: authKey.accessToken, token: res.data.accessToken });
           router.replace(redirectTo);
         }
       }
@@ -56,7 +56,7 @@ const Login = () => {
         const res = await postUser(data).unwrap();
         if (res.success) {
           toast.success("Login Successful");
-          setToLocalStorage({ key: authKey, token: res.data.accessToken });
+          setToLocalStorage({ key: authKey.accessToken, token: res.data.accessToken });
           router.replace(redirectTo);
         }
       }

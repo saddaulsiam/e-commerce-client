@@ -1,8 +1,10 @@
 "use client";
 
+import { authKey } from "@/contants/common";
 import { useGetAdminByEmailMutation } from "@/redux/features/admin/adminApi";
 import { useGetMeMutation } from "@/redux/features/auth/authApi";
 import { addUser } from "@/redux/features/auth/authSlice";
+import { deleteCookies } from "@/services/deleteCookies";
 import {
   createUserWithEmailAndPassword,
   FacebookAuthProvider,
@@ -17,7 +19,6 @@ import {
   updateProfile,
   User,
 } from "firebase/auth";
-import Cookies from "js-cookie";
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
@@ -117,7 +118,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const logOut = async () => {
     setLoading(true);
     await signOut(auth);
-    Cookies.remove("access-token");
+    deleteCookies([authKey.refreshToken]);
     setLoading(false);
   };
 
@@ -153,7 +154,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           setLoadUser(false);
         }
       } else {
-        Cookies.remove("access-token");
+        deleteCookies([authKey.refreshToken]);
       }
     });
 
