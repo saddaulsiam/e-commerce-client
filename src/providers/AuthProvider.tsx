@@ -1,5 +1,6 @@
 "use client";
 
+import { useGetAdminByEmailMutation } from "@/redux/features/admin/adminApi";
 import { useGetMeMutation } from "@/redux/features/auth/authApi";
 import { addUser } from "@/redux/features/auth/authSlice";
 import {
@@ -21,7 +22,6 @@ import { createContext, ReactNode, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { app } from "../firebase/firebase.config";
-import { useGetMyVendorMutation } from "../redux/features/auth/vendorApi";
 
 export interface AuthContextType {
   loadUser: boolean;
@@ -61,7 +61,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const dispatch = useDispatch();
 
   const [myData] = useGetMeMutation();
-  const [getVendor] = useGetMyVendorMutation();
+  const [getAdmin] = useGetAdminByEmailMutation();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [loadUser, setLoadUser] = useState<boolean>(false);
@@ -141,10 +141,10 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           if (res.data) {
             dispatch(addUser(res.data));
           } else {
-            /*  const vendorRes = await getVendor(currentUser.email!);
-            if (vendorRes.data?.user) {
-              dispatch(addUser(vendorRes.data.user));
-            } */
+            const admin = await getAdmin(currentUser.email!);
+            if (admin.data?.user) {
+              dispatch(addUser(admin.data.user));
+            }
           }
         } catch (error) {
           console.error("Authentication Error:", error);
@@ -158,7 +158,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     });
 
     return () => unsubscribe();
-  }, [myData]);
+  }, [myData, dispatch, getAdmin]);
 
   const authInfo: AuthContextType = {
     loadUser,
