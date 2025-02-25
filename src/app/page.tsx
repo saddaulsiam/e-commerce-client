@@ -15,7 +15,7 @@ const Home = () => {
     <>
       <Navbar />
       {/*
-      <Banner />
+      <Ban                    ner />
       <FlashDeals />
       <TopCategories />
       <NewArrivals />

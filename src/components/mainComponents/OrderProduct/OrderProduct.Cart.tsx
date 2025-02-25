@@ -5,12 +5,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { useDispatch } from "react-redux";
-import { addToCart, decreaseQuantity, removeFromCart } from "../../../redux/features/cart/cartSlice";
+import { addToCart, removeFromCart } from "../../../redux/features/cart/cartSlice";
 import OrderSummaryCart from "./OrderSummaryCart";
 
 const OrderProductCart = () => {
   const dispatch = useDispatch();
-  const { products } = useAppSelector(({ state }) => state.cart);
+  const { cartItems } = useAppSelector(({ state }) => state.cart);
   return (
     <div className="bg-slate-200">
       <div className="container mt-32 lg:mt-[10.9rem]">
@@ -24,7 +24,7 @@ const OrderProductCart = () => {
           <div className="w-20 border-t-4 border-secondary" />
           <Link href="/details">
             <button
-              disabled={products.length < 1 ? true : false}
+              disabled={cartItems.length < 1 ? true : false}
               className="cursor-pointer rounded-full bg-secondary py-2 px-6 text-sm font-semibold text-white disabled:cursor-not-allowed"
             >
               <span className="hidden sm:block">2. Details</span>
@@ -34,7 +34,7 @@ const OrderProductCart = () => {
           <div className="w-20 border-t-4 border-secondary" />
           <Link href="/payment">
             <button
-              disabled={products.length < 1 ? true : false}
+              disabled={cartItems.length < 1 ? true : false}
               className="cursor-pointer rounded-full bg-secondary py-2 px-6 text-sm font-semibold text-white disabled:cursor-not-allowed"
             >
               <span className="hidden sm:block">3. Payment</span>
@@ -44,7 +44,7 @@ const OrderProductCart = () => {
           <div className="w-20 border-t-4 border-secondary" />
           <Link href="/review">
             <button
-              disabled={products.length < 1 ? true : false}
+              disabled={cartItems.length < 1 ? true : false}
               className="cursor-pointer rounded-full bg-secondary py-2 px-6 text-sm font-semibold text-white disabled:cursor-not-allowed"
             >
               <span className="hidden sm:block">4. Review</span>
@@ -54,15 +54,15 @@ const OrderProductCart = () => {
         </div>
         <div className="mb-10	grid grid-cols-3 gap-5">
           <div className="col-span-3 space-y-5 lg:col-span-2">
-            {products.length > 0 ? (
-              products.map((product, index) => (
+            {cartItems.length > 0 ? (
+              cartItems.map((product, index) => (
                 <div key={index} className="flex w-full rounded-md bg-white">
                   <div className="flex h-28 w-36  items-center justify-center md:h-36 md:w-40">
                     <Image
                       height={130}
                       width={120}
                       className="h-full w-full object-cover "
-                      src={product.mainImage}
+                      src={product.imageUrl}
                       alt=""
                       priority
                     />
@@ -76,13 +76,13 @@ const OrderProductCart = () => {
                     </div>
                     <div className="flex w-full justify-between">
                       <p className="text-sm text-my-gray-100">
-                        ${product.salePrice} x {product.quantity}
-                        <span className="text-base text-primary"> = ${product.salePrice * product.quantity}</span>
+                        ${product.price} x {product.quantity}
+                        <span className="text-base text-primary"> = ${product.price * product.quantity}</span>
                       </p>
                       <div className="flex justify-center space-x-2 text-base">
                         <span
                           className="cursor-pointer rounded-md border border-primary p-1 text-primary hover:bg-primary hover:text-white"
-                          onClick={() => dispatch(decreaseQuantity(product))}
+                          onClick={() => dispatch(removeFromCart(product._id))}
                         >
                           <AiOutlineMinus />
                         </span>
@@ -105,7 +105,7 @@ const OrderProductCart = () => {
             )}
           </div>
           <div className="col-span-3 lg:col-span-1">
-            <OrderSummaryCart products={products} />
+            <OrderSummaryCart products={cartItems} />
           </div>
         </div>
       </div>

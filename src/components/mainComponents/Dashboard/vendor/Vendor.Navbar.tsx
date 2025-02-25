@@ -6,7 +6,7 @@ import { BiBell, BiChat } from "react-icons/bi";
 // local
 import us from "../../../../images/country/us.svg";
 import bd from "../../../../images/country/bd.svg";
-import HeadlessUIDropDown from "../../../sharedComponents/HeadlessUIDropDown/HeadlessUIDropDown";
+import HeadlessUIDropDown from "../../../sharedComponents/DropDown/HeadlessUIDropDown";
 import { logOutUser } from "../../../../redux/features/auth/authSlice";
 
 const VendorNavbar = ({ setSideBarClose }) => {

@@ -1,7 +1,7 @@
-export { default as Announcement } from "./announcement/Announcement";
+export { default as AnnouncementBar } from "./announcementBar/AnnouncementBar";
 export { default as BottomBar } from "./bottomBar/BottomBar";
 export { default as Navbar } from "./navbar/Navbar";
-export { default as NavbarMenu } from "./navbar/NavbarMenu";
+export { default as NavMegaMenu } from "./navbar/NavMegaMenu";
 export { default as SwiperCatagoriesCard } from "./Swiper/Swiper.CatagoriesCard";
 export { default as Footer } from "./footer/Footer";
 export { default as ProductsCard } from "./productsCard/Products.Card";

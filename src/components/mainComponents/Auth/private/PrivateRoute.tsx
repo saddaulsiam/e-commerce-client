@@ -1,25 +1,26 @@
 "use client";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { auth } from "../../../../providers/AuthProvider";
-import useAuth from "../../../../hooks/useAuth";
+import useAuth from "@/hooks/useAuth";
+import { auth } from "@/providers/AuthProvider";
+import { usePathname, useRouter } from "next/navigation";
+import { ReactNode, useEffect } from "react";
 
-const PrivateRoute = ({ children }) => {
+const PrivateRoute = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
-  const { isLoading } = useAuth();
+  const pathname = usePathname();
+  const { loading } = useAuth();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (!user && !isLoading) {
-        router.push(`/login?redirectTo=${router.asPath}`);
+      if (!user && !loading) {
+        router.push(`/login?redirectTo=${pathname}`);
       }
     });
 
     return () => unsubscribe();
-  }, [isLoading, router]);
+  }, [loading, pathname, router]);
 
-  if (isLoading) {
+  if (loading) {
     return <div>Loading...</div>;
   }
 
