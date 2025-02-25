@@ -75,7 +75,7 @@ const Navbar = () => {
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className={`${isScrolled ? "flex" : "hidden"} text-2xl text-my-gray-100`}>
+                <Button variant="ghost" className={`${!isScrolled ? "flex" : "hidden"} text-2xl text-my-gray-100`}>
                   <BiCategory />
                   <MdKeyboardArrowDown />
                 </Button>

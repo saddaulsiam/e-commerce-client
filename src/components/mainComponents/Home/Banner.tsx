@@ -1,22 +1,26 @@
 "use client";
-
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { MdKeyboardArrowRight } from "react-icons/md";
-import { Autoplay, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-
-// local
+import { Autoplay, Pagination } from "swiper/modules";
+import {
+  Menubar,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarSub,
+  MenubarSubContent,
+  MenubarSubTrigger,
+  MenubarTrigger,
+} from "@/components/ui/menubar";
+import categories from "@/data/categories";
 import banners from "../../../../public/banners";
-import { useGetCategoriesQuery } from "../../../redux/features/categories/categoriesApi";
 
 const Banner = () => {
   const swiperRef = useRef(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentBg, setCurrentBg] = useState([]);
-
-  const { data: categories } = useGetCategoriesQuery();
 
   let bannerBgColor = [];
 
@@ -44,22 +48,41 @@ const Banner = () => {
         backgroundColor: currentBg[currentSlide],
       }}
     >
-      <div className="flex xl:container">
-        <div className="hidden w-[22%] bg-white shadow-lg lg:block">
-          <ul className="py-1 text-sm">
-            {categories?.data?.map(({ name, _id, icon }, index) => (
-              <Link href={`/product?category=${name.toLowerCase()}`} key={_id}>
-                <li className="flex cursor-pointer justify-between px-3 py-2 font-medium text-my-gray-200 hover:bg-primary hover:text-white">
-                  <div className="flex space-x-3">
-                    <Image src={icon} alt={name} width="20" height="20" priority />
-                    <p className="capitalize">{name}</p>
-                  </div>
-                  <MdKeyboardArrowRight className="text-xl" />
-                </li>
-              </Link>
+      <div className="flex xl:container mx-auto">
+        {/* Vertical Menubar Sidebar */}
+        <div className="relative w-[22%] shadow-lg hidden lg:block">
+          <Menubar className="flex flex-col h-full items-stretch bg-white shadow-md py-5">
+            {categories.map((category, i) => (
+              <MenubarMenu key={i}>
+                <MenubarTrigger className="w-full text-left px-4 py-2 hover:bg-gray-100 rounded">
+                  {category.name}
+                </MenubarTrigger>
+                {category.subcategories && category.subcategories.length > 0 && (
+                  <MenubarContent className="min-w-[250px] z-10" side="right" sideOffset={-5}>
+                    {category.subcategories.map((sub, j) => (
+                      <MenubarSub key={j}>
+                        <MenubarSubTrigger className="w-full text-left px-4 py-2 hover:bg-gray-50">
+                          {sub.name}
+                        </MenubarSubTrigger>
+                        {sub.subcategories && sub.subcategories.length > 0 && (
+                          <MenubarSubContent className="min-w-[200px] z-10">
+                            {sub.subcategories.map((item, k) => (
+                              <MenubarItem asChild key={k} className="px-4 py-2 hover:bg-gray-100">
+                                <Link href={item.href}>{item.name}</Link>
+                              </MenubarItem>
+                            ))}
+                          </MenubarSubContent>
+                        )}
+                      </MenubarSub>
+                    ))}
+                  </MenubarContent>
+                )}
+              </MenubarMenu>
             ))}
-          </ul>
+          </Menubar>
         </div>
+
+        {/* Banner Swiper */}
         <div className="w-full lg:w-[78%]">
           <Swiper
             style={{
@@ -80,9 +103,8 @@ const Banner = () => {
             loop={true}
             modules={[Pagination, Autoplay]}
           >
-            {banners.map(({ id, img, bg }) => (
+            {banners.map(({ id, img }) => (
               <SwiperSlide key={id}>
-                {bannerBgColor.push(bg)}
                 <Image src={img} alt="" className="object-fill object-center" layout="fill" priority />
               </SwiperSlide>
             ))}
