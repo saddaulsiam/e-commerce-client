@@ -1,11 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
-import { Swiper, SwiperSlide } from "swiper/react";
+import Link from "next/link";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { MdKeyboardArrowRight } from "react-icons/md";
-import { Pagination, Autoplay } from "swiper/modules";
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import { Autoplay, Pagination } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 // local
 import banners from "../../../../public/banners";

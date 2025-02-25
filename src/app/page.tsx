@@ -14,8 +14,8 @@ const Home = () => {
   return (
     <>
       <Navbar />
+      <Banner />
       {/*
-      <Ban                    ner />
       <FlashDeals />
       <TopCategories />
       <NewArrivals />
