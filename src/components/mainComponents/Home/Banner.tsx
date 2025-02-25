@@ -1,13 +1,10 @@
 "use client";
-import { useCallback, useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination } from "swiper/modules";
+
 import {
   Menubar,
   MenubarContent,
   MenubarItem,
+  MenubarLabel,
   MenubarMenu,
   MenubarSub,
   MenubarSubContent,
@@ -15,68 +12,99 @@ import {
   MenubarTrigger,
 } from "@/components/ui/menubar";
 import categories from "@/data/categories";
+import { ChevronRight } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { CSSProperties, useCallback, useEffect, useRef, useState } from "react";
+import { Autoplay, Pagination } from "swiper/modules";
+import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 import banners from "../../../../public/banners";
 
 const Banner = () => {
-  const swiperRef = useRef(null);
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [currentBg, setCurrentBg] = useState([]);
+  // State to track the current slide index
+  const [currentSlide, setCurrentSlide] = useState<number>(0);
+  // State to store background colors for each banner
+  const [bannerBgColors, setBannerBgColors] = useState<string[]>([]);
 
-  let bannerBgColor = [];
+  // Ref to access the Swiper instance
+  const swiperRef = useRef<SwiperRef | null>(null);
 
+  // Extract background colors from banners and set them in state
   useEffect(() => {
-    setCurrentBg(bannerBgColor);
+    const colors = banners.map((banner) => banner.bg);
+    setBannerBgColors(colors);
   }, []);
 
-  const updateIndex = useCallback(() => setCurrentSlide(swiperRef?.current?.swiper?.realIndex), []);
+  // Callback to update current slide index on slide change
+  const handleSlideChange = useCallback(() => {
+    if (swiperRef.current) {
+      setCurrentSlide(swiperRef.current.swiper.realIndex);
+    }
+  }, []);
 
+  // Attach and detach the slide change event listener
   useEffect(() => {
-    const swiperInstance = swiperRef.current.swiper;
+    const swiperInstance = swiperRef.current?.swiper;
     if (swiperInstance) {
-      swiperInstance.on("slideChange", updateIndex);
+      swiperInstance.on("slideChange", handleSlideChange);
     }
     return () => {
       if (swiperInstance) {
-        swiperInstance.off("slideChange", updateIndex);
+        swiperInstance.off("slideChange", handleSlideChange);
       }
     };
-  }, [updateIndex]);
+  }, [handleSlideChange]);
+
   return (
     <header
-      className="mt-[7.7rem] lg:mt-44"
+      // className="mt-[7.7rem] lg:mt-44"
+      className="mt-0.5"
       style={{
-        backgroundColor: currentBg[currentSlide],
+        // Set background color based on the current slide
+        backgroundColor: bannerBgColors[currentSlide] || "#fff",
       }}
     >
-      <div className="flex xl:container mx-auto">
+      <div className="mx-auto flex xl:container">
         {/* Vertical Menubar Sidebar */}
-        <div className="relative w-[22%] shadow-lg hidden lg:block">
-          <Menubar className="flex flex-col h-full items-stretch bg-white shadow-md py-5">
+        <div className="relative hidden w-[22%] shadow-lg lg:block">
+          <Menubar className="h-full items-stretch bg-white p-3">
             {categories.map((category, i) => (
               <MenubarMenu key={i}>
-                <MenubarTrigger className="w-full text-left px-4 py-2 hover:bg-gray-100 rounded">
-                  {category.name}
+                <MenubarTrigger className="w-full rounded px-4 py-2 my-0.5 text-left text-slate-600 hover:bg-gray-100">
+                  {category.name} <ChevronRight className="ml-auto h-4 w-4" />
                 </MenubarTrigger>
-                {category.subcategories && category.subcategories.length > 0 && (
-                  <MenubarContent className="min-w-[250px] z-10" side="right" sideOffset={-5}>
-                    {category.subcategories.map((sub, j) => (
-                      <MenubarSub key={j}>
-                        <MenubarSubTrigger className="w-full text-left px-4 py-2 hover:bg-gray-50">
-                          {sub.name}
-                        </MenubarSubTrigger>
-                        {sub.subcategories && sub.subcategories.length > 0 && (
-                          <MenubarSubContent className="min-w-[200px] z-10">
-                            {sub.subcategories.map((item, k) => (
-                              <MenubarItem asChild key={k} className="px-4 py-2 hover:bg-gray-100">
-                                <Link href={item.href}>{item.name}</Link>
-                              </MenubarItem>
-                            ))}
-                          </MenubarSubContent>
-                        )}
-                      </MenubarSub>
-                    ))}
-                  </MenubarContent>
-                )}
+                {category.subcategories &&
+                  category.subcategories.length > 0 && (
+                    <MenubarContent
+                      className="z-10 min-w-[250px] rounded-none shadow-none"
+                      side="right"
+                      sideOffset={-5}
+                    >
+                      <MenubarLabel>{category.name}</MenubarLabel>
+                      {category.subcategories.map((sub, j) => (
+                        <MenubarSub key={j}>
+                          <MenubarSubTrigger className="w-full px-4 py-2 text-left hover:bg-gray-50">
+                            {sub.name}
+                          </MenubarSubTrigger>
+                          {sub.subcategories &&
+                            sub.subcategories.length > 0 && (
+                              <MenubarSubContent className="z-10 min-w-[200px]">
+                                <MenubarLabel>{category.name}</MenubarLabel>
+                                {sub.subcategories.map((item, k) => (
+                                  <MenubarItem
+                                    asChild
+                                    key={k}
+                                    className="px-4 py-2 hover:bg-gray-100"
+                                  >
+                                    <Link href={item.href}>{item.name}</Link>
+                                  </MenubarItem>
+                                ))}
+                              </MenubarSubContent>
+                            )}
+                        </MenubarSub>
+                      ))}
+                    </MenubarContent>
+                  )}
               </MenubarMenu>
             ))}
           </Menubar>
@@ -85,10 +113,13 @@ const Banner = () => {
         {/* Banner Swiper */}
         <div className="w-full lg:w-[78%]">
           <Swiper
-            style={{
-              "--swiper-pagination-color": "#003566",
-              "--swiper-pagination-bullet-size": "10px",
-            }}
+            style={
+              {
+                // Custom CSS properties for Swiper pagination
+                "--swiper-pagination-color": "hsl(var(--primary))",
+                "--swiper-pagination-bullet-size": "10px",
+              } as CSSProperties
+            }
             ref={swiperRef}
             className="mySwiper h-40 w-full md:h-72 lg:h-full"
             grabCursor={true}
@@ -102,10 +133,19 @@ const Banner = () => {
             }}
             loop={true}
             modules={[Pagination, Autoplay]}
+            onSlideChange={handleSlideChange}
           >
             {banners.map(({ id, img }) => (
               <SwiperSlide key={id}>
-                <Image src={img} alt="" className="object-fill object-center" layout="fill" priority />
+                <div className="relative h-full w-full">
+                  <Image
+                    src={img}
+                    alt="Banner"
+                    className="object-fill object-center"
+                    layout="fill"
+                    priority
+                  />
+                </div>
               </SwiperSlide>
             ))}
           </Swiper>
