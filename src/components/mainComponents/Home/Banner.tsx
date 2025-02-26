@@ -70,7 +70,7 @@ const Banner = () => {
           <Menubar className="h-full items-stretch bg-white p-3">
             {categories.map((category, i) => (
               <MenubarMenu key={i}>
-                <MenubarTrigger className="w-full rounded px-4 py-2 my-0.5 text-left text-slate-600 hover:bg-gray-100">
+                <MenubarTrigger className="my-0.5 w-full rounded px-4 py-2 text-left text-slate-600 hover:bg-gray-100">
                   {category.name} <ChevronRight className="ml-auto h-4 w-4" />
                 </MenubarTrigger>
                 {category.subcategories &&

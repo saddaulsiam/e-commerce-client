@@ -3,109 +3,133 @@
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Label } from "@/components/ui/label";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
 import { USER_ROLE } from "@/contants/common";
+import { myAccount, vendorAccount } from "@/data/navbar.navigation";
 import { TUser } from "@/types/common";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BiCategory } from "react-icons/bi";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import CategoriesDropDownContent from "../DropDown/CategoriesDropDownContent";
+import { Separator } from "@/components/ui/separator";
 
-const NavMegaMenu = ({ isScrolled, user }: { isScrolled: boolean; user: TUser | null }) => {
+type TProps = {
+  isScrolled: boolean;
+  user: TUser | null;
+};
+
+const NavMegaMenu = ({ isScrolled, user }: TProps) => {
   const path = usePathname();
 
-  const myAccount = [
-    { name: "My Profile", href: "/customer/profile" },
-    { name: "My Orders", href: "/customer/orders" },
-    { name: "Wishlists", href: "/customer/wishlists" },
-    { name: "Support Tickets", href: "/customer/support-tickets" },
-    { name: "Payment Methods", href: "/customer/payment-methods" },
-  ];
-
-  const vendorAccount = [
-    { name: "Dashboard", href: "/vendor/dashboard" },
-    { name: "Products", href: "/vendor/products" },
-    { name: "Add New Products", href: "/vendor/add-product" },
-    { name: "Orders", href: "/vendor/orders" },
-    { name: "Accounts Settings", href: "/vendor/account-settings" },
-  ];
   return (
-    <div className="transform scroll-smooth transition duration-500 xl:container">
+    <div className="relative z-50 transform scroll-smooth transition duration-500 xl:container">
       <div className="hidden lg:block">
-        <div className={`flex h-14 items-center justify-between ${isScrolled && "hidden"}`}>
+        <div
+          className={`flex h-14 items-center justify-between ${isScrolled && "hidden"}`}
+        >
+          {/* Categories Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button
-                className={`flex cursor-pointer space-x-2 rounded bg-slate-200 px-5 py-2 text-my-gray-200 transition-all ease-in hover:bg-slate-300`}
-              >
+              <Button className="flex cursor-pointer space-x-2 rounded bg-slate-200 px-5 py-2 text-my-gray-200 transition-all ease-in hover:bg-slate-300">
                 <BiCategory className="text-2xl" />
-                <p className="font-semibold "> Categories</p>
-                <MdKeyboardArrowDown className="text-2xl " />
+                <p className="font-semibold"> Categories</p>
+                <MdKeyboardArrowDown className="text-2xl" />
               </Button>
             </DropdownMenuTrigger>
-            {path === "/" ? "" : <CategoriesDropDownContent />}
+            {path === "/" ? null : <CategoriesDropDownContent />}
           </DropdownMenu>
-          <div>
-            <ul className="font-OpenSans flex items-center space-x-10">
-              <Link href={"/"}>
-                <li className="cursor-pointer hover:text-primary ">Home</li>
-              </Link>
 
-              <Link href={"/"}>
-                <li className="cursor-pointer hover:text-primary ">Pages</li>
-              </Link>
-
-              {user?.role === USER_ROLE.vendor && (
-                <li className="cursor-pointer hover:text-primary">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <span>My account</span>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-40 ">
-                      <DropdownMenuLabel>My account</DropdownMenuLabel>
-                      <DropdownMenuSeparator />
-                      {vendorAccount.map((item, i) => (
-                        <Link href={item.href} key={i}>
-                          <DropdownMenuItem className="cursor-pointer">{item.name}</DropdownMenuItem>
-                        </Link>
-                      ))}
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </li>
-              )}
-
-              {user?.role === USER_ROLE.customer && (
-                <li className="cursor-pointer hover:text-primary">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <span>My account</span>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-40 ">
-                      <DropdownMenuLabel>My account</DropdownMenuLabel>
-                      <DropdownMenuSeparator />
-                      {myAccount.map((item, i) => (
-                        <Link href={item.href} key={i}>
-                          <DropdownMenuItem className="cursor-pointer">{item.name}</DropdownMenuItem>
-                        </Link>
-                      ))}
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </li>
-              )}
-
-              {user?.role == "customer" && (
-                <Link href={"/customer/orders"}>
-                  <li className="cursor-pointer hover:text-primary ">Track My Order</li>
+          {/* Navigation Menu */}
+          <NavigationMenu>
+            <NavigationMenuList>
+              {/* Home Link */}
+              <NavigationMenuItem>
+                <Link href="/">
+                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                    Home
+                  </NavigationMenuLink>
                 </Link>
+              </NavigationMenuItem>
+
+              {/* Shop Link */}
+              <NavigationMenuItem>
+                <Link href="/shop">
+                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                    Shop
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
+
+              {/* My Account Dropdown - Vendor */}
+              {user?.role === USER_ROLE.vendor && (
+                <NavigationMenuItem className="relative">
+                  <NavigationMenuTrigger>My Account</NavigationMenuTrigger>
+                  <NavigationMenuContent className="absolute left-0 z-50 flex min-w-48 flex-col gap-y-1 rounded-md border bg-white p-1.5 shadow-md">
+                    <Label className="cursor-auto p-1 pl-2 text-sm">
+                      My Account
+                    </Label>
+                    <Separator />
+                    {vendorAccount.map((item, i) => (
+                      <Link
+                        href={item.href}
+                        key={i}
+                        className="p-1 pl-2 text-sm transition-all duration-100 ease-in hover:bg-accent hover:text-primary"
+                      >
+                        <NavigationMenuLink>{item.name}</NavigationMenuLink>
+                      </Link>
+                    ))}
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
               )}
-            </ul>
-          </div>
+
+              {/* My Account Dropdown - Customer */}
+              {user?.role === USER_ROLE.customer && (
+                <NavigationMenuItem className="relative">
+                  <NavigationMenuTrigger>My Account</NavigationMenuTrigger>
+                  <NavigationMenuContent className="absolute left-0 z-50 flex min-w-48 flex-col gap-y-1 rounded-md border bg-white p-1.5 shadow-md">
+                    <Label className="cursor-auto p-1 pl-2 text-sm">
+                      My Account
+                    </Label>
+                    <Separator />
+                    {myAccount.map((item, i) => (
+                      <Link
+                        href={item.href}
+                        key={i}
+                        className="p-1 pl-2 text-sm transition-all duration-100 ease-in hover:bg-accent hover:text-primary"
+                      >
+                        <NavigationMenuLink>{item.name}</NavigationMenuLink>
+                      </Link>
+                    ))}
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              )}
+
+              {/* Track My Order - Customer Only */}
+              {user?.role === USER_ROLE.customer && (
+                <NavigationMenuItem>
+                  <Link href="/customer/orders">
+                    <NavigationMenuLink
+                      className={navigationMenuTriggerStyle()}
+                    >
+                      Track My Order
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+              )}
+            </NavigationMenuList>
+          </NavigationMenu>
         </div>
       </div>
     </div>
