@@ -1,58 +1,54 @@
 "use client";
-
+import { Button } from "@/components/ui/button";
+import { SheetContent, SheetTitle } from "@/components/ui/sheet";
+import { useAppSelector } from "@/redux/hooks";
 import { useRouter } from "next/navigation";
-import React from "react";
 import { AiOutlineShopping } from "react-icons/ai";
-// import { products } from "../../../data/products";
 import SideBarShoppingCartItem from "./SideBarShoppingCartItem";
-import { useSelector } from "react-redux";
 
-const SideBarShoppingCart = ({ setShowProductCard }) => {
+const SideBarShoppingCart = () => {
   const router = useRouter();
+  const { cartItems } = useAppSelector(({ state }) => state.cart);
 
-  const { products } = useSelector((state) => state.cart);
   return (
-    <section className="fixed inset-0 flex h-screen w-screen justify-between ">
-      <div className="w-4/5 bg-gray-900/60" onClick={() => setShowProductCard(false)} />
-      <div className="h-screen w-1/5 bg-white">
-        <div className="flex h-full flex-col justify-between">
-          <div className="h-[90vh] overflow-y-scroll">
-            <div className="text-primary">
-              <div className="flex items-center justify-between py-5 px-3">
-                <div className="flex space-x-3 text-xl">
-                  <AiOutlineShopping className="text-2xl" />
-                  <p className="">{products.length} item</p>
-                </div>
-                <p
-                  className="cursor-pointer rounded-full bg-slate-200 px-2.5 py-1 hover:bg-slate-400 hover:text-white"
-                  onClick={() => setShowProductCard(false)}
-                >
-                  X
-                </p>
-              </div>
-              <hr />
-              {products.map((product, i) => (
-                <SideBarShoppingCartItem product={product} key={i} />
-              ))}
-            </div>
-          </div>
-          <div className="my-3 ml-3 mr-7 space-y-3">
-            <button
-              className="w-full rounded-md bg-secondary p-2 text-sm font-semibold text-white transition-all ease-in hover:bg-primary"
-              onClick={() => router.push("/details")}
-            >
-              Checkout Now
-            </button>
-            <button
-              className="w-full rounded-md border border-secondary p-2 text-sm font-semibold text-secondary transition-all ease-in hover:border-primary hover:bg-primary hover:text-white"
-              onClick={() => router.push("/cart")}
-            >
-              View Cart
-            </button>
-          </div>
-        </div>
+    <SheetContent
+      side="right"
+      className="flex h-full flex-col rounded-lg bg-white p-0 shadow-xl"
+    >
+      {/* Header */}
+      <div className="flex items-center space-x-3 border-b border-gray-200 bg-gray-50 px-5 py-6 text-xl font-semibold text-gray-800">
+        <AiOutlineShopping className="text-2xl text-gray-600" />
+        <SheetTitle className="text-lg">{cartItems.length} items</SheetTitle>
       </div>
-    </section>
+
+      {/* Cart Items */}
+      <div className="flex-1 overflow-y-auto">
+        {cartItems.length > 0 ? (
+          cartItems.map((product, i) => (
+            <SideBarShoppingCartItem product={product} key={i} />
+          ))
+        ) : (
+          <p className="mt-10 text-center text-gray-500">Your cart is empty</p>
+        )}
+      </div>
+
+      {/* Buttons */}
+      <div className="space-y-4 px-4 py-6">
+        <Button
+          className="hover:bg-orange-600 w-full transform bg-primary text-white transition duration-200 ease-in-out"
+          onClick={() => router.push("/checkout")}
+        >
+          Checkout Now
+        </Button>
+        <Button
+          variant="outline"
+          className="w-full transform border-2 text-gray-700 border-gray-300 transition duration-200 ease-in-out hover:border-primary hover:bg-primary hover:text-white"
+          onClick={() => router.push("/cart")}
+        >
+          View Cart
+        </Button>
+      </div>
+    </SheetContent>
   );
 };
 

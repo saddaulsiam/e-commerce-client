@@ -1,5 +1,6 @@
 "use client";
 
+import { SideBarShoppingCart } from "@/components/mainComponents/Home";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
+import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import { USER_ROLE } from "@/contants/common";
 import useAuth from "@/hooks/useAuth";
 import { logOutUser } from "@/redux/features/auth/authSlice";
@@ -118,19 +120,20 @@ const Navbar = () => {
 
           {/* Right Section (Icons & User Menu) */}
           <div className="flex items-center space-x-5">
-            {/* Cart */}
-            <Link
-              href="/cart"
-              className="relative p-2 text-gray-700 transition-colors hover:text-primary"
-            >
-              <FiShoppingCart className="h-6 w-6" />
-              {cartItems.length > 0 && (
-                <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-white">
-                  {cartItems.length}
-                </span>
-              )}
-            </Link>
-
+            {/* Cart Icon (Triggers Sidebar) */}
+            <Sheet>
+              <SheetTrigger asChild>
+                <div className="relative cursor-pointer p-2 text-gray-700 transition-colors hover:text-primary">
+                  <FiShoppingCart className="h-6 w-6" />
+                  {cartItems.length > 0 && (
+                    <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-white">
+                      {cartItems.length}
+                    </span>
+                  )}
+                </div>
+              </SheetTrigger>
+              <SideBarShoppingCart />
+            </Sheet>
             {/* Auth Section */}
             {user ? (
               <DropdownMenu>
@@ -208,6 +211,15 @@ const Navbar = () => {
         {/* Navbar Menu */}
         <NavMegaMenu isScrolled={isScrolled} user={user} />
       </nav>
+      {/* <>
+        {showProductCard && (
+          <SideBarShoppingCart setShowProductCard={setShowProductCard} />
+        )}
+        <LoginModal
+          openLoginModal={openLoginModal}
+          setOpenLoginModal={setOpenLoginModal}
+        />
+      </> */}
     </header>
   );
 };

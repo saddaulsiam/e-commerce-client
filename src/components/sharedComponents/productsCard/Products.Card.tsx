@@ -1,18 +1,18 @@
 "use client";
 
+import RatingStars from "@/components/ui/rating";
 import { TProduct } from "@/types/common";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { AiFillEye, AiFillStar, AiOutlineStar } from "react-icons/ai";
+import { AiFillEye } from "react-icons/ai";
 import { BsCart2 } from "react-icons/bs";
 import { GrCompare } from "react-icons/gr";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { addToCart } from "../../../redux/features/cart/cartSlice";
 import ProductsModal from "../modal/Products.Modal";
-import RatingStars from "@/components/ui/rating";
 
 const ProductsCard = ({ product }: { product: TProduct }) => {
   const router = useRouter();

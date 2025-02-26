@@ -1,20 +1,18 @@
 "use client";
-import Link from "next/link";
-import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
-import { FcGoogle } from "react-icons/fc";
-import { useForm } from "react-hook-form";
-import { Fragment, useState } from "react";
-import { FaFacebookF } from "react-icons/fa";
-import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { Dialog, Transition } from "@headlessui/react";
-
-// local
-import Loading from "../loading/Loading";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Fragment, useState } from "react";
+import { useForm } from "react-hook-form";
+import { BsEye, BsEyeSlash } from "react-icons/bs";
+import { FaFacebookF } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
+import { toast } from "react-toastify";
 import useAuth from "../../../hooks/useAuth";
 import { useRegisterMutation } from "../../../redux/features/auth/authApi";
+import Loading from "../loading/Loading";
 
-const LoginModal = ({ isOpen, setIsOpen }) => {
+const LoginModal = ({ openLoginModal, setOpenLoginModal }) => {
   const router = useRouter();
   const { register, handleSubmit, reset } = useForm();
   const [postUser, { isLoading }] = useRegisterMutation();
@@ -45,7 +43,7 @@ const LoginModal = ({ isOpen, setIsOpen }) => {
           postUser(userCredential.user).then((res) => {
             if (res.data?.status === "success") {
               toast.success("Login Successful");
-              setIsOpen(false);
+              setOpenLoginModal(false);
               router.replace(router.query.redirectTo || "/");
             }
           });
@@ -84,8 +82,12 @@ const LoginModal = ({ isOpen, setIsOpen }) => {
       });
   };
   return (
-    <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={() => setIsOpen(false)}>
+    <Transition appear show={openLoginModal} as={Fragment}>
+      <Dialog
+        as="div"
+        className="relative z-50"
+        onClose={() => setOpenLoginModal(false)}
+      >
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -107,18 +109,23 @@ const LoginModal = ({ isOpen, setIsOpen }) => {
           leaveTo="opacity-0 scale-95"
         >
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center ">
+            <div className="flex min-h-full items-center justify-center">
               <Dialog.Panel className="transform overflow-hidden">
                 <div className="w-[450px] rounded-lg bg-white px-12 py-10 shadow-sm">
                   <div>
                     <div className="mb-10 flex flex-col items-center justify-center space-y-1">
-                      <h2 className="text-3xl font-semibold">Welcome To E-commerce</h2>
+                      <h2 className="text-3xl font-semibold">
+                        Welcome To E-commerce
+                      </h2>
                       <p className="text-sm">Log in with email & password</p>
                     </div>
                     <form onSubmit={handleSubmit(onSubmit)}>
                       <div className="space-y-3">
                         <div>
-                          <label className="text-sm text-my-gray-200" htmlFor="email">
+                          <label
+                            className="text-sm text-my-gray-200"
+                            htmlFor="email"
+                          >
                             Email
                           </label>
                           <input
@@ -132,12 +139,15 @@ const LoginModal = ({ isOpen, setIsOpen }) => {
                           />
                         </div>
                         <div className="relative">
-                          <label className=" text-sm text-my-gray-200" htmlFor="password">
+                          <label
+                            className="text-sm text-my-gray-200"
+                            htmlFor="password"
+                          >
                             Password
                           </label>
                           <input
                             {...register("password", { required: true })}
-                            className="block  h-10 w-full rounded-md border px-3"
+                            className="block h-10 w-full rounded-md border px-3"
                             placeholder="******"
                             type={showPass ? "text" : "password"}
                             name="password"
@@ -146,7 +156,7 @@ const LoginModal = ({ isOpen, setIsOpen }) => {
 
                           <button
                             type="button"
-                            className="absolute top-9 right-4 text-lg"
+                            className="absolute right-4 top-9 text-lg"
                             onClick={() => setShowPass(!showPass)}
                           >
                             {showPass ? <BsEye /> : <BsEyeSlash />}
@@ -154,7 +164,10 @@ const LoginModal = ({ isOpen, setIsOpen }) => {
                         </div>
                         <div className="flex items-center justify-between">
                           <label className="label cursor-pointer">
-                            <input type="checkbox" className="checkbox checkbox-primary checkbox-sm" />
+                            <input
+                              type="checkbox"
+                              className="checkbox checkbox-primary checkbox-sm"
+                            />
                             <span className="label-text pl-1">Remember me</span>
                           </label>
                           <Link
@@ -166,14 +179,14 @@ const LoginModal = ({ isOpen, setIsOpen }) => {
                         </div>
                         <button
                           type="submit"
-                          className="h-10 w-full rounded-md bg-rose-500 text-base font-semibold text-white "
+                          className="h-10 w-full rounded-md bg-rose-500 text-base font-semibold text-white"
                         >
                           Login
                         </button>
                       </div>
                     </form>
                   </div>
-                  <hr className="my-5 " />
+                  <hr className="my-5" />
                   <div className="space-y-3">
                     <div
                       onClick={handleGoogleLogin}
@@ -191,13 +204,17 @@ const LoginModal = ({ isOpen, setIsOpen }) => {
                       <span className="rounded-full bg-slate-200 p-1">
                         <FaFacebookF className="text-[#3B5998]" />
                       </span>
-                      <p className="text-sm text-white">Continue with Facebook</p>
+                      <p className="text-sm text-white">
+                        Continue with Facebook
+                      </p>
                     </div>
                     <div className="flex justify-center">
                       <p className="mt-3 text-sm text-my-gray-100">
                         Don’t have account ?{" "}
                         <Link href="/register" passHref>
-                          <span className="cursor-pointer text-base font-medium text-black underline">Register</span>
+                          <span className="cursor-pointer text-base font-medium text-black underline">
+                            Register
+                          </span>
                         </Link>
                       </p>
                     </div>

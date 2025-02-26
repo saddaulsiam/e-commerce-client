@@ -1,50 +1,80 @@
-import { addToCart, removeFromCart, TCartItem } from "@/redux/features/cart/cartSlice";
+import {
+  addToCart,
+  decreaseQuantity,
+  removeFromCart,
+  TCartItem,
+} from "@/redux/features/cart/cartSlice";
+import { useAppDispatch } from "@/redux/hooks";
+import { Trash2 } from "lucide-react";
 import Image from "next/image";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import { useDispatch } from "react-redux";
 
 const SideBarShoppingCartItem = ({ product }: { product: TCartItem }) => {
-  const dispatch = useDispatch();
-  return (
-    <div>
-      <div className="my-5 flex items-center justify-between px-4">
-        <div className="flex space-x-5">
-          <div className="flex flex-col items-center justify-center text-base">
-            <span
-              onClick={() => dispatch(removeFromCart(product._id))}
-              className="cursor-pointer rounded-md border border-secondary p-1 text-secondary hover:bg-secondary hover:text-white"
-            >
-              <AiOutlineMinus />
-            </span>
-            <p className="my-1">{product.quantity}</p>
+  const dispatch = useAppDispatch();
 
-            <span
-              className="cursor-pointer rounded-md border border-secondary p-1 text-secondary hover:bg-secondary hover:text-white"
-              onClick={() => dispatch(addToCart(product))}
-            >
-              <AiOutlinePlus />
-            </span>
-          </div>
-          <div className="">
-            <Image height="80" width="70" className="h-20 w-20" src={product.imageUrl} alt="" priority />
-          </div>
-          <div className="">
-            <p className="text-base font-semibold text-my-gray-200">{product.name.toString(0, 20) + "..."}</p>
-            <p className="text-sm text-my-gray-100">
-              ${product.price - product?.discount} x {product.quantity}
-            </p>
-            <p className="font-normal text-secondary">
-              ${parseInt(product?.price - product?.discount) * parseInt(product?.quantity)}
-            </p>
-          </div>
+  return (
+    <div className="flex items-center justify-between border-b border-gray-200 px-3 py-5">
+      <div className="flex w-full items-center space-x-3">
+        {/* Quantity controls */}
+        <div className="flex flex-col items-center space-y-0.5 text-sm">
+          <span
+            onClick={() => dispatch(decreaseQuantity(product._id))}
+            className="cursor-pointer rounded-md border border-gray-300 p-1 text-gray-700 transition duration-200 ease-in-out hover:bg-gray-300 hover:text-primary"
+          >
+            <AiOutlineMinus />
+          </span>
+          <p className="font-medium text-gray-800">{product.quantity}</p>
+          <span
+            onClick={() =>
+              dispatch(
+                addToCart({
+                  _id: product._id,
+                  imageUrl: product.imageUrl,
+                  name: product.name,
+                  price: product.price,
+                  quantity: 1,
+                }),
+              )
+            }
+            className="cursor-pointer rounded-md border border-gray-300 p-1 text-gray-700 transition duration-200 ease-in-out hover:bg-gray-300 hover:text-primary"
+          >
+            <AiOutlinePlus />
+          </span>
         </div>
-        <div>
-          <button className="cursor-pointer" onClick={() => dispatch(removeFromCart(product._id))}>
-            X
-          </button>
+
+        {/* Product image */}
+        <div className="flex-shrink-0">
+          <Image
+            height={80}
+            width={80}
+            className="rounded-md object-cover"
+            src={product.imageUrl}
+            alt={product.name}
+            priority
+          />
+        </div>
+
+        {/* Product details */}
+        <div className="flex w-full flex-col justify-between">
+          <p className="truncate text-sm font-semibold text-gray-900">
+            {product.name}
+          </p>
+          <p className="text-xs text-gray-600">
+            ${product.price} x {product.quantity}
+          </p>
+          <p className="text-base font-semibold text-primary">
+            ${(product.price * product.quantity).toFixed(2)}
+          </p>
         </div>
       </div>
-      <hr />
+
+      {/* Remove button */}
+      <button onClick={() => dispatch(removeFromCart(product._id))}>
+        <Trash2
+          className="cursor-pointer font-semibold text-gray-600 transition duration-200 ease-in-out hover:text-red-500"
+          size={18}
+        />
+      </button>
     </div>
   );
 };
