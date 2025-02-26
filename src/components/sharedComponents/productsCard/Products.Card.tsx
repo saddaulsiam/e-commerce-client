@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { addToCart } from "../../../redux/features/cart/cartSlice";
 import ProductsModal from "../modal/Products.Modal";
+import RatingStars from "@/components/ui/rating";
 
 const ProductsCard = ({ product }: { product: TProduct }) => {
   const router = useRouter();
@@ -80,13 +81,7 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
           </Link>
 
           {/* Rating Section */}
-          <div className="flex items-center text-yellow-400">
-            <AiFillStar />
-            <AiFillStar />
-            <AiFillStar />
-            <AiFillStar />
-            <AiOutlineStar />
-          </div>
+          <RatingStars rating={product.rating} />
 
           {/* Price Section */}
           <div className="mt-2 flex items-center space-x-2 text-lg font-semibold">

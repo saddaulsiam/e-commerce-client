@@ -1,17 +1,25 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import RatingStars from "@/components/ui/rating";
 import { addToCart, decreaseQuantity } from "@/redux/features/cart/cartSlice";
 import { useAppSelector } from "@/redux/hooks";
+import { TProduct } from "@/types/common";
 import { Minus, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
-const ProductsModal = ({ setIsOpen, isOpen, product }) => {
+type TProps = {
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  isOpen: boolean;
+  product: TProduct;
+};
+
+const ProductsModal = ({ setIsOpen, isOpen, product }: TProps) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [image, setImage] = useState(product.images[0]);
@@ -60,7 +68,7 @@ const ProductsModal = ({ setIsOpen, isOpen, product }) => {
               priority
             />
             <div className="mt-3 flex gap-x-2">
-              {product.images.slice(0, 4).map((img: string, i: string) => (
+              {product.images.slice(0, 4).map((img, i) => (
                 <Image
                   key={i}
                   className="cursor-pointer rounded-md border object-cover p-1 hover:border-primary"
@@ -92,10 +100,11 @@ const ProductsModal = ({ setIsOpen, isOpen, product }) => {
                 {product?.brand?.name}
               </span>
             </p>
-            <p>
-              Rating: {product?.rating}
+            <p className="flex">
+              Rating: <RatingStars rating={product.rating} />
               <span className="font-semibold text-primary">
-                ({product?.reviews?.length || 0})
+                {" "}
+                ({product?.reviews?.length + " Reviews" || 0})
               </span>
             </p>
             <p>Status: {product.stock > 0 ? "In Stock" : "Out of Stock"}</p>
@@ -103,7 +112,7 @@ const ProductsModal = ({ setIsOpen, isOpen, product }) => {
             {/* Price Section */}
             <div className="flex items-center space-x-3">
               <span className="text-2xl font-bold text-primary sm:text-3xl">
-                ${(product.price - 200).toFixed(2)}
+                ${(product.price - 2).toFixed(2)}
               </span>
               <span className="text-lg font-semibold text-gray-400 line-through">
                 ${product.price}
