@@ -40,6 +40,8 @@ const ProductsModal = ({ setIsOpen, isOpen, product }) => {
   const handleDecreaseQuantity = () => {
     if (currentProduct && currentProduct?.quantity > 1) {
       dispatch(decreaseQuantity(product._id));
+      setIsOpen(false);
+      toast.info("Decrease Quantity");
     }
   };
 
@@ -58,7 +60,7 @@ const ProductsModal = ({ setIsOpen, isOpen, product }) => {
               priority
             />
             <div className="mt-3 flex gap-x-2">
-              {product.images.slice(0, 4).map((img, i) => (
+              {product.images.slice(0, 4).map((img: string, i: string) => (
                 <Image
                   key={i}
                   className="cursor-pointer rounded-md border object-cover p-1 hover:border-primary"

@@ -8,7 +8,7 @@ export const products: TProduct[] = [
     description: "Experience the latest technology with the iPhone 15 Pro.",
     shortDescription:
       "Latest iPhone model with cutting-edge features and camera system.",
-    price: 999.99,
+    price: 10,
     stock: 0,
     category: {
       name: "Smartphones",

@@ -2,20 +2,37 @@
 
 import { TProduct } from "@/types/common";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AiFillEye, AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { BsCart2 } from "react-icons/bs";
 import { GrCompare } from "react-icons/gr";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import { addToCart } from "../../../redux/features/cart/cartSlice";
 import ProductsModal from "../modal/Products.Modal";
-import Link from "next/link";
 
 const ProductsCard = ({ product }: { product: TProduct }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
+
+  // Handle Add to Cart
+  const handleAddToCart = () => {
+    dispatch(
+      addToCart({
+        _id: product._id,
+        imageUrl: product.images[0],
+        name: product.name,
+        price: product.price,
+        quantity: 1,
+      }),
+    );
+
+    toast.success("Added to cart");
+    setIsOpen(false);
+  };
 
   return (
     <>
@@ -44,15 +61,7 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
             <button
               className="rounded-full bg-white p-2 transition duration-300 hover:bg-primary hover:text-white"
               onClick={() => {
-                dispatch(
-                  addToCart({
-                    _id: product._id,
-                    imageUrl: product.images[0],
-                    name: product.name,
-                    price: product.price,
-                    quantity: 1,
-                  }),
-                );
+                handleAddToCart();
                 router.push("/cart");
               }}
             >
@@ -93,17 +102,7 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
           {/* Add to Cart Button */}
           <button
             className="flex w-1/2 items-center justify-center gap-2 rounded-bl-lg bg-slate-200 px-4 py-3 font-semibold text-my-gray-200 transition-all duration-300 ease-in hover:bg-slate-300 active:scale-95"
-            onClick={() =>
-              dispatch(
-                addToCart({
-                  _id: product._id,
-                  imageUrl: product.images[0],
-                  name: product.name,
-                  price: product.price,
-                  quantity: 1,
-                }),
-              )
-            }
+            onClick={handleAddToCart}
           >
             <BsCart2 className="text-lg" /> Add to Cart
           </button>
@@ -112,15 +111,7 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
           <button
             className="flex w-1/2 items-center justify-center gap-2 rounded-br-lg bg-primary px-4 py-3 font-semibold text-white transition-all duration-300 hover:bg-orange-600 active:scale-95"
             onClick={() => {
-              dispatch(
-                addToCart({
-                  _id: product._id,
-                  imageUrl: product.images[0],
-                  name: product.name,
-                  price: product.price,
-                  quantity: 1,
-                }),
-              );
+              handleAddToCart();
               router.push("/checkout");
             }}
           >
