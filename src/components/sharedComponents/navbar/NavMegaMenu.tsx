@@ -15,6 +15,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { Separator } from "@/components/ui/separator";
 import { USER_ROLE } from "@/contants/common";
 import { myAccount, vendorAccount } from "@/data/navbar.navigation";
 import { TUser } from "@/types/common";
@@ -23,7 +24,6 @@ import { usePathname } from "next/navigation";
 import { BiCategory } from "react-icons/bi";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import CategoriesDropDownContent from "../DropDown/CategoriesDropDownContent";
-import { Separator } from "@/components/ui/separator";
 
 type TProps = {
   isScrolled: boolean;
@@ -56,18 +56,18 @@ const NavMegaMenu = ({ isScrolled, user }: TProps) => {
             <NavigationMenuList>
               {/* Home Link */}
               <NavigationMenuItem>
-                <Link href="/">
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                    Home
+                <Link href="/" passHref legacyBehavior>
+                  <NavigationMenuLink asChild>
+                    <a className={navigationMenuTriggerStyle()}>Home</a>
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
 
               {/* Shop Link */}
               <NavigationMenuItem>
-                <Link href="/shop">
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                    Shop
+                <Link href="/shop" passHref legacyBehavior>
+                  <NavigationMenuLink asChild>
+                    <a className={navigationMenuTriggerStyle()}>Shop</a>
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
@@ -82,12 +82,12 @@ const NavMegaMenu = ({ isScrolled, user }: TProps) => {
                     </Label>
                     <Separator />
                     {vendorAccount.map((item, i) => (
-                      <Link
-                        href={item.href}
-                        key={i}
-                        className="p-1 pl-2 text-sm transition-all duration-100 ease-in hover:bg-accent hover:text-primary"
-                      >
-                        <NavigationMenuLink>{item.name}</NavigationMenuLink>
+                      <Link href={item.href} passHref legacyBehavior key={i}>
+                        <NavigationMenuLink asChild>
+                          <a className="p-1 pl-2 text-sm transition-all duration-100 ease-in hover:bg-accent hover:text-primary">
+                            {item.name}
+                          </a>
+                        </NavigationMenuLink>
                       </Link>
                     ))}
                   </NavigationMenuContent>
@@ -104,12 +104,12 @@ const NavMegaMenu = ({ isScrolled, user }: TProps) => {
                     </Label>
                     <Separator />
                     {myAccount.map((item, i) => (
-                      <Link
-                        href={item.href}
-                        key={i}
-                        className="p-1 pl-2 text-sm transition-all duration-100 ease-in hover:bg-accent hover:text-primary"
-                      >
-                        <NavigationMenuLink>{item.name}</NavigationMenuLink>
+                      <Link href={item.href} passHref legacyBehavior key={i}>
+                        <NavigationMenuLink asChild>
+                          <a className="p-1 pl-2 text-sm transition-all duration-100 ease-in hover:bg-accent hover:text-primary">
+                            {item.name}
+                          </a>
+                        </NavigationMenuLink>
                       </Link>
                     ))}
                   </NavigationMenuContent>
@@ -119,11 +119,11 @@ const NavMegaMenu = ({ isScrolled, user }: TProps) => {
               {/* Track My Order - Customer Only */}
               {user?.role === USER_ROLE.customer && (
                 <NavigationMenuItem>
-                  <Link href="/customer/orders">
-                    <NavigationMenuLink
-                      className={navigationMenuTriggerStyle()}
-                    >
-                      Track My Order
+                  <Link href="/customer/orders" passHref legacyBehavior>
+                    <NavigationMenuLink asChild>
+                      <a className={navigationMenuTriggerStyle()}>
+                        Track My Order
+                      </a>
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
