@@ -57,8 +57,7 @@ const Banner = () => {
 
   return (
     <header
-      // className="mt-[7.7rem] lg:mt-44"
-      className="mt-0.5"
+      className="mt-[7.7rem] lg:mt-[10.5rem]"
       style={{
         // Set background color based on the current slide
         backgroundColor: bannerBgColors[currentSlide] || "#fff",
@@ -66,7 +65,7 @@ const Banner = () => {
     >
       <div className="mx-auto flex xl:container">
         {/* Vertical Menubar Sidebar */}
-        <div className="relative hidden w-[22%] shadow-lg lg:block">
+        <div className="relative hidden w-[22%] lg:block">
           <Menubar className="h-full items-stretch bg-white p-3">
             {categories.map((category, i) => (
               <MenubarMenu key={i}>

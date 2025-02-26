@@ -10,7 +10,7 @@ interface ProvidersProps {
   children: ReactNode;
 }
 
-const ReduxProviders = ({ children }: ProvidersProps) => (
+const MainProviders = ({ children }: ProvidersProps) => (
   <Provider store={store}>
     <AuthProvider>
       <PersistGate loading={null} persistor={persistor}>
@@ -20,4 +20,4 @@ const ReduxProviders = ({ children }: ProvidersProps) => (
   </Provider>
 );
 
-export default ReduxProviders;
+export default MainProviders;

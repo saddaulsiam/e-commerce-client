@@ -62,7 +62,7 @@ const Navbar = () => {
   };
 
   return (
-    <header className="static left-0 top-0 z-50 w-full transition-all duration-300">
+    <header className="fixed left-0 top-0 z-50 w-full transition-all duration-300">
       <AnnouncementBar />
       <nav
         className={`bg-white shadow-sm transition-all ${isScrolled ? "shadow-lg" : ""}`}

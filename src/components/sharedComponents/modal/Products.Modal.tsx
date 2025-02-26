@@ -1,113 +1,153 @@
 "use client";
-import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { addToCart, decreaseQuantity } from "@/redux/features/cart/cartSlice";
+import { useAppSelector } from "@/redux/hooks";
+import { Minus, Plus } from "lucide-react";
 import Image from "next/image";
-import { Fragment, useState } from "react";
-import { toast } from "react-toastify";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Dialog, Transition } from "@headlessui/react";
-
-// local
-import { addToCart } from "../../../redux/features/cart/cartSlice";
+import { toast } from "react-toastify";
 
 const ProductsModal = ({ setIsOpen, isOpen, product }) => {
-  const [image, setImage] = useState(product?.mainImage);
+  const router = useRouter();
   const dispatch = useDispatch();
+  const [image, setImage] = useState(product.images[0]);
+
+  // Get the current product from the cart items based on its _id
+  const { cartItems } = useAppSelector(({ state }) => state.cart);
+  const currentProduct = cartItems.find((item) => item._id === product._id);
+
+  // Handle Add to Cart
+  const handleAddToCart = () => {
+    dispatch(
+      addToCart({
+        _id: product._id,
+        imageUrl: product.images[0],
+        name: product.name,
+        price: product.price,
+        quantity: 1,
+      }),
+    );
+
+    toast.success("Added to cart");
+    setIsOpen(false);
+  };
+
+  // Handle Decrease Quantity
+  const handleDecreaseQuantity = () => {
+    if (currentProduct && currentProduct?.quantity > 1) {
+      dispatch(decreaseQuantity(product._id));
+    }
+  };
+
   return (
-    <>
-      <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={() => setIsOpen(false)}>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black bg-opacity-50" />
-          </Transition.Child>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0 scale-95"
-            enterTo="opacity-100 scale-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100 scale-100"
-            leaveTo="opacity-0 scale-95"
-          >
-            <div className="fixed inset-0 overflow-y-auto">
-              <div className="flex min-h-full items-center justify-center p-4 text-center">
-                <Dialog.Panel
-                  className="w-full max-w-xl transform overflow-hidden rounded-xl bg-white
-                p-5 text-left align-middle shadow-xl transition-all lg:max-w-2xl"
-                >
-                  <div className="grid grid-cols-2 gap-5">
-                    <div className="w-full">
-                      <Image className="rounded-md object-cover" height="400" width="350" src={image} alt="" priority />
-                      <div className="flex gap-x-2">
-                        {product.images.slice(0, 4).map((image, i) => (
-                          <Image
-                            key={i}
-                            className="cursor-pointer rounded-md object-cover"
-                            height="120"
-                            width="100"
-                            src={image}
-                            alt=""
-                            onClick={() => setImage(image)}
-                            priority
-                          />
-                        ))}
-                      </div>
-                    </div>
-                    <div className="text-sm text-my-gray-100 sm:space-y-3">
-                      <Link href={`product/${product._id}`}>
-                        <h3 className="font-sem py-5 text-xl capitalize text-black sm:text-2xl">{product.name}</h3>
-                      </Link>
-                      <div className="5 space-y-2.5 text-base">
-                        <p className="">
-                          Brand: <span className="font-semibold text-primary">{product?.brand?.name}</span>
-                        </p>
-                        <p className="">
-                          Rating:{product?.rating}
-                          <span className="font-semibold text-primary"> ({product?.reviews?.length})</span>
-                        </p>
-                        <p className="">Status: {product.status}</p>
-                      </div>
-                      <div className="py-5">
-                        <span className="pt-3 text-2xl font-bold text-primary sm:pt-5 sm:text-3xl">
-                          ${product.price - product.discount}
-                        </span>{" "}
-                        <span className="mr-2 text-xl font-semibold text-my-gray-200 line-through">
-                          ${product.price}
-                        </span>
-                      </div>
-                      <div className="pb-5">
-                        <button
-                          onClick={() => {
-                            dispatch(addToCart(product));
-                            toast.success("added to cart");
-                          }}
-                          className="ease-in-outs rounded-md bg-primary px-10 py-2 text-white transition duration-300 hover:bg-red-600"
-                        >
-                          Add to cart
-                        </button>
-                      </div>
-                      <div className="">
-                        Sold By:
-                        <Link href={`/shop/${product?.supplier?.name}`}>
-                          <span className="font-semibold text-primary">Siam Store</span>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </Dialog.Panel>
-              </div>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogContent className="mx-auto rounded-xl p-6 sm:max-w-3xl">
+        <div className="grid grid-cols-2 gap-6">
+          {/* Image Section */}
+          <div className="w-full">
+            <Image
+              className="rounded-md object-cover object-center"
+              height="600"
+              width="350"
+              src={image}
+              alt={product.name}
+              priority
+            />
+            <div className="mt-3 flex gap-x-2">
+              {product.images.slice(0, 4).map((img, i) => (
+                <Image
+                  key={i}
+                  className="cursor-pointer rounded-md border object-cover p-1 hover:border-primary"
+                  height="80"
+                  width="80"
+                  src={img}
+                  alt={product.name}
+                  onClick={() => setImage(img)}
+                  priority
+                />
+              ))}
             </div>
-          </Transition.Child>
-        </Dialog>
-      </Transition>
-    </>
+          </div>
+
+          {/* Product Info Section */}
+          <div className="space-y-4 text-sm text-gray-700">
+            <Link href={`product/${product._id}`}>
+              <DialogTitle className="text-xl font-semibold capitalize text-black transition hover:text-primary sm:text-2xl">
+                {product.name}
+              </DialogTitle>
+            </Link>
+
+            {/* Short Description Section */}
+            <p className="text-gray-600">{product.shortDescription}</p>
+
+            <p>
+              Brand:{" "}
+              <span className="font-semibold text-primary">
+                {product?.brand?.name}
+              </span>
+            </p>
+            <p>
+              Rating: {product?.rating}
+              <span className="font-semibold text-primary">
+                ({product?.reviews?.length || 0})
+              </span>
+            </p>
+            <p>Status: {product.stock > 0 ? "In Stock" : "Out of Stock"}</p>
+
+            {/* Price Section */}
+            <div className="flex items-center space-x-3">
+              <span className="text-2xl font-bold text-primary sm:text-3xl">
+                ${(product.price - 200).toFixed(2)}
+              </span>
+              <span className="text-lg font-semibold text-gray-400 line-through">
+                ${product.price}
+              </span>
+            </div>
+
+            {/* Quantity Section */}
+            <div className="flex items-center gap-4">
+              <Button
+                className="size-10 rounded-md bg-slate-200 text-xl text-slate-600 hover:text-slate-600"
+                onClick={handleDecreaseQuantity}
+              >
+                <Minus />
+              </Button>
+              <span className="text-xl">{currentProduct?.quantity || 0}</span>
+              <Button
+                className="size-10 rounded-md bg-slate-200 text-xl text-slate-600 hover:text-slate-600"
+                onClick={handleAddToCart}
+              >
+                <Plus />
+              </Button>
+            </div>
+
+            {/* Buttons Section */}
+            <div className="mt-4 flex gap-4">
+              <Button
+                className="flex-1 bg-slate-200 font-semibold text-my-gray-200 transition-all duration-300 ease-in hover:bg-slate-300 active:scale-95"
+                onClick={handleAddToCart}
+              >
+                Add to Cart
+              </Button>
+              <Button
+                className="flex-1 bg-orange-500 text-white transition-all hover:bg-orange-600"
+                onClick={() => {
+                  handleAddToCart();
+                  router.push("/cart");
+                }}
+              >
+                Buy Now
+              </Button>
+            </div>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 };
+
 export default ProductsModal;

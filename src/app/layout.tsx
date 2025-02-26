@@ -1,4 +1,4 @@
-import ReduxProvider from "@/providers/ReduxProvider";
+import MainProviders from "@/providers/MainProviders";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ToastContainer } from "react-toastify";
@@ -26,10 +26,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ReduxProvider>
-          {children}
-          </ReduxProvider>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <MainProviders>{children}</MainProviders>
         <ToastContainer />
       </body>
     </html>

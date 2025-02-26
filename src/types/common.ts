@@ -34,6 +34,7 @@ export interface TProduct {
   vendorId: string;
   name: string;
   description: string;
+  shortDescription: string;
   price: number;
   stock: number;
   category: TCategory;
