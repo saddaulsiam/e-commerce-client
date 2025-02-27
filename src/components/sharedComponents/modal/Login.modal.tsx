@@ -18,8 +18,15 @@ import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
 import useAuth from "../../../hooks/useAuth";
-import { useRegisterMutation } from "../../../redux/features/auth/authApi";
+import {
+  useLoginMutation,
+  useRegisterMutation,
+} from "../../../redux/features/auth/authApi";
 import Loading from "../loading/Loading";
+import { setToLocalStorage } from "@/utils/local-storage";
+import { authKey } from "@/contants/common";
+import { useAppDispatch } from "@/redux/hooks";
+import { addUser } from "@/redux/features/auth/authSlice";
 
 type LoginModalProps = {
   openLoginModal: boolean;
@@ -28,25 +35,38 @@ type LoginModalProps = {
 
 const LoginModal = ({ openLoginModal, setOpenLoginModal }: LoginModalProps) => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get("redirectTo") || "/";
 
+  const [showPass, setShowPass] = useState(false);
+
   const { register, handleSubmit, reset } = useForm();
   const [postUser, { isLoading }] = useRegisterMutation();
+  const [login, { isLoading: isLogin }] = useLoginMutation();
   const { setLoading, loading, signIn, googleLogIn } = useAuth();
-  const [showPass, setShowPass] = useState(false);
 
   const onSubmit = async (data: FieldValues) => {
     try {
       const userCredential = await signIn(data.email, data.password);
       if (userCredential.user) {
-        reset();
-        toast.success("Login Successful");
-        router.replace(redirectTo);
-        setOpenLoginModal(false);
+        const res = await login({ email: userCredential.user.email }).unwrap();
+        if (res.success) {
+          reset();
+          toast.success("Login Successful");
+          dispatch(addUser(res.data.user));
+          setToLocalStorage({
+            key: authKey.accessToken,
+            token: res.data.accessToken,
+          });
+          setOpenLoginModal(!openLoginModal);
+          router.replace(redirectTo);
+        }
       }
     } catch (error: any) {
-      toast.error(error.message || "Login failed");
+      toast.error(error.message);
+      setLoading(false);
+    } finally {
       setLoading(false);
     }
   };
@@ -55,15 +75,27 @@ const LoginModal = ({ openLoginModal, setOpenLoginModal }: LoginModalProps) => {
     try {
       const userCredential = await googleLogIn();
       if (userCredential.user) {
-        const res = await postUser(userCredential.user);
-        if (res.data?.status === "success") {
+        const data = {
+          displayName: userCredential.user.displayName,
+          email: userCredential.user.email,
+        };
+
+        const res = await postUser(data).unwrap();
+        if (res.success) {
           toast.success("Login Successful");
-          setOpenLoginModal(false);
+          dispatch(addUser(res.data.user));
+          setToLocalStorage({
+            key: authKey.accessToken,
+            token: res.data.accessToken,
+          });
+          setOpenLoginModal(!openLoginModal);
           router.replace(redirectTo);
         }
       }
     } catch (error: any) {
-      toast.error(error.message || "Google login failed");
+      toast.error(error.code);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -88,7 +120,7 @@ const LoginModal = ({ openLoginModal, setOpenLoginModal }: LoginModalProps) => {
                 type="email"
                 id="email"
                 placeholder="example@gmail.com"
-                autoComplete="off"
+                // autoComplete="off"
               />
             </div>
 
@@ -157,7 +189,7 @@ const LoginModal = ({ openLoginModal, setOpenLoginModal }: LoginModalProps) => {
           </p>
         </Card>
 
-        {(loading || isLoading) && (
+        {(loading || isLoading || isLogin) && (
           <div className="absolute inset-0 flex items-center justify-center bg-gray-900/40">
             <Loading />
           </div>

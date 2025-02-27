@@ -71,6 +71,7 @@ const Login = () => {
         const res = await postUser(data).unwrap();
         if (res.success) {
           toast.success("Login Successful");
+          dispatch(addUser(res.data.user));
           setToLocalStorage({
             key: authKey.accessToken,
             token: res.data.accessToken,

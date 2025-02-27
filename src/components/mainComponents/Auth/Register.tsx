@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authKey } from "@/contants/common";
+import { useAppDispatch } from "@/redux/hooks";
 import { setToLocalStorage } from "@/utils/local-storage";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -15,9 +16,11 @@ import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
 import useAuth from "../../../hooks/useAuth";
 import { useRegisterMutation } from "../../../redux/features/auth/authApi";
+import { addUser } from "@/redux/features/auth/authSlice";
 
 const Register = () => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const { register, handleSubmit, reset } = useForm();
   const [postUser, { isLoading }] = useRegisterMutation();
   const { createUser, googleLogIn, setLoading, loading, updateUserProfile } =
@@ -44,6 +47,7 @@ const Register = () => {
         const res = await postUser(userData).unwrap();
         if (res.success) {
           toast.success("Registration Successful");
+          dispatch(addUser(res.data.user));
           reset();
           setToLocalStorage({
             key: authKey.accessToken,
@@ -72,6 +76,7 @@ const Register = () => {
         const res = await postUser(data).unwrap();
         if (res.success) {
           toast.success("Registration Successful");
+          dispatch(addUser(res.data.user));
           setToLocalStorage({
             key: authKey.accessToken,
             token: res.data.accessToken,
