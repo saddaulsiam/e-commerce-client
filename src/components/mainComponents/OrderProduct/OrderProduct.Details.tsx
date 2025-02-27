@@ -1,38 +1,39 @@
 "use client";
 
+import { useAppSelector } from "@/redux/hooks";
+import { TAddress } from "@/types/common";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { HiMinusCircle, HiOutlinePlusCircle } from "react-icons/hi";
 import { useDispatch } from "react-redux";
-
-// local
-import { useAppSelector } from "@/redux/hooks";
-import { addOrderDetails } from "../../../redux/features/orders/orderDetails/orderDetailsSlice";
-import { Footer, Navbar } from "../../sharedComponents";
-import { DashboardCustomersAddressFillUpForm } from "../Dashboard/Customer";
+import { addOrderDetails } from "@/redux/features/orders/orderDetails/orderDetailsSlice";
+import AddressForm from "../Forms/AddressForm";
 import OrderSummaryCart from "./OrderSummaryCart";
 
 const OrderProductDetails = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { products } = useAppSelector(({ state }) => state.cart);
+  const cart = useAppSelector(({ state }) => state.cart);
   const { user } = useAppSelector(({ state }) => state.auth);
 
-  const [address, setAddress] = useState(null);
-  const [toggleAddressFrom, setToggleAddressFrom] = useState(false);
+  const [address, setAddress] = useState<TAddress | null>(null);
+  const [toggleAddressForm, setToggleAddressForm] = useState<boolean>(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = () => {
     try {
-      dispatch(addOrderDetails(address));
-      router.push("/payment");
+      if (address) {
+        dispatch(addOrderDetails(address));
+        // router.push("/payment");
+      }
     } catch (error) {
       console.log(error);
     }
   };
+
   return (
-    <div className="bg-slate-200">
-      <div className="container mt-32 lg:mt-[10.9rem]">
+    <div className="bg-accent pt-32 lg:pt-[10.9rem]">
+      <div className="container">
         <div className="flex items-center py-10">
           <Link href="/cart">
             <button className="cursor-pointer rounded-full bg-primary px-6 py-2 text-sm font-semibold text-white">
@@ -43,7 +44,7 @@ const OrderProductDetails = () => {
           <div className="w-20 border-t-4 border-primary" />
           <Link href="/details">
             <button
-              disabled={products.length < 1 ? true : false}
+              disabled={cart.cartItems.length < 1}
               className="cursor-pointer rounded-full bg-primary px-6 py-2 text-sm font-semibold text-white"
             >
               <span className="hidden sm:block">2. Details</span>
@@ -65,7 +66,8 @@ const OrderProductDetails = () => {
             </button>
           </Link>
         </div>
-        {user?.shippingAddress?.length > 0 && (
+
+        {user && user.profile?.address?.length > 0 && (
           <div>
             <p className="pb-3 text-xl font-bold text-primary">
               Select Your Address
@@ -73,107 +75,106 @@ const OrderProductDetails = () => {
           </div>
         )}
 
-        <div className="mb-10 grid grid-cols-3 gap-5">
+        <div className="grid grid-cols-3 gap-5 pb-10">
           <div className="col-span-3 lg:col-span-2">
-            {user?.shippingAddress?.length > 0 && (
-              <div className="overflow-x-auto">
-                <table className="table min-w-full">
-                  {/* head */}
-                  <thead>
+            {/* Show exiting Address */}
+            {user && user.profile?.address?.length > 0 && (
+              <div className="overflow-x-auto rounded-lg bg-white shadow-md">
+                <table className="min-w-full">
+                  <thead className="bg-gray-100 text-sm font-semibold text-gray-600">
                     <tr>
-                      <th></th>
-                      <th>Name</th>
-                      <th>Address</th>
-                      <th>Region</th>
-                      <th>Phone</th>
+                      <th className="px-4 py-3 text-left">Select</th>
+                      <th className="px-4 py-3 text-left">Name</th>
+                      <th className="px-4 py-3 text-left">Email</th>
+                      <th className="px-4 py-3 text-left">Phone</th>
+                      <th className="px-4 py-3 text-left">City</th>
+                      <th className="px-4 py-3 text-left">Area</th>
+                      <th className="px-4 py-3 text-left">Address</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {user?.shippingAddress?.map((address, i) => (
-                      <tr key={i}>
-                        <th>
-                          <div className="form-control">
-                            <input
-                              type="radio"
-                              name="radio-1"
-                              className="radio checked:bg-secondary"
-                              onChange={(e) => {
-                                if (e.currentTarget.checked) {
-                                  setAddress(address);
-                                }
-                              }}
-                            />
-                          </div>
-                        </th>
-                        <td>{address.name}</td>
-                        <td>
-                          {address.addressType} {address.address}
+                    {user.profile.address.map((address, i) => (
+                      <tr
+                        key={i}
+                        className="border-b transition duration-200 hover:bg-gray-50"
+                      >
+                        <td className="px-4 py-3">
+                          <input
+                            type="radio"
+                            name="radio-1"
+                            className="accent-primary"
+                            onChange={(e) =>
+                              e.currentTarget.checked && setAddress(address)
+                            }
+                          />
                         </td>
-                        <td>
-                          {address.region}-{address.city}-{address.area}
-                        </td>
-                        <td>{address.phone}</td>
+                        <td className="px-4 py-3">{address.name}</td>
+                        <td className="px-4 py-3">{address.email || "N/A"}</td>
+                        <td className="px-4 py-3">{address.phoneNumber}</td>
+                        <td className="px-4 py-3">{address.city}</td>
+                        <td className="px-4 py-3">{address.area}</td>
+                        <td className="px-4 py-3">{address.address}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
             )}
-            {user?.shippingAddress?.length > 0 && (
+
+            {/* Address Form Toggle Button */}
+            {user && user.profile?.address?.length > 0 && (
               <div className="my-5">
-                {!toggleAddressFrom ? (
+                {!toggleAddressForm ? (
                   <p
                     className="flex cursor-pointer items-center pb-3 text-lg text-green-500"
-                    onClick={() => setToggleAddressFrom(true)}
+                    onClick={() => setToggleAddressForm(true)}
                   >
                     <HiOutlinePlusCircle className="mr-1 inline text-2xl" />
                     <span>Add New Address</span>
                   </p>
                 ) : (
                   <p
-                    className="flex cursor-pointer items-center pb-3 text-lg text-secondary"
-                    onClick={() => setToggleAddressFrom(false)}
+                    className="flex cursor-pointer items-center pb-3 text-lg text-primary"
+                    onClick={() => setToggleAddressForm(false)}
                   >
                     <HiMinusCircle className="mr-1 inline text-2xl" />
-                    <span>Close Address From</span>
+                    <span>Close Address Form</span>
                   </p>
                 )}
               </div>
             )}
-            {/* AddressFillUpForm */}
 
-            {toggleAddressFrom && <DashboardCustomersAddressFillUpForm />}
-            {user?.shippingAddress?.length <= 0 ? (
-              <DashboardCustomersAddressFillUpForm />
-            ) : (
-              <div className="hidden">
-                <DashboardCustomersAddressFillUpForm />
-              </div>
-            )}
+            {/* Show Address Form when toggled */}
+            {toggleAddressForm && <AddressForm />}
 
-            {user?.shippingAddress?.length <= 0 ||
-              (!toggleAddressFrom && (
+            {/* Show Address Form if no addresses are available */}
+            {user?.profile?.address?.length === 0 && <AddressForm />}
+
+            {user &&
+              user?.profile?.address?.length > 0 &&
+              !toggleAddressForm && (
                 <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">
-                  <span
+                  <button
                     onClick={() => router.push("/cart")}
                     className="w-full transform cursor-pointer border border-primary py-2 text-center text-base font-semibold text-primary transition duration-100 ease-in-out hover:bg-primary hover:text-white"
                   >
                     Back to Cart
-                  </span>
+                  </button>
                   <button
                     onClick={handleSubmit}
                     className={`${
-                      address === null ? "cursor-not-allowed" : ""
+                      !address ? "cursor-not-allowed opacity-50" : ""
                     } w-full bg-primary py-2 text-base font-semibold text-white`}
+                    disabled={!address}
                   >
                     Proceed to Payment
                   </button>
                 </div>
-              ))}
+              )}
           </div>
 
           <div className="col-span-3 lg:col-span-1">
-            <OrderSummaryCart products={products} />
+            <OrderSummaryCart cart={cart} />
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@ import {
   FlashDeals,
   TopCategories,
 } from "@/components/mainComponents/Home";
-import { Navbar } from "@/components/sharedComponents";
+import { Footer, Navbar } from "@/components/sharedComponents";
 
 const Home = () => {
   return (
@@ -18,9 +18,9 @@ const Home = () => {
       <AllCatagories />
       <RandomProducts />
       <OurServices />
-      <Footer />
       <BottomBar /> 
       */}
+      <Footer />
     </>
   );
 };

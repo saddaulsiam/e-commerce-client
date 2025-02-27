@@ -9,7 +9,7 @@ import VendorShopProfile from "./Vendor.Shop.Profile";
 import VendorShopHomePage from "./Vendor.Shop.HomePage";
 import VendorShopAllProducts from "./Vendor.Shop.AllProducts";
 import { SearchingProductsSidebar } from "../SearchingProducts";
-import { useGetVendorByNameQuery } from "../../../redux/features/auth/vendorApi";
+import { useGetVendorByNameQuery } from "@/redux/features/vendor/vendorApi";
 
 const VendorMain = () => {
   const router = useRouter();
@@ -54,8 +54,8 @@ const VendorMain = () => {
                 />
               </div>
             </div>
-            <div className="mx-3 flex justify-between pt-10 pb-5 md:pt-3">
-              <div className="space-y-1 text-base text-my-gray-100 md:ml-32 lg:ml-40 ">
+            <div className="mx-3 flex justify-between pb-5 pt-10 md:pt-3">
+              <div className="space-y-1 text-base text-my-gray-100 md:ml-32 lg:ml-40">
                 <h2 className="text-xl font-semibold capitalize text-my-gray-200">
                   {store?.data?.storeName.split("-").join(" ")}
                 </h2>
@@ -68,7 +68,8 @@ const VendorMain = () => {
                   <span className="ml-2 text-black">(50)</span>
                 </p>
                 <p>
-                  <MdLocationPin className="inline" /> {store?.data?.location || "Address not provided"}
+                  <MdLocationPin className="inline" />{" "}
+                  {store?.data?.location || "Address not provided"}
                 </p>
                 <p>
                   <MdEmail className="inline" /> {store?.data?.email}
@@ -109,12 +110,17 @@ const VendorMain = () => {
           {/* Filter and products */}
           {selectCategory === "Home Page" && <VendorShopHomePage />}
           {selectCategory === "All Products" && (
-            <VendorShopAllProducts search={search} setShowSidebar={setShowSidebar} />
+            <VendorShopAllProducts
+              search={search}
+              setShowSidebar={setShowSidebar}
+            />
           )}
           {selectCategory === "Profile" && <VendorShopProfile />}
         </div>
       </div>
-      {showSidebar && <SearchingProductsSidebar setShowSidebar={setShowSidebar} />}
+      {showSidebar && (
+        <SearchingProductsSidebar setShowSidebar={setShowSidebar} />
+      )}
     </>
   );
 };

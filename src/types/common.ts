@@ -1,6 +1,7 @@
 import { USER_ROLE } from "@/contants/common";
 
 export type TUser = {
+  _id: string;
   displayName: string;
   phoneNumber: string;
   email: string;
@@ -14,10 +15,13 @@ export type TUser = {
 export type TUserRole = keyof typeof USER_ROLE;
 
 export type TAddress = {
+  name: string;
+  email: string;
+  phoneNumber: string;
   street: string;
   city: string;
   area: string;
-  fullAddress: string;
+  address: string;
 };
 
 export type TProfile = {

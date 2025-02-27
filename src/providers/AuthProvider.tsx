@@ -74,9 +74,15 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const createUser = async (email: string, password: string) => {
     setLoading(true);
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
       await sendEmailVerification(userCredential.user);
-      toast.info("A verification email has been sent. Please check your inbox.");
+      toast.info(
+        "A verification email has been sent. Please check your inbox.",
+      );
       return userCredential;
     } catch (error: any) {
       toast.error(error.message);
@@ -91,7 +97,11 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const signIn = async (email: string, password: string) => {
     setLoading(true);
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
       if (!userCredential.user.emailVerified) {
         await sendEmailVerification(userCredential.user);
         toast.error("Please verify your email before logging in.");
@@ -158,35 +168,38 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser: User | null) => {
-      if (currentUser) {
-        if (!currentUser.emailVerified) {
-          await signOut(auth);
-          return;
-        }
-        try {
-          const res = await myData(undefined).unwrap();
-          if (res.data) {
-            dispatch(addUser(res.data));
-          } else {
-            const admin = await getAdmin(currentUser.email!);
-            if (admin.data?.user) {
-              dispatch(addUser(admin.data.user));
-            }
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      async (currentUser: User | null) => {
+        if (currentUser) {
+          if (!currentUser.emailVerified) {
+            await signOut(auth);
+            return;
           }
-        } catch (error) {
-          console.log("Error fetching user data:", error);
-        } finally {
-          setLoading(false);
-          setLoadUser(false);
+          try {
+            const res = await myData(undefined).unwrap();
+            if (res.data) {
+              dispatch(addUser(res.data));
+            } else {
+              const admin = await getAdmin(currentUser.email!);
+              if (admin.data?.user) {
+                dispatch(addUser(admin.data.user));
+              }
+            }
+          } catch (error) {
+            console.log("Error fetching user data:", error);
+          } finally {
+            setLoading(false);
+            setLoadUser(false);
+          }
+        } else {
+          await deleteCookies(authKey.refreshToken);
         }
-      } else {
-        await deleteCookies(authKey.refreshToken);
-      }
-    });
+      },
+    );
 
     return () => unsubscribe();
-  }, [myData, getAdmin]);
+  }, [myData, getAdmin, loadUser]);
 
   const authInfo: AuthContextType = {
     loadUser,
@@ -202,7 +215,9 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     updateUserProfile,
   };
 
-  return <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;

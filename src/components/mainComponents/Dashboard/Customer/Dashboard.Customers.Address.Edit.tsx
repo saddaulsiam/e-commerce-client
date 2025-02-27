@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { MdLocationPin } from "react-icons/md";
-import DashboardCustomersAddressFillUpForm from "./Dashboard.Customers.Address.FillUp.Form";
+import AddressForm from "../../Forms/AddressForm";
 import DashboardCustomerSideBarNavigation from "./Dashboard.Customer.SideBar.Navigation";
 
 const DashboardCustomersAddressEdit = () => {
@@ -19,7 +19,10 @@ const DashboardCustomersAddressEdit = () => {
           </h2>
         </div>
         <div className="flex justify-end lg:hidden">
-          <button className="text-2xl font-thin " onClick={() => setShowSideNavigation(true)}>
+          <button
+            className="text-2xl font-thin"
+            onClick={() => setShowSideNavigation(true)}
+          >
             <GiHamburgerMenu />
           </button>
         </div>
@@ -29,8 +32,12 @@ const DashboardCustomersAddressEdit = () => {
           </Link>
         </div>
       </div>
-      <DashboardCustomersAddressFillUpForm />
-      {showSideNavigation && <DashboardCustomerSideBarNavigation setShowSideNavigation={setShowSideNavigation} />}
+      <AddressForm />
+      {showSideNavigation && (
+        <DashboardCustomerSideBarNavigation
+          setShowSideNavigation={setShowSideNavigation}
+        />
+      )}
     </div>
   );
 };

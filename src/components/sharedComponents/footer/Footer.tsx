@@ -12,7 +12,7 @@ import logo from "../../../../public/logo/logo.svg";
 
 const Footer = () => {
   return (
-    <footer className="bg-primary px-10 py-20 lg:px-3 xl:px-0">
+    <footer className="bg-gray-200 px-10 py-20 lg:px-3 xl:px-0">
       <div className="container grid grid-cols-12 gap-5 text-my-gray-100 sm:gap-0">
         {/* Logo & Description */}
         <div className="col-span-12 space-y-3 sm:col-span-6 lg:col-span-4">

@@ -146,8 +146,8 @@ const Navbar = () => {
                   >
                     <Avatar className="h-9 w-9 border-2 border-gray-100">
                       <AvatarImage
-                        src={user.profile.photo}
-                        alt={user.displayName}
+                        src={user?.profile?.photo}
+                        alt={user?.displayName}
                       />
                       <AvatarFallback>
                         {user.displayName?.[0] || (
@@ -214,10 +214,10 @@ const Navbar = () => {
         {/* Navbar Menu */}
         <NavMegaMenu isScrolled={isScrolled} user={user} />
       </nav>
-        <LoginModal
-          openLoginModal={openLoginModal}
-          setOpenLoginModal={setOpenLoginModal}
-        />
+      <LoginModal
+        openLoginModal={openLoginModal}
+        setOpenLoginModal={setOpenLoginModal}
+      />
     </header>
   );
 };

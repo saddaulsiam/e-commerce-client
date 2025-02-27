@@ -6,7 +6,10 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 // local
-import { useDeleteVendorMutation, useRegisterVendorMutation } from "../../../../redux/features/auth/vendorApi";
+import {
+  useDeleteVendorMutation,
+  useRegisterVendorMutation,
+} from "../../../../redux/features/vendor/vendorApi";
 import cartBasket from "../../../../images/banners/cartBasket.png";
 import useAuth from "../../../../hooks/useAuth";
 import { logo } from "../../../../../public/images/logo";
@@ -73,8 +76,8 @@ const VendorRegister = () => {
     });
   };
   return (
-    <div className="from-10% via-30% to-90% to-blue/90 h-screen w-screen bg-gradient-to-r from-primary via-violet-800/90 ">
-      <div className=" bg-white shadow-lg">
+    <div className="to-blue/90 h-screen w-screen bg-gradient-to-r from-primary from-10% via-violet-800/90 via-30% to-90%">
+      <div className="bg-white shadow-lg">
         <div className="container grid grid-cols-2">
           <div>
             <Link href="/">
@@ -103,7 +106,10 @@ const VendorRegister = () => {
                 className="h-8 rounded border border-my-gray-200 px-2"
               />
             </div>
-            <button onClick={handleLogin} className="mt-4 rounded-md bg-secondary py-2 px-8 text-white">
+            <button
+              onClick={handleLogin}
+              className="mt-4 rounded-md bg-secondary px-8 py-2 text-white"
+            >
               Login
             </button>
           </div>
@@ -115,13 +121,14 @@ const VendorRegister = () => {
             Bangladesh&apos;s #1 <br />
             <span className="text-secondary"> Marketplace</span>
           </h1>
-          <p className="text-whit mt-10 text-xl  font-thin text-my-gray-100">
-            Create a seller account in 1 minutes and reach millions of customers today!
+          <p className="text-whit mt-10 text-xl font-thin text-my-gray-100">
+            Create a seller account in 1 minutes and reach millions of customers
+            today!
           </p>
           <Image src={cartBasket} alt="" priority />
         </div>
-        <div className=" flex h-full w-full items-center justify-end">
-          <div className=" max-w-lg rounded-2xl bg-white p-10">
+        <div className="flex h-full w-full items-center justify-end">
+          <div className="max-w-lg rounded-2xl bg-white p-10">
             <h2 className="text-center text-3xl">Create an Account</h2>
             <p className="mt-3 text-center text-base text-my-gray-100">
               Welcome! Millions of Siam Store users are waiting to buy
@@ -130,7 +137,10 @@ const VendorRegister = () => {
             <form onSubmit={handleSubmit(handleRegister)}>
               <div className="space-y-3">
                 <div>
-                  <label className="text-sm font-semibold text-my-gray-100/80" htmlFor="email">
+                  <label
+                    className="text-sm font-semibold text-my-gray-100/80"
+                    htmlFor="email"
+                  >
                     Email
                   </label>
                   <input
@@ -140,10 +150,15 @@ const VendorRegister = () => {
                     type="email"
                     id="email"
                   />
-                  {formError?.email && <p className="text-secondary">Email is required</p>}
+                  {formError?.email && (
+                    <p className="text-secondary">Email is required</p>
+                  )}
                 </div>
                 <div>
-                  <label className="text-sm font-semibold text-my-gray-100/80" htmlFor="store-name">
+                  <label
+                    className="text-sm font-semibold text-my-gray-100/80"
+                    htmlFor="store-name"
+                  >
                     Store Name
                   </label>
                   <input
@@ -153,13 +168,20 @@ const VendorRegister = () => {
                     type="text"
                     id="store-name"
                   />
-                  {formError?.storeName?.type === "required" && <p className="text-secondary">Name is required</p>}
+                  {formError?.storeName?.type === "required" && (
+                    <p className="text-secondary">Name is required</p>
+                  )}
                   {formError?.storeName?.type === "minLength" && (
-                    <p className="text-secondary">Store name must be 4 characters</p>
+                    <p className="text-secondary">
+                      Store name must be 4 characters
+                    </p>
                   )}
                 </div>
                 <div>
-                  <label className="text-sm font-semibold text-my-gray-100/80" htmlFor="phoneNumber">
+                  <label
+                    className="text-sm font-semibold text-my-gray-100/80"
+                    htmlFor="phoneNumber"
+                  >
                     Phone Number
                   </label>
                   <input
@@ -170,11 +192,16 @@ const VendorRegister = () => {
                     id="phoneNumber"
                   />
                   {formError?.phoneNumber?.type === "required" && (
-                    <p className="text-secondary">Please enter a valid phone number</p>
+                    <p className="text-secondary">
+                      Please enter a valid phone number
+                    </p>
                   )}
                 </div>
                 <div>
-                  <label className="text-sm text-my-gray-200" htmlFor="password">
+                  <label
+                    className="text-sm text-my-gray-200"
+                    htmlFor="password"
+                  >
                     Password
                   </label>
                   <input
@@ -188,24 +215,35 @@ const VendorRegister = () => {
                       required: true,
                       minLength: 6,
                       maxLength: 20,
-                      pattern: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z])/,
+                      pattern:
+                        /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z])/,
                     })}
                   />
-                  {formError?.password?.type === "required" && <p className="text-secondary">Password is required</p>}
+                  {formError?.password?.type === "required" && (
+                    <p className="text-secondary">Password is required</p>
+                  )}
                   {formError?.password?.type === "minLength" && (
-                    <p className="text-secondary">Password must be 6 characters</p>
+                    <p className="text-secondary">
+                      Password must be 6 characters
+                    </p>
                   )}
                   {formError?.password?.type === "maxLength" && (
-                    <p className="text-secondary">Password must be less than 20 characters</p>
+                    <p className="text-secondary">
+                      Password must be less than 20 characters
+                    </p>
                   )}
                   {formError?.password?.type === "pattern" && (
                     <p className="text-secondary">
-                      Password must have one Uppercase one lower case, one number and one special character.
+                      Password must have one Uppercase one lower case, one
+                      number and one special character.
                     </p>
                   )}
                 </div>
                 <div>
-                  <label className="text-sm text-my-gray-200" htmlFor="confirmPassword">
+                  <label
+                    className="text-sm text-my-gray-200"
+                    htmlFor="confirmPassword"
+                  >
                     Confirm Password
                   </label>
                   <input
@@ -223,7 +261,9 @@ const VendorRegister = () => {
                     id="confirmPassword"
                   />
                   {formError?.confirmPassword?.type === "validate" && (
-                    <p className="text-secondary">Passwords don&apos;t match!</p>
+                    <p className="text-secondary">
+                      Passwords don&apos;t match!
+                    </p>
                   )}
                 </div>
               </div>
