@@ -28,6 +28,7 @@ import { useDispatch } from "react-redux";
 import logo from "../../../../public/logo/logo.svg";
 import AnnouncementBar from "../announcementBar/AnnouncementBar";
 import CategoriesDropDownContent from "../DropDown/CategoriesDropDownContent";
+import LoginModal from "../modal/Login.modal";
 import MobileMenu from "./MobileMenu";
 import NavMegaMenu from "./NavMegaMenu";
 
@@ -36,8 +37,9 @@ const Navbar = () => {
   const { logOut } = useAuth();
   const dispatch = useDispatch();
 
-  const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+  const [openLoginModal, setOpenLoginModal] = useState<boolean>(false);
 
   const { cartItems } = useAppSelector(({ state }) => state.cart);
   const { user } = useAppSelector(({ state }) => state.auth);
@@ -189,13 +191,14 @@ const Navbar = () => {
               </DropdownMenu>
             ) : (
               <div className="flex items-center gap-2">
-                <Link
-                  href="/login"
-                  className="flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100"
+                <Button
+                  variant="ghost"
+                  className="text-sm font-medium text-gray-700 hover:bg-gray-100"
+                  onClick={() => setOpenLoginModal((pre) => !pre)}
                 >
                   <HiOutlineUserCircle className="h-5 w-5" />
                   <span className="hidden lg:inline">Sign In</span>
-                </Link>
+                </Button>
                 <span className="text-gray-300">|</span>
                 <Link
                   href="/register"
@@ -211,15 +214,10 @@ const Navbar = () => {
         {/* Navbar Menu */}
         <NavMegaMenu isScrolled={isScrolled} user={user} />
       </nav>
-      {/* <>
-        {showProductCard && (
-          <SideBarShoppingCart setShowProductCard={setShowProductCard} />
-        )}
         <LoginModal
           openLoginModal={openLoginModal}
           setOpenLoginModal={setOpenLoginModal}
         />
-      </> */}
     </header>
   );
 };

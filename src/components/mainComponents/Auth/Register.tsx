@@ -1,5 +1,11 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { authKey } from "@/contants/common";
+import { setToLocalStorage } from "@/utils/local-storage";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -9,14 +15,13 @@ import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
 import useAuth from "../../../hooks/useAuth";
 import { useRegisterMutation } from "../../../redux/features/auth/authApi";
-import { setToLocalStorage } from "@/utils/local-storage";
-import { authKey } from "@/contants/common";
 
 const Register = () => {
   const router = useRouter();
   const { register, handleSubmit, reset } = useForm();
   const [postUser, { isLoading }] = useRegisterMutation();
-  const { createUser, googleLogIn, setLoading, loading, updateUserProfile } = useAuth();
+  const { createUser, googleLogIn, setLoading, loading, updateUserProfile } =
+    useAuth();
   const [showPass, setShowPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
 
@@ -40,7 +45,10 @@ const Register = () => {
         if (res.success) {
           toast.success("Registration Successful");
           reset();
-          setToLocalStorage({ key: authKey.accessToken, token: res.data.accessToken });
+          setToLocalStorage({
+            key: authKey.accessToken,
+            token: res.data.accessToken,
+          });
           router.replace("/");
         }
       }
@@ -64,7 +72,10 @@ const Register = () => {
         const res = await postUser(data).unwrap();
         if (res.success) {
           toast.success("Registration Successful");
-          setToLocalStorage({ key: authKey.accessToken, token: res.data.accessToken });
+          setToLocalStorage({
+            key: authKey.accessToken,
+            token: res.data.accessToken,
+          });
           router.replace("/dashboard");
         }
       }
@@ -76,107 +87,110 @@ const Register = () => {
   };
 
   return (
-    <section className="flex min-h-screen pt-[14.5rem] justify-center bg-gray-100 px-4">
-      <div className="w-full h-full max-w-md rounded-lg bg-white px-8 py-10 shadow-lg">
-        <div className="mb-6 text-center">
-          <h2 className="bg-gradient-to-r from-secondary to-indigo-700 bg-clip-text text-3xl font-semibold text-transparent">
-            Create an Account
-          </h2>
-          <p className="text-sm text-gray-600">Sign up to get started</p>
+    <div className="flex min-h-screen items-center justify-center bg-gray-100 px-2 lg:pt-[11rem]">
+      <Card className="w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
+        <h2 className="text-center text-3xl font-semibold">
+          Create an Account
+        </h2>
+        <p className="mb-4 text-center text-sm text-gray-500">
+          Sign up to get started
+        </p>
+
+        <div className="rounded-lg border p-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <div>
+              <Label htmlFor="name">Full Name</Label>
+              <Input
+                {...register("name", { required: true })}
+                type="text"
+                id="name"
+                placeholder="John Doe"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="email">Email</Label>
+              <Input
+                {...register("email", { required: true })}
+                type="email"
+                id="email"
+                placeholder="example@gmail.com"
+                autoComplete="off"
+              />
+            </div>
+
+            <div className="relative">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                {...register("password", { required: true, minLength: 6 })}
+                type={showPass ? "text" : "password"}
+                id="password"
+                placeholder="******"
+              />
+              <button
+                type="button"
+                className="absolute right-3 top-9 text-lg text-gray-500"
+                onClick={() => setShowPass(!showPass)}
+              >
+                {showPass ? <BsEye /> : <BsEyeSlash />}
+              </button>
+            </div>
+
+            <div className="relative">
+              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <Input
+                {...register("confirmPassword", { required: true })}
+                type={showConfirmPass ? "text" : "password"}
+                id="confirmPassword"
+                placeholder="******"
+              />
+              <button
+                type="button"
+                className="absolute right-3 top-9 text-lg text-gray-500"
+                onClick={() => setShowConfirmPass(!showConfirmPass)}
+              >
+                {showConfirmPass ? <BsEye /> : <BsEyeSlash />}
+              </button>
+            </div>
+
+            <Button
+              type="submit"
+              className="w-full bg-primary hover:bg-orange-600 active:scale-95"
+            >
+              Sign Up
+            </Button>
+          </form>
+
+          <div className="relative my-4">
+            <span className="relative z-10 block bg-white px-2 text-center text-sm text-gray-500">
+              or
+            </span>
+          </div>
+
+          <Button
+            variant="outline"
+            className="flex w-full items-center justify-center space-x-2"
+            onClick={handleGoogleLogin}
+          >
+            <FcGoogle />
+            <span>Continue with Google</span>
+          </Button>
+
+          <p className="mt-3 text-center text-sm">
+            Already have an account?{" "}
+            <Link href="/login" className="font-medium text-black underline">
+              Login
+            </Link>
+          </p>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div>
-            <label className="text-sm font-medium text-gray-700" htmlFor="name">
-              Full Name
-            </label>
-            <input
-              {...register("name", { required: true })}
-              className="mt-1 block w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-rose-500"
-              placeholder="John Doe"
-              type="text"
-              id="name"
-            />
+        {(loading || isLoading) && (
+          <div className="absolute inset-0 flex items-center justify-center bg-gray-900/40">
+            <div className="h-10 w-10 animate-spin rounded-full border-4 border-t-4 border-gray-500"></div>
           </div>
-
-          <div>
-            <label className="text-sm font-medium text-gray-700" htmlFor="email">
-              Email Address
-            </label>
-            <input
-              {...register("email", { required: true })}
-              className="mt-1 block w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-rose-500"
-              placeholder="example@gmail.com"
-              type="email"
-              id="email"
-            />
-          </div>
-
-          <div className="relative">
-            <label className="text-sm font-medium text-gray-700" htmlFor="password">
-              Password
-            </label>
-            <input
-              {...register("password", { required: true, minLength: 6 })}
-              className="mt-1 block w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-rose-500"
-              placeholder="******"
-              type={showPass ? "text" : "password"}
-              id="password"
-            />
-            <button type="button" className="absolute top-10 right-4 text-lg" onClick={() => setShowPass(!showPass)}>
-              {showPass ? <BsEye /> : <BsEyeSlash />}
-            </button>
-          </div>
-
-          <div className="relative">
-            <label className="text-sm font-medium text-gray-700" htmlFor="confirmPassword">
-              Confirm Password
-            </label>
-            <input
-              {...register("confirmPassword", { required: true })}
-              className="mt-1 block w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-rose-500"
-              placeholder="******"
-              type={showConfirmPass ? "text" : "password"}
-              id="confirmPassword"
-            />
-            <button
-              type="button"
-              className="absolute top-10 right-4 text-lg"
-              onClick={() => setShowConfirmPass(!showConfirmPass)}
-            >
-              {showConfirmPass ? <BsEye /> : <BsEyeSlash />}
-            </button>
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading || isLoading}
-            className={`w-full rounded-md px-4 py-2 font-semibold text-white ${
-              loading || isLoading ? "bg-gray-400" : "bg-rose-500 hover:bg-rose-600"
-            }`}
-          >
-            {loading || isLoading ? "Registering..." : "Sign Up"}
-          </button>
-        </form>
-
-        <hr className="my-5" />
-
-        <button
-          onClick={handleGoogleLogin}
-          className="flex w-full items-center justify-center space-x-2 rounded-md bg-[#4285F4] py-2 text-white"
-        >
-          <FcGoogle className="text-xl" />
-          <span className="text-sm">Continue with Google</span>
-        </button>
-
-        <p className="mt-4 text-center text-sm text-gray-600">
-          Already have an account?{" "}
-          <Link href="/login" className="text-rose-500 font-medium hover:underline">
-            Login
-          </Link>
-        </p>
-      </div>
-    </section>
+        )}
+      </Card>
+    </div>
   );
 };
 

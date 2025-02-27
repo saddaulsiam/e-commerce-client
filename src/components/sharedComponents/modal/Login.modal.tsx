@@ -1,241 +1,169 @@
 "use client";
-import { Dialog, Transition } from "@headlessui/react";
+
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { Fragment, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
-import { FaFacebookF } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
 import useAuth from "../../../hooks/useAuth";
 import { useRegisterMutation } from "../../../redux/features/auth/authApi";
 import Loading from "../loading/Loading";
 
-const LoginModal = ({ openLoginModal, setOpenLoginModal }) => {
+type LoginModalProps = {
+  openLoginModal: boolean;
+  setOpenLoginModal: (open: boolean) => void;
+};
+
+const LoginModal = ({ openLoginModal, setOpenLoginModal }: LoginModalProps) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirectTo") || "/";
+
   const { register, handleSubmit, reset } = useForm();
   const [postUser, { isLoading }] = useRegisterMutation();
-  const { setLoading, loading, signIn, googleLogIn, facebookLogIn } = useAuth();
-
+  const { setLoading, loading, signIn, googleLogIn } = useAuth();
   const [showPass, setShowPass] = useState(false);
 
-  const onSubmit = (data) => {
-    signIn(data.email, data.password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        if (user) {
-          reset();
+  const onSubmit = async (data: FieldValues) => {
+    try {
+      const userCredential = await signIn(data.email, data.password);
+      if (userCredential.user) {
+        reset();
+        toast.success("Login Successful");
+        router.replace(redirectTo);
+        setOpenLoginModal(false);
+      }
+    } catch (error: any) {
+      toast.error(error.message || "Login failed");
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      const userCredential = await googleLogIn();
+      if (userCredential.user) {
+        const res = await postUser(userCredential.user);
+        if (res.data?.status === "success") {
           toast.success("Login Successful");
-          router.replace(router.query.redirectTo || "/");
+          setOpenLoginModal(false);
+          router.replace(redirectTo);
         }
-      })
-      .catch((error) => {
-        toast.error(error.code);
-        setLoading(false);
-      });
+      }
+    } catch (error: any) {
+      toast.error(error.message || "Google login failed");
+    }
   };
 
-  const handleGoogleLogin = () => {
-    googleLogIn()
-      .then((userCredential) => {
-        if (userCredential.user) {
-          postUser(userCredential.user).then((res) => {
-            if (res.data?.status === "success") {
-              toast.success("Login Successful");
-              setOpenLoginModal(false);
-              router.replace(router.query.redirectTo || "/");
-            }
-          });
-        }
-      })
-      .catch((error) => {
-        toast.error(error.code);
-      });
-  };
-
-  const handleFacebookLogin = () => {
-    facebookLogIn()
-      .then((userCredential) => {
-        if (userCredential.user) {
-          postUser(userCredential.user)
-            .then((res) => {
-              if (res.data?.status === "success") {
-                toast.success("Login Successful");
-                router.replace(router.query.redirectTo || "/");
-              }
-            })
-            .catch((error) => {
-              console.log(error);
-              toast.error(error);
-            });
-        }
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const email = error.customData.email;
-
-        if (errorCode === "auth/account-exists-with-different-credential") {
-          toast.error(email + " This email exists please try google signIn");
-        }
-      });
-  };
   return (
-    <Transition appear show={openLoginModal} as={Fragment}>
-      <Dialog
-        as="div"
-        className="relative z-50"
-        onClose={() => setOpenLoginModal(false)}
-      >
-        <Transition.Child
-          as={Fragment}
-          enter="ease-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in duration-200"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <div className="fixed inset-0 bg-black bg-opacity-50" />
-        </Transition.Child>
-        <Transition.Child
-          as={Fragment}
-          enter="ease-out duration-300"
-          enterFrom="opacity-0 scale-95"
-          enterTo="opacity-100 scale-100"
-          leave="ease-in duration-200"
-          leaveFrom="opacity-100 scale-100"
-          leaveTo="opacity-0 scale-95"
-        >
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center">
-              <Dialog.Panel className="transform overflow-hidden">
-                <div className="w-[450px] rounded-lg bg-white px-12 py-10 shadow-sm">
-                  <div>
-                    <div className="mb-10 flex flex-col items-center justify-center space-y-1">
-                      <h2 className="text-3xl font-semibold">
-                        Welcome To E-commerce
-                      </h2>
-                      <p className="text-sm">Log in with email & password</p>
-                    </div>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                      <div className="space-y-3">
-                        <div>
-                          <label
-                            className="text-sm text-my-gray-200"
-                            htmlFor="email"
-                          >
-                            Email
-                          </label>
-                          <input
-                            {...register("email", { required: true })}
-                            className="block h-10 w-full rounded-md border px-3"
-                            placeholder="exmple@gmail.com"
-                            autoComplete="off"
-                            type="email"
-                            name="email"
-                            id="email"
-                          />
-                        </div>
-                        <div className="relative">
-                          <label
-                            className="text-sm text-my-gray-200"
-                            htmlFor="password"
-                          >
-                            Password
-                          </label>
-                          <input
-                            {...register("password", { required: true })}
-                            className="block h-10 w-full rounded-md border px-3"
-                            placeholder="******"
-                            type={showPass ? "text" : "password"}
-                            name="password"
-                            id="password"
-                          />
+    <Dialog open={openLoginModal} onOpenChange={setOpenLoginModal}>
+      <DialogContent className="max-w-md rounded-lg shadow-lg">
+        <DialogHeader>
+          <DialogTitle className="text-center text-3xl font-semibold">
+            Welcome Back
+          </DialogTitle>
+          <p className="text-center text-sm text-gray-500">
+            Log in with email & password
+          </p>
+        </DialogHeader>
 
-                          <button
-                            type="button"
-                            className="absolute right-4 top-9 text-lg"
-                            onClick={() => setShowPass(!showPass)}
-                          >
-                            {showPass ? <BsEye /> : <BsEyeSlash />}
-                          </button>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <label className="label cursor-pointer">
-                            <input
-                              type="checkbox"
-                              className="checkbox checkbox-primary checkbox-sm"
-                            />
-                            <span className="label-text pl-1">Remember me</span>
-                          </label>
-                          <Link
-                            href="/forgot-password"
-                            className="label-text cursor-pointer bg-gradient-to-r from-secondary to-indigo-700 bg-clip-text font-semibold text-transparent decoration-violet-500 decoration-2 hover:underline"
-                          >
-                            Forgot Password
-                          </Link>
-                        </div>
-                        <button
-                          type="submit"
-                          className="h-10 w-full rounded-md bg-rose-500 text-base font-semibold text-white"
-                        >
-                          Login
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                  <hr className="my-5" />
-                  <div className="space-y-3">
-                    <div
-                      onClick={handleGoogleLogin}
-                      className="flex h-10 cursor-pointer items-center justify-center space-x-2 rounded-md bg-[#4285F4]"
-                    >
-                      <span className="rounded-full bg-slate-200 p-1">
-                        <FcGoogle />
-                      </span>
-                      <p className="text-sm text-white">Continue with Google</p>
-                    </div>
-                    <div
-                      onClick={handleFacebookLogin}
-                      className="flex h-10 cursor-pointer items-center justify-center space-x-2 rounded-md bg-[#3B5998]"
-                    >
-                      <span className="rounded-full bg-slate-200 p-1">
-                        <FaFacebookF className="text-[#3B5998]" />
-                      </span>
-                      <p className="text-sm text-white">
-                        Continue with Facebook
-                      </p>
-                    </div>
-                    <div className="flex justify-center">
-                      <p className="mt-3 text-sm text-my-gray-100">
-                        Don’t have account ?{" "}
-                        <Link href="/register" passHref>
-                          <span className="cursor-pointer text-base font-medium text-black underline">
-                            Register
-                          </span>
-                        </Link>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                {loading && (
-                  <div className="absolute flex h-full w-full items-center justify-center bg-gray-900/40">
-                    <Loading />
-                  </div>
-                )}
-                {isLoading && (
-                  <div className="absolute flex h-full w-full items-center justify-center bg-gray-900/40">
-                    <Loading />
-                  </div>
-                )}
-              </Dialog.Panel>
+        <Card className="space-y-4 p-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <div>
+              <Label htmlFor="email">Email</Label>
+              <Input
+                {...register("email", { required: "Email is required" })}
+                type="email"
+                id="email"
+                placeholder="example@gmail.com"
+                autoComplete="off"
+              />
             </div>
+
+            <div className="relative">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                {...register("password", { required: "Password is required" })}
+                type={showPass ? "text" : "password"}
+                id="password"
+                placeholder="******"
+              />
+              <button
+                type="button"
+                className="absolute right-3 top-9 text-lg text-gray-500"
+                onClick={() => setShowPass(!showPass)}
+              >
+                {showPass ? <BsEye /> : <BsEyeSlash />}
+              </button>
+            </div>
+
+            <div className="flex justify-between text-sm">
+              <label className="flex items-center space-x-2">
+                <input type="checkbox" className="accent-primary" />
+                <span>Remember me</span>
+              </label>
+              <Link
+                href="/forgot-password"
+                className="bg-gradient-to-r from-rose-500 to-blue-500 bg-clip-text text-transparent hover:underline"
+              >
+                Forgot Password
+              </Link>
+            </div>
+
+            <Button
+              type="submit"
+              className="w-full bg-primary hover:bg-orange-600 active:scale-95"
+            >
+              Login
+            </Button>
+          </form>
+
+          <div className="relative my-4">
+            <hr className="absolute left-0 top-1/2 w-full border-t border-gray-300" />
+            <span className="relative z-10 block bg-white px-2 text-center text-sm text-gray-500">
+              or
+            </span>
           </div>
-        </Transition.Child>
-      </Dialog>
-    </Transition>
+
+          <Button
+            variant="outline"
+            className="flex w-full items-center justify-center space-x-2"
+            onClick={handleGoogleLogin}
+          >
+            <FcGoogle />
+            <span>Continue with Google</span>
+          </Button>
+
+          <p className="mt-3 text-center text-sm">
+            Don’t have an account?
+            <Link
+              href="/register"
+              className="ml-1 font-medium text-black underline hover:text-primary"
+            >
+              Register
+            </Link>
+          </p>
+        </Card>
+
+        {(loading || isLoading) && (
+          <div className="absolute inset-0 flex items-center justify-center bg-gray-900/40">
+            <Loading />
+          </div>
+        )}
+      </DialogContent>
+    </Dialog>
   );
 };
 
