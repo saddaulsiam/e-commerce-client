@@ -8,13 +8,13 @@ export interface TCartItem {
   imageUrl: string;
 }
 
-interface CartState {
+export interface TCart {
   cartItems: TCartItem[];
   totalAmount: number;
   totalQuantity: number;
 }
 
-const initialState: CartState = {
+const initialState: TCart = {
   cartItems: [],
   totalAmount: 0,
   totalQuantity: 0,

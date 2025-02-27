@@ -1,15 +1,7 @@
 import { VendorShopMain } from "@/components/mainComponents/VendorShop";
-import { BottomBar, Footer, Navbar } from "@/components/sharedComponents";
 
 const Name = () => {
-  return (
-    <>
-      <Navbar />
-      <VendorShopMain />
-      <BottomBar />
-      <Footer />
-    </>
-  );
+  return <VendorShopMain />;
 };
 
 export default Name;

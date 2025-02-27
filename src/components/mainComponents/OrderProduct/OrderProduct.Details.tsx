@@ -32,11 +32,10 @@ const OrderProductDetails = () => {
   };
   return (
     <div className="bg-slate-200">
-      <Navbar />
-      <div className="container mt-32 lg:mt-[10.9rem] ">
+      <div className="container mt-32 lg:mt-[10.9rem]">
         <div className="flex items-center py-10">
           <Link href="/cart">
-            <button className="cursor-pointer rounded-full bg-primary py-2 px-6 text-sm font-semibold text-white">
+            <button className="cursor-pointer rounded-full bg-primary px-6 py-2 text-sm font-semibold text-white">
               <span className="hidden sm:block">1. Cart</span>
               <span className="sm:hidden">Cart</span>
             </button>
@@ -45,7 +44,7 @@ const OrderProductDetails = () => {
           <Link href="/details">
             <button
               disabled={products.length < 1 ? true : false}
-              className="cursor-pointer rounded-full bg-primary py-2 px-6 text-sm font-semibold text-white"
+              className="cursor-pointer rounded-full bg-primary px-6 py-2 text-sm font-semibold text-white"
             >
               <span className="hidden sm:block">2. Details</span>
               <span className="sm:hidden">Details</span>
@@ -53,14 +52,14 @@ const OrderProductDetails = () => {
           </Link>
           <div className="w-20 border-t-4 border-secondary" />
           <Link href="/payment">
-            <button className="cursor-pointer rounded-full bg-secondary py-2 px-6 text-sm font-semibold text-white">
+            <button className="cursor-pointer rounded-full bg-secondary px-6 py-2 text-sm font-semibold text-white">
               <span className="hidden sm:block">3. Payment</span>
               <span className="sm:hidden">Payment</span>
             </button>
           </Link>
           <div className="w-20 border-t-4 border-secondary" />
           <Link href="/review">
-            <button className="cursor-pointer rounded-full bg-secondary py-2 px-6 text-sm font-semibold text-white">
+            <button className="cursor-pointer rounded-full bg-secondary px-6 py-2 text-sm font-semibold text-white">
               <span className="hidden sm:block">4. Review</span>
               <span className="sm:hidden">Review</span>
             </button>
@@ -68,15 +67,17 @@ const OrderProductDetails = () => {
         </div>
         {user?.shippingAddress?.length > 0 && (
           <div>
-            <p className="pb-3 text-xl font-bold text-primary">Select Your Address</p>
+            <p className="pb-3 text-xl font-bold text-primary">
+              Select Your Address
+            </p>
           </div>
         )}
 
-        <div className="mb-10	grid grid-cols-3 gap-5">
+        <div className="mb-10 grid grid-cols-3 gap-5">
           <div className="col-span-3 lg:col-span-2">
             {user?.shippingAddress?.length > 0 && (
               <div className="overflow-x-auto">
-                <table className="table min-w-full ">
+                <table className="table min-w-full">
                   {/* head */}
                   <thead>
                     <tr>
@@ -176,7 +177,6 @@ const OrderProductDetails = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

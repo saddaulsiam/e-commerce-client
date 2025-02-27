@@ -1,33 +1,32 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { TCart } from "@/redux/features/cart/cartSlice";
+import { usePathname, useRouter } from "next/navigation";
 
-const OrderSummaryCart = ({ products }) => {
+const OrderSummaryCart = ({ cart }: { cart: TCart }) => {
   const router = useRouter();
-
-  let productsPrice = 0;
-
-  products?.map((product) => {
-    productsPrice += product.salePrice * product.quantity;
-  });
+  const path = usePathname();
+  const deliveryCharge = 150;
 
   return (
     <div className="space-y-3 rounded-md bg-white p-4">
       <h3 className="text-xl">Order Summary</h3>
       <div className="flex justify-between text-base">
-        <p className="text-my-gray-100 ">Subtitle</p>
-        <p className="text-black ">৳ {productsPrice}</p>
+        <p className="text-my-gray-100">Subtitle</p>
+        <p className="text-black"> ৳ {cart.totalAmount.toFixed(2)}</p>
       </div>
       <div className="flex justify-between text-base">
-        <p className="text-my-gray-100 ">Tax</p>
-        <p className="text-black ">৳ 0</p>
+        <p className="text-my-gray-100">Delivery Charge</p>
+        <p className="text-black">৳ {deliveryCharge}</p>
       </div>
       <hr />
       <div className="flex justify-between text-base">
-        <p className="text-base font-semibold text-my-gray-100 ">Total</p>
-        <p className="font-semibold text-primary ">৳ {productsPrice}</p>
+        <p className="text-base font-semibold text-my-gray-100">Total</p>
+        <p className="font-semibold text-primary">
+          ৳ {deliveryCharge + Number(cart.totalAmount.toFixed(2))}
+        </p>
       </div>
-      {router.asPath === "/cart" && (
+      {path === "/cart" && (
         <>
           <div className="w-full">
             <input
@@ -35,7 +34,7 @@ const OrderSummaryCart = ({ products }) => {
               className="h-10 w-4/5 border px-2 focus:outline-primary"
               placeholder="Enter Voucher Code"
             />
-            <button className="w-1/5 border bg-teal-500 py-2 px-2 text-white transition duration-100 ease-in-out hover:border-teal-500 hover:bg-white hover:text-teal-500">
+            <button className="w-1/5 border bg-teal-500 px-2 py-2 text-white transition duration-100 ease-in-out hover:border-teal-500 hover:bg-white hover:text-teal-500">
               APPLY
             </button>
           </div>

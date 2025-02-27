@@ -3,13 +3,11 @@ import {
   userDashboard,
 } from "../../../../data/dashboard.navigation";
 import PrivateRoute from "../../Auth/private/PrivateRoute";
-import { BottomBar, Footer, Navbar } from "../../../sharedComponents";
 import DashboardCustomerNavigation from "./Dashboard.Customer.Navigation";
 
 const DashboardCustomerLayout = ({ children }) => {
   return (
     <PrivateRoute>
-      <Navbar />
       <div className="container mt-32 px-3 pb-5 lg:mt-48 xl:px-0">
         <div className="grid grid-cols-4 gap-5 pt-5">
           <div className="hidden lg:col-span-1 lg:block">
@@ -27,8 +25,6 @@ const DashboardCustomerLayout = ({ children }) => {
           <div className="col-span-4 lg:col-span-3">{children}</div>
         </div>
       </div>
-      <BottomBar />
-      <Footer />
     </PrivateRoute>
   );
 };

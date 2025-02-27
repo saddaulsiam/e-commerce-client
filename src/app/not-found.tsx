@@ -1,28 +1,37 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const Error = () => {
+const NotFound = () => {
   return (
-    <>
-      <div style={{ textAlign: "center", marginTop: "20vh" }}>
-        <div>
-          <Image src="/errorImg.png" width="200" height="250" alt="" priority />
-        </div>
-        <div className="">
-          <p className="text-4xl font-bold text-primary">
-            Oops! It looks like <br />
-            you&apos;re lost
-          </p>
-          <p className="my-5 text-lg text-my-gray-200">
-            .The page you&apos;re looking for isn&apos;t available. Try to search again or use the go to
-          </p>
-          <Link href="/">
-            <button className="button ">HOME PAGE</button>
-          </Link>
-        </div>
+    <div className="flex h-screen flex-col items-center justify-center bg-gray-50">
+      <div className="mb-8 text-center">
+        <Image
+          src="/not-found"
+          width={350}
+          height={350}
+          alt="Page Not Found"
+          priority
+        />
       </div>
-    </>
+      <h1 className="text-4xl font-bold text-gray-800">Oops! Page Not Found</h1>
+      <p className="mt-4 text-lg text-gray-600">
+        Looks like the page you&apos;re looking for doesn&apos;t exist. But
+        don’t worry, we can help you find your way back!
+      </p>
+      <div className="mt-8 flex space-x-4">
+        <Link href="/">
+          <button className="transform rounded-lg bg-orange-600 px-6 py-3 text-lg text-white shadow-lg transition hover:scale-105 hover:bg-orange-500 focus:outline-none">
+            Go to Home Page
+          </button>
+        </Link>
+        <Link href="/shop">
+          <button className="transform rounded-lg bg-green-600 px-6 py-3 text-lg text-white shadow-lg transition hover:scale-105 hover:bg-green-500 focus:outline-none">
+            Shop Now
+          </button>
+        </Link>
+      </div>
+    </div>
   );
 };
 
-export default Error;
+export default NotFound;

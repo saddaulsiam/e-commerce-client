@@ -102,13 +102,16 @@ const OrderProductPayment = () => {
   }
 
   const handleSSLOrder = async () => {
-    fetch("http://localhost:5000/api/v1/payment/create-sslcommerz-payment-intent", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    fetch(
+      "http://localhost:5000/api/v1/payment/create-sslcommerz-payment-intent",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderData),
       },
-      body: JSON.stringify(orderData),
-    })
+    )
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -122,38 +125,37 @@ const OrderProductPayment = () => {
 
   return (
     <div className="bg-slate-200">
-      <Navbar />
-      <div className="container mt-32 lg:mt-[10.9rem] ">
+      <div className="container mt-32 lg:mt-[10.9rem]">
         <div className="flex items-center py-10">
           <Link href="/cart">
-            <button className="cursor-pointer rounded-full bg-primary py-2 px-6 text-sm font-semibold text-white">
+            <button className="cursor-pointer rounded-full bg-primary px-6 py-2 text-sm font-semibold text-white">
               <span className="hidden sm:block">1. Cart</span>
               <span className="sm:hidden">Cart</span>
             </button>
           </Link>
           <div className="w-20 border-t-4 border-primary" />
           <Link href="/details">
-            <button className="cursor-pointer rounded-full bg-primary py-2 px-6 text-sm font-semibold text-white">
+            <button className="cursor-pointer rounded-full bg-primary px-6 py-2 text-sm font-semibold text-white">
               <span className="hidden sm:block">2. Details</span>
               <span className="sm:hidden">Details</span>
             </button>
           </Link>
           <div className="w-20 border-t-4 border-primary" />
           <Link href="/payment">
-            <button className="cursor-pointer rounded-full bg-primary py-2 px-6 text-sm font-semibold text-white">
+            <button className="cursor-pointer rounded-full bg-primary px-6 py-2 text-sm font-semibold text-white">
               <span className="hidden sm:block">3. Payment</span>
               <span className="sm:hidden">Payment</span>
             </button>
           </Link>
           <div className="w-20 border-t-4 border-secondary" />
           <Link href="/review">
-            <button className="cursor-pointer rounded-full bg-secondary py-2 px-6 text-sm font-semibold text-white">
+            <button className="cursor-pointer rounded-full bg-secondary px-6 py-2 text-sm font-semibold text-white">
               <span className="hidden sm:block">4. Review</span>
               <span className="sm:hidden">Review</span>
             </button>
           </Link>
         </div>
-        <div className="mb-10	grid grid-cols-3 gap-5">
+        <div className="mb-10 grid grid-cols-3 gap-5">
           <div className="col-span-3 lg:col-span-2">
             <div className="space-y-5 rounded-md bg-white p-5 py-10">
               <div className="">
@@ -163,7 +165,9 @@ const OrderProductPayment = () => {
                 <SelectPaymentOption setPayWith={setPayWith} />
               </div>
               <div className={`${payWith === "" && "hidden"}`}>
-                <h2 className="mt-10 mb-5 text-lg font-semibold text-my-gray-200">পেমেন্ট করার নিয়মঃ</h2>
+                <h2 className="mb-5 mt-10 text-lg font-semibold text-my-gray-200">
+                  পেমেন্ট করার নিয়মঃ
+                </h2>
                 {/* {payWith === "bkash" && <BkashPaymentDetails />} */}
                 {/* {payWith === "nogad" && <NagodPaymentDetails />} */}
                 {/* {payWith === "rocket" && <RocketPaymentDetails />} */}
@@ -198,7 +202,7 @@ const OrderProductPayment = () => {
               {payWith === "stripe" ? (
                 <button
                   disabled={payWith === "" ? true : false}
-                  className={` w-full bg-primary py-2 text-base font-semibold capitalize text-white disabled:cursor-not-allowed`}
+                  className={`w-full bg-primary py-2 text-base font-semibold capitalize text-white disabled:cursor-not-allowed`}
                   onClick={() => setIsOpen(true)}
                 >
                   Pay With {payWith}
@@ -206,14 +210,14 @@ const OrderProductPayment = () => {
               ) : payWith === "sslCommerz" ? (
                 <button
                   disabled={payWith === "" ? true : false}
-                  className={` w-full bg-primary py-2 text-base font-semibold capitalize text-white disabled:cursor-not-allowed`}
+                  className={`w-full bg-primary py-2 text-base font-semibold capitalize text-white disabled:cursor-not-allowed`}
                   onClick={handleSSLOrder}
                 >
                   Pay With {payWith}
                 </button>
               ) : payWith === "cashOnDelivery" ? (
                 <button
-                  className={` w-full bg-primary py-2 text-base font-semibold capitalize text-white disabled:cursor-not-allowed`}
+                  className={`w-full bg-primary py-2 text-base font-semibold capitalize text-white disabled:cursor-not-allowed`}
                   onClick={handleOrder}
                 >
                   Pay With {payWith}
@@ -221,7 +225,7 @@ const OrderProductPayment = () => {
               ) : (
                 <button
                   disabled
-                  className={` w-full bg-primary py-2 text-base font-semibold capitalize text-white disabled:cursor-not-allowed`}
+                  className={`w-full bg-primary py-2 text-base font-semibold capitalize text-white disabled:cursor-not-allowed`}
                 >
                   Select payment options
                 </button>
@@ -234,7 +238,6 @@ const OrderProductPayment = () => {
           </div>
         </div>
       </div>
-      <Footer />
 
       {/* modal */}
       <StripePaymentModal isOpen={isOpen} setIsOpen={setIsOpen} />

@@ -1,18 +1,11 @@
-import React from "react";
-import { OrderProductPayment } from "../../components/mainComponents/OrderProduct";
-import Head from "next/head";
-import PrivateRoute from "../../components/mainComponents/Auth/private/PrivateRoute";
+import PrivateRoute from "@/components/mainComponents/Auth/private/PrivateRoute";
+import { OrderProductPayment } from "@/components/mainComponents/OrderProduct";
 
 const payment = () => {
   return (
-    <>
-      <Head>
-        <title>Payment</title>
-      </Head>
-      <PrivateRoute>
-        <OrderProductPayment />
-      </PrivateRoute>
-    </>
+    <PrivateRoute>
+      <OrderProductPayment />
+    </PrivateRoute>
   );
 };
 

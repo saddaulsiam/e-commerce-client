@@ -1,13 +1,9 @@
-import { SearchingProducts } from "../../components/mainComponents/SearchingProducts";
-import { BottomBar, Footer, Navbar } from "../../components/sharedComponents";
+import { SearchingProducts } from "@/components/mainComponents/SearchingProducts";
 
 const Searching = () => {
   return (
     <>
-      <Navbar />
       <SearchingProducts />
-      <BottomBar />
-      <Footer />
     </>
   );
 };

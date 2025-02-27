@@ -1,13 +1,6 @@
 import ForgotPassword from "@/components/mainComponents/Auth/ForgotPassword";
-import { Footer, Navbar } from "@/components/sharedComponents";
 
 const forgotPassword = () => {
-  return (
-    <>
-      <Navbar />
-      <ForgotPassword />
-      <Footer />
-    </>
-  );
+  return <ForgotPassword />;
 };
 export default forgotPassword;
