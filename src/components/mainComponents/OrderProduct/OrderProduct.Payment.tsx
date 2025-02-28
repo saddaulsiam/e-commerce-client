@@ -5,7 +5,6 @@ import { clearCart } from "@/redux/features/cart/cartSlice";
 import { removeOrderDetails } from "@/redux/features/order/orderDetails/orderDetailsSlice";
 import { useOrderNowMutation } from "@/redux/features/order/orders/ordersApi";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FcOk } from "react-icons/fc";
@@ -18,6 +17,7 @@ import {
   PaymentStatus,
 } from "./OrderInterface";
 import OrderSummaryCart from "./OrderSummaryCart";
+import ProgressSteps from "./ProgressSteps";
 import SelectPaymentOption from "./SelectPaymentOption";
 
 const OrderProductPayment = () => {
@@ -100,23 +100,7 @@ const OrderProductPayment = () => {
   return (
     <div className="bg-slate-200">
       <div className="container mt-32 lg:mt-[10.9rem]">
-        <div className="flex items-center py-10">
-          {["Cart", "Details", "Payment", "Review"].map((step, index) => (
-            <div key={step} className="flex items-center">
-              <Link href={`/${step.toLowerCase()}`}>
-                <button
-                  className={`cursor-pointer rounded-full px-6 py-2 text-sm font-semibold text-white ${index < 3 ? "bg-primary" : "bg-secondary"}`}
-                >
-                  <span className="hidden sm:block">
-                    {index + 1}. {step}
-                  </span>
-                  <span className="sm:hidden">{step}</span>
-                </button>
-              </Link>
-              {index < 3 && <div className="w-20 border-t-4 border-primary" />}
-            </div>
-          ))}
-        </div>
+        <ProgressSteps />
 
         <div className="mb-10 grid grid-cols-3 gap-5">
           <div className="col-span-3 lg:col-span-2">

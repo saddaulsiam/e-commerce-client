@@ -1,15 +1,15 @@
 "use client";
 
+import { addOrderDetails } from "@/redux/features/order/orderDetails/orderDetailsSlice";
 import { useAppSelector } from "@/redux/hooks";
 import { TAddress } from "@/types/common";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { HiMinusCircle, HiOutlinePlusCircle } from "react-icons/hi";
 import { useDispatch } from "react-redux";
-import { addOrderDetails } from "@/redux/features/order/orderDetails/orderDetailsSlice";
 import AddressForm from "../Forms/AddressForm";
 import OrderSummaryCart from "./OrderSummaryCart";
+import ProgressSteps from "./ProgressSteps";
 
 const OrderProductDetails = () => {
   const router = useRouter();
@@ -34,38 +34,7 @@ const OrderProductDetails = () => {
   return (
     <div className="bg-accent pt-32 lg:pt-[10.9rem]">
       <div className="container">
-        <div className="flex items-center py-10">
-          <Link href="/cart">
-            <button className="cursor-pointer rounded-full bg-primary px-6 py-2 text-sm font-semibold text-white">
-              <span className="hidden sm:block">1. Cart</span>
-              <span className="sm:hidden">Cart</span>
-            </button>
-          </Link>
-          <div className="w-20 border-t-4 border-primary" />
-          <Link href="/checkout">
-            <button
-              disabled={cart.cartItems.length < 1}
-              className="cursor-pointer rounded-full bg-primary px-6 py-2 text-sm font-semibold text-white"
-            >
-              <span className="hidden sm:block">2. Details</span>
-              <span className="sm:hidden">Details</span>
-            </button>
-          </Link>
-          <div className="w-20 border-t-4 border-secondary" />
-          <Link href="/payment">
-            <button className="cursor-pointer rounded-full bg-secondary px-6 py-2 text-sm font-semibold text-white">
-              <span className="hidden sm:block">3. Payment</span>
-              <span className="sm:hidden">Payment</span>
-            </button>
-          </Link>
-          <div className="w-20 border-t-4 border-secondary" />
-          <Link href="/review">
-            <button className="cursor-pointer rounded-full bg-secondary px-6 py-2 text-sm font-semibold text-white">
-              <span className="hidden sm:block">4. Review</span>
-              <span className="sm:hidden">Review</span>
-            </button>
-          </Link>
-        </div>
+        <ProgressSteps />
 
         {user && user.profile?.address?.length > 0 && (
           <div>

@@ -1,42 +1,4 @@
-// import CheckOutForm from "@/components/mainComponents/Payment/Stripe/CheckOutForm";
-// import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-// import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-// import { Elements } from "@stripe/react-stripe-js";
-// import { loadStripe } from "@stripe/stripe-js";
-// import { Dispatch, SetStateAction } from "react";
-
-// const stripePromise = loadStripe(
-//   "pk_test_51NkLj1AkOdLWdOinJDXwCB46g94gCswPiDIPPKXrEatrIOD76cTVNDrOXXkfHsLnZcE2RevaXokXTl2tGTut6sf800rXH7FYT3",
-// );
-
-// interface TProps {
-//   openStripe: boolean;
-//   setOpenStripe: Dispatch<SetStateAction<boolean>>;
-// }
-
-// const StripePaymentModal = ({ openStripe, setOpenStripe }: TProps) => {
-//   return (
-//     <Dialog open={openStripe} onOpenChange={setOpenStripe}>
-//       <DialogContent className="w-full max-w-xl rounded-xl bg-white p-6 shadow-lg">
-//         <DialogTitle>
-//           <VisuallyHidden>Stripe Payment Modal</VisuallyHidden>
-//         </DialogTitle>
-//         <div className="pb-8 text-center">
-//           <p className="text-lg font-medium text-primary">Secure Payment</p>
-//           <h3 className="mt-2 text-3xl font-bold text-slate-600">
-//             Pay with Stripe
-//           </h3>
-//         </div>
-//         <Elements stripe={stripePromise}>
-//           <CheckOutForm setOpenStripe={setOpenStripe} />
-//         </Elements>
-//       </DialogContent>
-//     </Dialog>
-//   );
-// };
-
-// export default StripePaymentModal;
-import CheckOutForm from "@/components/mainComponents/Payment/Stripe/CheckOutForm";
+import StripeCheckOutForm from "@/components/mainComponents/Payment/Stripe/StripeCheckOutForm";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Elements } from "@stripe/react-stripe-js";
@@ -73,7 +35,7 @@ const StripePaymentModal = ({ openStripe, setOpenStripe }: TProps) => {
         </div>
         {/* Wrap your checkout form inside Stripe's Elements provider */}
         <Elements stripe={stripePromise}>
-          <CheckOutForm setOpenStripe={setOpenStripe} />
+          <StripeCheckOutForm setOpenStripe={setOpenStripe} />
         </Elements>
       </DialogContent>
     </Dialog>

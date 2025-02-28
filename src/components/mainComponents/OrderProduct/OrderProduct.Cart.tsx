@@ -9,10 +9,10 @@ import {
 import { useAppSelector } from "@/redux/hooks";
 import { Trash2 } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import OrderSummaryCart from "./OrderSummaryCart";
+import ProgressSteps from "./ProgressSteps";
 
 const OrderProductCart = () => {
   const dispatch = useDispatch();
@@ -21,44 +21,7 @@ const OrderProductCart = () => {
   return (
     <div className="bg-accent pt-32 lg:pt-[10.9rem]">
       <div className="container">
-        <div className="flex items-center space-x-6 py-10">
-          <Link href="/cart">
-            <button className="hover:bg-primary-dark cursor-pointer rounded-full bg-primary px-6 py-2 text-sm font-semibold text-white transition-colors duration-300">
-              <span className="hidden sm:block">1. Cart</span>
-              <span className="sm:hidden">Cart</span>
-            </button>
-          </Link>
-          <div className="w-20 border-t-4 border-secondary" />
-          <Link href="/checkout">
-            <button
-              disabled={cart.cartItems.length < 1}
-              className="hover:bg-secondary-dark cursor-pointer rounded-full bg-secondary px-6 py-2 text-sm font-semibold text-white transition-colors duration-300 disabled:cursor-not-allowed disabled:bg-gray-300"
-            >
-              <span className="hidden sm:block">2. Details</span>
-              <span className="sm:hidden">Details</span>
-            </button>
-          </Link>
-          <div className="w-20 border-t-4 border-secondary" />
-          <Link href="/payment">
-            <button
-              disabled={cart.cartItems.length < 1}
-              className="hover:bg-secondary-dark cursor-pointer rounded-full bg-secondary px-6 py-2 text-sm font-semibold text-white transition-colors duration-300 disabled:cursor-not-allowed disabled:bg-gray-300"
-            >
-              <span className="hidden sm:block">3. Payment</span>
-              <span className="sm:hidden">Payment</span>
-            </button>
-          </Link>
-          <div className="w-20 border-t-4 border-secondary" />
-          <Link href="/review">
-            <button
-              disabled={cart.cartItems.length < 1}
-              className="hover:bg-secondary-dark cursor-pointer rounded-full bg-secondary px-6 py-2 text-sm font-semibold text-white transition-colors duration-300 disabled:cursor-not-allowed disabled:bg-gray-300"
-            >
-              <span className="hidden sm:block">4. Review</span>
-              <span className="sm:hidden">Review</span>
-            </button>
-          </Link>
-        </div>
+        <ProgressSteps />
 
         <div className="grid grid-cols-3 gap-5 pb-32">
           <div className="col-span-3 space-y-5 lg:col-span-2">

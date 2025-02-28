@@ -1,7 +1,7 @@
 import React from "react";
 import Head from "next/head";
-import Success from "../../../components/mainComponents/Payment/SSLCommerz/Success";
-import PrivateRoute from "../../../components/mainComponents/Auth/private/PrivateRoute";
+import PrivateRoute from "@/components/mainComponents/Auth/private/PrivateRoute";
+import Success from "@/components/mainComponents/Payment/SSLCommerz/Success";
 
 const payment = () => {
   return (

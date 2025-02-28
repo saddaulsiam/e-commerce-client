@@ -27,7 +27,7 @@ interface TProps {
  * 2. Renders a Stripe CardElement for card details.
  * 3. Confirms the payment and creates an order upon success.
  */
-const CheckOutForm = ({ setOpenStripe }: TProps) => {
+const StripeCheckOutForm = ({ setOpenStripe }: TProps) => {
   const stripe = useStripe();
   const elements = useElements();
   const dispatch = useDispatch();
@@ -148,7 +148,7 @@ const CheckOutForm = ({ setOpenStripe }: TProps) => {
           toast.success(orderResponse?.message || "Order placed successfully!");
           dispatch(clearCart());
           dispatch(removeOrderDetails());
-          router.push("/customer/orders");
+          router.push("/payment/success");
           setOpenStripe(false);
         } else {
           throw new Error("Order processing failed. Contact support.");
@@ -181,4 +181,4 @@ const CheckOutForm = ({ setOpenStripe }: TProps) => {
   );
 };
 
-export default CheckOutForm;
+export default StripeCheckOutForm;
