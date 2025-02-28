@@ -18,7 +18,7 @@ const SideBarShoppingCartItem = ({ product }: { product: TCartItem }) => {
         {/* Quantity controls */}
         <div className="flex flex-col items-center space-y-0.5 text-sm">
           <span
-            onClick={() => dispatch(decreaseQuantity(product._id))}
+            onClick={() => dispatch(decreaseQuantity(product.productId))}
             className="cursor-pointer rounded-md border border-gray-300 p-1 text-gray-700 transition duration-200 ease-in-out hover:bg-gray-300 hover:text-primary"
           >
             <AiOutlineMinus />
@@ -28,9 +28,10 @@ const SideBarShoppingCartItem = ({ product }: { product: TCartItem }) => {
             onClick={() =>
               dispatch(
                 addToCart({
-                  _id: product._id,
-                  imageUrl: product.imageUrl,
                   name: product.name,
+                  productId: product.productId,
+                  vendorId: product.vendorId,
+                  imageUrl: product.imageUrl,
                   price: product.price,
                   quantity: 1,
                 }),
@@ -69,7 +70,7 @@ const SideBarShoppingCartItem = ({ product }: { product: TCartItem }) => {
       </div>
 
       {/* Remove button */}
-      <button onClick={() => dispatch(removeFromCart(product._id))}>
+      <button onClick={() => dispatch(removeFromCart(product.productId))}>
         <Trash2
           className="cursor-pointer font-semibold text-gray-600 transition duration-200 ease-in-out hover:text-red-500"
           size={18}

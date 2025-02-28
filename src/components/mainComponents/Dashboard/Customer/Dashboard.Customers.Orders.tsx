@@ -4,7 +4,7 @@ import { useAppSelector } from "@/redux/hooks";
 import { useState } from "react";
 import { FaShoppingBag } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { useGetMyOrdersQuery } from "../../../../redux/features/orders/orders/ordersApi";
+import { useGetMyOrdersQuery } from "../../../../redux/features/order/orders/ordersApi";
 import { Loading } from "../../../sharedComponents";
 import DashboardCustomerOrdersCart from "./Dashboard.Customer.Orders.Cart";
 import DashboardCustomerSideBarNavigation from "./Dashboard.Customer.SideBar.Navigation";
@@ -25,7 +25,10 @@ const DashboardCustomersOrders = () => {
               <FaShoppingBag className="mr-3 inline text-2xl text-primary" />
               My Orders
             </h2>
-            <button className="text-2xl font-thin lg:hidden" onClick={() => setShowSideNavigation(true)}>
+            <button
+              className="text-2xl font-thin lg:hidden"
+              onClick={() => setShowSideNavigation(true)}
+            >
               <GiHamburgerMenu />
             </button>
           </div>
@@ -45,7 +48,11 @@ const DashboardCustomersOrders = () => {
           </div>
         </div>
       )}
-      {showSideNavigation && <DashboardCustomerSideBarNavigation setShowSideNavigation={setShowSideNavigation} />}
+      {showSideNavigation && (
+        <DashboardCustomerSideBarNavigation
+          setShowSideNavigation={setShowSideNavigation}
+        />
+      )}
     </>
   );
 };

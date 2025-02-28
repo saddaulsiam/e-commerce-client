@@ -29,7 +29,7 @@ const OrderProductCart = () => {
             </button>
           </Link>
           <div className="w-20 border-t-4 border-secondary" />
-          <Link href="/details">
+          <Link href="/checkout">
             <button
               disabled={cart.cartItems.length < 1}
               className="hover:bg-secondary-dark cursor-pointer rounded-full bg-secondary px-6 py-2 text-sm font-semibold text-white transition-colors duration-300 disabled:cursor-not-allowed disabled:bg-gray-300"
@@ -83,7 +83,9 @@ const OrderProductCart = () => {
                       <h4>{product.name}</h4>
                       <Button
                         variant="ghost"
-                        onClick={() => dispatch(removeFromCart(product._id))}
+                        onClick={() =>
+                          dispatch(removeFromCart(product.productId))
+                        }
                         className="text-red-500 transition-colors duration-200 hover:text-red-600"
                       >
                         <Trash2 />
@@ -101,7 +103,7 @@ const OrderProductCart = () => {
                         <span
                           className="cursor-pointer rounded-md border border-primary p-1 text-primary transition-all duration-200 hover:bg-primary hover:text-white"
                           onClick={() =>
-                            dispatch(decreaseQuantity(product._id))
+                            dispatch(decreaseQuantity(product.productId))
                           }
                         >
                           <AiOutlineMinus />
@@ -112,9 +114,10 @@ const OrderProductCart = () => {
                           onClick={() =>
                             dispatch(
                               addToCart({
-                                _id: product._id,
-                                imageUrl: product.imageUrl,
                                 name: product.name,
+                                productId: product.productId,
+                                vendorId: product.vendorId,
+                                imageUrl: product.imageUrl,
                                 price: product.price,
                                 quantity: 1,
                               }),

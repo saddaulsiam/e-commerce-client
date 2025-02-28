@@ -6,7 +6,7 @@ import { FaShoppingBag } from "react-icons/fa";
 // local
 import { Loading, Pagination } from "../../../sharedComponents";
 import VendorAllOrdersCart from "./Vendor.AllOrdersCart";
-import { useGetOrdersQuery } from "../../../../redux/features/orders/orders/ordersApi";
+import { useGetOrdersQuery } from "../../../../redux/features/order/orders/ordersApi";
 import DashboardSideBarNavigation from "../Commone/Dashboard.SideBar.Navigation";
 
 const VendorAllOrders = () => {
@@ -59,7 +59,7 @@ const VendorAllOrders = () => {
                   <VendorAllOrdersCart key={i} order={order} i={i} />
                 ))}
               </tbody>
-              <tfoot className="bg-secondary ">
+              <tfoot className="bg-secondary">
                 <tr>
                   <th>
                     <Pagination
@@ -71,7 +71,8 @@ const VendorAllOrders = () => {
                   <th></th>
                   <th></th>
                   <th>
-                    {orders?.data?.orders?.length} of {currentPage} page ({orders?.data?.total} items)
+                    {orders?.data?.orders?.length} of {currentPage} page (
+                    {orders?.data?.total} items)
                   </th>
                   <th></th>
                   <th></th>
@@ -81,7 +82,11 @@ const VendorAllOrders = () => {
               </tfoot>
             </table>
           </div>
-          {showSideNavigation && <DashboardSideBarNavigation setShowSideNavigation={setShowSideNavigation} />}
+          {showSideNavigation && (
+            <DashboardSideBarNavigation
+              setShowSideNavigation={setShowSideNavigation}
+            />
+          )}
         </div>
       )}
     </>

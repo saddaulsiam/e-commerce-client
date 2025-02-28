@@ -32,7 +32,8 @@ const ProductsModal = ({ setIsOpen, isOpen, product }: TProps) => {
   const handleAddToCart = () => {
     dispatch(
       addToCart({
-        _id: product._id,
+        productId: product._id,
+        vendorId: product.vendorId,
         imageUrl: product.images[0],
         name: product.name,
         price: product.price,

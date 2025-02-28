@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { HiMinusCircle, HiOutlinePlusCircle } from "react-icons/hi";
 import { useDispatch } from "react-redux";
-import { addOrderDetails } from "@/redux/features/orders/orderDetails/orderDetailsSlice";
+import { addOrderDetails } from "@/redux/features/order/orderDetails/orderDetailsSlice";
 import AddressForm from "../Forms/AddressForm";
 import OrderSummaryCart from "./OrderSummaryCart";
 
@@ -24,7 +24,7 @@ const OrderProductDetails = () => {
     try {
       if (address) {
         dispatch(addOrderDetails(address));
-        // router.push("/payment");
+        router.push("/payment");
       }
     } catch (error) {
       console.log(error);
@@ -42,7 +42,7 @@ const OrderProductDetails = () => {
             </button>
           </Link>
           <div className="w-20 border-t-4 border-primary" />
-          <Link href="/details">
+          <Link href="/checkout">
             <button
               disabled={cart.cartItems.length < 1}
               className="cursor-pointer rounded-full bg-primary px-6 py-2 text-sm font-semibold text-white"

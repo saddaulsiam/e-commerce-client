@@ -13,13 +13,13 @@ import storage from "redux-persist/lib/storage"; // Local storage for persistenc
 import baseApi from "./features/api/baseApi";
 import authReducer from "./features/auth/authSlice";
 import cartReducer from "./features/cart/cartSlice";
-import orderDetailsReducer from "./features/orders/orderDetails/orderDetailsSlice";
+import orderDetailsReducer from "./features/order/orderDetails/orderDetailsSlice";
 
 // Persist Configuration
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth", "cart"],
+  whitelist: ["auth", "cart", "orderDetails"],
 };
 
 // Root Reducer

@@ -10,7 +10,7 @@ import VendorOrderDetailsCart from "./Vendor.Order.Details.Cart";
 // local
 import { Loading } from "../../../sharedComponents";
 import { DashboardSideBarNavigation } from "../Commone";
-import { useGetSingleOrderQuery } from "../../../../redux/features/orders/orders/ordersApi";
+import { useGetSingleOrderQuery } from "../../../../redux/features/order/orders/ordersApi";
 
 const VendorOrderDetails = () => {
   const router = useRouter();
@@ -33,16 +33,18 @@ const VendorOrderDetails = () => {
 
             <div className="flex justify-end">
               <Link href="/vendor/orders">
-                <button className="bg-red-200 py-2 px-4 text-sm font-semibold text-secondary">Back To Orders</button>
+                <button className="bg-red-200 px-4 py-2 text-sm font-semibold text-secondary">
+                  Back To Orders
+                </button>
               </Link>
             </div>
           </div>
 
           <div className="mt-10 rounded-md bg-white px-5 py-10 shadow print:hidden">
-            <div className="flex items-center ">
+            <div className="flex items-center">
               <span className="relative rounded-full bg-primary p-4 text-2xl text-white">
                 <BsBoxSeam />
-                <span className="absolute -top-1 -right-1 rounded-full bg-slate-200 p-1 text-base text-green-600">
+                <span className="absolute -right-1 -top-1 rounded-full bg-slate-200 p-1 text-base text-green-600">
                   <FcCheckmark />
                 </span>
               </span>
@@ -56,36 +58,42 @@ const VendorOrderDetails = () => {
               </span>
             </div>
             <div className="mt-10 flex justify-end">
-              <p className="rounded-full bg-red-200 py-1 px-4 text-secondary">
+              <p className="rounded-full bg-red-200 px-4 py-1 text-secondary">
                 Estimated Delivery Date {order?.data?.orderDate.split("T")[0]}
               </p>
             </div>
           </div>
 
-          <div className="mt-10 grid grid-cols-1 gap-10 rounded-md bg-white px-5 py-5 shadow print:hidden lg:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-10 rounded-md bg-white px-5 py-5 shadow lg:grid-cols-3 print:hidden">
             <div>
-              <p className="mb-5 flex justify-center text-xl font-bold">Status</p>
+              <p className="mb-5 flex justify-center text-xl font-bold">
+                Status
+              </p>
               <div className="flex justify-between">
                 <div>
-                  <p className="mb-3 font-semibold text-my-gray-200">Current Status</p>
+                  <p className="mb-3 font-semibold text-my-gray-200">
+                    Current Status
+                  </p>
                   <p
                     className={`badge capitalize ${
                       order?.data?.status === "pending"
                         ? "badge-warning"
                         : order?.data?.status === "reject"
-                        ? "badge-error"
-                        : order?.data?.status === "delivery"
-                        ? "badge-success"
-                        : order?.data?.status === "cancel"
-                        ? "badge-error"
-                        : ""
+                          ? "badge-error"
+                          : order?.data?.status === "delivery"
+                            ? "badge-success"
+                            : order?.data?.status === "cancel"
+                              ? "badge-error"
+                              : ""
                     }`}
                   >
                     {order?.data?.status}
                   </p>
                 </div>
                 <div>
-                  <p className="mb-3 font-semibold text-my-gray-200">Update Status</p>
+                  <p className="mb-3 font-semibold text-my-gray-200">
+                    Update Status
+                  </p>
                   <p>
                     <select className="select select-accent select-sm max-w-xs capitalize">
                       <option disabled>{order?.data?.status}</option>
@@ -99,14 +107,18 @@ const VendorOrderDetails = () => {
               </div>
             </div>
             <div>
-              <p className="mb-5 flex justify-center text-xl font-bold">Tracking</p>
+              <p className="mb-5 flex justify-center text-xl font-bold">
+                Tracking
+              </p>
               <div className="flex justify-center">
                 <div>
                   <p className="font-semibold text-my-gray-200">
-                    Delivery by : <span className="font-normal">Sundarban Courier ltd</span>
+                    Delivery by :{" "}
+                    <span className="font-normal">Sundarban Courier ltd</span>
                   </p>
                   <p className="mt-3 font-semibold text-my-gray-200">
-                    CN Number : <span className="font-normal">10163000167843</span>
+                    CN Number :{" "}
+                    <span className="font-normal">10163000167843</span>
                   </p>
                 </div>
               </div>
@@ -126,30 +138,39 @@ const VendorOrderDetails = () => {
 
           <VendorOrderDetailsCart order={order?.data} />
 
-          <div className="mt-10 grid grid-cols-1 gap-5 print:grid-cols-2 sm:grid-cols-2">
+          <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 print:grid-cols-2">
             <div className="rounded-md bg-white p-5">
-              <h3 className="mb-5 text-base font-semibold text-my-gray-200">Shipping Address</h3>
+              <h3 className="mb-5 text-base font-semibold text-my-gray-200">
+                Shipping Address
+              </h3>
               <div className="space-y-3">
                 <h3>Name: {order?.data?.shippingAddress?.name}</h3>
                 <p className="">
                   Address:
-                  <span className="rounded-full bg-orange-500 px-1.5 text-white">Home</span>{" "}
+                  <span className="rounded-full bg-orange-500 px-1.5 text-white">
+                    Home
+                  </span>{" "}
                   {order?.data?.shippingAddress?.address}
                 </p>
                 <p>
-                  Region: {order?.data?.shippingAddress?.area}-{order?.data?.shippingAddress?.city}-
+                  Region: {order?.data?.shippingAddress?.area}-
+                  {order?.data?.shippingAddress?.city}-
                   {order?.data?.shippingAddress?.region}
                 </p>
                 <p className="">Phone: {order?.data?.shippingAddress?.phone}</p>
 
                 {order?.data?.shippingAddress?.email && (
-                  <p className="">email: {order?.data?.shippingAddress?.email}</p>
+                  <p className="">
+                    email: {order?.data?.shippingAddress?.email}
+                  </p>
                 )}
               </div>
             </div>
 
             <div className="space-y-2 rounded-md bg-white p-5">
-              <h3 className="text-base font-semibold text-my-gray-200">Total Summary</h3>
+              <h3 className="text-base font-semibold text-my-gray-200">
+                Total Summary
+              </h3>
               <div className="flex justify-between">
                 <p className="text-my-gray-100">Subtotal:</p>
                 <p>${order?.data?.total}</p>
@@ -167,11 +188,17 @@ const VendorOrderDetails = () => {
                 <p>Total</p>
                 <p>$ {order?.data?.total + 10 - 5}</p>
               </div>
-              <p className="text-my-gray-100">Paid by: {order?.data?.paymentDetails?.payWith}</p>
+              <p className="text-my-gray-100">
+                Paid by: {order?.data?.paymentDetails?.payWith}
+              </p>
             </div>
           </div>
 
-          {showSideNavigation && <DashboardSideBarNavigation setShowSideNavigation={setShowSideNavigation} />}
+          {showSideNavigation && (
+            <DashboardSideBarNavigation
+              setShowSideNavigation={setShowSideNavigation}
+            />
+          )}
         </div>
       )}
     </>

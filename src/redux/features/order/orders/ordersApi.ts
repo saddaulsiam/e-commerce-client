@@ -1,46 +1,34 @@
-import Cookies from "js-cookie";
 import baseApi from "../../api/baseApi";
 
 const orderNowApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     orderNow: builder.mutation({
       query: (data) => ({
-        url: "/order",
+        url: "/orders",
         method: "POST",
-        headers: {
-          authorization: `Bearer ${Cookies.get("access-token")}`,
-        },
+
         body: data,
       }),
       invalidatesTags: ["Orders"],
     }),
     getOrders: builder.query({
       query: (data) => ({
-        url: `/order?limit=${data.limit}&page=${data.page}`,
+        url: `/orders?limit=${data.limit}&page=${data.page}`,
         method: "GET",
-        headers: {
-          authorization: `Bearer ${Cookies.get("access-token")}`,
-        },
       }),
       providesTags: ["Orders"],
     }),
     getSingleOrder: builder.query({
       query: (id) => ({
-        url: `/order/${id}`,
+        url: `/orders/${id}`,
         method: "GET",
-        headers: {
-          authorization: `Bearer ${Cookies.get("access-token")}`,
-        },
       }),
       providesTags: ["Orders"],
     }),
     getMyOrders: builder.query({
       query: (email) => ({
-        url: `/order/my/${email}`,
+        url: `/orders/my/${email}`,
         method: "GET",
-        headers: {
-          authorization: `Bearer ${Cookies.get("access-token")}`,
-        },
       }),
       providesTags: ["Orders"],
     }),

@@ -1,15 +1,25 @@
-import { AiFillStar, AiOutlineHeart, AiOutlineMinus, AiOutlinePlus, AiOutlineStar } from "react-icons/ai";
+import {
+  AiFillStar,
+  AiOutlineHeart,
+  AiOutlineMinus,
+  AiOutlinePlus,
+  AiOutlineStar,
+} from "react-icons/ai";
 import Link from "next/link";
 import { IoIosGitCompare } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 
 // local
-import { addToCart, decreaseQuantity } from "../../../redux/features/cart/cartSlice";
+import {
+  addToCart,
+  decreaseQuantity,
+} from "../../../redux/features/cart/cartSlice";
+import { useAppSelector } from "@/redux/hooks";
 
 const SingleProductDetails = ({ data, setFilterColor }) => {
   const dispatch = useDispatch();
 
-  const { products } = useSelector((state) => state.cart);
+  const { cartItems } = useAppSelector(({ state }) => state.cart);
   const pdt = products.find((p) => p._id === data?._id);
 
   return (
@@ -20,7 +30,7 @@ const SingleProductDetails = ({ data, setFilterColor }) => {
         {/* Discount price */}
         <p className="text-my-gray-200 line-through">${data?.price}</p>
       </div>
-      <p className="flex text-lg text-yellow-500/80 ">
+      <p className="flex text-lg text-yellow-500/80">
         <AiFillStar />
         <AiFillStar />
         <AiFillStar />
@@ -32,7 +42,7 @@ const SingleProductDetails = ({ data, setFilterColor }) => {
       {/* color and size */}
       <div className="flex items-center space-x-10">
         <div className="flex items-center space-x-2">
-          <p className="text-lg ">Colors: </p>
+          <p className="text-lg">Colors: </p>
           <div className="flex items-center space-x-4">
             {data?.colors.map((color, i) => (
               <label key={i} className="flex cursor-pointer items-center">
@@ -48,9 +58,11 @@ const SingleProductDetails = ({ data, setFilterColor }) => {
           </div>
         </div>
         <div className="flex items-center space-x-2">
-          <p className="text-lg ">Size</p>
+          <p className="text-lg">Size</p>
           <div className="flex items-center space-x-2">
-            <p className="transform bg-primary px-2 py-1 text-white transition duration-500 hover:bg-primary">x</p>
+            <p className="transform bg-primary px-2 py-1 text-white transition duration-500 hover:bg-primary">
+              x
+            </p>
             <p className="transform bg-slate-200 px-2 py-1 transition duration-500 hover:bg-primary hover:text-white">
               M
             </p>
@@ -72,15 +84,26 @@ const SingleProductDetails = ({ data, setFilterColor }) => {
           <span>{pdt?.quantity || 0}</span>
 
           <span
-            className="cursor-pointer rounded-md border border-secondary  p-1 text-secondary hover:bg-secondary hover:text-white"
-            onClick={() => dispatch(addToCart(data))}
+            className="cursor-pointer rounded-md border border-secondary p-1 text-secondary hover:bg-secondary hover:text-white"
+            onClick={() =>
+              dispatch(
+                addToCart({
+                  name: data.name,
+                  productId: data.productId,
+                  vendorId: data.vendorId,
+                  imageUrl: data.imageUrl,
+                  price: data.price,
+                  quantity: 1,
+                }),
+              )
+            }
           >
             <AiOutlinePlus />
           </span>
         </div>
         <button
           onClick={() => dispatch(addToCart(data))}
-          className="text-l transform bg-gray-800 py-2 px-6 font-bold text-white transition duration-500 hover:bg-primary"
+          className="text-l transform bg-gray-800 px-6 py-2 font-bold text-white transition duration-500 hover:bg-primary"
         >
           Add to Cart
         </button>
@@ -102,7 +125,10 @@ const SingleProductDetails = ({ data, setFilterColor }) => {
       </p>
       <p>
         Sold By:{" "}
-        <Link href={`/shop/${data?.supplier?.name.toLowerCase()}`} className="capitalize hover:text-secondary">
+        <Link
+          href={`/shop/${data?.supplier?.name.toLowerCase()}`}
+          className="capitalize hover:text-secondary"
+        >
           {data?.supplier?.name.split("-").join(" ")}
         </Link>
       </p>

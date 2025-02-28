@@ -2,8 +2,8 @@ import { TProduct } from "@/types/common";
 
 export const products: TProduct[] = [
   {
-    _id: "1",
-    vendorId: "v101",
+    _id: "123456789111111111111111",
+    vendorId: "123456789111111111111111",
     name: "Apple iPhone 15 Pro",
     description: "Experience the latest technology with the iPhone 15 Pro.",
     shortDescription:
@@ -30,8 +30,8 @@ export const products: TProduct[] = [
     updatedAt: new Date(),
   },
   {
-    _id: "2",
-    vendorId: "v102",
+    _id: "123456789111111111111112",
+    vendorId: "123456789111111111111123",
     name: "Samsung Galaxy S24 Ultra",
     description: "The most powerful Galaxy smartphone ever.",
     shortDescription:

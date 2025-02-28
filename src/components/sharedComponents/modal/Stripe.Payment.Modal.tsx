@@ -1,66 +1,83 @@
-import { Fragment } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import { Elements } from "@stripe/react-stripe-js";
-import CheckOutForm from "../../mainComponents/Payment/Stripe/CheckOutForm";
-import { loadStripe } from "@stripe/stripe-js";
+// import CheckOutForm from "@/components/mainComponents/Payment/Stripe/CheckOutForm";
+// import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+// import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+// import { Elements } from "@stripe/react-stripe-js";
+// import { loadStripe } from "@stripe/stripe-js";
+// import { Dispatch, SetStateAction } from "react";
 
-// stripe promise
+// const stripePromise = loadStripe(
+//   "pk_test_51NkLj1AkOdLWdOinJDXwCB46g94gCswPiDIPPKXrEatrIOD76cTVNDrOXXkfHsLnZcE2RevaXokXTl2tGTut6sf800rXH7FYT3",
+// );
+
+// interface TProps {
+//   openStripe: boolean;
+//   setOpenStripe: Dispatch<SetStateAction<boolean>>;
+// }
+
+// const StripePaymentModal = ({ openStripe, setOpenStripe }: TProps) => {
+//   return (
+//     <Dialog open={openStripe} onOpenChange={setOpenStripe}>
+//       <DialogContent className="w-full max-w-xl rounded-xl bg-white p-6 shadow-lg">
+//         <DialogTitle>
+//           <VisuallyHidden>Stripe Payment Modal</VisuallyHidden>
+//         </DialogTitle>
+//         <div className="pb-8 text-center">
+//           <p className="text-lg font-medium text-primary">Secure Payment</p>
+//           <h3 className="mt-2 text-3xl font-bold text-slate-600">
+//             Pay with Stripe
+//           </h3>
+//         </div>
+//         <Elements stripe={stripePromise}>
+//           <CheckOutForm setOpenStripe={setOpenStripe} />
+//         </Elements>
+//       </DialogContent>
+//     </Dialog>
+//   );
+// };
+
+// export default StripePaymentModal;
+import CheckOutForm from "@/components/mainComponents/Payment/Stripe/CheckOutForm";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import { Dispatch, SetStateAction } from "react";
+
+// Load your Stripe publishable key (use environment variables in production)
 const stripePromise = loadStripe(
-  "pk_test_51NkLj1AkOdLWdOinJDXwCB46g94gCswPiDIPPKXrEatrIOD76cTVNDrOXXkfHsLnZcE2RevaXokXTl2tGTut6sf800rXH7FYT3"
+  "pk_test_51NkLj1AkOdLWdOinJDXwCB46g94gCswPiDIPPKXrEatrIOD76cTVNDrOXXkfHsLnZcE2RevaXokXTl2tGTut6sf800rXH7FYT3",
 );
-const StripePaymentModal = ({ setIsOpen, isOpen }) => {
+
+interface TProps {
+  openStripe: boolean;
+  setOpenStripe: Dispatch<SetStateAction<boolean>>;
+}
+
+/**
+ * StripePaymentModal
+ * Displays a modal with a secure payment form using Stripe Elements.
+ */
+const StripePaymentModal = ({ openStripe, setOpenStripe }: TProps) => {
   return (
-    <>
-      <Transition appear show={isOpen} as={Fragment}>
-        <Dialog
-          as="div"
-          className="relative z-50"
-          onClose={() => setIsOpen(false)}
-        >
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black bg-opacity-50" />
-          </Transition.Child>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0 scale-95"
-            enterTo="opacity-100 scale-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100 scale-100"
-            leaveTo="opacity-0 scale-95"
-          >
-            <div className="fixed inset-0 overflow-y-auto">
-              <div className="flex min-h-full items-center justify-center ">
-                <Dialog.Panel
-                  className="mx-2 w-full max-w-md transform overflow-hidden rounded-xl bg-white
-                p-5 py-10 text-left align-middle shadow-xl transition-all"
-                >
-                  <div className="flex flex-col items-center justify-center">
-                    <p className="text-base font-medium text-primary">
-                      Pay With
-                    </p>
-                    <h3 className="pb-10 text-3xl font-bold text-secondary">
-                      Stripe
-                    </h3>
-                  </div>
-                  <Elements stripe={stripePromise}>
-                    <CheckOutForm setIsOpen={setIsOpen} />
-                  </Elements>
-                </Dialog.Panel>
-              </div>
-            </div>
-          </Transition.Child>
-        </Dialog>
-      </Transition>
-    </>
+    <Dialog open={openStripe} onOpenChange={setOpenStripe}>
+      <DialogContent className="w-full max-w-xl rounded-xl bg-white p-6 shadow-lg">
+        {/* For accessibility: a hidden title for screen readers */}
+        <DialogTitle>
+          <VisuallyHidden>Stripe Payment Modal</VisuallyHidden>
+        </DialogTitle>
+        <div className="pb-8 text-center">
+          <p className="text-lg font-medium text-primary">Secure Payment</p>
+          <h3 className="mt-2 text-3xl font-bold text-slate-600">
+            Pay with Stripe
+          </h3>
+        </div>
+        {/* Wrap your checkout form inside Stripe's Elements provider */}
+        <Elements stripe={stripePromise}>
+          <CheckOutForm setOpenStripe={setOpenStripe} />
+        </Elements>
+      </DialogContent>
+    </Dialog>
   );
 };
+
 export default StripePaymentModal;

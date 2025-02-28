@@ -40,7 +40,7 @@ const OrderSummaryCart = ({ cart }: { cart: TCart }) => {
           </div>
           <div>
             <button
-              onClick={() => router.push("/details")}
+              onClick={() => router.push("/checkout")}
               className="w-full bg-primary py-2 text-sm text-white transition duration-100 ease-in-out hover:bg-red-600"
             >
               PROCEED TO CHECKOUT
