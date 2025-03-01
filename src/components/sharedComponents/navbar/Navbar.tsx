@@ -64,12 +64,11 @@ const Navbar = () => {
     dispatch(logOutUser());
     localStorage.removeItem("access-token");
   };
-
   return (
-    <header className="sticky left-0 top-0 z-50 w-full transition-all duration-300">
+    <header className="sticky left-0 top-0 z-50 w-full">
       <AnnouncementBar />
       <nav
-        className={`bg-white shadow-sm transition-all ${isScrolled ? "shadow-lg" : ""}`}
+        className={`bg-white py-1.5 transition-all duration-300 ease-in-out ${isScrolled ? "shadow-lg" : "shadow-sm"}`}
       >
         <div className="container mx-auto flex items-center justify-between py-4">
           {/* Left Section (Logo & Categories) */}
