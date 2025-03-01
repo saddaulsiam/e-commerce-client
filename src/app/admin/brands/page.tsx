@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { AdminDashboardLayout } from "../../../components/mainComponents/Dashboard/Admin";
 
-const index = () => {
+const AllBrands = () => {
   return (
     <>
       <Head>
@@ -12,4 +12,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default AllBrands;

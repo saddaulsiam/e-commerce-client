@@ -4,7 +4,7 @@ import {
   VendorAllProducts,
 } from "../../../components/mainComponents/Dashboard/vendor";
 
-const index = () => {
+const AllProducts = () => {
   return (
     <div>
       <VendorDashboardLayout>
@@ -14,4 +14,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default AllProducts;

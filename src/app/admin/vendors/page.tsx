@@ -4,7 +4,7 @@ import {
   AdminDashboardLayout,
 } from "../../../components/mainComponents/Dashboard/Admin";
 
-const vendors = () => {
+const AllVendors = () => {
   return (
     <AdminDashboardLayout>
       <AdminAllVendors />
@@ -12,4 +12,4 @@ const vendors = () => {
   );
 };
 
-export default vendors;
+export default AllVendors;

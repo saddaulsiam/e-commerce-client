@@ -1,7 +1,7 @@
 import { VendorDashboardLayout, VendorMainDashboard } from "@/components/mainComponents/Dashboard/vendor";
 import React from "react";
 
-const dashboard = () => {
+const Dashboard = () => {
   return (
     <div>
       <VendorDashboardLayout>
@@ -11,4 +11,4 @@ const dashboard = () => {
   );
 };
 
-export default dashboard;
+export default Dashboard;

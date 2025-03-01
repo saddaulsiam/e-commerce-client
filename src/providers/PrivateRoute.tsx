@@ -24,7 +24,7 @@ const PrivateRoute = ({ children }: { children: ReactNode }) => {
     return <div>Loading...</div>;
   }
 
-  return { children };
+  return <>{children}</>;
 };
 
 export default PrivateRoute;

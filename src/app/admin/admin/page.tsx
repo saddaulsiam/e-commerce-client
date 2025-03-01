@@ -1,6 +1,6 @@
 import { AdminDashboardLayout } from "../../../components/mainComponents/Dashboard/Admin";
 
-const index = () => {
+const AllAdmin = () => {
   return (
     <AdminDashboardLayout>
       <div>All Admins</div>
@@ -8,4 +8,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default AllAdmin;

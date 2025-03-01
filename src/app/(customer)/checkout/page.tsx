@@ -1,13 +1,11 @@
+import { ProductCheckout } from "@/components/mainComponents/Order";
 import PrivateRoute from "@/providers/PrivateRoute";
-import { OrderProductDetails } from "@/components/mainComponents/Order";
 
 const Checkout = () => {
   return (
-    <div>
-      <PrivateRoute>
-        <OrderProductDetails />
-      </PrivateRoute>
-    </div>
+    <PrivateRoute>
+      <ProductCheckout />
+    </PrivateRoute>
   );
 };
 

@@ -3,7 +3,7 @@
 import { TCart } from "@/redux/features/cart/cartSlice";
 import { usePathname, useRouter } from "next/navigation";
 
-const OrderSummaryCart = ({ cart }: { cart: TCart }) => {
+const CartSummary = ({ cart }: { cart: TCart }) => {
   const router = useRouter();
   const path = usePathname();
   const deliveryCharge = 150;
@@ -52,4 +52,4 @@ const OrderSummaryCart = ({ cart }: { cart: TCart }) => {
   );
 };
 
-export default OrderSummaryCart;
+export default CartSummary;

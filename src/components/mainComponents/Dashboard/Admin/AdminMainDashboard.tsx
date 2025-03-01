@@ -125,7 +125,7 @@ const data01 = [
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
-const AdminMainDashboard = ({ state }) => {
+const AdminMainDashboard = () => {
   const { data: userData } = useGetAllUsersQuery({
     limit: 3,
     page: 1,

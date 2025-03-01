@@ -1,11 +1,11 @@
 import React from "react";
 import { AdminDashboardLayout } from "../../../components/mainComponents/Dashboard/Admin";
 
-const index = () => {
+const Banners = () => {
   return (
     <AdminDashboardLayout>
       <div>Banners</div>
     </AdminDashboardLayout>
   );
 };
-export default index;
+export default Banners;

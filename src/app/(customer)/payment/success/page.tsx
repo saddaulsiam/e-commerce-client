@@ -1,17 +1,12 @@
-import React from "react";
-import Head from "next/head";
-import PrivateRoute from "@/providers/PrivateRoute";
 import PaymentSuccess from "@/components/mainComponents/Payment/PaymentSuccess";
+import PrivateRoute from "@/providers/PrivateRoute";
 
-const payment = () => {
+const Success = () => {
   return (
     <PrivateRoute>
-      <Head>
-        <title>Payment success</title>
-      </Head>
       <PaymentSuccess />
     </PrivateRoute>
   );
 };
 
-export default payment;
+export default Success;

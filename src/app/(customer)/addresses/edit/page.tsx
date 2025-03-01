@@ -1,7 +1,7 @@
 import { DashboardCustomersAddressEdit } from "@/components/mainComponents/Dashboard/Customer";
 import DashboardCustomerLayout from "@/components/mainComponents/Dashboard/Customer/Dashboard.Customer.Layout";
 
-const Index = () => {
+const EditAddress = () => {
   return (
     <DashboardCustomerLayout>
       <DashboardCustomersAddressEdit />
@@ -9,4 +9,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default EditAddress;

@@ -1,7 +1,7 @@
-import { OrderProductCart } from "@/components/mainComponents/Order";
+import { ProductCart } from "@/components/mainComponents/Order";
 
 const Cart = () => {
-  return <OrderProductCart />;
+  return <ProductCart />;
 };
 
 export default Cart;

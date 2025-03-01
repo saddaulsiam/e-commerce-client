@@ -8,10 +8,10 @@ import { useState } from "react";
 import { HiMinusCircle, HiOutlinePlusCircle } from "react-icons/hi";
 import { useDispatch } from "react-redux";
 import AddressForm from "../../sharedComponents/forms/AddressForm";
-import OrderSummaryCart from "./CartSummary";
+import CartSummary from "./CartSummary";
 import ProgressSteps from "./ProgressSteps";
 
-const OrderProductDetails = () => {
+const ProductCheckout = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const cart = useAppSelector(({ state }) => state.cart);
@@ -143,7 +143,7 @@ const OrderProductDetails = () => {
           </div>
 
           <div className="col-span-3 lg:col-span-1">
-            <OrderSummaryCart cart={cart} />
+            <CartSummary cart={cart} />
           </div>
         </div>
       </div>
@@ -151,4 +151,4 @@ const OrderProductDetails = () => {
   );
 };
 
-export default OrderProductDetails;
+export default ProductCheckout;

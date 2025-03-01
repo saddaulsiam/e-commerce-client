@@ -1,6 +1,6 @@
 import { AdminDashboardLayout } from "@/components/mainComponents/Dashboard/Admin";
 
-const addBanner = () => {
+const AddNewBanner = () => {
   return (
     <AdminDashboardLayout>
       <div>Add Banner</div>
@@ -8,4 +8,4 @@ const addBanner = () => {
   );
 };
 
-export default addBanner;
+export default AddNewBanner;

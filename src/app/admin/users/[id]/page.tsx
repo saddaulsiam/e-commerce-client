@@ -1,6 +1,9 @@
-import { AdminDashboardLayout, AdminUserDetails } from "@/components/mainComponents/Dashboard/Admin";
+import {
+  AdminDashboardLayout,
+  AdminUserDetails,
+} from "@/components/mainComponents/Dashboard/Admin";
 
-const userDetails = () => {
+const SingleUserDetails = () => {
   return (
     <AdminDashboardLayout>
       <AdminUserDetails />
@@ -8,4 +11,4 @@ const userDetails = () => {
   );
 };
 
-export default userDetails;
+export default SingleUserDetails;

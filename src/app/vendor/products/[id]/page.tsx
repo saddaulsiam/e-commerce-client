@@ -1,7 +1,10 @@
-import { VendorDashboardLayout, VendorEditProductDetails } from "@/components/mainComponents/Dashboard/vendor";
+import {
+  VendorDashboardLayout,
+  VendorEditProductDetails,
+} from "@/components/mainComponents/Dashboard/vendor";
 import React from "react";
 
-const id = () => {
+const SingleProductDetails = () => {
   return (
     <div>
       <VendorDashboardLayout>
@@ -11,4 +14,4 @@ const id = () => {
   );
 };
 
-export default id;
+export default SingleProductDetails;

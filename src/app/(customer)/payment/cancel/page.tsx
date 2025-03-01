@@ -1,12 +1,12 @@
+import { PaymentCancel } from "@/components/mainComponents/Payment";
 import PrivateRoute from "@/providers/PrivateRoute";
-import Cancel from "@/components/mainComponents/Payment/";
 
-const payment = () => {
+const Cancel = () => {
   return (
     <PrivateRoute>
-      <Cancel />
+      <PaymentCancel />
     </PrivateRoute>
   );
 };
 
-export default payment;
+export default Cancel;

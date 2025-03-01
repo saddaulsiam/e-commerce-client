@@ -1,14 +1,13 @@
-import { AdminDashboardLayout } from "@/components/mainComponents/Dashboard/Admin";
-import AdminMainDashboard from "@/components/mainComponents/Dashboard/Admin/Admin.Main.Dashboard";
-
+import {
+  AdminDashboardLayout,
+  AdminMainDashboard,
+} from "@/components/mainComponents/Dashboard/Admin";
 
 const dashboard = () => {
   return (
-    <div>
-      <AdminDashboardLayout>
-        <AdminMainDashboard />
-      </AdminDashboardLayout>
-    </div>
+    <AdminDashboardLayout>
+      <AdminMainDashboard />
+    </AdminDashboardLayout>
   );
 };
 

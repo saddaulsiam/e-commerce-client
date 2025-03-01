@@ -18,11 +18,11 @@ import {
   PaymentMethod,
   PaymentStatus,
 } from "../../../types/Ordertype";
-import OrderSummaryCart from "./CartSummary";
+import CartSummary from "./CartSummary";
 import ProgressSteps from "./ProgressSteps";
 import SelectPaymentOption from "./SelectPaymentOption";
 
-const OrderProductPayment = () => {
+const ProductPayment = () => {
   const router = useRouter();
   // const path = usePathname();
   const dispatch = useAppDispatch();
@@ -141,7 +141,7 @@ const OrderProductPayment = () => {
           </div>
 
           <div className="col-span-3 lg:col-span-1">
-            <OrderSummaryCart cart={cart} />
+            <CartSummary cart={cart} />
           </div>
         </div>
       </div>
@@ -154,4 +154,4 @@ const OrderProductPayment = () => {
   );
 };
 
-export default OrderProductPayment;
+export default ProductPayment;

@@ -3,7 +3,7 @@ import {
   AdminDashboardLayout,
 } from "../../../components/mainComponents/Dashboard/Admin";
 
-const users = () => {
+const AllUsers = () => {
   return (
     <AdminDashboardLayout>
       <AdminAllUsers />
@@ -11,4 +11,4 @@ const users = () => {
   );
 };
 
-export default users;
+export default AllUsers;

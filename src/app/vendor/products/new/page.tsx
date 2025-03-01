@@ -1,10 +1,9 @@
-import React from "react";
 import {
-  VendorDashboardLayout,
   VendorAddProduct,
-} from "../../../components/mainComponents/Dashboard/vendor";
+  VendorDashboardLayout,
+} from "@/components/mainComponents/Dashboard/vendor";
 
-const addProduct = () => {
+const AddNewProduct = () => {
   return (
     <div>
       <VendorDashboardLayout>
@@ -14,4 +13,4 @@ const addProduct = () => {
   );
 };
 
-export default addProduct;
+export default AddNewProduct;

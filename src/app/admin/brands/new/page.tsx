@@ -3,7 +3,7 @@ import { VendorCreateBrand } from "@/components/mainComponents/Dashboard/vendor"
 import Head from "next/head";
 
 
-const createBrand = () => {
+const CreateNewBrand = () => {
   return (
     <>
       <Head>
@@ -16,4 +16,4 @@ const createBrand = () => {
   );
 };
 
-export default createBrand;
+export default CreateNewBrand;

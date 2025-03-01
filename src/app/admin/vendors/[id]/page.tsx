@@ -1,6 +1,6 @@
 import { AdminDashboardLayout } from "@/components/mainComponents/Dashboard/Admin";
 
-const id = () => {
+const SingleVendor = () => {
   return (
     <AdminDashboardLayout>
       <div>single vendor</div>;
@@ -8,4 +8,4 @@ const id = () => {
   );
 };
 
-export default id;
+export default SingleVendor;

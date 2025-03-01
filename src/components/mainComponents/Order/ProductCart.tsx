@@ -11,10 +11,10 @@ import { Trash2 } from "lucide-react";
 import Image from "next/image";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { useDispatch } from "react-redux";
-import OrderSummaryCart from "./CartSummary";
+import CartSummary from "./CartSummary";
 import ProgressSteps from "./ProgressSteps";
 
-const OrderProductCart = () => {
+const ProductCart = () => {
   const dispatch = useDispatch();
   const cart = useAppSelector(({ state }) => state.cart);
 
@@ -103,7 +103,7 @@ const OrderProductCart = () => {
             )}
           </div>
           <div className="col-span-3 lg:col-span-1">
-            <OrderSummaryCart cart={cart} />
+            <CartSummary cart={cart} />
           </div>
         </div>
       </div>
@@ -111,4 +111,4 @@ const OrderProductCart = () => {
   );
 };
 
-export default OrderProductCart;
+export default ProductCart;

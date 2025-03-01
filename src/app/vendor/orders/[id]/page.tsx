@@ -1,6 +1,6 @@
 import { VendorDashboardLayout, VendorOrderDetails } from "@/components/mainComponents/Dashboard/vendor";
 
-const id = () => {
+const SingleOrderDetails = () => {
   return (
     <div>
       <VendorDashboardLayout>
@@ -10,4 +10,4 @@ const id = () => {
   );
 };
 
-export default id;
+export default SingleOrderDetails;
