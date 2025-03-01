@@ -13,7 +13,10 @@ export const Status = {
 
 export const Gender = { male: "male", female: "female" } as const;
 
-export const authKey = { accessToken: "accessToken", refreshToken: "refreshToken" };
+export const authKey = {
+  accessToken: "accessToken",
+  refreshToken: "refreshToken",
+} as const;
 
 export const redirectUrl = "redirectUrl";
 
