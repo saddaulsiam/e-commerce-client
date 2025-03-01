@@ -4,10 +4,12 @@ import StripePaymentModal from "@/components/sharedComponents/modal/Stripe.Payme
 import { clearCart } from "@/redux/features/cart/cartSlice";
 import { removeOrderDetails } from "@/redux/features/order/orderDetails/orderDetailsSlice";
 import { useOrderNowMutation } from "@/redux/features/order/orders/ordersApi";
+import { useCreateSSLPaymentIntentMutation } from "@/redux/features/order/payment/paymentApi";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FcOk } from "react-icons/fc";
+import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { SSLCommerzPaymentDetails } from "../Payment";
 import {
@@ -22,6 +24,7 @@ import SelectPaymentOption from "./SelectPaymentOption";
 
 const OrderProductPayment = () => {
   const router = useRouter();
+  // const path = usePathname();
   const dispatch = useAppDispatch();
 
   const cart = useAppSelector(({ state }) => state.cart);
@@ -32,6 +35,7 @@ const OrderProductPayment = () => {
   const [payWith, setPayWith] = useState<string>("stripe");
 
   const [orderNow] = useOrderNowMutation();
+  const [createSSLPaymentIntent] = useCreateSSLPaymentIntentMutation();
 
   const orderData: MainOrder = {
     userId: user?._id as string,
@@ -40,14 +44,15 @@ const OrderProductPayment = () => {
     isPaid: false,
     paymentStatus: PaymentStatus.UNPAID,
     shippingAddress: shippingAddress,
-    status: OrderStatus.PENDING,
+    status: OrderStatus.PROCESSING,
     subOrders: cart.cartItems,
   };
 
-  const handleOrder = () => {
+  // Handle Cash on delivery order
+  const handleOrder = async () => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You confirm this order",
+      text: "Confirm this order",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#003566",
@@ -55,48 +60,32 @@ const OrderProductPayment = () => {
       confirmButtonText: "Yes, confirm",
     }).then((result) => {
       if (result.isConfirmed) {
-        orderNow(orderData).then((res: any) => {
-          if (res.data?.status === "success") {
-            dispatch(clearCart());
-            dispatch(removeOrderDetails());
-            Swal.fire({
-              title: "Yeah!",
-              text: res.data?.message,
-              icon: "success",
-              showCancelButton: true,
-              confirmButtonColor: "#003566",
-              cancelButtonColor: "#e63946",
-              confirmButtonText: "My Orders",
-            }).then((res) => {
-              router.push(res.isConfirmed ? "/customer/orders" : "/");
-            });
-          }
-        });
+        orderNow(orderData)
+          .unwrap()
+          .then((res) => {
+            if (res.success) {
+              toast.success(res.message);
+              dispatch(clearCart());
+              dispatch(removeOrderDetails());
+              router.push("/customer/orders");
+            }
+          });
       }
     });
   };
 
   const handleSSLOrder = async () => {
-    fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/payment/create-sslcommerz-payment-intent`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(orderData),
-      },
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        window.location.replace(data.gatewayPageURL);
-      })
-      .finally(() => {
+    try {
+      const res = await createSSLPaymentIntent(orderData).unwrap();
+      if (res.success) {
+        window.location.replace(res.data.gatewayPageURL);
         dispatch(clearCart());
         dispatch(removeOrderDetails());
-      });
+      }
+    } catch (error: any) {
+      console.log(error);
+    }
   };
-
   return (
     <div className="bg-slate-200">
       <div className="container mt-32 lg:mt-[10.9rem]">

@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { clearCart } from "@/redux/features/cart/cartSlice";
 import { removeOrderDetails } from "@/redux/features/order/orderDetails/orderDetailsSlice";
 import { useOrderNowMutation } from "@/redux/features/order/orders/ordersApi";
-import { useCreatePaymentIntentMutation } from "@/redux/features/order/payment/paymentApi";
+import { useCreateStipePaymentIntentMutation } from "@/redux/features/order/payment/paymentApi";
 import { useAppSelector } from "@/redux/hooks";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useRouter } from "next/navigation";
@@ -44,15 +44,15 @@ const StripeCheckOutForm = ({ setOpenStripe }: TProps) => {
   const cart = useAppSelector(({ state }) => state.cart);
 
   const [orderNow] = useOrderNowMutation();
-  const [createPaymentIntent] = useCreatePaymentIntentMutation();
+  const [createStipePaymentIntent] = useCreateStipePaymentIntentMutation();
 
   // Create PaymentIntent on the backend.
   useEffect(() => {
     if (!cart?.totalAmount) return;
 
-    const fetchPaymentIntent = async () => {
+    (async () => {
       try {
-        const res = await createPaymentIntent({
+        const res = await createStipePaymentIntent({
           totalAmount: cart.totalAmount,
         }).unwrap();
 
@@ -65,12 +65,9 @@ const StripeCheckOutForm = ({ setOpenStripe }: TProps) => {
         setErrorMessage(
           error.message || "Error creating payment intent. Please try again.",
         );
-        console.error("Payment Intent Error:", error);
       }
-    };
-
-    fetchPaymentIntent();
-  }, [cart.totalAmount, createPaymentIntent]);
+    })();
+  }, [cart.totalAmount, createStipePaymentIntent]);
 
   // Handle form submission to process payment
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -141,11 +138,11 @@ const StripeCheckOutForm = ({ setOpenStripe }: TProps) => {
         };
 
         // Create the order in the backend
-        const orderResponse = await orderNow(orderData).unwrap();
+        const res = await orderNow(orderData).unwrap();
 
-        if (orderResponse.success) {
+        if (res.success) {
           // Clear the cart and order details in Redux, then redirect
-          toast.success(orderResponse?.message || "Order placed successfully!");
+          toast.success(res?.message || "Order placed successfully!");
           dispatch(clearCart());
           dispatch(removeOrderDetails());
           router.push("/payment/success");

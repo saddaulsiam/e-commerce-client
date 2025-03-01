@@ -2,9 +2,16 @@ import baseApi from "../../api/baseApi";
 
 const orderNowApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    createPaymentIntent: builder.mutation({
+    createStipePaymentIntent: builder.mutation({
       query: (data) => ({
         url: "/payment/create-stripe-payment-intent",
+        method: "POST",
+        body: data,
+      }),
+    }),
+    createSSLPaymentIntent: builder.mutation({
+      query: (data) => ({
+        url: "/payment/create-ssl-payment-intent",
         method: "POST",
         body: data,
       }),
@@ -12,4 +19,7 @@ const orderNowApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useCreatePaymentIntentMutation } = orderNowApi;
+export const {
+  useCreateStipePaymentIntentMutation,
+  useCreateSSLPaymentIntentMutation,
+} = orderNowApi;
