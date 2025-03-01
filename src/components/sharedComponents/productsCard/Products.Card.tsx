@@ -52,16 +52,16 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
           />
           {/* Floating Icons */}
           <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 transform space-x-3 text-lg text-gray-700 group-hover:flex">
-            <Button
+            <button
               className="rounded-full bg-white p-2 transition duration-300 hover:bg-primary hover:text-white"
               onClick={() => setIsOpen(true)}
             >
               <AiFillEye />
-            </Button>
-            <Button className="rounded-full bg-white p-2 transition duration-300 hover:bg-primary hover:text-white">
+            </button>
+            <button className="rounded-full bg-white p-2 transition duration-300 hover:bg-primary hover:text-white">
               <GrCompare />
-            </Button>
-            <Button
+            </button>
+            <button
               className="rounded-full bg-white p-2 transition duration-300 hover:bg-primary hover:text-white"
               onClick={() => {
                 handleAddToCart();
@@ -69,7 +69,7 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
               }}
             >
               <BsCart2 />
-            </Button>
+            </button>
           </div>
         </div>
 

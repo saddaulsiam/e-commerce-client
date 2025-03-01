@@ -33,8 +33,8 @@ const ProductCheckout = () => {
   };
 
   return (
-    <div className="bg-accent pt-32 lg:pt-[10.9rem]">
-      <div className="container">
+    <div className="bg-accent">
+      <div className="container pb-32">
         <ProgressSteps />
 
         {user && user.profile?.address?.length > 0 && (
@@ -45,7 +45,7 @@ const ProductCheckout = () => {
           </div>
         )}
 
-        <div className="grid grid-cols-3 gap-5 pb-10">
+        <div className="grid grid-cols-3 gap-5">
           <div className="col-span-3 lg:col-span-2">
             {/* Show exiting Address */}
             {user && user.profile?.address?.length > 0 && (
@@ -124,9 +124,10 @@ const ProductCheckout = () => {
               user?.profile?.address?.length > 0 &&
               !toggleAddressForm && (
                 <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">
-                  <Button 
+                  <Button
+                    variant="outline"
                     onClick={() => router.push("/cart")}
-                    className="w-full transform cursor-pointer border border-primary py-2 text-center text-base font-semibold text-primary transition duration-100 ease-in-out hover:bg-primary hover:text-white"
+                    className="w-full border-primary py-2 text-center text-base font-semibold text-primary transition duration-200 ease-in-out hover:bg-primary hover:text-white"
                   >
                     Back to Cart
                   </Button>

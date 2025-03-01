@@ -88,13 +88,13 @@ const ProductPayment = () => {
     }
   };
   return (
-    <div className="bg-slate-200">
-      <div className="container mt-32 lg:mt-[10.9rem]">
+    <div className="bg-accent">
+      <div className="container pb-20">
         <ProgressSteps />
 
-        <div className="mb-10 grid grid-cols-3 gap-5">
+        <div className="grid grid-cols-3 gap-5">
           <div className="col-span-3 lg:col-span-2">
-            <div className="space-y-5 rounded-md bg-white p-5 py-10">
+            <div className="space-y-5 rounded-md bg-white px-5 py-10">
               <h2>Select your payment system</h2>
               <SelectPaymentOption payWith={payWith} setPayWith={setPayWith} />
               {payWith && (
@@ -120,8 +120,9 @@ const ProductPayment = () => {
 
             <div className="relative my-10 grid grid-cols-1 gap-5 sm:grid-cols-2">
               <Button
+                variant="outline"
                 onClick={() => router.push("/checkout")}
-                className="w-full border border-primary py-2 text-base font-semibold text-primary transition hover:bg-primary hover:text-white"
+                className="w-full border-primary py-2 text-center text-base font-semibold text-primary transition duration-200 ease-in-out hover:bg-primary hover:text-white"
               >
                 Back to Details
               </Button>

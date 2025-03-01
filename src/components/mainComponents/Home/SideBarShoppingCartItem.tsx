@@ -71,11 +71,12 @@ const SideBarShoppingCartItem = ({ product }: { product: TCartItem }) => {
       </div>
 
       {/* Remove button */}
-      <Button onClick={() => dispatch(removeFromCart(product.productId))}>
-        <Trash2
-          className="cursor-pointer font-semibold text-gray-600 transition duration-200 ease-in-out hover:text-red-500"
-          size={18}
-        />
+      <Button
+        variant="link"
+        className="text-gray-600 transition-colors duration-200 ease-in-out hover:text-red-500"
+        onClick={() => dispatch(removeFromCart(product.productId))}
+      >
+        <Trash2 size={18} />
       </Button>
     </div>
   );

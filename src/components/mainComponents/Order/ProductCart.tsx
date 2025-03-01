@@ -19,7 +19,7 @@ const ProductCart = () => {
   const cart = useAppSelector(({ state }) => state.cart);
 
   return (
-    <div className="bg-accent pt-32 lg:pt-[10.9rem]">
+    <div className="bg-accent">
       <div className="container">
         <ProgressSteps />
 
