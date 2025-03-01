@@ -12,6 +12,7 @@ import { useGetSingleOrderQuery } from "../../../../redux/features/order/orders/
 import { Loading } from "../../../sharedComponents";
 import DashboardCustomerSideBarNavigation from "./Dashboard.Customer.SideBar.Navigation";
 import DashboardCustomersOrderDetailsCart from "./Dashboard.Customers.Order.Details.Cart";
+import { Button } from "@/components/ui/button";
 
 const DashboardCustomersOrderDetails = () => {
   const router = useRouter();
@@ -33,16 +34,16 @@ const DashboardCustomersOrderDetails = () => {
               </h2>
             </div>
             <div className="flex justify-end lg:hidden">
-              <button
+              <Button
                 className="text-2xl font-thin"
                 onClick={() => setShowSideNavigation(true)}
               >
                 <GiHamburgerMenu />
-              </button>
+              </Button>
             </div>
             <div className="flex lg:justify-end">
               <Link href="/customer/orders">
-                <button className="button">Back To Orders</button>
+                <Button className="button">Back To Orders</button>
               </Link>
             </div>
           </div>

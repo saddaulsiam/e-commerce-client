@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 
 // local
 import { useCreateBrandsMutation } from "../../../../redux/features/brands/brandsApi";
+import { Button } from "@/components/ui/button";
 
 const VendorCreateBrand = () => {
   const {
@@ -116,12 +117,12 @@ const VendorCreateBrand = () => {
             />
           </div>
 
-          <button
+          <Button
             type="submit"
             className="btn mt-10 border-none bg-primary hover:bg-red-600"
           >
             Save Product
-          </button>
+          </Button>
         </form>
       </div>
     </div>

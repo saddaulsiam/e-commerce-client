@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import AddressForm from "../../sharedComponents/forms/AddressForm";
 import CartSummary from "./CartSummary";
 import ProgressSteps from "./ProgressSteps";
+import { Button } from "@/components/ui/button";
 
 const ProductCheckout = () => {
   const router = useRouter();
@@ -123,13 +124,13 @@ const ProductCheckout = () => {
               user?.profile?.address?.length > 0 &&
               !toggleAddressForm && (
                 <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">
-                  <button
+                  <Button 
                     onClick={() => router.push("/cart")}
                     className="w-full transform cursor-pointer border border-primary py-2 text-center text-base font-semibold text-primary transition duration-100 ease-in-out hover:bg-primary hover:text-white"
                   >
                     Back to Cart
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     onClick={handleSubmit}
                     className={`${
                       !address ? "cursor-not-allowed opacity-50" : ""
@@ -137,7 +138,7 @@ const ProductCheckout = () => {
                     disabled={!address}
                   >
                     Proceed to Payment
-                  </button>
+                  </Button>
                 </div>
               )}
           </div>

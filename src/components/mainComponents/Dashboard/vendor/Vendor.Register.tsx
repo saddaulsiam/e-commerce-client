@@ -13,6 +13,7 @@ import {
 import cartBasket from "../../../../images/banners/cartBasket.png";
 import useAuth from "../../../../hooks/useAuth";
 import { logo } from "../../../../../public/images/logo";
+import { Button } from "@/components/ui/button";
 
 const VendorRegister = () => {
   // hooks
@@ -106,12 +107,12 @@ const VendorRegister = () => {
                 className="h-8 rounded border border-my-gray-200 px-2"
               />
             </div>
-            <button
+            <Button
               onClick={handleLogin}
               className="mt-4 rounded-md bg-secondary px-8 py-2 text-white"
             >
               Login
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -267,17 +268,17 @@ const VendorRegister = () => {
                   )}
                 </div>
               </div>
-              <button
+              <Button
                 // type="submit"
                 className="btn mt-10 w-full border-0 bg-secondary hover:bg-red-600"
               >
                 Create Account
-              </button>
+              </Button>
               <div className="divider text-xs">OR</div>
               <Link href="/vendor/login">
-                <button className="h-10 w-full rounded-md border border-secondary text-base text-my-gray-200 transition duration-300 ease-in-out hover:bg-secondary hover:text-white">
+                <Button className="h-10 w-full rounded-md border border-secondary text-base text-my-gray-200 transition duration-300 ease-in-out hover:bg-secondary hover:text-white">
                   Login
-                </button>
+                </Button>
               </Link>
             </form>
           </div>

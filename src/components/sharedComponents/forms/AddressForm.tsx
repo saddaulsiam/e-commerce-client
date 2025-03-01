@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import useAuth from "@/hooks/useAuth";
 import { useAddNewAddressMutation } from "@/redux/features/user/userApi";
 import { useAppSelector } from "@/redux/hooks";
@@ -208,13 +209,13 @@ const AddressForm = () => {
       </div>
 
       {/* Submit Button */}
-      <button
+      <Button
         type="submit"
         className="w-full rounded-md bg-primary py-2 text-lg font-medium text-white transition duration-200 hover:bg-opacity-90"
         disabled={isLoading}
       >
         {isLoading ? "Submitting..." : "Create New Address"}
-      </button>
+      </Button>
     </form>
   );
 };

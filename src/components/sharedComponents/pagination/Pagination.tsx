@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import React from "react";
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
@@ -12,15 +13,15 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
     <>
       <div className="btn-group">
         {pageNumbers.map((number) => (
-          <button
+          <Button
             key={number}
             className={`btn btn-sm ${
-              currentPage === number ? "btn-active " : ""
+              currentPage === number ? "btn-active" : ""
             }`}
             onClick={() => onPageChange(number)}
           >
             {number}
-          </button>
+          </Button>
         ))}
       </div>
     </>

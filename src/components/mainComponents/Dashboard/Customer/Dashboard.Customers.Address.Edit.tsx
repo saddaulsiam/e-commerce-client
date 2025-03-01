@@ -6,6 +6,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { MdLocationPin } from "react-icons/md";
 import AddressForm from "../../../sharedComponents/forms/AddressForm";
 import DashboardCustomerSideBarNavigation from "./Dashboard.Customer.SideBar.Navigation";
+import { Button } from "@/components/ui/button";
 
 const DashboardCustomersAddressEdit = () => {
   const [showSideNavigation, setShowSideNavigation] = useState(null);
@@ -19,16 +20,16 @@ const DashboardCustomersAddressEdit = () => {
           </h2>
         </div>
         <div className="flex justify-end lg:hidden">
-          <button
+          <Button
             className="text-2xl font-thin"
             onClick={() => setShowSideNavigation(true)}
           >
             <GiHamburgerMenu />
-          </button>
+          </Button>
         </div>
         <div className="flex lg:justify-end">
           <Link href="/customer/addresses">
-            <button className="button">Back To Addresses</button>
+            <Button>Back To Addresses</Button>
           </Link>
         </div>
       </div>

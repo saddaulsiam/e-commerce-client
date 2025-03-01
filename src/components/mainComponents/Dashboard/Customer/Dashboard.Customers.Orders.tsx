@@ -8,6 +8,7 @@ import { useGetMyOrdersQuery } from "../../../../redux/features/order/orders/ord
 import { Loading } from "../../../sharedComponents";
 import DashboardCustomerOrdersCart from "./Dashboard.Customer.Orders.Cart";
 import DashboardCustomerSideBarNavigation from "./Dashboard.Customer.SideBar.Navigation";
+import { Button } from "@/components/ui/button";
 
 const DashboardCustomersOrders = () => {
   const [showSideNavigation, setShowSideNavigation] = useState(false);
@@ -25,12 +26,12 @@ const DashboardCustomersOrders = () => {
               <FaShoppingBag className="mr-3 inline text-2xl text-primary" />
               My Orders
             </h2>
-            <button
+            <Button
               className="text-2xl font-thin lg:hidden"
               onClick={() => setShowSideNavigation(true)}
             >
               <GiHamburgerMenu />
-            </button>
+            </Button>
           </div>
           <div>
             <div>

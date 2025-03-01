@@ -115,13 +115,13 @@ const Login = () => {
                 id="password"
                 placeholder="******"
               />
-              <button
+              <Button
                 type="button"
                 className="absolute right-3 top-9 text-lg text-gray-500"
                 onClick={() => setShowPass(!showPass)}
               >
                 {showPass ? <BsEye /> : <BsEyeSlash />}
-              </button>
+              </Button>
             </div>
 
             <div className="flex justify-between text-sm">
@@ -137,10 +137,7 @@ const Login = () => {
               </Link>
             </div>
 
-            <Button
-              type="submit"
-              className="w-full bg-primary hover:bg-orange-600 active:scale-95"
-            >
+            <Button type="submit" className="w-full">
               Login
             </Button>
           </form>

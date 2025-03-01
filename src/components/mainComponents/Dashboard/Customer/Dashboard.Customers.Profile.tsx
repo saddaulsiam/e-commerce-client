@@ -8,6 +8,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { MdAccountCircle } from "react-icons/md";
 import DashboardCustomerSideBarNavigation from "./Dashboard.Customer.SideBar.Navigation";
 import DashboardCustomersOrders from "./Dashboard.Customers.Orders";
+import { Button } from "@/components/ui/button";
 
 const DashboardCustomersProfile = () => {
   const [showSideNavigation, setShowSideNavigation] = useState(null);
@@ -23,13 +24,13 @@ const DashboardCustomersProfile = () => {
           </h2>
         </div>
         <div className="flex justify-end lg:hidden">
-          <button className="text-2xl font-thin " onClick={() => setShowSideNavigation(true)}>
+          <Button className="text-2xl font-thin " onClick={() => setShowSideNavigation(true)}>
             <GiHamburgerMenu />
-          </button>
+          </Button>
         </div>
         <div className="flex lg:justify-end">
           <Link href="/customer/profile/edit">
-            <button className="button">Edit Profile</button>
+            <Button className="button">Edit Profile</button>
           </Link>
         </div>
       </div>

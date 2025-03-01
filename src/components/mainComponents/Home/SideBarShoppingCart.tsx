@@ -35,14 +35,14 @@ const SideBarShoppingCart = () => {
       {/* Buttons */}
       <div className="space-y-4 px-4 py-6">
         <Button
-          className="hover:bg-orange-600 w-full transform bg-primary text-white transition duration-200 ease-in-out"
+          className="w-full transform bg-primary text-white transition duration-200 ease-in-out hover:bg-orange-600"
           onClick={() => router.push("/checkout")}
         >
           Checkout Now
         </Button>
         <Button
           variant="outline"
-          className="w-full transform border-2 text-gray-700 border-gray-300 transition duration-200 ease-in-out hover:border-primary hover:bg-primary hover:text-white"
+          className="w-full transform border-2 border-gray-300 text-gray-700 transition duration-200 ease-in-out hover:border-primary hover:bg-primary hover:text-white"
           onClick={() => router.push("/cart")}
         >
           View Cart

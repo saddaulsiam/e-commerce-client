@@ -10,8 +10,12 @@ import { MdDeleteOutline } from "react-icons/md";
 import withReactContent from "sweetalert2-react-content";
 
 // local
-import { useDeleteProductMutation, useGetProductsQuery } from "../../../../redux/features/products/productsApi";
+import {
+  useDeleteProductMutation,
+  useGetProductsQuery,
+} from "../../../../redux/features/products/productsApi";
 import { Loading, Pagination } from "../../../sharedComponents";
+import { Button } from "@/components/ui/button";
 
 const VendorAllProducts = () => {
   const router = useRouter();
@@ -98,7 +102,10 @@ const VendorAllProducts = () => {
                           </div>
                         </div>
                         <div>
-                          <div className="font-bold"> {product.name.slice(0, 25)}...</div>
+                          <div className="font-bold">
+                            {" "}
+                            {product.name.slice(0, 25)}...
+                          </div>
                           <div className="text-sm opacity-50">
                             {product.status} ({product.quantity})
                           </div>
@@ -118,28 +125,34 @@ const VendorAllProducts = () => {
                     </td>
                     <td>{product.brand.name}</td>
                     <td>
-                      <span className="text-sm text-gray-400 line-through">{product.price}</span>{" "}
-                      <span className="font-bold text-primary">{product.price - product.discount}</span>
+                      <span className="text-sm text-gray-400 line-through">
+                        {product.price}
+                      </span>{" "}
+                      <span className="font-bold text-primary">
+                        {product.price - product.discount}
+                      </span>
                     </td>
                     <th className="text-xl">
-                      <button
+                      <Button
                         className="rounded-full p-3 capitalize hover:bg-slate-300"
-                        onClick={() => router.push(`/vendor/products/${product._id}`)}
+                        onClick={() =>
+                          router.push(`/vendor/products/${product._id}`)
+                        }
                       >
                         <TbEdit />
-                      </button>
-                      <button
+                      </Button>
+                      <Button
                         className="rounded-full p-3 capitalize hover:bg-slate-300"
                         onClick={() => handleDeleteProduct(product._id)}
                       >
                         <MdDeleteOutline />
-                      </button>
+                      </Button>
                     </th>
                   </tr>
                 ))}
               </tbody>
               {/* <!-- footer --> */}
-              <tfoot className="bg-secondary ">
+              <tfoot className="bg-secondary">
                 <tr>
                   <th>
                     <Pagination

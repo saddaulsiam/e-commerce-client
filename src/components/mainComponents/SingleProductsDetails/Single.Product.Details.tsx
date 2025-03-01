@@ -15,6 +15,7 @@ import {
   decreaseQuantity,
 } from "../../../redux/features/cart/cartSlice";
 import { useAppSelector } from "@/redux/hooks";
+import { Button } from "@/components/ui/button";
 
 const SingleProductDetails = ({ data, setFilterColor }) => {
   const dispatch = useDispatch();
@@ -101,12 +102,12 @@ const SingleProductDetails = ({ data, setFilterColor }) => {
             <AiOutlinePlus />
           </span>
         </div>
-        <button
+        <Button
           onClick={() => dispatch(addToCart(data))}
           className="text-l transform bg-gray-800 px-6 py-2 font-bold text-white transition duration-500 hover:bg-primary"
         >
           Add to Cart
-        </button>
+        </Button>
         <span className="cursor-pointer text-xl">
           <AiOutlineHeart />
         </span>

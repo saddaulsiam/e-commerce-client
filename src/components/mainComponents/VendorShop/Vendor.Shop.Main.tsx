@@ -10,6 +10,7 @@ import VendorShopHomePage from "./Vendor.Shop.HomePage";
 import VendorShopAllProducts from "./Vendor.Shop.AllProducts";
 import { SearchingProductsSidebar } from "../SearchingProducts";
 import { useGetVendorByNameQuery } from "@/redux/features/vendor/vendorApi";
+import { Button } from "@/components/ui/button";
 
 const VendorMain = () => {
   const router = useRouter();
@@ -79,7 +80,7 @@ const VendorMain = () => {
                 </p>
               </div>
               <div className="flex items-center md:mr-10">
-                <button className="button">Contact</button>
+                <Button className="button">Contact</button>
               </div>
             </div>
           </div>

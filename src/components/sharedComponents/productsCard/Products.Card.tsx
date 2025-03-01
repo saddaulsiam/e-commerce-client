@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { addToCart } from "../../../redux/features/cart/cartSlice";
 import ProductsModal from "../modal/ProductsModal";
+import { Button } from "@/components/ui/button";
 
 const ProductsCard = ({ product }: { product: TProduct }) => {
   const router = useRouter();
@@ -51,16 +52,16 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
           />
           {/* Floating Icons */}
           <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 transform space-x-3 text-lg text-gray-700 group-hover:flex">
-            <button
+            <Button
               className="rounded-full bg-white p-2 transition duration-300 hover:bg-primary hover:text-white"
               onClick={() => setIsOpen(true)}
             >
               <AiFillEye />
-            </button>
-            <button className="rounded-full bg-white p-2 transition duration-300 hover:bg-primary hover:text-white">
+            </Button>
+            <Button className="rounded-full bg-white p-2 transition duration-300 hover:bg-primary hover:text-white">
               <GrCompare />
-            </button>
-            <button
+            </Button>
+            <Button
               className="rounded-full bg-white p-2 transition duration-300 hover:bg-primary hover:text-white"
               onClick={() => {
                 handleAddToCart();
@@ -68,7 +69,7 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
               }}
             >
               <BsCart2 />
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -96,15 +97,15 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
         {/* Buttons Section */}
         <div className="flex">
           {/* Add to Cart Button */}
-          <button
+          <Button
             className="flex w-1/2 items-center justify-center gap-2 rounded-bl-lg bg-slate-200 px-4 py-3 font-semibold text-my-gray-200 transition-all duration-300 ease-in hover:bg-slate-300 active:scale-95"
             onClick={handleAddToCart}
           >
             <BsCart2 className="text-lg" /> Add to Cart
-          </button>
+          </Button>
 
           {/* Buy Now Button */}
-          <button
+          <Button
             className="flex w-1/2 items-center justify-center gap-2 rounded-br-lg bg-primary px-4 py-3 font-semibold text-white transition-all duration-300 hover:bg-orange-600 active:scale-95"
             onClick={() => {
               handleAddToCart();
@@ -112,7 +113,7 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
             }}
           >
             ⚡ Buy Now
-          </button>
+          </Button>
         </div>
 
         {/* Discount Badge */}

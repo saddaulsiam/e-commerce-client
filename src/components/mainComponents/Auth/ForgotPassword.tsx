@@ -6,6 +6,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
+import { Button } from "@/components/ui/button";
 
 const ForgotPassword = () => {
   const {
@@ -36,13 +37,15 @@ const ForgotPassword = () => {
   };
 
   return (
-    <section className="flex items-center h-screen pt-52 justify-center bg-slate-50">
+    <section className="flex h-screen items-center justify-center bg-slate-50 pt-52">
       <div className="w-[90%] max-w-md rounded-lg bg-white px-8 py-12 shadow-md">
         <div className="pb-6 text-center">
-          <h2 className="bg-gradient-to-r from-secondary to-indigo-700 bg-clip-text text-3xl font-semibold text-transparent">
+          <h2 className="bg-gradient-to-r from-gray-600 to-indigo-600 bg-clip-text text-3xl font-semibold text-transparent">
             Forgot Password
           </h2>
-          <p className="text-sm text-gray-500">Enter your email to receive a reset link</p>
+          <p className="text-sm text-gray-500">
+            Enter your email to receive a reset link
+          </p>
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-6">
@@ -50,17 +53,21 @@ const ForgotPassword = () => {
               <input
                 {...register("email", { required: true })}
                 className={`h-12 w-full appearance-none rounded-md border px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary ${
-                  formError.email ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-indigo-500"
+                  formError.email
+                    ? "border-red-500 focus:ring-red-500"
+                    : "border-gray-300 focus:ring-indigo-500"
                 }`}
                 placeholder="Email Address"
                 id="email"
                 type="email"
               />
-              {formError.email && <p className="mt-2 text-sm text-red-500">Email is required</p>}
+              {formError.email && (
+                <p className="mt-2 text-sm text-red-500">Email is required</p>
+              )}
             </div>
-            <button type="submit" className="h-12 w-full rounded-md bg-secondary text-base font-semibold text-white ">
+            <Button type="submit" className="w-full">
               Send Reset Link
-            </button>
+            </Button>
           </div>
         </form>
 
@@ -68,7 +75,7 @@ const ForgotPassword = () => {
           <>
             <hr className="my-6" />
             <Link href="/login">
-              <p className="h-12 text-base font-semibold w-full border-2 flex items-center justify-center rounded-md border-primary text-primary hover:bg-primary hover:text-white transition-all">
+              <p className="flex h-12 w-full items-center justify-center rounded-md border-2 border-primary text-base font-semibold text-primary transition-all hover:bg-primary hover:text-white">
                 Back to Login
               </p>
             </Link>

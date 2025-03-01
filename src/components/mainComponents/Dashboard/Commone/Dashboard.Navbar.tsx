@@ -8,6 +8,7 @@ import us from "../../../../images/country/us.svg";
 import bd from "../../../../images/country/bd.svg";
 import HeadlessUIDropDown from "../../../sharedComponents/DropDown/HeadlessUIDropDown";
 import { logOutUser } from "../../../../redux/features/auth/authSlice";
+import { Button } from "@/components/ui/button";
 
 const DashboardNavbar = ({ setSideBarClose }) => {
   const dispatch = useDispatch();
@@ -20,7 +21,10 @@ const DashboardNavbar = ({ setSideBarClose }) => {
       {/* Side bar Toggle */}
       <div>
         <label className="swap swap-rotate h-16 w-14 text-primary transition duration-300 ease-in-out hover:bg-blue-700">
-          <input type="checkbox" onChange={(e) => setSideBarClose(e.target.checked)} />
+          <input
+            type="checkbox"
+            onChange={(e) => setSideBarClose(e.target.checked)}
+          />
           <svg
             className="swap-off fill-current"
             xmlns="http://www.w3.org/2000/svg"
@@ -57,7 +61,7 @@ const DashboardNavbar = ({ setSideBarClose }) => {
             <details className="dropdown dropdown-end">
               <summary className="btn border-none bg-inherit hover:bg-inherit">
                 <span className="avatar cursor-pointer">
-                  <div className="h-8 w-8 rounded-full ring ring-primary ring-offset-2 ring-offset-base-100">
+                  <div className="ring-offset-base-100 h-8 w-8 rounded-full ring ring-primary ring-offset-2">
                     <Image
                       alt=""
                       height="35px"
@@ -68,19 +72,19 @@ const DashboardNavbar = ({ setSideBarClose }) => {
                   </div>
                 </span>
               </summary>
-              <ul className="dropdown-content menu rounded-box w-52 bg-base-100 p-2 text-primary shadow">
+              <ul className="dropdown-content menu rounded-box bg-base-100 w-52 p-2 text-primary shadow">
                 <li>
                   <Link href="/customer/profile">Profile</Link>
                 </li>
                 <li>
-                  <button
+                  <Button
                     onClick={() => {
                       dispatch(logOutUser());
                       localStorage.removeItem("token");
                     }}
                   >
                     LogOut
-                  </button>
+                  </Button>
                 </li>
               </ul>
             </details>

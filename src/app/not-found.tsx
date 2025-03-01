@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -20,14 +21,10 @@ const NotFound = () => {
       </p>
       <div className="mt-8 flex space-x-4">
         <Link href="/">
-          <button className="transform rounded-lg bg-orange-600 px-6 py-3 text-lg text-white shadow-lg transition hover:scale-105 hover:bg-orange-500 focus:outline-none">
-            Go to Home Page
-          </button>
+          <Button>Go to Home Page</Button>
         </Link>
         <Link href="/shop">
-          <button className="transform rounded-lg bg-green-600 px-6 py-3 text-lg text-white shadow-lg transition hover:scale-105 hover:bg-green-500 focus:outline-none">
-            Shop Now
-          </button>
+          <Button className="bg-green-600 hover:bg-green-500">Shop Now</Button>
         </Link>
       </div>
     </div>

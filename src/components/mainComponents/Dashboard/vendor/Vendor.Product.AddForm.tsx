@@ -12,6 +12,7 @@ import CreatableSelect from "react-select/creatable";
 import { useCreateProductMutation } from "../../../../redux/features/products/productsApi";
 import { useGetBrandsQuery } from "../../../../redux/features/brands/brandsApi";
 import { useGetCategoriesQuery } from "../../../../redux/features/categories/categoriesApi";
+import { Button } from "@/components/ui/button";
 
 const VendorProductAddForm = () => {
   const { register, handleSubmit, reset } = useForm();
@@ -72,7 +73,7 @@ const VendorProductAddForm = () => {
           formData,
           {
             headers: { "X-Requested-With": "XMLHttpRequest" },
-          }
+          },
         )
         .then((response) => {
           const url = response?.data.url;
@@ -178,16 +179,16 @@ const VendorProductAddForm = () => {
                   priority
                 />
               ))}
-              <button
-                className="absolute top-3 right-1 mr-2.5"
+              <Button
+                className="absolute right-1 top-3 mr-2.5"
                 type="button"
                 onClick={() => {
                   setPreviewImages([]);
                   setPostImages([]);
                 }}
               >
-                <BsX className="box-content h-5 w-5 rounded-full border bg-white p-2 " />
-              </button>
+                <BsX className="box-content h-5 w-5 rounded-full border bg-white p-2" />
+              </Button>
             </div>
           </>
         ) : (
@@ -334,12 +335,12 @@ const VendorProductAddForm = () => {
           </div>
         </div>
 
-        <button
+        <Button
           type="submit"
           className="btn mt-10 border-none bg-primary hover:bg-red-600"
         >
           Save Product
-        </button>
+        </Button>
       </form>
     </div>
   );

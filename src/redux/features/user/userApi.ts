@@ -17,7 +17,18 @@ const authApi = baseApi.injectEndpoints({
         body: data,
       }),
     }),
+
+    getAllUsers: builder.query({
+      query: () => ({
+        url: `/users`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useAddNewAddressMutation, useRemoveAddressMutation } = authApi;
+export const {
+  useAddNewAddressMutation,
+  useRemoveAddressMutation,
+  useGetAllUsersQuery,
+} = authApi;

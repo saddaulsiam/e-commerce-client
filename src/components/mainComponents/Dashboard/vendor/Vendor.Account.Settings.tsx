@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import Head from "next/head";
 import Image from "next/image";
 import { BsFillCameraFill } from "react-icons/bs";
@@ -16,7 +17,7 @@ const VendorAccountSettings = () => {
         </div>
         <div className="rounded-md bg-white">
           {/* Banner Section */}
-          <div className=" p-5">
+          <div className="p-5">
             <div className="relative">
               <Image
                 alt=""
@@ -140,9 +141,9 @@ const VendorAccountSettings = () => {
             </div>
           </div>
           {/* save */}
-          <button className="btn m-5 border-none bg-primary hover:bg-red-600 ">
+          <Button className="btn m-5 border-none bg-primary hover:bg-red-600">
             Save Changes
-          </button>
+          </Button>
         </div>
       </div>
     </>

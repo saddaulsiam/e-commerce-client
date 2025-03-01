@@ -21,6 +21,7 @@ import { BsEye, BsFillCreditCardFill } from "react-icons/bs";
 
 // local
 import { useGetAllUsersQuery } from "../../../../redux/features/auth/customer/cusAuthApi";
+import { Button } from "@/components/ui/button";
 
 const AreaChartData = [
   {
@@ -133,8 +134,8 @@ const AdminMainDashboard = () => {
   return (
     <>
       {/* Card */}
-      <section className="my-5 mx-10 grid grid-cols-4 gap-6">
-        <div className="h-40 w-full rounded bg-primary py-5 px-10 shadow-md">
+      <section className="mx-10 my-5 grid grid-cols-4 gap-6">
+        <div className="h-40 w-full rounded bg-primary px-10 py-5 shadow-md">
           <div className="flex items-center justify-between">
             <p className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-600">
               <BsEye className="text-2xl text-white" />
@@ -152,7 +153,7 @@ const AdminMainDashboard = () => {
             </p>
           </div>
         </div>
-        <div className="h-40 w-full rounded bg-primary py-5 px-10 shadow-md">
+        <div className="h-40 w-full rounded bg-primary px-10 py-5 shadow-md">
           <div className="flex items-center justify-between">
             <p className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-600">
               <FiShoppingCart className="text-xl text-white" />
@@ -170,7 +171,7 @@ const AdminMainDashboard = () => {
             </p>
           </div>
         </div>
-        <div className="h-40 w-full rounded bg-primary py-5 px-10 shadow-md">
+        <div className="h-40 w-full rounded bg-primary px-10 py-5 shadow-md">
           <div className="flex items-center justify-between">
             <p className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-600">
               <BsFillCreditCardFill className="text-2xl text-white" />
@@ -188,7 +189,7 @@ const AdminMainDashboard = () => {
             </p>
           </div>
         </div>
-        <div className="h-40 w-full rounded bg-primary py-5 px-10 shadow-md">
+        <div className="h-40 w-full rounded bg-primary px-10 py-5 shadow-md">
           <div className="flex items-center justify-between">
             <p className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-600">
               <FaUsers className="text-2xl text-white" />
@@ -208,7 +209,7 @@ const AdminMainDashboard = () => {
         </div>
       </section>
       {/* Chart */}
-      <section className="my-5 mx-10 grid grid-cols-3 gap-6 pt-5">
+      <section className="mx-10 my-5 grid grid-cols-3 gap-6 pt-5">
         <div className="col-span-3 h-96 bg-white p-4 lg:col-span-2">
           <div className="flex justify-between pb-6">
             <div className="flex gap-10">
@@ -239,9 +240,9 @@ const AdminMainDashboard = () => {
               </div>
             </div>
             <div className="btn-group">
-              <button className="btn btn-active btn-sm">Day</button>
-              <button className="btn btn-sm">Week</button>
-              <button className="btn btn-sm">Month</button>
+              <Button>Day</Button>
+              <Button>Week</Button>
+              <Button>Month</Button>
             </div>
           </div>
 
@@ -301,7 +302,7 @@ const AdminMainDashboard = () => {
         </div>
       </section>
       {/* Chart */}
-      <section className="my-5 mx-10 grid grid-cols-3 gap-6 pt-5">
+      <section className="mx-10 my-5 grid grid-cols-3 gap-6 pt-5">
         {/* Pie Chart */}
         <div className="col-span-3 h-96 bg-white p-4 lg:col-span-1">
           <div className="flex items-center justify-between pb-6">
@@ -311,8 +312,8 @@ const AdminMainDashboard = () => {
               </p>
             </div>
             <div className="btn-group">
-              <button className="btn btn-active btn-sm">Monthly</button>
-              <button className="btn btn-sm">Yearly</button>
+              <Button>Monthly</Button>
+              <Button>Yearly</Button>
             </div>
           </div>
           <ResponsiveContainer height="60%" width="100%">
@@ -336,7 +337,7 @@ const AdminMainDashboard = () => {
             </PieChart>
           </ResponsiveContainer>
           <div className="pt-4">
-            <ul className="gap-y- grid grid-cols-2 gap-x-10 text-sm  text-my-gray-100">
+            <ul className="gap-y- grid grid-cols-2 gap-x-10 text-sm text-my-gray-100">
               <li className="flex justify-between">
                 <span>Desktop</span>
                 <span className="text-[#0088FE]">65%</span>
@@ -357,7 +358,7 @@ const AdminMainDashboard = () => {
           </div>
         </div>
         {/* User */}
-        <div className="col-span-3 h-96  bg-white p-4 lg:col-span-2">
+        <div className="col-span-3 h-96 bg-white p-4 lg:col-span-2">
           <div className="flex items-center justify-between pb-6">
             <div className="">
               <p className="text-xl font-bold text-primary">

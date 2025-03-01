@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -20,7 +21,7 @@ const ProgressSteps = () => {
         return (
           <div key={step} className="flex items-center">
             <Link href={`/${step.toLowerCase()}`}>
-              <button
+              <Button
                 className={`cursor-pointer rounded-full px-6 py-2 text-sm font-semibold ${
                   isActiveBg ? "bg-primary text-white" : "bg-slate-200"
                 }`}
@@ -29,7 +30,7 @@ const ProgressSteps = () => {
                   {index + 1}. {step}
                 </span>
                 <span className="sm:hidden">{step}</span>
-              </button>
+              </Button>
             </Link>
             {index < steps.length - 1 && (
               <div

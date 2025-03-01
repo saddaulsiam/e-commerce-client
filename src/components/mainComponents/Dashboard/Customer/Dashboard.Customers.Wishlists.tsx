@@ -8,6 +8,7 @@ import { useGetProductsQuery } from "../../../../redux/features/products/product
 import { Loading, Pagination } from "../../../sharedComponents";
 import ProductsCard from "../../../sharedComponents/productsCard/Products.Card";
 import DashboardCustomerSideBarNavigation from "./Dashboard.Customer.SideBar.Navigation";
+import { Button } from "@/components/ui/button";
 
 const DashboardCustomersWishlists = () => {
   const [showSideNavigation, setShowSideNavigation] = useState(false);
@@ -38,12 +39,12 @@ const DashboardCustomersWishlists = () => {
             </h2>
           </div>
           <div className="flex justify-end lg:hidden">
-            <button className="text-2xl font-thin " onClick={() => setShowSideNavigation(true)}>
+            <Button className="text-2xl font-thin " onClick={() => setShowSideNavigation(true)}>
               <GiHamburgerMenu />
-            </button>
+            </Button>
           </div>
           <div className="flex lg:justify-end">
-            <button className="button">Add All To Cart</button>
+            <Button className="button">Add All To Cart</button>
           </div>
         </div>
         {isLoading ? (

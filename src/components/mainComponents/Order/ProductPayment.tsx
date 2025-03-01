@@ -21,6 +21,7 @@ import {
 import CartSummary from "./CartSummary";
 import ProgressSteps from "./ProgressSteps";
 import SelectPaymentOption from "./SelectPaymentOption";
+import { Button } from "@/components/ui/button";
 
 const ProductPayment = () => {
   const router = useRouter();
@@ -118,13 +119,13 @@ const ProductPayment = () => {
             </div>
 
             <div className="relative my-10 grid grid-cols-1 gap-5 sm:grid-cols-2">
-              <button
+              <Button
                 onClick={() => router.push("/checkout")}
                 className="w-full border border-primary py-2 text-base font-semibold text-primary transition hover:bg-primary hover:text-white"
               >
                 Back to Details
-              </button>
-              <button
+              </Button>
+              <Button
                 className="w-full bg-primary py-2 text-base font-semibold capitalize text-white disabled:cursor-not-allowed"
                 disabled={!payWith}
                 onClick={
@@ -136,7 +137,7 @@ const ProductPayment = () => {
                 }
               >
                 Pay With {payWith || "Select payment option"}
-              </button>
+              </Button>
             </div>
           </div>
 

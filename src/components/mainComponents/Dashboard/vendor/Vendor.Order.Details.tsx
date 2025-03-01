@@ -11,6 +11,7 @@ import VendorOrderDetailsCart from "./Vendor.Order.Details.Cart";
 import { Loading } from "../../../sharedComponents";
 import { DashboardSideBarNavigation } from "../Commone";
 import { useGetSingleOrderQuery } from "../../../../redux/features/order/orders/ordersApi";
+import { Button } from "@/components/ui/button";
 
 const VendorOrderDetails = () => {
   const router = useRouter();
@@ -33,9 +34,9 @@ const VendorOrderDetails = () => {
 
             <div className="flex justify-end">
               <Link href="/vendor/orders">
-                <button className="bg-red-200 px-4 py-2 text-sm font-semibold text-secondary">
+                <Button className="bg-red-200 px-4 py-2 text-sm font-semibold text-secondary">
                   Back To Orders
-                </button>
+                </Button>
               </Link>
             </div>
           </div>
@@ -126,12 +127,12 @@ const VendorOrderDetails = () => {
             <div className="flex justify-center">
               <div>
                 <p className="mb-5 text-xl font-bold">Download</p>
-                <button
+                <Button
                   onClick={() => window.print()}
                   className="btn btn-sm rounded-md border-0 bg-red-200 text-sm font-semibold text-secondary hover:bg-red-300 print:hidden"
                 >
                   Print Order
-                </button>
+                </Button>
               </div>
             </div>
           </div>

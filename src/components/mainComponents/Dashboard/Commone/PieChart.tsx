@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { Tooltip, ResponsiveContainer, Pie, Cell } from "recharts";
 
 const PieChart = () => {
@@ -16,8 +17,8 @@ const PieChart = () => {
           <p className="text-xl font-bold text-primary">Visitors Analytics</p>
         </div>
         <div className="btn-group">
-          <button className="btn btn-active btn-sm">Monthly</button>
-          <button className="btn btn-sm">Yearly</button>
+          <Button>Monthly</Button>
+          <Button>Yearly</Button>
         </div>
       </div>
       <ResponsiveContainer height="60%" width="100%">
@@ -41,7 +42,7 @@ const PieChart = () => {
         </PieChart>
       </ResponsiveContainer>
       <div className="pt-4">
-        <ul className="gap-y- grid grid-cols-2 gap-x-10 text-sm  text-my-gray-100">
+        <ul className="gap-y- grid grid-cols-2 gap-x-10 text-sm text-my-gray-100">
           <li className="flex justify-between">
             <span>Desktop</span>
             <span className="text-[#0088FE]">65%</span>

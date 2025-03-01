@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import cartBasket from "../../../../images/banners/cartBasket.png";
 import { logo } from "../../../../../public/images/logo";
 import useAuth from "../../../../hooks/useAuth";
+import { Button } from "@/components/ui/button";
 
 const VendorLogin = () => {
   const {
@@ -34,9 +35,9 @@ const VendorLogin = () => {
       });
   };
   return (
-    <div className="from-10% via-30% to-90% to-blue/90 h-screen w-screen bg-gradient-to-r from-primary via-violet-800/90 ">
+    <div className="to-blue/90 h-screen w-screen bg-gradient-to-r from-primary from-10% via-violet-800/90 via-30% to-90%">
       <div className="h[10vh] bg-white">
-        <div className="container ">
+        <div className="container">
           <Link href="/">
             <Image src={logo} width="100" height="" alt="" priority />
           </Link>
@@ -51,7 +52,7 @@ const VendorLogin = () => {
           <Image src={cartBasket} alt="" priority />
         </div>
         <div className="flex h-full w-full items-center justify-end">
-          <div className=" max-w-lg rounded-2xl bg-white p-10">
+          <div className="max-w-lg rounded-2xl bg-white p-10">
             <h2 className="text-center text-3xl">Login an Account</h2>
             <p className="mt-3 text-center text-base text-my-gray-100">
               Welcome! Millions of Siam Store users are waiting to buy
@@ -59,7 +60,10 @@ const VendorLogin = () => {
             </p>
             <form onSubmit={handleSubmit(handleLogin)} className="space-y-3">
               <div>
-                <label className="text-sm font-semibold text-my-gray-100/80" htmlFor="email">
+                <label
+                  className="text-sm font-semibold text-my-gray-100/80"
+                  htmlFor="email"
+                >
                   Email
                 </label>
                 <input
@@ -69,10 +73,15 @@ const VendorLogin = () => {
                   type="email"
                   id="email"
                 />
-                {errors?.email && <p className="text-secondary">Email is required</p>}
+                {errors?.email && (
+                  <p className="text-secondary">Email is required</p>
+                )}
               </div>
               <div>
-                <label className="text-sm font-semibold text-my-gray-100/80" htmlFor="password">
+                <label
+                  className="text-sm font-semibold text-my-gray-100/80"
+                  htmlFor="password"
+                >
                   Password
                 </label>
                 <input
@@ -82,17 +91,22 @@ const VendorLogin = () => {
                   type="password"
                   id="password"
                 />
-                {errors?.email && <p className="text-secondary">Password is required</p>}
+                {errors?.email && (
+                  <p className="text-secondary">Password is required</p>
+                )}
               </div>
-              <button type="submit" className="btn mt-10 w-full border-0 bg-secondary hover:bg-red-600">
+              <Button
+                type="submit"
+                className="btn mt-10 w-full border-0 bg-secondary hover:bg-red-600"
+              >
                 Login
-              </button>
+              </Button>
             </form>
             <div className="divider text-xs">OR</div>
             <Link href="/vendor/register">
-              <button className="h-10 w-full rounded-md border border-secondary text-base text-my-gray-200 transition duration-300 ease-in-out hover:bg-secondary hover:text-white">
+              <Button className="h-10 w-full rounded-md border border-secondary text-base text-my-gray-200 transition duration-300 ease-in-out hover:bg-secondary hover:text-white">
                 Create Account
-              </button>
+              </Button>
             </Link>
           </div>
         </div>

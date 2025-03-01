@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import {
   addToCart,
   decreaseQuantity,
@@ -70,12 +71,12 @@ const SideBarShoppingCartItem = ({ product }: { product: TCartItem }) => {
       </div>
 
       {/* Remove button */}
-      <button onClick={() => dispatch(removeFromCart(product.productId))}>
+      <Button onClick={() => dispatch(removeFromCart(product.productId))}>
         <Trash2
           className="cursor-pointer font-semibold text-gray-600 transition duration-200 ease-in-out hover:text-red-500"
           size={18}
         />
-      </button>
+      </Button>
     </div>
   );
 };

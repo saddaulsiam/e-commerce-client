@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { addUser } from "../../../../redux/features/auth/authSlice";
 import DashboardCustomerSideBarNavigation from "./Dashboard.Customer.SideBar.Navigation";
+import { Button } from "@/components/ui/button";
 
 const DashboardCustomersProfileEdit = () => {
   const dispatch = useDispatch();
@@ -98,13 +99,13 @@ const DashboardCustomersProfileEdit = () => {
           </h2>
         </div>
         <div className="flex justify-end lg:hidden">
-          <button className="text-2xl font-thin " onClick={() => setShowSideNavigation(true)}>
+          <Button className="text-2xl font-thin " onClick={() => setShowSideNavigation(true)}>
             <GiHamburgerMenu />
-          </button>
+          </Button>
         </div>
         <div className="flex lg:justify-end">
           <Link href="/customer/profile">
-            <button className="button">Back Profile</button>
+            <Button className="button">Back Profile</button>
           </Link>
         </div>
       </div>
@@ -212,13 +213,13 @@ const DashboardCustomersProfileEdit = () => {
               {errors.birthDate && <span className="text-secondary">This field is required</span>}
             </div>
           </div>
-          <button
+          <Button
             disabled={loading ? true : false}
             type="submit"
             className="mt-5 rounded-md bg-primary py-2  px-4 text-sm font-semibold text-white transition-all ease-in-out hover:bg-secondary disabled:cursor-not-allowed"
           >
             {loading ? "processing ..." : "Save Changes"}
-          </button>
+          </Button>
         </div>
       </form>
       {showSideNavigation && <DashboardCustomerSideBarNavigation setShowSideNavigation={setShowSideNavigation} />}

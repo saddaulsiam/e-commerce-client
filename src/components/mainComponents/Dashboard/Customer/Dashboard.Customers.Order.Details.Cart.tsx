@@ -1,5 +1,6 @@
-import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 
 const DashboardCustomersOrderDetailsCart = ({ order }) => {
   return (
@@ -50,9 +51,9 @@ const DashboardCustomersOrderDetailsCart = ({ order }) => {
               </p>
             </div>
             <div>
-              <button className="rounded py-2 px-5 text-xs font-semibold text-primary hover:bg-red-100 sm:text-base">
+              <Button className="rounded px-5 py-2 text-xs font-semibold text-primary hover:bg-red-100 sm:text-base">
                 Write a Review
-              </button>
+              </Button>
             </div>
           </div>
           <hr />

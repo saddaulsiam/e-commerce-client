@@ -5,8 +5,9 @@ import { toast } from "react-toastify";
 // local
 import { Pagination } from "../../../sharedComponents";
 import Loading from "../../../sharedComponents/loading/Loading";
-import { useGetAllUsersQuery } from "../../../../redux/features/auth/customer/cusAuthApi";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { useGetAllUsersQuery } from "@/redux/features/user/userApi";
 
 const AdminAllUsers = () => {
   const router = useRouter();
@@ -62,7 +63,10 @@ const AdminAllUsers = () => {
                     <div className="avatar">
                       <Image
                         className="rounded-lg"
-                        src={user.photoURL || "https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"}
+                        src={
+                          user.photoURL ||
+                          "https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                        }
                         alt="user photo"
                         height="35px"
                         width="35px"
@@ -80,9 +84,11 @@ const AdminAllUsers = () => {
                   <td>
                     {user.shippingAddress.length > 0 ? (
                       <>
-                        {user.shippingAddress[0]?.address} {user.shippingAddress[0]?.area}
+                        {user.shippingAddress[0]?.address}{" "}
+                        {user.shippingAddress[0]?.area}
                         <br />
-                        {user.shippingAddress[0]?.city} {user.shippingAddress[0]?.region}
+                        {user.shippingAddress[0]?.city}{" "}
+                        {user.shippingAddress[0]?.region}
                       </>
                     ) : (
                       "Address not added"
@@ -102,9 +108,11 @@ const AdminAllUsers = () => {
                     {user?._id.slice(0, 5)}...{user?._id.slice(19, 30)}
                   </td>
                   <td>
-                    <button onClick={() => router.push(`/admin/users/${user._id}`)} className="button">
+                    <Button
+                      onClick={() => router.push(`/admin/users/${user._id}`)}
+                    >
                       Details
-                    </button>
+                    </Button>
                   </td>
                 </tr>
               ))}
@@ -123,7 +131,8 @@ const AdminAllUsers = () => {
                 <th></th>
                 <th></th>
                 <th>
-                  {usersData?.data?.users?.length} items in page {currentPage} ( total
+                  {usersData?.data?.users?.length} items in page {currentPage} (
+                  total
                   {usersData?.data?.total} items)
                 </th>
                 <th></th>
