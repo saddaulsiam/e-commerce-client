@@ -11,20 +11,18 @@ const CartSummary = ({ cart }: { cart: TCart }) => {
   return (
     <div className="space-y-3 rounded-md bg-white p-4">
       <h3 className="text-xl">Order Summary</h3>
-      <div className="flex justify-between text-base">
-        <p className="text-my-gray-100">Subtitle</p>
-        <p className="text-black"> ৳ {cart.totalAmount.toFixed(2)}</p>
+      <div className="flex justify-between text-base text-slate-600">
+        <p>Subtitle</p>
+        <p> ৳ {cart.totalAmount.toFixed(2)}</p>
       </div>
-      <div className="flex justify-between text-base">
-        <p className="text-my-gray-100">Delivery Charge</p>
-        <p className="text-black">৳ {deliveryCharge}</p>
+      <div className="flex justify-between text-base text-slate-600">
+        <p>Delivery Charge</p>
+        <p>৳ {deliveryCharge}</p>
       </div>
       <hr />
-      <div className="flex justify-between text-base">
-        <p className="text-base font-semibold text-my-gray-100">Total</p>
-        <p className="font-semibold text-primary">
-          ৳ {deliveryCharge + Number(cart.totalAmount.toFixed(2))}
-        </p>
+      <div className="flex justify-between text-lg font-semibold">
+        <p>Total</p>
+        <p>৳ {deliveryCharge + Number(cart.totalAmount.toFixed(2))}</p>
       </div>
       {path === "/cart" && (
         <>

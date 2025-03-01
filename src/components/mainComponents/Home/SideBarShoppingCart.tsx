@@ -42,7 +42,7 @@ const SideBarShoppingCart = () => {
         </Button>
         <Button
           variant="outline"
-          className="w-full transform border-2 border-gray-300 text-gray-700 transition duration-200 ease-in-out hover:border-primary hover:bg-primary hover:text-white"
+          className="w-full border-primary text-primary transition-colors duration-300 hover:border-primary hover:bg-primary hover:text-white"
           onClick={() => router.push("/cart")}
         >
           View Cart
