@@ -132,13 +132,13 @@ const Register = () => {
                 id="password"
                 placeholder="******"
               />
-              <Button
+              <button
                 type="button"
                 className="absolute right-3 top-9 text-lg text-gray-500"
                 onClick={() => setShowPass(!showPass)}
               >
                 {showPass ? <BsEye /> : <BsEyeSlash />}
-              </Button>
+              </button>
             </div>
 
             <div className="relative">
@@ -149,13 +149,13 @@ const Register = () => {
                 id="confirmPassword"
                 placeholder="******"
               />
-              <Button
+              <button
                 type="button"
                 className="absolute right-3 top-9 text-lg text-gray-500"
                 onClick={() => setShowConfirmPass(!showConfirmPass)}
               >
                 {showConfirmPass ? <BsEye /> : <BsEyeSlash />}
-              </Button>
+              </button>
             </div>
 
             <Button type="submit" className="w-full">

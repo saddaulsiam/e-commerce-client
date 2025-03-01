@@ -132,13 +132,13 @@ const LoginModal = ({ openLoginModal, setOpenLoginModal }: LoginModalProps) => {
                 id="password"
                 placeholder="******"
               />
-              <Button
+              <button
                 type="button"
                 className="absolute right-3 top-9 text-lg text-gray-500"
                 onClick={() => setShowPass(!showPass)}
               >
                 {showPass ? <BsEye /> : <BsEyeSlash />}
-              </Button>
+              </button>
             </div>
 
             <div className="flex justify-between text-sm">
