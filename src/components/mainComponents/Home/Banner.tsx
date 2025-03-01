@@ -57,9 +57,7 @@ const Banner = () => {
 
   return (
     <header
-      className="mt-[7.7rem] lg:mt-[10.5rem]"
       style={{
-        // Set background color based on the current slide
         backgroundColor: bannerBgColors[currentSlide] || "#fff",
       }}
     >

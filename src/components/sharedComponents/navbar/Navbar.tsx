@@ -46,7 +46,7 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 0);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -66,7 +66,7 @@ const Navbar = () => {
   };
 
   return (
-    <header className="fixed left-0 top-0 z-50 w-full transition-all duration-300">
+    <header className="sticky left-0 top-0 z-50 w-full transition-all duration-300">
       <AnnouncementBar />
       <nav
         className={`bg-white shadow-sm transition-all ${isScrolled ? "shadow-lg" : ""}`}
@@ -90,7 +90,8 @@ const Navbar = () => {
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"
-                  className={`${isScrolled ? "flex" : "hidden"} text-2xl text-my-gray-100`}
+                  disabled={isScrolled ? false : true}
+                  className={`${isScrolled ? "" : "disabled:bg-white disabled:text-white"} text-2xl text-my-gray-100`}
                 >
                   <BiCategory />
                   <MdKeyboardArrowDown />

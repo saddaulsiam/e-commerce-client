@@ -10,14 +10,11 @@ const AnnouncementBar = () => {
   if (!isVisible) return null;
 
   return (
-    <div className="bg-primary py-2 text-sm text-white">
-      <div className="container mx-auto flex items-center justify-between">
+    <div className="bg-primary text-sm text-white">
+      <div className="container flex items-center justify-between">
         <p>🎉 Free shipping on orders over $50! Shop now.</p>
-        <Button
-          onClick={() => setIsVisible(false)}
-          className="p-1 hover:opacity-80"
-        >
-          <X className="h-4 w-4" />
+        <Button onClick={() => setIsVisible(false)}>
+          <X />
         </Button>
       </div>
     </div>
