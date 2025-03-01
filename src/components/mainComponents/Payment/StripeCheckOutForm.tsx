@@ -14,7 +14,7 @@ import {
   OrderStatus,
   PaymentMethod,
   PaymentStatus,
-} from "../../OrderProduct/OrderInterface";
+} from "../../../types/Ordertype";
 
 interface TProps {
   setOpenStripe: Dispatch<SetStateAction<boolean>>;

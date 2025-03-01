@@ -1,4 +1,4 @@
-import StripeCheckOutForm from "@/components/mainComponents/Payment/Stripe/StripeCheckOutForm";
+import StripeCheckOutForm from "@/components/mainComponents/Payment/StripeCheckOutForm";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Elements } from "@stripe/react-stripe-js";

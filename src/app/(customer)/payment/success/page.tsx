@@ -1,7 +1,7 @@
 import React from "react";
 import Head from "next/head";
-import PrivateRoute from "@/components/mainComponents/Auth/private/PrivateRoute";
-import Success from "@/components/mainComponents/Payment/SSLCommerz/Success";
+import PrivateRoute from "@/providers/PrivateRoute";
+import PaymentSuccess from "@/components/mainComponents/Payment/PaymentSuccess";
 
 const payment = () => {
   return (
@@ -9,7 +9,7 @@ const payment = () => {
       <Head>
         <title>Payment success</title>
       </Head>
-      <Success />
+      <PaymentSuccess />
     </PrivateRoute>
   );
 };

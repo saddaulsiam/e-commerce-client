@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { MdLocationPin } from "react-icons/md";
-import AddressForm from "../../Forms/AddressForm";
+import AddressForm from "../../../sharedComponents/forms/AddressForm";
 import DashboardCustomerSideBarNavigation from "./Dashboard.Customer.SideBar.Navigation";
 
 const DashboardCustomersAddressEdit = () => {

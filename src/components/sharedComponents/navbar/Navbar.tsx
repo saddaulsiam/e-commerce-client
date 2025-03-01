@@ -28,7 +28,7 @@ import { useDispatch } from "react-redux";
 import logo from "../../../../public/logo/logo.svg";
 import AnnouncementBar from "../announcementBar/AnnouncementBar";
 import CategoriesDropDownContent from "../DropDown/CategoriesDropDownContent";
-import LoginModal from "../modal/Login.modal";
+import LoginModal from "../modal/Loginmodal";
 import MobileMenu from "./MobileMenu";
 import NavMegaMenu from "./NavMegaMenu";
 

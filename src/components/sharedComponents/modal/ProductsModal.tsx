@@ -26,7 +26,9 @@ const ProductsModal = ({ setIsOpen, isOpen, product }: TProps) => {
 
   // Get the current product from the cart items based on its _id
   const { cartItems } = useAppSelector(({ state }) => state.cart);
-  const currentProduct = cartItems.find((item) => item._id === product._id);
+  const currentProduct = cartItems.find(
+    (item) => item.productId === product._id,
+  );
 
   // Handle Add to Cart
   const handleAddToCart = () => {

@@ -1,8 +1,7 @@
-import React from "react";
-import { TbTruckDelivery } from "react-icons/tb";
-import { MdFiberNew, MdPayment } from "react-icons/md";
+import { AiOutlineSafety } from "react-icons/ai";
 import { BiSupport } from "react-icons/bi";
-import { AiOutlineArrowRight, AiOutlineSafety } from "react-icons/ai";
+import { MdPayment } from "react-icons/md";
+import { TbTruckDelivery } from "react-icons/tb";
 
 const OurServices = () => {
   return (

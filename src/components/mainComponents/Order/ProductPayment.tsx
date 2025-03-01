@@ -1,6 +1,6 @@
 "use client";
 
-import StripePaymentModal from "@/components/sharedComponents/modal/Stripe.Payment.Modal";
+import StripePaymentModal from "@/components/sharedComponents/modal/StripePaymentModal";
 import { clearCart } from "@/redux/features/cart/cartSlice";
 import { removeOrderDetails } from "@/redux/features/order/orderDetails/orderDetailsSlice";
 import { useOrderNowMutation } from "@/redux/features/order/orders/ordersApi";
@@ -17,8 +17,8 @@ import {
   OrderStatus,
   PaymentMethod,
   PaymentStatus,
-} from "./OrderInterface";
-import OrderSummaryCart from "./OrderSummaryCart";
+} from "../../../types/Ordertype";
+import OrderSummaryCart from "./CartSummary";
 import ProgressSteps from "./ProgressSteps";
 import SelectPaymentOption from "./SelectPaymentOption";
 

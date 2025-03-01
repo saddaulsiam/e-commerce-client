@@ -11,7 +11,7 @@ import { Trash2 } from "lucide-react";
 import Image from "next/image";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { useDispatch } from "react-redux";
-import OrderSummaryCart from "./OrderSummaryCart";
+import OrderSummaryCart from "./CartSummary";
 import ProgressSteps from "./ProgressSteps";
 
 const OrderProductCart = () => {

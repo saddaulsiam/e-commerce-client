@@ -12,7 +12,7 @@ import { GrCompare } from "react-icons/gr";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { addToCart } from "../../../redux/features/cart/cartSlice";
-import ProductsModal from "../modal/Products.Modal";
+import ProductsModal from "../modal/ProductsModal";
 
 const ProductsCard = ({ product }: { product: TProduct }) => {
   const router = useRouter();

@@ -1,10 +1,10 @@
 import PrivateRoute from "@/providers/PrivateRoute";
-import { OrderProductPayment } from "@/components/mainComponents/Order";
+import Cancel from "@/components/mainComponents/Payment/";
 
 const payment = () => {
   return (
     <PrivateRoute>
-      <OrderProductPayment />
+      <Cancel />
     </PrivateRoute>
   );
 };

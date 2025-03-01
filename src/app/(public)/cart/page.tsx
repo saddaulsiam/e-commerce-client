@@ -1,4 +1,4 @@
-import { OrderProductCart } from "@/components/mainComponents/OrderProduct";
+import { OrderProductCart } from "@/components/mainComponents/Order";
 
 const Cart = () => {
   return <OrderProductCart />;

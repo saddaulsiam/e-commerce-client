@@ -1,5 +1,5 @@
-import PrivateRoute from "@/components/mainComponents/Auth/private/PrivateRoute";
-import { OrderProductDetails } from "@/components/mainComponents/OrderProduct";
+import PrivateRoute from "@/providers/PrivateRoute";
+import { OrderProductDetails } from "@/components/mainComponents/Order";
 
 const Checkout = () => {
   return (

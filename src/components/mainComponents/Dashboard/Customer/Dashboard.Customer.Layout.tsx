@@ -2,7 +2,7 @@ import {
   userAccounts,
   userDashboard,
 } from "../../../../data/dashboard.navigation";
-import PrivateRoute from "../../Auth/private/PrivateRoute";
+import PrivateRoute from "../../../../providers/PrivateRoute";
 import DashboardCustomerNavigation from "./Dashboard.Customer.Navigation";
 
 const DashboardCustomerLayout = ({ children }) => {
