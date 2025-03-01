@@ -1,9 +1,14 @@
 import {
+  AllCategories,
   Banner,
+  DiscountBanner,
   FlashDeals,
+  NewArrivals,
+  OurServices,
+  RandomProducts,
   TopCategories,
 } from "@/components/mainComponents/Home";
-import { Footer, Navbar } from "@/components/sharedComponents";
+import { BottomBar, Footer, Navbar } from "@/components/sharedComponents";
 
 const Home = () => {
   return (
@@ -12,14 +17,12 @@ const Home = () => {
       <Banner />
       <FlashDeals />
       <TopCategories />
-      {/*
       <NewArrivals />
       <DiscountBanner />
-      <AllCatagories />
+      <AllCategories />
       <RandomProducts />
       <OurServices />
-      <BottomBar /> 
-      */}
+      <BottomBar />
       <Footer />
     </>
   );

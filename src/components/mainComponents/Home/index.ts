@@ -5,6 +5,6 @@ export { default as TopCategories } from "./TopCategories";
 export { default as RandomProducts } from "./RandomProducts";
 export { default as OurServices } from "./OurServices";
 export { default as DiscountBanner } from "./DiscountBanner";
-export { default as AllCatagories } from "./AllCatagories";
+export { default as AllCategories } from "./AllCatagories";
 export { default as SideBarShoppingCart } from "./SideBarShoppingCart";
 export { default as SideBarShoppingCartItem } from "./SideBarShoppingCartItem";

@@ -1,29 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { products } from "@/data/products";
 import { AiFillThunderbolt, AiOutlineArrowRight } from "react-icons/ai";
-import { Loading, Pagination, ProductsCard } from "../../sharedComponents";
-import { useGetProductsQuery } from "../../../redux/features/products/productsApi";
+import { Loading, ProductsCard } from "../../sharedComponents";
 
 const RandomProducts = () => {
-  const [currentPage, setCurrentPage] = useState(1);
+  const isLoading = false;
+  // const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const { data, isLoading } = useGetProductsQuery({
-    limit: 20,
-    page: currentPage,
-    sort: "",
-  });
-
-  //  pagination
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+  // //  pagination
+  // const handlePageChange = (pageNumber: number) => {
+  //   setCurrentPage(pageNumber);
+  // };
   return (
-    <section className="relative bg-[#e6ebf1] px-3 pb-16 xl:px-0">
+    <section className="relative bg-white py-10">
       <div className="container">
         <div className="flex justify-between">
           <h2 className="pb-5 text-2xl font-bold italic text-primary">
-            <AiFillThunderbolt className="mr-1 inline text-secondary" />
+            <AiFillThunderbolt className="mr-1 inline text-primary" />
             More For You
           </h2>
           <a href="" className="text-sm text-my-gray-100">
@@ -34,16 +28,20 @@ const RandomProducts = () => {
           <Loading />
         ) : (
           <>
-            <div className="grid grid-cols-2 gap-x-3 gap-y-10 rounded-md sm:grid-cols-3 lg:grid-cols-5">
-              {data?.data?.products.map((product, index) => (
+            <div className="grid grid-cols-2 gap-x-3 gap-y-10 sm:grid-cols-3 lg:grid-cols-5">
+              {products.map((product, index) => (
                 <ProductsCard product={product} key={index} />
               ))}
             </div>
-            {data?.data?.page > 1 && (
+            {/* {data?.data?.page > 1 && (
               <div className="mt-10 text-center">
-                <Pagination currentPage={currentPage} totalPages={data?.data?.page} onPageChange={handlePageChange} />
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={10}
+                  onPageChange={handlePageChange}
+                />
               </div>
-            )}
+            )} */}
           </>
         )}
       </div>

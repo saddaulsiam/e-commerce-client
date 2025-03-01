@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 import { Pagination, ProductsCard } from "../../sharedComponents";
 import SearchingProductsSidebarMenu from "./Searching.Products.Sidebar.Menu";
 import SearchingProductsSidebar from "./Searching.Products.Sidebar";
-import { useGetProductsByCategoryQuery } from "../../../redux/features/products/productsApi";
 
 const SearchingProductsByCategory = () => {
   const router = useRouter();

@@ -51,7 +51,8 @@ const Footer = () => {
               />
             </Link>
             <p className="text-base leading-7">
-              Your trusted shopping destination. Quality products, fast delivery, and friendly support.
+              Your trusted shopping destination. Quality products, fast
+              delivery, and friendly support.
             </p>
             <Link
               href="https://play.google.com/store"
@@ -100,7 +101,7 @@ const Footer = () => {
                   >
                     {item}
                   </Link>
-                )
+                ),
               )}
             </nav>
           </div>

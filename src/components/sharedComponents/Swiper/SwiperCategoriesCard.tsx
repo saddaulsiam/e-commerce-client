@@ -7,7 +7,7 @@ import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-// swiper
+// swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -20,25 +20,17 @@ type TProps = {
 };
 
 const SwiperCategoriesCard = ({ cProducts }: { cProducts: TProps[] }) => {
-  const swiperPrevRef = useRef(null);
-  const swiperNextRef = useRef(null);
+  const swiperPrevRef = useRef<any>(undefined);
+  const swiperNextRef = useRef<any>(undefined);
+
   return (
     <Swiper
       slidesPerView={1}
       spaceBetween={10}
       breakpoints={{
-        0: {
-          slidesPerView: 1,
-          spaceBetween: 5,
-        },
-        768: {
-          slidesPerView: 2,
-          spaceBetween: 10,
-        },
-        1024: {
-          slidesPerView: 3,
-          spaceBetween: 10,
-        },
+        0: { slidesPerView: 1, spaceBetween: 5 },
+        768: { slidesPerView: 2, spaceBetween: 10 },
+        1024: { slidesPerView: 3, spaceBetween: 10 },
       }}
       navigation={{
         prevEl: swiperPrevRef.current,

@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import RatingStars from "@/components/ui/rating";
 import { TProduct } from "@/types/common";
 import Image from "next/image";
@@ -13,7 +14,6 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { addToCart } from "../../../redux/features/cart/cartSlice";
 import ProductsModal from "../modal/ProductsModal";
-import { Button } from "@/components/ui/button";
 
 const ProductsCard = ({ product }: { product: TProduct }) => {
   const router = useRouter();
@@ -76,9 +76,9 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
         {/* Product Details */}
         <div className="p-4">
           <Link href={`/product/${product._id}`}>
-            <h3 className="text-lg font-semibold capitalize text-gray-800 transition duration-200 hover:text-primary">
-              {product?.name?.slice(0, 25)}
-              {product?.name?.length > 20 && "..."}
+            <h3 className="truncate text-lg font-semibold capitalize text-gray-800 transition duration-200 hover:text-primary">
+              {product?.name}
+              {/* {product?.name?.length > 20 && "..."} */}
             </h3>
           </Link>
 
