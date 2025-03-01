@@ -1,19 +1,27 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
-import Image from "next/image";
+import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
+
 // swiper
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-const SwiperCatagoriesCard = ({ cProducts }) => {
-  const swiperPrevRef = useRef();
-  const swiperNextRef = useRef();
+type TProps = {
+  name: string;
+  img: string;
+  order: string;
+  href: string;
+};
+
+const SwiperCategoriesCard = ({ cProducts }: { cProducts: TProps[] }) => {
+  const swiperPrevRef = useRef(null);
+  const swiperNextRef = useRef(null);
   return (
     <Swiper
       slidesPerView={1}
@@ -41,9 +49,12 @@ const SwiperCatagoriesCard = ({ cProducts }) => {
       className="mySwiper"
     >
       {cProducts.map((product, index) => (
-        <SwiperSlide className="cursor-pointer rounded-md bg-white shadow-2xl shadow-gray-300" key={index}>
+        <SwiperSlide
+          className="cursor-pointer rounded-md bg-white shadow-2xl shadow-gray-300"
+          key={index}
+        >
           <Link href={product.href} passHref>
-            <div key={product.id} className="group relative w-full p-4">
+            <div className="group relative w-full p-4">
               <div className="h-32 w-full group-hover:opacity-70">
                 <div className="p-1">
                   <Image
@@ -57,11 +68,11 @@ const SwiperCatagoriesCard = ({ cProducts }) => {
                 </div>
               </div>
               {/* Card Name */}
-              <div className="absolute top-8 left-8 rounded-full bg-secondary px-4 py-0.5 text-sm text-white">
+              <div className="absolute left-8 top-8 rounded-full bg-primary px-4 py-0.5 text-sm text-white">
                 {product.name}
               </div>
               {/* Orders */}
-              <div className="absolute top-8 right-8 rounded-full bg-my-gray-100 px-4 py-0.5 text-sm text-white">
+              <div className="absolute right-8 top-8 rounded-full bg-gray-600 px-4 py-0.5 text-sm text-white">
                 {product.order}
               </div>
             </div>
@@ -70,13 +81,13 @@ const SwiperCatagoriesCard = ({ cProducts }) => {
       ))}
       <div
         ref={swiperPrevRef}
-        className="absolute top-1/2 bottom-1/2 left-2 z-[2] flex -translate-y-1/2 transform items-center justify-center rounded-full bg-[#808080] p-4 px-1.5 text-white hover:bg-primary"
+        className="absolute bottom-1/2 left-2 top-1/2 z-[2] flex -translate-y-1/2 transform items-center justify-center rounded-full bg-[#808080] p-4 px-1.5 text-white hover:bg-primary"
       >
         <AiOutlineArrowLeft className="text-xl" />
       </div>
       <div
         ref={swiperNextRef}
-        className="absolute top-1/2 bottom-1/2 right-2 z-[2] flex -translate-y-1/2 transform items-center justify-center rounded-full bg-[#808080] p-4 px-1.5 text-white hover:bg-primary "
+        className="absolute bottom-1/2 right-2 top-1/2 z-[2] flex -translate-y-1/2 transform items-center justify-center rounded-full bg-[#808080] p-4 px-1.5 text-white hover:bg-primary"
       >
         <AiOutlineArrowRight className="text-xl" />
       </div>
@@ -84,4 +95,4 @@ const SwiperCatagoriesCard = ({ cProducts }) => {
   );
 };
 
-export default SwiperCatagoriesCard;
+export default SwiperCategoriesCard;

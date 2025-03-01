@@ -6,7 +6,7 @@ import { BsFillSuitHeartFill } from "react-icons/bs";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useGetProductsQuery } from "../../../../redux/features/products/productsApi";
 import { Loading, Pagination } from "../../../sharedComponents";
-import ProductsCard from "../../../sharedComponents/productsCard/Products.Card";
+import ProductsCard from "../../../sharedComponents/productsCard/ProductsCard";
 import DashboardCustomerSideBarNavigation from "./Dashboard.Customer.SideBar.Navigation";
 import { Button } from "@/components/ui/button";
 
