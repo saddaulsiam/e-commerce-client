@@ -1,13 +1,12 @@
-import { useRouter } from "next/navigation";
-import { FiFilter } from "react-icons/fi";
-import { BiCategory } from "react-icons/bi";
-import { useEffect, useState } from "react";
-import { GiHamburgerMenu } from "react-icons/gi";
+"use client";
 
-import { Pagination, ProductsCard } from "../../sharedComponents";
+import { products } from "@/data/products";
+import { useState } from "react";
+import { BiCategory } from "react-icons/bi";
+import { FiFilter } from "react-icons/fi";
+import { GiHamburgerMenu } from "react-icons/gi";
 import { SearchingProductsSidebarMenu } from "../SearchingProducts";
-import { useGetBrandsQuery } from "../../../redux/features/brands/brandsApi";
-import { useGetProductsQuery } from "../../../redux/features/products/productsApi";
+import { ProductsCard } from "@/components/sharedComponents";
 
 const VendorShopAllProducts = ({ search, setShowSidebar }) => {
   const [sort, setSort] = useState(null);
@@ -20,11 +19,11 @@ const VendorShopAllProducts = ({ search, setShowSidebar }) => {
   const [filteredByStatus, setFilteredByStatus] = useState([]);
   const [filteredProductsByColors, setFilteredProductsByColors] = useState([]);
 
-  const { data: productsData, isLoading } = useGetProductsQuery({
-    limit: 8,
-    page: currentPage,
-    sort,
-  });
+  // const { data: productsData, isLoading } = useGetProductsQuery({
+  //   limit: 8,
+  //   page: currentPage,
+  //   sort,
+  // });
 
   // useEffect(() => {
   //   if (router.query.search) {
@@ -44,44 +43,50 @@ const VendorShopAllProducts = ({ search, setShowSidebar }) => {
   //   }
   // }, [currentPage, sort, getData, router.query.category, router.query.search]);
 
-  // Get brands //
-  const { data: brands } = useGetBrandsQuery();
+  /* // Get brands //
+  const { data: brands } = useGetBrandsQuery(undefined); */
 
-  // Filter Product By filterMinPrice >= price //
+  /*   // Filter Product By filterMinPrice >= price //
   useEffect(() => {
     if (filterMinPrice) {
-      const filteredProduct = productsData?.data.products.filter((product) => product.price >= filterMinPrice);
+      const filteredProduct = products.filter(
+        (product) => product.price >= filterMinPrice,
+      );
       setFilteredByPrice(filteredProduct);
     }
-  }, [filterMinPrice, filterMaxPrice, productsData?.data.products]);
+  }, []); */
 
-  // Filter Product By filterMaxPrice <= price //
+  /*   // Filter Product By filterMaxPrice <= price //
   useEffect(() => {
     if (filterMaxPrice) {
-      const filteredProduct = productsData?.data.products.filter((product) => product.price <= filterMaxPrice);
+      const filteredProduct = products.filter(
+        (product) => product.price <= filterMaxPrice,
+      );
       setFilteredByPrice(filteredProduct);
     }
-  }, [filterMaxPrice, filterMinPrice, productsData?.data.products]);
+  }, []); */
 
-  // Filter the products compere => <= price //
+  /*   // Filter the products compere => <= price //
   useEffect(() => {
     if (filterMinPrice?.length && filterMaxPrice?.length) {
-      const filtered = productsData?.data.products.filter((product) => {
-        return product.price >= filterMinPrice && product.price <= filterMaxPrice;
+      const filtered = products.filter((product) => {
+        return (
+          product.price >= filterMinPrice && product.price <= filterMaxPrice
+        );
       });
       setFilteredByPrice(filtered);
     }
-  }, [filterMinPrice, filterMaxPrice, productsData?.data.products]);
+  }, []); */
 
-  // Filter Product By Brands Name //
+  /*   // Filter Product By Brands Name //
   const filteredProductsByBrands = [];
-  productsData?.data?.products.forEach((product) => {
+  products.forEach((product) => {
     if (filterByBrands.includes(product?.brand?.name)) {
       filteredProductsByBrands.push(product);
     }
   });
-
-  // Filter Product By Status //
+ */
+  /*   // Filter Product By Status //
   const filteredProductsByStatus = [];
 
   if (filteredProductsByBrands.length > 0) {
@@ -91,71 +96,78 @@ const VendorShopAllProducts = ({ search, setShowSidebar }) => {
       }
     });
   } else {
-    productsData?.data?.products.forEach((product) => {
+    products.forEach((product) => {
       if (filteredByStatus.includes(product?.status)) {
         filteredProductsByStatus.push(product);
       }
     });
-  }
+  } */
 
-  // Filter Products By Colors Function //
+  /*   // Filter Products By Colors Function //
   const filterProductsByColors = (products, colors) => {
-    return products?.filter((product) => product.colors.some((color) => colors.includes(color.value)));
-  };
+    return products?.filter((product) =>
+      product.colors.some((color) => colors.includes(color.value)),
+    );
+  }; */
 
-  // Filter Products By Colors //
+  /*   // Filter Products By Colors //
   useEffect(() => {
     if (filteredProductsByBrands?.length) {
       try {
-        const filteredProducts = filterProductsByColors(filteredProductsByBrands, filterByColors);
+        const filteredProducts = filterProductsByColors(
+          filteredProductsByBrands,
+          filterByColors,
+        );
         setFilteredProductsByColors(filteredProducts);
       } catch (error) {
         console.log(error);
       }
     } else {
-      const filteredProducts = filterProductsByColors(productsData?.data.products, filterByColors);
+      const filteredProducts = filterProductsByColors(products, filterByColors);
       setFilteredProductsByColors(filteredProducts);
     }
-  }, [filterByColors]);
+  }, []); */
 
-  // Pagination //
+  /* // Pagination //
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
-  };
+  }; */
 
   // Render Products //
   const renderProducts = () => {
-    let productsToRender = filteredByPrice?.length
+    const productsToRender = filteredByPrice?.length
       ? filteredByPrice
       : filteredProductsByColors?.length
-      ? filteredProductsByColors
-      : filteredProductsByStatus?.length > 0
-      ? filteredProductsByStatus
-      : filteredProductsByBrands?.length
-      ? filteredProductsByBrands
-      : productsData?.data?.products;
+        ? filteredProductsByColors
+        : // : filteredProductsByStatus?.length > 0
+          //   ? filteredProductsByStatus
+          //   : filteredProductsByBrands?.length
+          //     ? filteredProductsByBrands
+          products;
 
-    return productsToRender?.map((product) => <ProductsCard key={product._id} product={product} />);
+    return productsToRender?.map((product, i) => (
+      <ProductsCard key={i} product={product} />
+    ));
   };
 
   return (
     <div className="grid grid-cols-5 gap-5 px-3 xl:px-0">
       <div className="hidden sm:col-span-1 lg:block">
         <div className="rounded-md bg-white">
-          <SearchingProductsSidebarMenu
-            brands={brands?.data}
-            products={productsData?.data.products}
+          {/* <SearchingProductsSidebarMenu
+            // brands={brands?.data}
+            products={products}
             setFilteredByStatus={setFilteredByStatus}
             setFilterByBrands={setFilterByBrands}
             setFilterByColors={setFilterByColors}
             setFilterMinPrice={setFilterMinPrice}
             setFilterMaxPrice={setFilterMaxPrice}
-          />
+          /> */}
         </div>
       </div>
       <div className="col-span-5 lg:col-span-4">
         <div className="mb-3 flex-1 justify-between space-y-5 rounded-md bg-white p-5 md:flex">
-          <div className="flex items-center ">
+          <div className="flex items-center">
             <h2 className="text-lg font-semibold text-gray-800">Store Name</h2>
           </div>
           <div className="flex items-center space-x-3 text-sm text-my-gray-200 sm:space-x-4 sm:text-base">
@@ -164,7 +176,7 @@ const VendorShopAllProducts = ({ search, setShowSidebar }) => {
               name=""
               id=""
               className="h-10 rounded border border-gray-300 focus:border-secondary"
-              onChange={(e) => setSort(e.target.value)}
+              // onChange={(e) => setSort(e.target.value)}
             >
               <option value="">Best Match</option>
               <option value="price">Status low to high</option>
@@ -188,7 +200,7 @@ const VendorShopAllProducts = ({ search, setShowSidebar }) => {
           </div>
         </div>
         <div className="grid grid-cols-2 gap-x-2 gap-y-5 rounded-md sm:grid-cols-3 sm:gap-x-5 lg:grid-cols-4">
-          {productsData?.data?.products?.length > 0 ? (
+          {products?.length > 0 ? (
             renderProducts()
           ) : (
             <div className="flex h-[60vh] w-[53vw] items-center justify-center text-4xl text-my-gray-100">
@@ -196,7 +208,7 @@ const VendorShopAllProducts = ({ search, setShowSidebar }) => {
             </div>
           )}
         </div>
-        <div className="mt-10 mb-20 text-center">
+        {/* <div className="mb-20 mt-10 text-center">
           {productsData?.data?.page < 1 && (
             <Pagination
               currentPage={currentPage}
@@ -204,7 +216,7 @@ const VendorShopAllProducts = ({ search, setShowSidebar }) => {
               onPageChange={handlePageChange}
             />
           )}
-        </div>
+        </div> */}
       </div>
     </div>
   );

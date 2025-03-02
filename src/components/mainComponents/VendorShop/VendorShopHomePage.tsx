@@ -1,30 +1,25 @@
-import { useRef } from "react";
-import Image from "next/image";
-import { Navigation } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
+"use client";
 
-// local
+import { ProductsCard } from "@/components/sharedComponents";
+import { products } from "@/data/products";
+import Image from "next/image";
+import { useRef } from "react";
 import {
   AiFillThunderbolt,
   AiOutlineArrowLeft,
   AiOutlineArrowRight,
 } from "react-icons/ai";
-import { ProductsCard } from "../../sharedComponents";
-import { useGetProductsQuery } from "../../../redux/features/products/productsApi";
+import { Navigation } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 const VendorShopHomePage = () => {
-  const swiperPrevRef2 = useRef(null);
-  const swiperNextRef2 = useRef(null);
+  const swiperPrevRef2 = useRef<any>(undefined);
+  const swiperNextRef2 = useRef<any>(undefined);
 
-  const { data } = useGetProductsQuery({
-    limit: 10,
-    page: 1,
-    sort: "",
-  });
   return (
     <div>
       {/* Top DesCounts */}
-      <div className=" grid grid-cols-1 gap-2 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
         <div className="relative h-80 w-full cursor-pointer">
           <Image
             layout="fill"
@@ -33,7 +28,7 @@ const VendorShopHomePage = () => {
             priority
           />
           <div className="absolute inset-0 bg-gray-900/20 transition duration-200 ease-in-out hover:bg-gray-900/40" />
-          <div className="absolute top-2 right-2 flex items-center justify-center rounded-full bg-primary p-5 px-7">
+          <div className="absolute right-2 top-2 flex items-center justify-center rounded-full bg-primary p-5 px-7">
             <h2 className="text-2xl text-white">
               75% <br /> Off
             </h2>
@@ -51,7 +46,7 @@ const VendorShopHomePage = () => {
             priority
           />
           <div className="absolute inset-0 bg-gray-900/20 transition duration-200 ease-in-out hover:bg-gray-900/40" />
-          <div className="absolute top-2 right-2 flex items-center justify-center rounded-full bg-primary p-5 px-7">
+          <div className="absolute right-2 top-2 flex items-center justify-center rounded-full bg-primary p-5 px-7">
             <h2 className="text-2xl text-white">
               75% <br /> Off
             </h2>
@@ -137,7 +132,7 @@ const VendorShopHomePage = () => {
           modules={[Navigation]}
           className="mySwiper"
         >
-          {data?.data?.products?.map((product, index) => (
+          {products?.map((product, index) => (
             <SwiperSlide
               key={index}
               className="rounded-md bg-white shadow-2xl shadow-gray-300"
@@ -147,13 +142,13 @@ const VendorShopHomePage = () => {
           ))}
           <div
             ref={swiperPrevRef2}
-            className="absolute top-1/2 bottom-1/2 left-2 z-[2] flex -translate-y-1/2 transform cursor-pointer items-center justify-center rounded-full bg-[#808080] p-4 px-1.5 text-white hover:bg-primary"
+            className="absolute bottom-1/2 left-2 top-1/2 z-[2] flex -translate-y-1/2 transform cursor-pointer items-center justify-center rounded-full bg-[#808080] p-4 px-1.5 text-white hover:bg-primary"
           >
             <AiOutlineArrowLeft className="text-xl" />
           </div>
           <div
             ref={swiperNextRef2}
-            className="absolute top-1/2 bottom-1/2 right-2 z-[2] flex -translate-y-1/2 transform cursor-pointer items-center justify-center rounded-full bg-[#808080] p-4 px-1.5 text-white hover:bg-primary"
+            className="absolute bottom-1/2 right-2 top-1/2 z-[2] flex -translate-y-1/2 transform cursor-pointer items-center justify-center rounded-full bg-[#808080] p-4 px-1.5 text-white hover:bg-primary"
           >
             <AiOutlineArrowRight className="text-xl" />
           </div>
@@ -165,7 +160,7 @@ const VendorShopHomePage = () => {
           <AiFillThunderbolt className="inline text-secondary" /> Just For You
         </h2>
         <div className="grid grid-cols-2 gap-x-3 gap-y-10 rounded-md sm:grid-cols-3 lg:grid-cols-5">
-          {data?.data?.products.map((product, index) => (
+          {products.map((product, index) => (
             <ProductsCard product={product} key={index} />
           ))}
         </div>
