@@ -1,13 +1,12 @@
-import Image from "next/image";
-import { useState } from "react";
-import { toast } from "react-toastify";
+"use client";
 
-// local
-import { Pagination } from "../../../sharedComponents";
-import Loading from "../../../sharedComponents/loading/Loading";
-import { useRouter } from "next/navigation";
+import { Loading, Pagination } from "@/components/sharedComponents";
 import { Button } from "@/components/ui/button";
 import { useGetAllUsersQuery } from "@/redux/features/user/userApi";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 const AdminAllUsers = () => {
   const router = useRouter();

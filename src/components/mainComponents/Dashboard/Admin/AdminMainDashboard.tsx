@@ -1,123 +1,55 @@
-import {
-  Bar,
-  Pie,
-  Cell,
-  Area,
-  YAxis,
-  XAxis,
-  Tooltip,
-  BarChart,
-  PieChart,
-  AreaChart,
-  CartesianGrid,
-  ResponsiveContainer,
-} from "recharts";
-import Image from "next/image";
-import { toast } from "react-toastify";
-import { FaUsers } from "react-icons/fa";
-import { BiUpArrowAlt } from "react-icons/bi";
-import { FiShoppingCart } from "react-icons/fi";
-import { BsEye, BsFillCreditCardFill } from "react-icons/bs";
+"use client"; // Ensure this is at the top for Next.js client-side rendering
 
-// local
-import { useGetAllUsersQuery } from "../../../../redux/features/auth/customer/cusAuthApi";
 import { Button } from "@/components/ui/button";
+import { useGetAllUsersQuery } from "@/redux/features/user/userApi";
+import Image from "next/image";
+import { BiUpArrowAlt } from "react-icons/bi";
+import { BsEye, BsFillCreditCardFill } from "react-icons/bs";
+import { FaUsers } from "react-icons/fa";
+import { FiShoppingCart } from "react-icons/fi";
+import { toast } from "react-toastify";
+import {
+  Area,
+  AreaChart,
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 
+// Dummy data for charts
 const AreaChartData = [
-  {
-    name: "Jan",
-    uv: 5000,
-    pv: 5000,
-  },
-  {
-    name: "Feb",
-    uv: 2000,
-    pv: 1000,
-  },
-  {
-    name: "Mar",
-    uv: 5000,
-    pv: 5000,
-  },
-  {
-    name: "Apr",
-    uv: 3000,
-    pv: 2000,
-  },
-  {
-    name: "May",
-    uv: 5000,
-    pv: 5000,
-  },
-  {
-    name: "Jun",
-    uv: 3000,
-    pv: 5000,
-  },
-  {
-    name: "Jul",
-    uv: 3490,
-    pv: 4300,
-  },
-  {
-    name: "Aug",
-    uv: 3490,
-    pv: 4300,
-  },
-  {
-    name: "Sep",
-    uv: 2000,
-    pv: 9800,
-  },
-  {
-    name: "Oct",
-    uv: 3490,
-    pv: 4300,
-  },
-  {
-    name: "Nov",
-    uv: 1000,
-    pv: 6000,
-  },
-  {
-    name: "Dev",
-    uv: 4000,
-    pv: 5500,
-  },
+  { name: "Jan", uv: 5000, pv: 5000 },
+  { name: "Feb", uv: 2000, pv: 1000 },
+  { name: "Mar", uv: 5000, pv: 5000 },
+  { name: "Apr", uv: 3000, pv: 2000 },
+  { name: "May", uv: 5000, pv: 5000 },
+  { name: "Jun", uv: 3000, pv: 5000 },
+  { name: "Jul", uv: 3490, pv: 4300 },
+  { name: "Aug", uv: 3490, pv: 4300 },
+  { name: "Sep", uv: 2000, pv: 9800 },
+  { name: "Oct", uv: 3490, pv: 4300 },
+  { name: "Nov", uv: 1000, pv: 6000 },
+  { name: "Dec", uv: 4000, pv: 5500 },
 ];
 
 const LineChartData = [
-  {
-    name: "S",
-    pv: 2400,
-  },
-  {
-    name: "S",
-    pv: 1398,
-  },
-  {
-    name: "M",
-    pv: 9800,
-  },
-  {
-    name: "T",
-    pv: 3908,
-  },
-  {
-    name: "W",
-    pv: 4800,
-  },
-  {
-    name: "T",
-    pv: 3800,
-  },
-  {
-    name: "F",
-    pv: 4300,
-  },
+  { name: "S", pv: 2400 },
+  { name: "S", pv: 1398 },
+  { name: "M", pv: 9800 },
+  { name: "T", pv: 3908 },
+  { name: "W", pv: 4800 },
+  { name: "T", pv: 3800 },
+  { name: "F", pv: 4300 },
 ];
 
-const data01 = [
+const PieChartData = [
   { name: "Group A", value: 400 },
   { name: "Group B", value: 300 },
   { name: "Group C", value: 300 },
@@ -131,10 +63,12 @@ const AdminMainDashboard = () => {
     limit: 3,
     page: 1,
   });
+
   return (
     <>
-      {/* Card */}
+      {/* Card Section */}
       <section className="mx-10 my-5 grid grid-cols-4 gap-6">
+        {/* Visitors Card */}
         <div className="h-40 w-full rounded bg-primary px-10 py-5 shadow-md">
           <div className="flex items-center justify-between">
             <p className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-600">
@@ -153,6 +87,8 @@ const AdminMainDashboard = () => {
             </p>
           </div>
         </div>
+
+        {/* Total Orders Card */}
         <div className="h-40 w-full rounded bg-primary px-10 py-5 shadow-md">
           <div className="flex items-center justify-between">
             <p className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-600">
@@ -171,6 +107,8 @@ const AdminMainDashboard = () => {
             </p>
           </div>
         </div>
+
+        {/* Sale Card */}
         <div className="h-40 w-full rounded bg-primary px-10 py-5 shadow-md">
           <div className="flex items-center justify-between">
             <p className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-600">
@@ -189,6 +127,8 @@ const AdminMainDashboard = () => {
             </p>
           </div>
         </div>
+
+        {/* Users Card */}
         <div className="h-40 w-full rounded bg-primary px-10 py-5 shadow-md">
           <div className="flex items-center justify-between">
             <p className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-600">
@@ -208,15 +148,17 @@ const AdminMainDashboard = () => {
           </div>
         </div>
       </section>
-      {/* Chart */}
+
+      {/* Chart Section */}
       <section className="mx-10 my-5 grid grid-cols-3 gap-6 pt-5">
+        {/* Area Chart */}
         <div className="col-span-3 h-96 bg-white p-4 lg:col-span-2">
           <div className="flex justify-between pb-6">
             <div className="flex gap-10">
               <div>
                 <p className="flex items-center gap-1 text-lg text-[#8884d8]">
                   <span className="h-3 w-3 rounded-full bg-[#8884d8] ring-2 ring-[#8884d8] ring-offset-2" />
-                  <span htmlFor="revenue">Total Revenue</span>
+                  Total Revenue
                 </p>
                 <p className="pl-6 text-base text-my-gray-100">
                   12.04.2022 - 12.05.2022
@@ -224,15 +166,8 @@ const AdminMainDashboard = () => {
               </div>
               <div>
                 <p className="flex items-center gap-1 text-lg text-[#82ca9d]">
-                  {/* <input
-                    className="radio radio-sm checked:bg-[#82ca9d]"
-                    checked
-                    type="radio"
-                    name="revenue"
-                    id="revenue"
-                  /> */}
                   <span className="h-3 w-3 rounded-full bg-[#82ca9d] ring-2 ring-[#82ca9d] ring-offset-2" />
-                  <label htmlFor="revenue">Total Revenue</label>
+                  Total Revenue
                 </p>
                 <p className="pl-6 text-base text-my-gray-100">
                   12.04.2022 - 12.05.2022
@@ -251,12 +186,7 @@ const AdminMainDashboard = () => {
               width={500}
               height={400}
               data={AreaChartData}
-              margin={{
-                top: 10,
-                right: 30,
-                left: 0,
-                bottom: 0,
-              }}
+              margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
@@ -279,18 +209,15 @@ const AdminMainDashboard = () => {
             </AreaChart>
           </ResponsiveContainer>
         </div>
+
+        {/* Bar Chart */}
         <div className="col-span-3 h-96 rounded bg-white p-3 lg:col-span-1">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               width={500}
               height={300}
               data={LineChartData}
-              margin={{
-                top: 5,
-                right: 30,
-                left: 20,
-                bottom: 5,
-              }}
+              margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
@@ -301,7 +228,8 @@ const AdminMainDashboard = () => {
           </ResponsiveContainer>
         </div>
       </section>
-      {/* Chart */}
+
+      {/* Pie Chart and User Table Section */}
       <section className="mx-10 my-5 grid grid-cols-3 gap-6 pt-5">
         {/* Pie Chart */}
         <div className="col-span-3 h-96 bg-white p-4 lg:col-span-1">
@@ -319,14 +247,14 @@ const AdminMainDashboard = () => {
           <ResponsiveContainer height="60%" width="100%">
             <PieChart>
               <Pie
-                data={data01}
+                data={PieChartData}
                 cx="50%"
                 cy="50%"
                 innerRadius={60}
                 outerRadius={100}
                 dataKey="value"
               >
-                {data01.map((entry, index) => (
+                {PieChartData.map((entry, index) => (
                   <Cell
                     key={`cell-${index}`}
                     fill={COLORS[index % COLORS.length]}
@@ -357,7 +285,8 @@ const AdminMainDashboard = () => {
             </ul>
           </div>
         </div>
-        {/* User */}
+
+        {/* User Table */}
         <div className="col-span-3 h-96 bg-white p-4 lg:col-span-2">
           <div className="flex items-center justify-between pb-6">
             <div className="">
@@ -373,7 +302,6 @@ const AdminMainDashboard = () => {
           </div>
           <div className="overflow-x-auto">
             <table className="table w-full">
-              {/* head */}
               <thead>
                 <tr>
                   <th>Image</th>
@@ -385,7 +313,7 @@ const AdminMainDashboard = () => {
               </thead>
               <tbody>
                 {userData?.data?.users
-                  .map(({ displayName, email, role, _id, photoURL }, i) => (
+                  ?.map(({ displayName, email, role, _id, photoURL }, i) => (
                     <tr key={i}>
                       <th>
                         <Image

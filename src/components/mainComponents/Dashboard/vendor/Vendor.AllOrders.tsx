@@ -1,13 +1,13 @@
 "use client";
 
+import { Loading, Pagination } from "@/components/sharedComponents";
+import { useGetOrdersQuery } from "@/redux/features/order/orders/ordersApi";
 import Head from "next/head";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaShoppingBag } from "react-icons/fa";
-import { useGetOrdersQuery } from "@/redux/features/order/orders/ordersApi";
-import DashboardSideBarNavigation from "../Commone/DashboardSideBarNavigation";
 import VendorAllOrdersCart from "./Vendor.AllOrdersCart";
-import { Loading, Pagination } from "@/components/sharedComponents";
+import DashboardSidebar from "../Common/DashboardSidebar";
 
 const VendorAllOrders = () => {
   const router = useRouter();
@@ -82,11 +82,11 @@ const VendorAllOrders = () => {
               </tfoot>
             </table>
           </div>
-          {showSideNavigation && (
+          {/* {showSideNavigation && (
             <DashboardSideBarNavigation
               setShowSideNavigation={setShowSideNavigation}
             />
-          )}
+          )} */}
         </div>
       )}
     </>

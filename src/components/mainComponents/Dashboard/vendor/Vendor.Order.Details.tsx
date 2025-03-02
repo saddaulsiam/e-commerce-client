@@ -9,8 +9,8 @@ import { BsBagFill, BsBoxSeam } from "react-icons/bs";
 import { FcCheckmark } from "react-icons/fc";
 import { FiShoppingBag } from "react-icons/fi";
 import { TbTruckDelivery } from "react-icons/tb";
-import { DashboardSideBarNavigation } from "../Commone";
 import VendorOrderDetailsCart from "./Vendor.Order.Details.Cart";
+// import { DashboardSideBarNavigation } from "../Common";
 
 const VendorOrderDetails = () => {
   const router = useRouter();
@@ -194,11 +194,11 @@ const VendorOrderDetails = () => {
             </div>
           </div>
 
-          {showSideNavigation && (
+          {/* {showSideNavigation && (
             <DashboardSideBarNavigation
               setShowSideNavigation={setShowSideNavigation}
             />
-          )}
+          )} */}
         </div>
       )}
     </>
