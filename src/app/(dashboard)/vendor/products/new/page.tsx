@@ -1,16 +1,7 @@
-import {
-  VendorAddProduct,
-  VendorDashboardLayout,
-} from "@/components/mainComponents/Dashboard/vendor";
+import { VendorAddProduct } from "@/components/mainComponents/Dashboard/vendor";
 
 const AddNewProduct = () => {
-  return (
-    <div>
-      <VendorDashboardLayout>
-        <VendorAddProduct />
-      </VendorDashboardLayout>
-    </div>
-  );
+  return <VendorAddProduct />;
 };
 
 export default AddNewProduct;

@@ -1,11 +1,9 @@
-import { VendorDashboardLayout, VendorOrderDetails } from "@/components/mainComponents/Dashboard/vendor";
+import { VendorOrderDetails } from "@/components/mainComponents/Dashboard/vendor";
 
 const SingleOrderDetails = () => {
   return (
     <div>
-      <VendorDashboardLayout>
-        <VendorOrderDetails />
-      </VendorDashboardLayout>
+      <VendorOrderDetails />
     </div>
   );
 };

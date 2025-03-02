@@ -1,15 +1,9 @@
-import React from "react";
-import {
-  VendorDashboardLayout,
-  VendorAllOrders,
-} from "../../../../components/mainComponents/Dashboard/vendor";
+import { VendorAllOrders } from "@/components/mainComponents/Dashboard/vendor";
 
 const AllOrders = () => {
   return (
     <div>
-      <VendorDashboardLayout>
-        <VendorAllOrders />
-      </VendorDashboardLayout>
+      <VendorAllOrders />
     </div>
   );
 };
