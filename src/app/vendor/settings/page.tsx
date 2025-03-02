@@ -1,12 +1,13 @@
-import { VendorAccountSettings, VendorDashboardLayout } from "@/components/mainComponents/Dashboard/vendor";
+import {
+  VendorAccountSettings,
+  VendorDashboardLayout,
+} from "@/components/mainComponents/Dashboard/vendor";
 
 const Settings = () => {
   return (
-    <div>
-      <VendorDashboardLayout>
-        <VendorAccountSettings />
-      </VendorDashboardLayout>
-    </div>
+    <VendorDashboardLayout>
+      <VendorAccountSettings />
+    </VendorDashboardLayout>
   );
 };
 

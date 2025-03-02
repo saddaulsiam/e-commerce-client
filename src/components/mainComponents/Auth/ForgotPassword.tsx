@@ -37,7 +37,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <section className="flex h-screen items-center justify-center bg-slate-50 pt-52">
+    <section className="flex min-h-[calc(100vh-180px)] items-center justify-center bg-slate-50">
       <div className="w-[90%] max-w-md rounded-lg bg-white px-8 py-12 shadow-md">
         <div className="pb-6 text-center">
           <h2 className="bg-gradient-to-r from-gray-600 to-indigo-600 bg-clip-text text-3xl font-semibold text-transparent">

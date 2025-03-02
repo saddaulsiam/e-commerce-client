@@ -1,9 +1,9 @@
-import { toast } from "react-toastify";
-import { useForm } from "react-hook-form";
+"use client";
 
-// local
-import { useCreateBrandsMutation } from "../../../../redux/features/brands/brandsApi";
 import { Button } from "@/components/ui/button";
+import { useCreateBrandsMutation } from "@/redux/features/brands/brandsApi";
+import { FieldValues, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const VendorCreateBrand = () => {
   const {
@@ -15,7 +15,7 @@ const VendorCreateBrand = () => {
 
   const [createBrand, { isError, error }] = useCreateBrandsMutation();
 
-  const submit = (data) => {
+  const submit = (data: FieldValues) => {
     createBrand(data).then((res) => {
       if (res?.data?.status === "success") {
         toast.success(res.data.message);
@@ -46,7 +46,6 @@ const VendorCreateBrand = () => {
               </label>
               <input
                 type="text"
-                name="name"
                 id="name"
                 placeholder="Brand name"
                 className="input input-bordered h-12 rounded-md border px-3"
@@ -62,7 +61,6 @@ const VendorCreateBrand = () => {
               </label>
               <input
                 type="email"
-                name="email"
                 id="email"
                 placeholder="Enter the brand email"
                 className="input input-bordered h-12 rounded-md border px-3"
@@ -79,7 +77,6 @@ const VendorCreateBrand = () => {
               </label>
               <input
                 type="text"
-                name="website"
                 id="website"
                 placeholder="Brand website"
                 className="input input-bordered h-12 rounded-md border px-3"
@@ -95,7 +92,6 @@ const VendorCreateBrand = () => {
               </label>
               <input
                 type="text"
-                name="location"
                 id="location"
                 placeholder="Brand location"
                 className="input input-bordered h-12 rounded-md border px-3"
@@ -107,11 +103,10 @@ const VendorCreateBrand = () => {
           <div className="mt-5 flex flex-col">
             <label htmlFor="description">Description (Optional)</label>
             <textarea
-              name="description"
               id="description"
               placeholder="Description"
-              cols=""
-              rows="7"
+              cols={7}
+              rows={7}
               className="rounded-md border p-3 ring-offset-2 focus:outline-none focus:ring-2 focus:ring-gray-300"
               {...register("description")}
             />

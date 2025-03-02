@@ -1,21 +1,15 @@
-import Link from "next/link";
-import Image from "next/image";
-import { useDispatch } from "react-redux";
-import { BiBell, BiChat } from "react-icons/bi";
+"use client";
 
-// local
-import us from "../../../../images/country/us.svg";
-import bd from "../../../../images/country/bd.svg";
-import HeadlessUIDropDown from "../../../sharedComponents/DropDown/HeadlessUIDropDown";
-import { logOutUser } from "../../../../redux/features/auth/authSlice";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import Link from "next/link";
+import { BiBell, BiChat } from "react-icons/bi";
+import { useDispatch } from "react-redux";
+import { logOutUser } from "../../../../redux/features/auth/authSlice";
 
 const VendorNavbar = ({ setSideBarClose }) => {
   const dispatch = useDispatch();
-  const dopData = [
-    { name: "BD", img: bd, href: "#" },
-    { name: "US", img: us, href: "#" },
-  ];
+
   return (
     <div className="flex h-16 items-center justify-between bg-secondary px-5 print:hidden">
       {/* Side bar Toggle */}
@@ -49,7 +43,7 @@ const VendorNavbar = ({ setSideBarClose }) => {
       <div>
         <ul className="flex h-16 items-center text-white">
           <li className="flex h-full w-16 cursor-pointer items-center justify-center text-xl hover:bg-blue-700">
-            <HeadlessUIDropDown btnText="EN" btnImg={us} dopData={dopData} />
+            {/* <HeadlessUIDropDown btnText="EN" btnImg={us} dopData={dopData} /> */}
           </li>
           <li className="flex h-full w-14 cursor-pointer items-center justify-center text-2xl hover:bg-blue-700">
             <BiBell />
@@ -64,8 +58,8 @@ const VendorNavbar = ({ setSideBarClose }) => {
                   <div className="ring-offset-base-100 h-8 w-8 rounded-full ring ring-primary ring-offset-2">
                     <Image
                       alt=""
-                      height="35px"
-                      width="35px"
+                      height="35"
+                      width="35"
                       src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
                       priority
                     />

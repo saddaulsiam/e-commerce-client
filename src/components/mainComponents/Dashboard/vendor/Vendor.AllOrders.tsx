@@ -1,13 +1,13 @@
-import Head from "next/head";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { FaShoppingBag } from "react-icons/fa";
+"use client";
 
-// local
-import { Loading, Pagination } from "../../../sharedComponents";
+import Head from "next/head";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { FaShoppingBag } from "react-icons/fa";
+import { useGetOrdersQuery } from "@/redux/features/order/orders/ordersApi";
+import DashboardSideBarNavigation from "../Commone/DashboardSideBarNavigation";
 import VendorAllOrdersCart from "./Vendor.AllOrdersCart";
-import { useGetOrdersQuery } from "../../../../redux/features/order/orders/ordersApi";
-import DashboardSideBarNavigation from "../Commone/Dashboard.SideBar.Navigation";
+import { Loading, Pagination } from "@/components/sharedComponents";
 
 const VendorAllOrders = () => {
   const router = useRouter();

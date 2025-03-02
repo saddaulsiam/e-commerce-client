@@ -92,7 +92,7 @@ const Register = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100 px-2 lg:pt-[11rem]">
+    <div className="flex min-h-[calc(100vh-180px)] items-center justify-center bg-gray-100 px-2">
       <Card className="w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
         <h2 className="text-center text-3xl font-semibold">
           Create an Account

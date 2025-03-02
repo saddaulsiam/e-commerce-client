@@ -1,4 +1,4 @@
-import { VendorShopMain } from "@/components/mainComponents/VendorShop";
+import { VendorShopMain } from "@/components/mainComponents/Vendor";
 
 const Name = () => {
   return <VendorShopMain />;

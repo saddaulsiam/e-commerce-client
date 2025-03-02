@@ -15,7 +15,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 const VendorShopHomePage = () => {
   const swiperPrevRef2 = useRef<any>(undefined);
   const swiperNextRef2 = useRef<any>(undefined);
-
   return (
     <div>
       {/* Top DesCounts */}

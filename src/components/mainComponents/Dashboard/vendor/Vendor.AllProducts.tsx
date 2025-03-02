@@ -1,25 +1,24 @@
-import Head from "next/head";
-import Image from "next/image";
-import Swal from "sweetalert2";
-import { toast } from "react-toastify";
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
-import { TbEdit } from "react-icons/tb";
-import { BsCardText } from "react-icons/bs";
-import { MdDeleteOutline } from "react-icons/md";
-import withReactContent from "sweetalert2-react-content";
+"use client";
 
-// local
+import { Loading, Pagination } from "@/components/sharedComponents";
+import { Button } from "@/components/ui/button";
+import { products } from "@/data/products";
 import {
   useDeleteProductMutation,
   useGetProductsQuery,
-} from "../../../../redux/features/products/productsApi";
-import { Loading, Pagination } from "../../../sharedComponents";
-import { Button } from "@/components/ui/button";
+} from "@/redux/features/products/productsApi";
+import Head from "next/head";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { BsCardText } from "react-icons/bs";
+import { MdDeleteOutline } from "react-icons/md";
+import { TbEdit } from "react-icons/tb";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const VendorAllProducts = () => {
   const router = useRouter();
-  const MySwal = withReactContent(Swal);
   const [currentPage, setCurrentPage] = useState(1);
 
   // get product
@@ -87,7 +86,7 @@ const VendorAllProducts = () => {
               <tbody>
                 {/* <!-- row  --> */}
 
-                {data?.data?.products.map((product, i) => (
+                {products.map((product, i) => (
                   <tr className="hover" key={i}>
                     <td>
                       <div className="flex items-center space-x-3">

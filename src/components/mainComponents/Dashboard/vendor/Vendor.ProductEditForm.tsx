@@ -1,15 +1,15 @@
-import Image from "next/image";
-import { BsX } from "react-icons/bs";
-import { toast } from "react-toastify";
-import { useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import { useForm } from "react-hook-form";
+"use client";
 
-// local
-import { useUpdateProductMutation } from "../../../../redux/features/products/productsApi";
-import { useGetBrandsQuery } from "../../../../redux/features/brands/brandsApi";
-import { useGetCategoriesQuery } from "../../../../redux/features/categories/categoriesApi";
 import { Button } from "@/components/ui/button";
+import { useGetBrandsQuery } from "@/redux/features/brands/brandsApi";
+import { useGetCategoriesQuery } from "@/redux/features/categories/categoriesApi";
+import { useUpdateProductMutation } from "@/redux/features/products/productsApi";
+import Image from "next/image";
+import { useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import { BsX } from "react-icons/bs";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const VendorProductAddEditForm = ({ product }) => {
   const filePickerRef = useRef(null);

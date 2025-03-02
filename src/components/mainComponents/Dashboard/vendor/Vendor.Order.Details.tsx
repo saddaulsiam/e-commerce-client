@@ -1,17 +1,16 @@
+"use client";
+import { Loading } from "@/components/sharedComponents";
+import { Button } from "@/components/ui/button";
+import { useGetSingleOrderQuery } from "@/redux/features/order/orders/ordersApi";
 import Link from "next/link";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { BsBagFill, BsBoxSeam } from "react-icons/bs";
 import { FcCheckmark } from "react-icons/fc";
 import { FiShoppingBag } from "react-icons/fi";
 import { TbTruckDelivery } from "react-icons/tb";
-import { BsBagFill, BsBoxSeam } from "react-icons/bs";
-import VendorOrderDetailsCart from "./Vendor.Order.Details.Cart";
-
-// local
-import { Loading } from "../../../sharedComponents";
 import { DashboardSideBarNavigation } from "../Commone";
-import { useGetSingleOrderQuery } from "../../../../redux/features/order/orders/ordersApi";
-import { Button } from "@/components/ui/button";
+import VendorOrderDetailsCart from "./Vendor.Order.Details.Cart";
 
 const VendorOrderDetails = () => {
   const router = useRouter();

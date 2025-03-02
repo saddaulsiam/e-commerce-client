@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 import { GrChapterAdd } from "react-icons/gr";
 import { SiBrandfolder } from "react-icons/si";
@@ -70,8 +71,7 @@ const VendorDashboardLayout = ({ children }) => {
         <div
           className={`h-screen ${
             sideBarClose ? "-translate-x-full" : "translate-x-0"
-          } transition-transform duration-300 
-          ${sideBarClose ? "absolute" : "w-80"}`}
+          } transition-transform duration-300 ${sideBarClose ? "absolute" : "w-80"}`}
         >
           <DashboardSideBarNavigation menu={menu} tools={tools} />
         </div>
@@ -79,7 +79,7 @@ const VendorDashboardLayout = ({ children }) => {
         <div className="w-full">
           {/* Navbar */}
           <DashboardNavbar setSideBarClose={setSideBarClose} />
-          <div className="h-[93.4vh] overflow-y-scroll p-5 print:scrollbar-hide">
+          <div className="print:scrollbar-hide h-[93.4vh] overflow-y-scroll p-5">
             {children}
           </div>
         </div>

@@ -1,18 +1,16 @@
-import axios from "axios";
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { useAppSelector } from "@/redux/hooks";
 import Image from "next/image";
-import Select from "react-select";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { BsX } from "react-icons/bs";
 import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
-import { useForm } from "react-hook-form";
-import CreatableSelect from "react-select/creatable";
-
-// local
-import { useCreateProductMutation } from "../../../../redux/features/products/productsApi";
 import { useGetBrandsQuery } from "../../../../redux/features/brands/brandsApi";
 import { useGetCategoriesQuery } from "../../../../redux/features/categories/categoriesApi";
-import { Button } from "@/components/ui/button";
+import { useCreateProductMutation } from "../../../../redux/features/products/productsApi";
+import axios from "axios";
 
 const VendorProductAddForm = () => {
   const { register, handleSubmit, reset } = useForm();
@@ -21,9 +19,9 @@ const VendorProductAddForm = () => {
   const [previewImages, setPreviewImages] = useState([]);
   const [selectedColorOption, setSelectedColorOption] = useState(null);
 
-  const { data: brands } = useGetBrandsQuery();
-  const { data: categories } = useGetCategoriesQuery();
-  const { user: vendor } = useSelector((state) => state.auth);
+  const { data: brands } = useGetBrandsQuery(undefined);
+  const { data: categories } = useGetCategoriesQuery(undefined);
+  const { user: vendor } = useAppSelector(({ state }) => state.auth);
 
   const [createProduct, { isError, error }] = useCreateProductMutation();
 
