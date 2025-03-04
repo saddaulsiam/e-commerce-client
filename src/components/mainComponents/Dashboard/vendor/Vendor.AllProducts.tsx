@@ -86,7 +86,7 @@ const VendorAllProducts = () => {
               <tbody>
                 {/* <!-- row  --> */}
 
-                {products.map((product, i) => (
+                {products?.map((product, i) => (
                   <tr className="hover" key={i}>
                     <td>
                       <div className="flex items-center space-x-3">
@@ -115,7 +115,7 @@ const VendorAllProducts = () => {
                       {product.description.slice(0, 25)}...
                       <br />
                       <span className="badge badge-ghost badge-sm">
-                        {product.colors.map((color, i) => (
+                        {product.colors?.map((color, i) => (
                           <span key={i} className="px-1">
                             {color.value}
                           </span>

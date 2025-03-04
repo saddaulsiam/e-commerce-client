@@ -8,7 +8,7 @@ import {
 import { authKey } from "@/contants/common";
 import { logOutUser } from "@/redux/features/auth/authSlice";
 import { useAppDispatch } from "@/redux/hooks";
-import { removeFromLocalStorage } from "@/utils/local-storage";
+import { removeFromLocalStorage } from "@/utils/localStorage";
 import { Bell, Settings, Users } from "lucide-react";
 import Link from "next/link";
 

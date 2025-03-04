@@ -1,6 +1,10 @@
 import { authKey } from "@/contants/common";
 import { deleteCookies } from "@/services/deleteCookies";
-import { getFromLocalStorage, removeFromLocalStorage, setToLocalStorage } from "@/utils/local-storage";
+import {
+  getFromLocalStorage,
+  removeFromLocalStorage,
+  setToLocalStorage,
+} from "@/utils/localStorage";
 import {
   BaseQueryApi,
   BaseQueryFn,
@@ -33,23 +37,29 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-const baseQueryWithRefreshToken: BaseQueryFn<FetchArgs, BaseQueryApi, FetchBaseQueryError> = async (
-  args,
-  api,
-  extraOptions: ExtraOptions
-): Promise<any> => {
+const baseQueryWithRefreshToken: BaseQueryFn<
+  FetchArgs,
+  BaseQueryApi,
+  FetchBaseQueryError
+> = async (args, api, extraOptions: ExtraOptions): Promise<any> => {
   let result = await baseQuery(args, api, extraOptions);
 
   if ((result?.error?.data as ErrorData)?.message === "jwt expired") {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/auth/refresh-token`, {
-      method: "POST",
-      credentials: "include",
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/auth/refresh-token`,
+      {
+        method: "POST",
+        credentials: "include",
+      },
+    );
 
     const data = await res.json();
 
     if (data?.data?.accessToken) {
-      setToLocalStorage({ key: authKey.accessToken, token: data.data.accessToken });
+      setToLocalStorage({
+        key: authKey.accessToken,
+        token: data.data.accessToken,
+      });
 
       // Update the headers within extraOptions
       extraOptions.headers = {

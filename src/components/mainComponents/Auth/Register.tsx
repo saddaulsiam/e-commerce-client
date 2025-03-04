@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authKey } from "@/contants/common";
 import { useAppDispatch } from "@/redux/hooks";
-import { setToLocalStorage } from "@/utils/local-storage";
+import { setToLocalStorage } from "@/utils/localStorage";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

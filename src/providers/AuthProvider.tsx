@@ -5,7 +5,7 @@ import { useGetAdminByEmailMutation } from "@/redux/features/admin/adminApi";
 import { useGetMeMutation } from "@/redux/features/auth/authApi";
 import { addUser } from "@/redux/features/auth/authSlice";
 import { deleteCookies } from "@/services/deleteCookies";
-import { removeFromLocalStorage } from "@/utils/local-storage";
+import { removeFromLocalStorage } from "@/utils/localStorage";
 import {
   createUserWithEmailAndPassword,
   FacebookAuthProvider,

@@ -23,7 +23,7 @@ import {
   useRegisterMutation,
 } from "../../../redux/features/auth/authApi";
 import Loading from "../loading/Loading";
-import { setToLocalStorage } from "@/utils/local-storage";
+import { setToLocalStorage } from "@/utils/localStorage";
 import { authKey } from "@/contants/common";
 import { useAppDispatch } from "@/redux/hooks";
 import { addUser } from "@/redux/features/auth/authSlice";

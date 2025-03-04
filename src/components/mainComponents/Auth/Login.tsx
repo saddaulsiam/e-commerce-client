@@ -13,7 +13,7 @@ import {
 } from "@/redux/features/auth/authApi";
 import { addUser } from "@/redux/features/auth/authSlice";
 import { useAppDispatch } from "@/redux/hooks";
-import { setToLocalStorage } from "@/utils/local-storage";
+import { setToLocalStorage } from "@/utils/localStorage";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";

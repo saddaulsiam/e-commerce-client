@@ -2,33 +2,32 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
+import { USER_ROLE } from "@/contants/common";
 import { cn } from "@/lib/utils";
+import { useAppSelector } from "@/redux/hooks";
+import {
+  getDashboardMenu,
+  getDashboardTools,
+  NavItem,
+} from "@/utils/dashboardMenu";
 import { motion } from "framer-motion";
 import { ChevronDown, Settings } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { ReactNode, useState } from "react";
+import { useMemo, useState } from "react";
 
-type NavItem = {
-  title: string;
-  icon: ReactNode;
-  href?: string;
-  children?: NavItem[];
-};
-
-const DashboardSidebar = ({
-  menu,
-  tools,
-  isCollapsed,
-}: {
-  menu: NavItem[];
-  tools: NavItem[];
-  isCollapsed: boolean;
-}) => {
-  const pathname = usePathname();
+const DashboardSidebar = ({ isCollapsed }: { isCollapsed: boolean }) => {
   const router = useRouter();
+  const pathname = usePathname();
   const [openSubmenus, setOpenSubmenus] = useState<string[]>([]);
+
+  // Get the user role from Redux state.
+  const role = useAppSelector(({ state }) => state.auth.user?.role);
+
+  // Use the utility functions to get the menus.
+  const menu: NavItem[] = useMemo(() => getDashboardMenu(role!), [role]);
+  const tools: NavItem[] = useMemo(() => getDashboardTools(role!), [role]);
 
   const toggleSubmenu = (title: string) => {
     setOpenSubmenus((prev) =>
@@ -127,7 +126,9 @@ const DashboardSidebar = ({
     <div className="flex h-full flex-col border-r border-gray-100 bg-white/95 backdrop-blur-sm">
       {/* Logo Section */}
       <div
-        className={`flex h-16 items-center border-b border-gray-100 ${isCollapsed ? "pl-2" : "pl-4"}`}
+        className={`flex h-16 items-center border-b border-gray-100 ${
+          isCollapsed ? "pl-2" : "pl-4"
+        }`}
       >
         <Link href="/">
           <Image
@@ -153,13 +154,15 @@ const DashboardSidebar = ({
         {!isCollapsed && (
           <div className="flex-1 truncate">
             <p className="truncate text-sm font-medium">John Doe</p>
-            <p className="truncate text-xs text-primary/60">Vendor Account</p>
+            <p className="truncate text-xs text-primary/60">
+              {role === USER_ROLE.admin ? "Admin Account" : "Vendor Account"}
+            </p>
           </div>
         )}
       </div>
 
       {/* Navigation Sections */}
-      <nav className="flex-1 overflow-y-auto overflow-x-hidden px-2">
+      <nav className="scrollbar-thin flex-1 overflow-y-auto overflow-x-hidden px-2">
         <div className="space-y-4">
           <section aria-label="Main menu">
             <h3
@@ -171,7 +174,7 @@ const DashboardSidebar = ({
               Navigation
             </h3>
             <ul className="space-y-1">
-              {menu.map((item) => renderMenuItem(item))}
+              {menu && menu.map((item) => renderMenuItem(item))}
             </ul>
           </section>
 
