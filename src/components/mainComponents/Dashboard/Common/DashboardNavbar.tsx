@@ -12,11 +12,13 @@ import { removeFromLocalStorage } from "@/utils/localStorage";
 import { Bell, Settings, Users } from "lucide-react";
 import Link from "next/link";
 
-const DashboardNavbar = () => {
+const DashboardNavbar = ({ isCollapsed }: { isCollapsed: boolean }) => {
   const dispatch = useAppDispatch();
 
   return (
-    <nav className="flex h-16 items-center justify-between border-b border-gray-100 bg-white px-4">
+    <nav
+      className={`fixed ${isCollapsed ? "left-[72px]" : "left-64"} right-0 top-0 z-10 flex h-16 items-center justify-between border-b border-gray-100 bg-white px-4`}
+    >
       <div className="flex max-w-full items-center gap-3">
         <div className="hidden max-w-full items-baseline gap-2 md:block">
           <h1 className="truncate font-semibold text-gray-900 md:text-xl">

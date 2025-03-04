@@ -5,7 +5,6 @@ export { default as VendorMainDashboard } from "./Vendor.Main.Dashboard";
 export { default as VendorAllOrders } from "./Vendor.AllOrders";
 export { default as VendorOrderDetails } from "./Vendor.Order.Details";
 export { default as VendorAccountSettings } from "./Vendor.Account.Settings";
-export { default as VendorAddProduct } from "./Vendor.Add.Product";
 export { default as VendorAllProducts } from "./Vendor.AllProducts";
 export { default as VendorEditProductDetails } from "./Vendor.Edit.Product.Details";
 export { default as VendorProductAddForm } from "./Vendor.Product.AddForm";

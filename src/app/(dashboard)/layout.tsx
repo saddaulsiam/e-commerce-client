@@ -38,8 +38,10 @@ const VendorDashboardLayout = ({ children }: { children: ReactNode }) => {
           </button>
         </aside>
         <main className="min-w-0 flex-1">
-          <DashboardNavbar />
-          <div className="p-6">{children}</div>
+          <DashboardNavbar isCollapsed={isSidebarCollapsed} />
+          <div className="mt-16 max-h-[calc(100vh-4rem)] overflow-y-auto p-3">
+            {children}
+          </div>
         </main>
       </div>
     </div>

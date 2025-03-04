@@ -23,11 +23,17 @@ const DashboardSidebar = ({ isCollapsed }: { isCollapsed: boolean }) => {
   const [openSubmenus, setOpenSubmenus] = useState<string[]>([]);
 
   // Get the user role from Redux state.
-  const role = useAppSelector(({ state }) => state.auth.user?.role);
+  const { user } = useAppSelector(({ state }) => state.auth);
 
   // Use the utility functions to get the menus.
-  const menu: NavItem[] = useMemo(() => getDashboardMenu(role!), [role]);
-  const tools: NavItem[] = useMemo(() => getDashboardTools(role!), [role]);
+  const menu: NavItem[] = useMemo(
+    () => getDashboardMenu(user?.role as string),
+    [user?.role],
+  );
+  const tools: NavItem[] = useMemo(
+    () => getDashboardTools(user?.role as string),
+    [user?.role],
+  );
 
   const toggleSubmenu = (title: string) => {
     setOpenSubmenus((prev) =>
@@ -146,16 +152,20 @@ const DashboardSidebar = ({ isCollapsed }: { isCollapsed: boolean }) => {
       <div className="group relative mx-3 my-4 flex items-center gap-3 rounded-xl bg-primary/5 p-3">
         <div className="relative">
           <Avatar className="h-9 w-9 border-2 border-white shadow-sm">
-            <AvatarImage src="/user-avatar.png" />
+            <AvatarImage src={user?.profile?.photo || "/user-avatar.jpg"} />
             <AvatarFallback className="bg-primary/10">JD</AvatarFallback>
           </Avatar>
           <div className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full bg-green-500 ring-2 ring-white" />
         </div>
         {!isCollapsed && (
           <div className="flex-1 truncate">
-            <p className="truncate text-sm font-medium">John Doe</p>
+            <p className="truncate text-sm font-medium capitalize">
+              {user?.displayName}
+            </p>
             <p className="truncate text-xs text-primary/60">
-              {role === USER_ROLE.admin ? "Admin Account" : "Vendor Account"}
+              {user?.role === USER_ROLE.admin
+                ? "Admin Account"
+                : "Vendor Account"}
             </p>
           </div>
         )}
