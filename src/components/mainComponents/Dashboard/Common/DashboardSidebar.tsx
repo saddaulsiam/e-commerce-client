@@ -153,7 +153,9 @@ const DashboardSidebar = ({ isCollapsed }: { isCollapsed: boolean }) => {
         <div className="relative">
           <Avatar className="h-9 w-9 border-2 border-white shadow-sm">
             <AvatarImage src={user?.profile?.photo || "/user-avatar.jpg"} />
-            <AvatarFallback className="bg-primary/10">JD</AvatarFallback>
+            <AvatarFallback className="bg-primary/10">
+              {user?.displayName?.slice(0, 1)}
+            </AvatarFallback>
           </Avatar>
           <div className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full bg-green-500 ring-2 ring-white" />
         </div>
