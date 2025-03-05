@@ -40,6 +40,7 @@ export type TSubcategory = {
 };
 
 export type TCategory = {
+  _id: string;
   name: string;
   subcategories?: TSubcategory[];
 };

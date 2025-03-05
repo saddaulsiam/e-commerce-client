@@ -7,9 +7,15 @@ const categories = [
         subcategories: [
           { name: "Laptops", href: "/electronics/computers/laptops" },
           { name: "Desktops", href: "/electronics/computers/desktops" },
-          { name: "Computer Components", href: "/electronics/computers/components" },
+          {
+            name: "Computer Components",
+            href: "/electronics/computers/components",
+          },
           { name: "Monitors", href: "/electronics/computers/monitors" },
-          { name: "Printers & Scanners", href: "/electronics/computers/printers" },
+          {
+            name: "Printers & Scanners",
+            href: "/electronics/computers/printers",
+          },
         ],
       },
       {
@@ -194,8 +200,14 @@ const categories = [
         name: "Scientific Instruments",
         subcategories: [
           { name: "Lab Equipment", href: "/industrial/scientific/lab" },
-          { name: "Measurement Tools", href: "/industrial/scientific/measurement" },
-          { name: "Optical Instruments", href: "/industrial/scientific/optical" },
+          {
+            name: "Measurement Tools",
+            href: "/industrial/scientific/measurement",
+          },
+          {
+            name: "Optical Instruments",
+            href: "/industrial/scientific/optical",
+          },
         ],
       },
     ],
@@ -206,7 +218,10 @@ const categories = [
       {
         name: "Software",
         subcategories: [
-          { name: "Productivity Tools", href: "/digital/software/productivity" },
+          {
+            name: "Productivity Tools",
+            href: "/digital/software/productivity",
+          },
           { name: "Design Software", href: "/digital/software/design" },
           { name: "Security Software", href: "/digital/software/security" },
         ],

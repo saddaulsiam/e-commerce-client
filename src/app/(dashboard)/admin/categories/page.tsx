@@ -1,7 +1,7 @@
-import React from "react";
+import { AdminCategories } from "@/components/mainComponents/Dashboard/Admin";
 
 const AllCategories = () => {
-  return <div>All Categories</div>;
+  return <AdminCategories />;
 };
 
 export default AllCategories;
