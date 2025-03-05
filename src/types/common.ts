@@ -32,27 +32,32 @@ export type TProfile = {
   createdAt: Date;
   updatedAt: Date;
 };
-export interface TCategory {
+
+export type TSubcategory = {
   name: string;
-  description: string;
-  logo: string;
-}
+  href: string;
+  subcategories?: TSubcategory[];
+};
+
+export type TCategory = {
+  name: string;
+  subcategories?: TSubcategory[];
+};
 
 export interface TBrand {
   name: string;
-  description: string;
   logo: string;
+  description: string;
 }
 
 export interface TReview {
-  _id: string;
   name: string;
-  massage: string;
   rating: number;
+  massage: string;
 }
 
 export interface TProduct {
-  _id: string;
+  _id?: string;
   vendorId: string;
   name: string;
   description: string;

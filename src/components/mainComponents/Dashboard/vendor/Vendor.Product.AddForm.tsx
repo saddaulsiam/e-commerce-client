@@ -357,15 +357,13 @@ const VendorProductAddForm: React.FC = () => {
               styles={{
                 control: (baseStyles, state) => ({
                   ...baseStyles,
-                  height: "45px",
+                  height: "48px",
                   borderColor: state.isFocused
-                    ? "var(--primary-color)" // Use primary color when focused
-                    : selectedColorOption && selectedColorOption.length > 0
-                      ? "var(--primary-color)" // Use primary color when items are selected (for multi-select)
-                      : "#e5e7eb", // Default border color
-                  borderRadius: 8,
+                    ? "hsl(var(--primary))"
+                    : "#e5e7eb",
+                  borderRadius: 6,
                   boxShadow: state.isFocused
-                    ? "0 0 0 2px rgba(0, 123, 255, 0.3)" // Optional: add shadow with primary color
+                    ? "hsl(var(--primary))"
                     : "",
                 }),
               }}

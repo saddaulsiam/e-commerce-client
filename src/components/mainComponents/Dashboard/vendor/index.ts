@@ -10,4 +10,3 @@ export { default as VendorEditProductDetails } from "./Vendor.Edit.Product.Detai
 export { default as VendorProductAddForm } from "./Vendor.Product.AddForm";
 export { default as VendorProductEditForm } from "./Vendor.ProductEditForm";
 export { default as VendorOrderDetailsCart } from "./Vendor.Order.Details.Cart";
-export { default as VendorCreateBrand } from "./Vendor.Create.Brand";

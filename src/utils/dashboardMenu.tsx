@@ -74,6 +74,38 @@ export function getDashboardMenu(role: string): NavItem[] {
         ],
       },
       {
+        title: "Brands",
+        icon: <Tag className="h-5 w-5" />,
+        children: [
+          {
+            title: "All Brands",
+            icon: <Tag className="h-5 w-5" />,
+            href: "/admin/brands",
+          },
+          {
+            title: "Create New",
+            icon: <PlusCircle className="h-5 w-5" />,
+            href: "/admin/brands/new",
+          },
+        ],
+      },
+      {
+        title: "Categories",
+        icon: <Tag className="h-5 w-5" />,
+        children: [
+          {
+            title: "All Categories",
+            icon: <Tag className="h-5 w-5" />,
+            href: "/admin/categories",
+          },
+          {
+            title: "Create Category",
+            icon: <PlusCircle className="h-5 w-5" />,
+            href: "/admin/categories/new",
+          },
+        ],
+      },
+      {
         title: "Customers",
         icon: <Users className="h-5 w-5" />,
         href: "/admin/customers",
@@ -131,7 +163,18 @@ export function getDashboardMenu(role: string): NavItem[] {
       {
         title: "Brands",
         icon: <Tag className="h-5 w-5" />,
-        href: "/vendor/brands",
+        children: [
+          {
+            title: "All Brands",
+            icon: <Tag className="h-5 w-5" />,
+            href: "/vendor/brands",
+          },
+          {
+            title: "Create New",
+            icon: <PlusCircle className="h-5 w-5" />,
+            href: "/vendor/brands/new",
+          },
+        ],
       },
       {
         title: "Customers",
