@@ -1,4 +1,4 @@
-import { VendorProductAddForm } from "@/components/mainComponents/Dashboard/vendor";
+import { VendorProductCreateForm } from "@/components/mainComponents/Dashboard/vendor";
 
 const AddNewProduct = () => {
   return (
@@ -8,7 +8,7 @@ const AddNewProduct = () => {
           Add New Product
         </h2>
       </div>
-      <VendorProductAddForm />
+      <VendorProductCreateForm />
     </div>
   );
 };

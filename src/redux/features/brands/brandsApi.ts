@@ -1,26 +1,21 @@
-import Cookies from "js-cookie";
 import baseApi from "../api/baseApi";
 
 const productApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     createBrands: builder.mutation({
       query: (data) => ({
-        url: "/brand",
+        url: "/brands",
         method: "POST",
-        headers: {
-          authorization: `Bearer ${Cookies.get("access-token")}`,
-        },
         body: data,
       }),
+      invalidatesTags: ["Brands"],
     }),
     getBrands: builder.query({
       query: () => ({
-        url: "/brand",
+        url: "/brands",
         method: "GET",
-        headers: {
-          authorization: `Bearer ${Cookies.get("access-token")}`,
-        },
       }),
+      providesTags: ["Brands"],
     }),
   }),
 });

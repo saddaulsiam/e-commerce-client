@@ -1,15 +1,11 @@
-import Cookies from "js-cookie";
 import baseApi from "../api/baseApi";
 
 const productApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     createProduct: builder.mutation({
       query: (data) => ({
-        url: "/product",
+        url: "/products",
         method: "POST",
-        headers: {
-          authorization: `Bearer ${Cookies.get("access-token")}`,
-        },
         body: data,
       }),
       invalidatesTags: ["Products"],
@@ -19,9 +15,6 @@ const productApi = baseApi.injectEndpoints({
       query: (data) => ({
         url: `/product/${data.id}`,
         method: "PATCH",
-        headers: {
-          authorization: `Bearer ${Cookies.get("access-token")}`,
-        },
         body: data.data,
       }),
     }),
@@ -30,9 +23,6 @@ const productApi = baseApi.injectEndpoints({
       query: (data) => ({
         url: `/product?limit=${data.limit}&page=${data.page}&sort=${data.sort}`,
         method: "GET",
-        headers: {
-          authorization: `Bearer ${Cookies.get("access-token")}`,
-        },
       }),
       providesTags: ["Products"],
     }),
@@ -43,13 +33,10 @@ const productApi = baseApi.injectEndpoints({
           data.search
             ? `&search=${data.search}`
             : data.category
-            ? `&category.name=${data.category}`
-            : ""
+              ? `&category.name=${data.category}`
+              : ""
         }`,
         method: "GET",
-        headers: {
-          authorization: `Bearer ${Cookies.get("access-token")}`,
-        },
       }),
     }),
 
@@ -57,9 +44,6 @@ const productApi = baseApi.injectEndpoints({
       query: (id) => ({
         url: `/product/${id}`,
         method: "GET",
-        headers: {
-          authorization: `Bearer ${Cookies.get("access-token")}`,
-        },
       }),
     }),
 
@@ -67,9 +51,6 @@ const productApi = baseApi.injectEndpoints({
       query: (id) => ({
         url: `/product/${id}`,
         method: "DELETE",
-        headers: {
-          authorization: `Bearer ${Cookies.get("access-token")}`,
-        },
       }),
       invalidatesTags: ["Products"],
     }),
@@ -77,9 +58,9 @@ const productApi = baseApi.injectEndpoints({
 });
 
 export const {
+  useCreateProductMutation,
   useGetProductsQuery,
   useGetProductsBySearchMutation,
-  useCreateProductMutation,
   useGetSingleProductQuery,
   useUpdateProductMutation,
   useDeleteProductMutation,

@@ -36,16 +36,17 @@ export type TProfile = {
 export type TSubcategory = {
   name: string;
   href: string;
-  subcategories?: TSubcategory[];
+  subcategories: TSubcategory[];
 };
 
 export type TCategory = {
   _id: string;
   name: string;
-  subcategories?: TSubcategory[];
+  subcategories: TSubcategory[];
 };
 
 export interface TBrand {
+  _id: string;
   name: string;
   logo: string;
   description: string;

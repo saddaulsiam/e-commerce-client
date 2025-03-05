@@ -10,6 +10,14 @@ const authApi = baseApi.injectEndpoints({
       }),
     }),
 
+    getMyVendor: builder.query({
+      query: (id) => ({
+        url: `/vendor/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["Vendor"],
+    }),
+
     deleteVendor: builder.mutation({
       query: (email) => ({
         url: `/vendor/${email}`,
@@ -25,13 +33,6 @@ const authApi = baseApi.injectEndpoints({
       }),
     }),
 
-    getMyVendor: builder.mutation({
-      query: (email) => ({
-        url: `/vendor/${email}`,
-        method: "GET",
-      }),
-    }),
-
     getVendorByName: builder.query({
       query: ({ name }) => ({
         url: `/vendor/${name}`,
@@ -44,7 +45,7 @@ const authApi = baseApi.injectEndpoints({
 export const {
   useRegisterVendorMutation,
   useDeleteVendorMutation,
-  useGetMyVendorMutation,
+  useGetMyVendorQuery,
   useUpdateMyVendorMutation,
   useGetVendorByNameQuery,
 } = authApi;

@@ -22,7 +22,7 @@ const CreateNewBrand = () => {
   const submit = async (data: FieldValues) => {
     const res = await createBrand(data).unwrap();
     if (res.success) {
-      toast.success(res.data.message);
+      toast.success(res.message);
       reset();
     }
   };

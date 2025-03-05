@@ -45,11 +45,6 @@ export function getDashboardMenu(role: string): NavItem[] {
             icon: <Package className="h-5 w-5" />,
             href: "/admin/products",
           },
-          {
-            title: "Add Product",
-            icon: <PlusCircle className="h-5 w-5" />,
-            href: "/admin/products/new",
-          },
         ],
       },
       {

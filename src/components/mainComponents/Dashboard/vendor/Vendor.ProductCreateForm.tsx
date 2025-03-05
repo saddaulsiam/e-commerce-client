@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import ColorsSelect from "@/components/ui/ColorsSelect";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -13,144 +14,106 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import colorsOptions from "@/data/colors";
 import { useGetBrandsQuery } from "@/redux/features/brands/brandsApi";
 import { useGetCategoriesQuery } from "@/redux/features/categories/categoriesApi";
 import { useCreateProductMutation } from "@/redux/features/products/productsApi";
+import { useGetMyVendorQuery } from "@/redux/features/vendor/vendorApi";
 import { useAppSelector } from "@/redux/hooks";
-import axios from "axios";
+import { TBrand, TCategory } from "@/types/common";
 import Image from "next/image";
-import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { BsX } from "react-icons/bs";
-import CreatableSelect from "react-select/creatable";
 import { toast } from "react-toastify";
 
-// Define the option type for colors select
-type OptionType = {
-  value: string;
-  label: string;
-};
-
-// Define the form input interface
 interface ProductFormInputs {
   name: string;
   category: string;
   description: string;
   status: string;
-  quantity: number;
+  stock: number;
   brand: string;
   price: number;
   discount: number;
+  colors: string[];
 }
 
-const VendorProductAddForm: React.FC = () => {
-  const { register, handleSubmit, reset } = useForm<ProductFormInputs>();
-
-  // State variables with proper types
+const VendorProductCreateForm: React.FC = () => {
+  const { register, handleSubmit, reset, control } =
+    useForm<ProductFormInputs>();
   const [postImages, setPostImages] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
-  const [selectedColorOption, setSelectedColorOption] = useState<
-    OptionType[] | null
-  >(null);
 
-  const { data: brands } = useGetBrandsQuery(undefined);
-  const { data: categories } = useGetCategoriesQuery(undefined);
-  const { user: vendor } = useAppSelector(({ state }) => state.auth);
+  const { user: myData } = useAppSelector(({ state }) => state.auth);
 
   const [createProduct] = useCreateProductMutation();
+  const { data: brands } = useGetBrandsQuery(undefined);
+  const { data: vendor } = useGetMyVendorQuery(myData?._id);
+  const { data: categories } = useGetCategoriesQuery(undefined);
 
-  // Example color options
-  const colorsOptions: OptionType[] = [
-    { value: "red", label: "Red" },
-    { value: "black", label: "Black" },
-    { value: "green", label: "Green" },
-  ];
-
+  // Handle file selection and generate preview URLs.
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const files = Array.from(e.target.files || []);
     const imageFiles = files.filter((file) => file.type.startsWith("image/"));
     setPostImages(imageFiles);
+
+    // Create object URLs for previews
     const imagePreviews = imageFiles.map((file) => URL.createObjectURL(file));
     setPreviewImages(imagePreviews);
   };
 
-  const generateCategoryName = (id: string): string => {
-    const category = categories?.data.find(
-      (c: { _id: string; name: string }) => c._id === id,
-    );
-    return category ? category.name : "";
-  };
-
-  const generateBrandName = (id: string): string => {
-    const brand = brands?.data.find(
-      (b: { _id: string; name: string }) => b._id === id,
-    );
-    return brand ? brand.name : "";
-  };
+  // Cleanup preview URLs when component unmounts or images change
+  useEffect(() => {
+    return () => {
+      previewImages.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [previewImages]);
 
   const onSubmit: SubmitHandler<ProductFormInputs> = async (inputData) => {
-    if (!postImages.length) {
-      toast("Please provide an image");
-      return;
-    }
-
-    toast.info("Creating the product...");
-
     try {
-      // Upload images in parallel using Promise.all
+      if (!postImages.length) {
+        toast("Please provide an image");
+        return;
+      }
+      toast.info("Creating the product...");
+
+      // Upload images in parallel using Promise.all with fetch
       const images = await Promise.all(
         postImages.map(async (file) => {
           const formData = new FormData();
           formData.append("file", file);
           formData.append("upload_preset", "siam-store");
 
-          const response = await axios.post(
+          const response = await fetch(
             "https://api.cloudinary.com/v1_1/dtkl4ic8s/image/upload",
-            formData,
             {
+              method: "POST",
               headers: { "X-Requested-With": "XMLHttpRequest" },
+              body: formData,
             },
           );
-          return response.data.url;
+          const data = await response.json();
+          return data.url;
         }),
       );
 
       const productData = {
-        name: inputData.name,
-        description: inputData.description,
-        mainImage: images[0],
+        ...inputData,
         images: images,
-        brand: {
-          id: inputData.brand,
-          name: generateBrandName(inputData.brand),
-        },
-        supplier: {
-          id: vendor?._id,
-          name: vendor?.storeName,
-        },
-        category: {
-          id: inputData.category,
-          name: generateCategoryName(inputData.category),
-        },
-        colors: selectedColorOption,
-        status: inputData.status,
-        quantity: inputData.quantity,
-        price: inputData.price,
-        discount: inputData.discount,
+        supplier: vendor?.data?._id,
       };
 
-      const res = await createProduct(productData);
-      if (res.data?.status === "success") {
-        toast.success(res.data.message);
+      const res = await createProduct(productData).unwrap();
+      if (res.success) {
+        toast.success(res.message);
         reset();
         setPostImages([]);
         setPreviewImages([]);
-      } else {
-        toast.error("Failed to create product");
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      toast.error("An error occurred while creating the product.");
+      toast.error(err.message);
     }
   };
 
@@ -180,22 +143,36 @@ const VendorProductAddForm: React.FC = () => {
             >
               Category
             </Label>
-
-            <Select>
-              <SelectTrigger className="h-12 w-full rounded-md focus:ring-2 focus:ring-primary">
-                <SelectValue placeholder="Select Category" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Categories</SelectLabel>
-                  {categories?.data?.map((value, i) => (
-                    <SelectItem key={i} value={value} className="capitalize">
-                      {value}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+            <Controller
+              control={control}
+              name="category"
+              rules={{ required: true }}
+              render={({ field }) => (
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger className="h-12 w-full rounded-md focus:ring-2 focus:ring-primary">
+                    <SelectValue placeholder="Select Category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Categories</SelectLabel>
+                      {categories?.data.flatMap((category: TCategory) =>
+                        category.subcategories.flatMap((subCategory) =>
+                          subCategory?.subcategories.map((item) => (
+                            <SelectItem
+                              key={`${category._id}-${subCategory.name}-${item.name}`}
+                              value={item.name}
+                              className="capitalize"
+                            >
+                              {item.name}
+                            </SelectItem>
+                          )),
+                        ),
+                      )}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              )}
+            />
           </div>
         </div>
 
@@ -204,7 +181,7 @@ const VendorProductAddForm: React.FC = () => {
           {previewImages.length > 0 ? (
             <div className="grid grid-cols-3 gap-2">
               {previewImages.map((previewUrl, index) => (
-                <div key={index} className="relative">
+                <div key={previewUrl} className="relative">
                   <Image
                     src={previewUrl}
                     alt={`Preview ${index}`}
@@ -213,13 +190,11 @@ const VendorProductAddForm: React.FC = () => {
                     className="rounded-md object-cover"
                     priority
                   />
-                  {/* Delete button for each image */}
                   <Button
                     variant="destructive"
                     className="absolute right-0 top-0 p-1"
                     type="button"
                     onClick={() => {
-                      // Remove the image from the preview and the images state
                       setPreviewImages((prevImages) =>
                         prevImages.filter((_, i) => i !== index),
                       );
@@ -273,7 +248,7 @@ const VendorProductAddForm: React.FC = () => {
           />
         </div>
 
-        {/* Status & Quantity */}
+        {/* Status & Stock */}
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <div className="flex flex-col">
             <Label
@@ -282,37 +257,48 @@ const VendorProductAddForm: React.FC = () => {
             >
               Status
             </Label>
-            <Select>
-              <SelectTrigger className="h-12 w-full rounded-md focus:ring-2 focus:ring-primary">
-                <SelectValue placeholder="Select Status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Status</SelectLabel>
-                  {["in-stock", "out-of-stock", "discontinued"].map(
-                    (value, i) => (
-                      <SelectItem key={i} value={value} className="capitalize">
-                        {value}
-                      </SelectItem>
-                    ),
-                  )}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+            <Controller
+              control={control}
+              name="status"
+              rules={{ required: true }}
+              render={({ field }) => (
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger className="h-12 w-full rounded-md focus:ring-2 focus:ring-primary">
+                    <SelectValue placeholder="Select Status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Status</SelectLabel>
+                      {["in-stock", "out-of-stock", "discontinued"].map(
+                        (value, i) => (
+                          <SelectItem
+                            key={i}
+                            value={value}
+                            className="capitalize"
+                          >
+                            {value}
+                          </SelectItem>
+                        ),
+                      )}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              )}
+            />
           </div>
           <div className="flex flex-col">
             <Label
-              htmlFor="quantity"
+              htmlFor="stock"
               className="mb-1 text-sm font-semibold text-gray-800"
             >
-              Quantity
+              Stock
             </Label>
             <Input
-              id="quantity"
+              id="stock"
               type="number"
-              placeholder="Quantity"
+              placeholder="Stock"
               className="h-12 rounded-md border p-4 shadow-sm transition-all duration-200 focus:ring-2 focus:ring-primary"
-              {...register("quantity", { required: true })}
+              {...register("stock", { required: true })}
             />
           </div>
         </div>
@@ -326,21 +312,32 @@ const VendorProductAddForm: React.FC = () => {
             >
               Brand
             </Label>
-            <Select>
-              <SelectTrigger className="h-12 w-full rounded-md focus:ring-2 focus:ring-primary">
-                <SelectValue placeholder="Select Brand" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Brands</SelectLabel>
-                  {brands?.data?.map((value, i) => (
-                    <SelectItem key={i} value={value} className="capitalize">
-                      {value}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+            <Controller
+              control={control}
+              name="brand"
+              rules={{ required: true }}
+              render={({ field }) => (
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger className="h-12 w-full rounded-md focus:ring-2 focus:ring-primary">
+                    <SelectValue placeholder="Select Brand" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Brands</SelectLabel>
+                      {brands?.data?.map((brand: TBrand) => (
+                        <SelectItem
+                          key={brand._id}
+                          value={brand.name}
+                          className="capitalize"
+                        >
+                          {brand.name}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              )}
+            />
           </div>
           <div className="flex flex-col">
             <Label
@@ -349,24 +346,19 @@ const VendorProductAddForm: React.FC = () => {
             >
               Colors
             </Label>
-            <CreatableSelect
-              isMulti
-              options={colorsOptions}
-              onChange={(value) => setSelectedColorOption(value)}
-              value={selectedColorOption}
-              styles={{
-                control: (baseStyles, state) => ({
-                  ...baseStyles,
-                  height: "48px",
-                  borderColor: state.isFocused
-                    ? "hsl(var(--primary))"
-                    : "#e5e7eb",
-                  borderRadius: 6,
-                  boxShadow: state.isFocused
-                    ? "hsl(var(--primary))"
-                    : "",
-                }),
-              }}
+            <Controller
+              control={control}
+              name="colors"
+              render={({ field }) => (
+                <ColorsSelect
+                  value={colorsOptions.filter((opt) =>
+                    field.value?.includes(opt.value),
+                  )}
+                  onChange={(selected) =>
+                    field.onChange(selected.map((s) => s.value))
+                  }
+                />
+              )}
             />
           </div>
         </div>
@@ -416,4 +408,4 @@ const VendorProductAddForm: React.FC = () => {
   );
 };
 
-export default VendorProductAddForm;
+export default VendorProductCreateForm;
