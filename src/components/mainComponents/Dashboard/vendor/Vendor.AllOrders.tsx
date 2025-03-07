@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaShoppingBag } from "react-icons/fa";
 import VendorAllOrdersCart from "./Vendor.AllOrdersCart";
-import DashboardSidebar from "../Common/DashboardSidebar";
 
 const VendorAllOrders = () => {
   const router = useRouter();

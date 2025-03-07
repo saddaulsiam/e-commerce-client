@@ -1,13 +1,12 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { VendorProductEditForm } from ".";
 import { useGetSingleProductQuery } from "../../../../redux/features/products/productsApi";
 
 const VendorProductDetails = () => {
-  const router = useRouter();
-  const { id } = router.query;
-  const { data } = useGetSingleProductQuery(id);
+  const path = usePathname();
+  const { data } = useGetSingleProductQuery(path);
 
   return (
     <div className="mx-auto max-w-4xl">

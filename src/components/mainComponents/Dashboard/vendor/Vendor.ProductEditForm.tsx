@@ -4,27 +4,28 @@ import { Button } from "@/components/ui/button";
 import { useGetBrandsQuery } from "@/redux/features/brands/brandsApi";
 import { useGetCategoriesQuery } from "@/redux/features/categories/categoriesApi";
 import { useUpdateProductMutation } from "@/redux/features/products/productsApi";
+import { useAppSelector } from "@/redux/hooks";
+import { TProduct } from "@/types/common";
 import Image from "next/image";
 import { useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import { BsX } from "react-icons/bs";
-import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-const VendorProductAddEditForm = ({ product }) => {
+const VendorProductAddEditForm = ({ product }: { product: TProduct }) => {
   const filePickerRef = useRef(null);
   const { register, handleSubmit, reset } = useForm();
 
   const [postImages, setPostImages] = useState(null);
   const [imagePreview, setImagePreview] = useState([null]);
 
-  const { data: brands } = useGetBrandsQuery();
-  const { data: categories } = useGetCategoriesQuery();
-  const { user: vendor } = useSelector((state) => state.auth);
+  const { data: brands } = useGetBrandsQuery(undefined);
+  const { data: categories } = useGetCategoriesQuery(undefined);
+  const { user: vendor } = useAppSelector(({ state }) => state.auth);
   const [updateProduct, { isError, error, isLoading }] =
     useUpdateProductMutation();
 
-  const onSubmit = async (inputData) => {
+  const onSubmit = async (inputData: FieldValues) => {
     const formData = new FormData();
     formData.append("upload_preset", "socio-trend");
 

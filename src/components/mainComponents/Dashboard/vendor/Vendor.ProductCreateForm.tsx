@@ -159,7 +159,7 @@ const VendorProductCreateForm: React.FC = () => {
                         category.subcategories.flatMap((subCategory) =>
                           subCategory?.subcategories.map((item) => (
                             <SelectItem
-                              key={`${category._id}-${subCategory.name}-${item.name}`}
+                              key={`${category.name}-${subCategory.name}-${item.name}`}
                               value={item.name}
                               className="capitalize"
                             >
@@ -242,7 +242,7 @@ const VendorProductCreateForm: React.FC = () => {
           <Textarea
             id="description"
             placeholder="Enter product description"
-            rows={5}
+            rows={4}
             className="rounded-md border p-4 shadow-sm transition-all duration-200 focus:ring-2 focus:ring-primary"
             {...register("description", { required: true })}
           />
@@ -399,7 +399,7 @@ const VendorProductCreateForm: React.FC = () => {
 
         <Button
           type="submit"
-          className="mt-6 w-full rounded-md bg-primary py-3 text-white transition-all duration-200 hover:bg-red-600"
+          className="mt-6 w-full rounded-md bg-primary py-3 text-white transition-all duration-200 hover:bg-orange-600"
         >
           Save Product
         </Button>

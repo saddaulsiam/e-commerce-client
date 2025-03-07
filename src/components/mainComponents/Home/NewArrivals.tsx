@@ -2,14 +2,14 @@
 
 import { Loading } from "@/components/sharedComponents";
 import { products } from "@/data/products";
+import { useGetAllProductsQuery } from "@/redux/features/products/productsApi";
 import Image from "next/image";
 import Link from "next/link";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { MdFiberNew } from "react-icons/md";
-import { useGetProductsQuery } from "../../../redux/features/products/productsApi";
 
 const NewArrivals = () => {
-  const { data, isLoading } = useGetProductsQuery({
+  const { data, isLoading } = useGetAllProductsQuery({
     limit: 12,
     page: 1,
     sort: "",

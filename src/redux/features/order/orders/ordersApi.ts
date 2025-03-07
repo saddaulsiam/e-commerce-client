@@ -6,18 +6,30 @@ const orderNowApi = baseApi.injectEndpoints({
       query: (data) => ({
         url: "/orders",
         method: "POST",
-
         body: data,
       }),
       invalidatesTags: ["Orders"],
     }),
+
     getOrders: builder.query({
-      query: (data) => ({
-        url: `/orders?limit=${data.limit}&page=${data.page}`,
-        method: "GET",
-      }),
+      query: ({ limit, page, sort, search, category }) => {
+        const url = `/orders?`;
+        const params = new URLSearchParams();
+
+        if (limit) params.append("limit", limit);
+        if (page) params.append("page", page);
+        if (sort) params.append("sort", sort);
+        if (search) params.append("search", search);
+        if (category) params.append("category", category);
+
+        return {
+          url: `${url}${params.toString()}`,
+          method: "GET",
+        };
+      },
       providesTags: ["Orders"],
     }),
+
     getSingleOrder: builder.query({
       query: (id) => ({
         url: `/orders/${id}`,
@@ -25,6 +37,7 @@ const orderNowApi = baseApi.injectEndpoints({
       }),
       providesTags: ["Orders"],
     }),
+
     getMyOrders: builder.query({
       query: (email) => ({
         url: `/orders/my/${email}`,
@@ -36,8 +49,8 @@ const orderNowApi = baseApi.injectEndpoints({
 });
 
 export const {
-  useOrderNowMutation,
-  useGetMyOrdersQuery,
   useGetOrdersQuery,
+  useOrderNowMutation,
   useGetSingleOrderQuery,
+  useGetMyOrdersQuery,
 } = orderNowApi;

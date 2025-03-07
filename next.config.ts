@@ -22,6 +22,7 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "www.usa.canon.com" },
       { protocol: "https", hostname: "www.apple.com" },
       { protocol: "https", hostname: "images.unsplash.com" },
+      { protocol: "http", hostname: "res.cloudinary.com" },
     ],
   },
 };

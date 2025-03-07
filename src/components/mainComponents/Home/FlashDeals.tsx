@@ -1,7 +1,7 @@
 "use client";
 
 import { products } from "@/data/products";
-import { useGetProductsQuery } from "@/redux/features/products/productsApi";
+import { useGetAllProductsQuery } from "@/redux/features/products/productsApi";
 import { useRef } from "react";
 import {
   AiFillThunderbolt,
@@ -16,7 +16,7 @@ const FlashDeals = () => {
   const swiperPrevRef1 = useRef(null);
   const swiperNextRef1 = useRef(null);
 
-  const { data, isLoading } = useGetProductsQuery({
+  const { data, isLoading } = useGetAllProductsQuery({
     limit: 15,
     page: 1,
     sort: "",
@@ -27,7 +27,7 @@ const FlashDeals = () => {
       <div className="container">
         <div className="flex justify-between">
           <h2 className="pb-5 text-2xl font-bold italic text-primary">
-            <AiFillThunderbolt className="inline " /> Flash Deals
+            <AiFillThunderbolt className="inline" /> Flash Deals
           </h2>
           <a href="" className="text-sm text-my-gray-100">
             View all <AiOutlineArrowRight className="inline" />

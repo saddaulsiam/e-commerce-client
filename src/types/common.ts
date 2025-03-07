@@ -60,17 +60,20 @@ export interface TReview {
 
 export interface TProduct {
   _id?: string;
-  vendorId: string;
+  supplier: string;
   name: string;
   description: string;
-  shortDescription: string;
+  // shortDescription: string;
   price: number;
+  discount: number;
   stock: number;
-  rating: number;
-  reviews: TReview[];
-  category: TCategory;
-  brand: TBrand;
+  rating?: number;
+  category: string;
+  brand: string;
+  colors: string[];
   images: string[];
-  createdAt: Date;
-  updatedAt: Date;
+  reviews?: TReview[];
+  status: string;
+  createdAt?: string;
+  updatedAt?: string;
 }

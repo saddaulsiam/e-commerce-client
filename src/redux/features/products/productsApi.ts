@@ -11,20 +11,31 @@ const productApi = baseApi.injectEndpoints({
       invalidatesTags: ["Products"],
     }),
 
+    getAllProducts: builder.query({
+      query: ({ limit, page, sort, search, category }) => {
+        const url = `/products?`;
+        const params = new URLSearchParams();
+
+        if (limit) params.append("limit", limit);
+        if (page) params.append("page", page);
+        if (sort) params.append("sort", sort);
+        if (search) params.append("search", search);
+        if (category) params.append("category", category);
+
+        return {
+          url: `${url}${params.toString()}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["Products"],
+    }),
+
     updateProduct: builder.mutation({
       query: (data) => ({
         url: `/product/${data.id}`,
         method: "PATCH",
         body: data.data,
       }),
-    }),
-
-    getProducts: builder.query({
-      query: (data) => ({
-        url: `/product?limit=${data.limit}&page=${data.page}&sort=${data.sort}`,
-        method: "GET",
-      }),
-      providesTags: ["Products"],
     }),
 
     getProductsBySearch: builder.mutation({
@@ -59,7 +70,7 @@ const productApi = baseApi.injectEndpoints({
 
 export const {
   useCreateProductMutation,
-  useGetProductsQuery,
+  useGetAllProductsQuery,
   useGetProductsBySearchMutation,
   useGetSingleProductQuery,
   useUpdateProductMutation,
