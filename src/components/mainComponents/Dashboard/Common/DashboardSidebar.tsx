@@ -52,7 +52,7 @@ const DashboardSidebar = ({ isCollapsed }: { isCollapsed: boolean }) => {
       <li key={item.title} className="group relative w-full">
         <div
           className={cn(
-            "flex items-center rounded-lg px-3 py-2.5 transition-all",
+            "flex items-center rounded-lg px-2 py-2 transition-all",
             "hover:bg-primary/5 hover:text-primary",
             isActive
               ? "bg-primary/10 font-semibold text-primary"
@@ -119,7 +119,7 @@ const DashboardSidebar = ({ isCollapsed }: { isCollapsed: boolean }) => {
           <motion.ul
             initial={{ height: 0 }}
             animate={{ height: isSubmenuOpen ? "auto" : 0 }}
-            className="ml-3 overflow-hidden border-l-2 border-primary/10 pl-4"
+            className="ml-3 mt-1 overflow-hidden border-l-2 border-primary/10 pl-2"
           >
             {item.children?.map((child) => renderMenuItem(child, depth + 1))}
           </motion.ul>
@@ -216,6 +216,7 @@ const DashboardSidebar = ({ isCollapsed }: { isCollapsed: boolean }) => {
             "hover:bg-primary/5 hover:text-primary",
             isCollapsed ? "justify-center" : "justify-between",
           )}
+          onClick={() => router.push(`/${user?.role}/settings`)}
         >
           <div className="relative">
             <span
@@ -230,7 +231,7 @@ const DashboardSidebar = ({ isCollapsed }: { isCollapsed: boolean }) => {
 
           {!isCollapsed && (
             <div className="flex min-w-0 flex-1 items-center justify-between">
-              <span className="truncate text-sm">Workspace Settings</span>
+              <span className="truncate text-sm">Account Settings</span>
               <span className="rounded bg-primary/10 px-2 py-1 text-xs text-primary">
                 New
               </span>
