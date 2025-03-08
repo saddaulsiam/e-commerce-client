@@ -1,7 +1,7 @@
-import { VendorAllOrders } from "@/components/mainComponents/Dashboard/vendor";
+import { VendorPendingOrders } from "@/components/mainComponents/Dashboard/vendor";
 
 const PendingOrders = () => {
-  return <VendorAllOrders />;
+  return <VendorPendingOrders />;
 };
 
 export default PendingOrders;

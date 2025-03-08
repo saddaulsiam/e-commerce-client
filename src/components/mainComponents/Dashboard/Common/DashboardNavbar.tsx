@@ -45,7 +45,7 @@ const DashboardNavbar = ({ isCollapsed }: { isCollapsed: boolean }) => {
             aria-label="User menu"
           >
             <Avatar className="h-9 w-9">
-              <AvatarImage src="/user-avatar.png" alt="User Avatar" />
+              <AvatarImage src="/user-avatar.jpg" alt="User Avatar" />
               <AvatarFallback>JD</AvatarFallback>
               <div className="absolute bottom-0 right-0 h-2 w-2 rounded-full bg-green-500 ring-2 ring-white" />
             </Avatar>

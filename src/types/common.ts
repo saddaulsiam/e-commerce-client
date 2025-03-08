@@ -8,8 +8,8 @@ export type TUser = {
   password: string;
   role: TUserRole;
   profile: TProfile;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type TUserRole = keyof typeof USER_ROLE;
@@ -29,8 +29,8 @@ export type TProfile = {
   address: TAddress[];
   photo: string;
   orders: string[];
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type TSubcategory = {

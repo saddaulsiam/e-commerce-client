@@ -1,7 +1,7 @@
 "use client";
 
-import { products } from "@/data/products";
 import { useGetAllProductsQuery } from "@/redux/features/products/productsApi";
+import { TProduct } from "@/types/common";
 import { useRef } from "react";
 import {
   AiFillThunderbolt,
@@ -16,7 +16,7 @@ const FlashDeals = () => {
   const swiperPrevRef1 = useRef(null);
   const swiperNextRef1 = useRef(null);
 
-  const { data, isLoading } = useGetAllProductsQuery({
+  const { data: products, isLoading } = useGetAllProductsQuery({
     limit: 15,
     page: 1,
     sort: "",
@@ -62,8 +62,8 @@ const FlashDeals = () => {
             modules={[Navigation]}
             className="mySwiper"
           >
-            {products?.map((product, index) => (
-              <SwiperSlide key={index}>
+            {products?.data?.data?.map((product: TProduct) => (
+              <SwiperSlide key={product._id}>
                 <ProductsCard product={product} />
               </SwiperSlide>
             ))}

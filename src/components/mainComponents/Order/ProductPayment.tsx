@@ -1,27 +1,22 @@
 "use client";
 
 import StripePaymentModal from "@/components/sharedComponents/modal/StripePaymentModal";
+import { Button } from "@/components/ui/button";
 import { clearCart } from "@/redux/features/cart/cartSlice";
 import { removeOrderDetails } from "@/redux/features/order/orderDetails/orderDetailsSlice";
 import { useOrderNowMutation } from "@/redux/features/order/orders/ordersApi";
 import { useCreateSSLPaymentIntentMutation } from "@/redux/features/order/payment/paymentApi";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { PaymentMethod, PaymentStatus, TOrderStatus } from "@/types/Ordertype";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FcOk } from "react-icons/fc";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { SSLCommerzPaymentDetails } from "../Payment";
-import {
-  MainOrder,
-  OrderStatus,
-  PaymentMethod,
-  PaymentStatus,
-} from "../../../types/Ordertype";
 import CartSummary from "./CartSummary";
 import ProgressSteps from "./ProgressSteps";
 import SelectPaymentOption from "./SelectPaymentOption";
-import { Button } from "@/components/ui/button";
 
 const ProductPayment = () => {
   const router = useRouter();
@@ -38,14 +33,14 @@ const ProductPayment = () => {
   const [orderNow] = useOrderNowMutation();
   const [createSSLPaymentIntent] = useCreateSSLPaymentIntentMutation();
 
-  const orderData: MainOrder = {
+  const orderData = {
     userId: user?._id as string,
     totalAmount: cart.totalAmount,
     paymentMethod: payWith as PaymentMethod,
     isPaid: false,
     paymentStatus: PaymentStatus.UNPAID,
     shippingAddress: shippingAddress,
-    status: OrderStatus.PROCESSING,
+    status: TOrderStatus.PROCESSING,
     subOrders: cart.cartItems,
   };
 

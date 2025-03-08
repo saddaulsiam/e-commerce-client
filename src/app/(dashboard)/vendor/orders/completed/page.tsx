@@ -1,7 +1,7 @@
-import { VendorAllOrders } from "@/components/mainComponents/Dashboard/vendor";
+import { VendorCompletedOrders } from "@/components/mainComponents/Dashboard/vendor";
 
 const SingleOrderDetails = () => {
-  return <VendorAllOrders />;
+  return <VendorCompletedOrders />;
 };
 
 export default SingleOrderDetails;

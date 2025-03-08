@@ -1,5 +1,4 @@
-import { TCartItem } from "@/redux/features/cart/cartSlice";
-import { TAddress } from "@/types/common";
+import { TAddress, TProduct } from "@/types/common";
 
 // Payment Status Enum
 export enum PaymentStatus {
@@ -9,7 +8,7 @@ export enum PaymentStatus {
 }
 
 // Order Status Enum
-export enum OrderStatus {
+export enum TOrderStatus {
   PENDING = "pending",
   PROCESSING = "processing",
   SHIPPED = "shipped",
@@ -24,14 +23,37 @@ export enum PaymentMethod {
   STRIPE = "stripe",
 }
 
+export interface TSubOrder {
+  _id: string;
+  vendorId: string;
+  orderId: string;
+  productId: string;
+  item: {
+    name: string;
+    productId: TProduct;
+    quantity: number;
+    price: number;
+  };
+  totalAmount: number;
+  paymentMethod: string;
+  isPaid: boolean;
+  shippingAddress: TAddress;
+  status: TOrderStatus;
+  createdAt: string;
+  updatedAt: string;
+}
+
 // Main Order Interface
-export interface MainOrder {
+export interface TMainOrder {
+  _id?: string;
   userId: string;
   totalAmount: number;
   paymentMethod: PaymentMethod;
   isPaid: boolean;
   paymentStatus: PaymentStatus;
   shippingAddress: TAddress;
-  status: OrderStatus;
-  subOrders: TCartItem[];
+  status: TOrderStatus;
+  subOrders: TSubOrder[];
+  createdAt: string;
+  updatedAt: string;
 }

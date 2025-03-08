@@ -11,41 +11,61 @@ const authApi = baseApi.injectEndpoints({
     }),
 
     getMyVendor: builder.query({
-      query: (id) => ({
-        url: `/vendor/${id}`,
+      query: (userId) => ({
+        url: `/vendor/${userId}`,
         method: "GET",
       }),
       providesTags: ["Vendor"],
     }),
 
-    deleteVendor: builder.mutation({
-      query: (email) => ({
-        url: `/vendor/${email}`,
-        method: "DELETE",
-      }),
+    getVendorOrders: builder.query({
+      query: ({ limit, page, sort, search, vendorId, status }) => {
+        const url = `/orders/vendor?`;
+        const params = new URLSearchParams();
+
+        if (limit) params.append("limit", limit);
+        if (page) params.append("page", page);
+        if (sort) params.append("sort", sort);
+        if (search) params.append("search", search);
+        if (vendorId) params.append("vendorId", vendorId);
+        if (status) params.append("status", status);
+
+        return {
+          url: `${url}${params.toString()}`,
+          method: "GET",
+        };
+      },
     }),
 
-    updateMyVendor: builder.mutation({
-      query: (data) => ({
-        url: `/vendor/update/${data.email}`,
-        method: "PATCH",
-        body: data.profile,
-      }),
-    }),
+    // deleteVendor: builder.mutation({
+    //   query: (email) => ({
+    //     url: `/vendor/${email}`,
+    //     method: "DELETE",
+    //   }),
+    // }),
 
-    getVendorByName: builder.query({
-      query: ({ name }) => ({
-        url: `/vendor/${name}`,
-        method: "GET",
-      }),
-    }),
+    // updateMyVendor: builder.mutation({
+    //   query: (data) => ({
+    //     url: `/vendor/update/${data.email}`,
+    //     method: "PATCH",
+    //     body: data.profile,
+    //   }),
+    // }),
+
+    // getVendorByName: builder.query({
+    //   query: ({ name }) => ({
+    //     url: `/vendor/${name}`,
+    //     method: "GET",
+    //   }),
+    // }),
   }),
 });
 
 export const {
   useRegisterVendorMutation,
-  useDeleteVendorMutation,
   useGetMyVendorQuery,
-  useUpdateMyVendorMutation,
-  useGetVendorByNameQuery,
+  useGetVendorOrdersQuery,
+  // useDeleteVendorMutation,
+  // useUpdateMyVendorMutation,
+  // useGetVendorByNameQuery,
 } = authApi;

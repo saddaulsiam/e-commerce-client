@@ -10,10 +10,10 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import {
-  MainOrder,
-  OrderStatus,
+  TMainOrder,
   PaymentMethod,
   PaymentStatus,
+  TOrderStatus,
 } from "../../../types/Ordertype";
 
 interface TProps {
@@ -126,14 +126,14 @@ const StripeCheckOutForm = ({ setOpenStripe }: TProps) => {
         toast.success("Payment completed successfully!");
 
         // Prepare order data for order creation
-        const orderData: MainOrder = {
+        const orderData: TMainOrder = {
           userId: user?._id as string,
           totalAmount: cart.totalAmount,
           paymentMethod: PaymentMethod.STRIPE,
           isPaid: true,
           paymentStatus: PaymentStatus.PAID,
           shippingAddress: shippingAddress,
-          status: OrderStatus.PROCESSING,
+          status: TOrderStatus.PROCESSING,
           subOrders: cart.cartItems,
         };
 

@@ -24,8 +24,8 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
   const handleAddToCart = () => {
     dispatch(
       addToCart({
-        productId: product._id,
-        vendorId: product.vendorId,
+        productId: product._id as string,
+        vendorId: product.supplier,
         imageUrl: product.images[0],
         name: product.name,
         price: product.price,
@@ -78,12 +78,11 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
           <Link href={`/product/${product._id}`}>
             <h3 className="truncate text-lg font-semibold capitalize text-gray-800 transition duration-200 hover:text-primary">
               {product?.name}
-              {/* {product?.name?.length > 20 && "..."} */}
             </h3>
           </Link>
 
           {/* Rating Section */}
-          <RatingStars rating={product.rating} />
+          <RatingStars rating={product?.rating as number} />
 
           {/* Price Section */}
           <div className="mt-2 flex items-center space-x-2 text-lg font-semibold">
