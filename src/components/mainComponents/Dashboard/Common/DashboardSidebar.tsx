@@ -119,7 +119,7 @@ const DashboardSidebar = ({ isCollapsed }: { isCollapsed: boolean }) => {
           <motion.ul
             initial={{ height: 0 }}
             animate={{ height: isSubmenuOpen ? "auto" : 0 }}
-            className="ml-3 mt-1 overflow-hidden border-l-2 border-primary/10 pl-2"
+            className="ml-3 mt-1 space-y-1 overflow-hidden border-l-2 border-primary/10 pl-2"
           >
             {item.children?.map((child) => renderMenuItem(child, depth + 1))}
           </motion.ul>
@@ -212,8 +212,11 @@ const DashboardSidebar = ({ isCollapsed }: { isCollapsed: boolean }) => {
       <div className="border-t border-gray-100 p-2">
         <button
           className={cn(
-            "group flex w-full items-center gap-3 rounded-lg p-2.5 transition-all",
+            "group flex w-full items-center gap-3 rounded-lg p-2.5 transition-all duration-200",
             "hover:bg-primary/5 hover:text-primary",
+            pathname === `/${user?.role}/settings`
+              ? "bg-primary/10 font-semibold text-primary"
+              : "text-gray-600",
             isCollapsed ? "justify-center" : "justify-between",
           )}
           onClick={() => router.push(`/${user?.role}/settings`)}
