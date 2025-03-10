@@ -37,6 +37,24 @@ const authApi = baseApi.injectEndpoints({
       },
     }),
 
+    getVendorCustomers: builder.query({
+      query: ({ limit, page, sort, search, vendorId, status }) => {
+        const url = `/vendor/${vendorId}/customers?`;
+        const params = new URLSearchParams();
+
+        if (limit) params.append("limit", limit);
+        if (page) params.append("page", page);
+        if (sort) params.append("sort", sort);
+        if (search) params.append("search", search);
+        if (status) params.append("status", status);
+
+        return {
+          url: `${url}${params.toString()}`,
+          method: "GET",
+        };
+      },
+    }),
+
     // deleteVendor: builder.mutation({
     //   query: (email) => ({
     //     url: `/vendor/${email}`,
@@ -65,6 +83,7 @@ export const {
   useRegisterVendorMutation,
   useGetMyVendorQuery,
   useGetVendorOrdersQuery,
+  useGetVendorCustomersQuery,
   // useDeleteVendorMutation,
   // useUpdateMyVendorMutation,
   // useGetVendorByNameQuery,

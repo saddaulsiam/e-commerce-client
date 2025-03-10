@@ -4,7 +4,7 @@ export { default as VendorDashboardLayout } from "../../../../app/(dashboard)/la
 export { default as VendorMainDashboard } from "./Vendor.Main.Dashboard";
 export { default as VendorCompletedOrders } from "./Vendor.CompletedOrders";
 export { default as VendorOrderDetails } from "./Vendor.Order.Details";
-export { default as VendorAccountSettings } from "./Vendor.AccountSettings";
+export { default as VendorUpdateAccountSettings } from "./Vendor.UpdateAccountSettings";
 export { default as VendorAllProducts } from "./Vendor.AllProducts";
 export { default as VendorEditProductDetails } from "./Vendor.Edit.Product.Details";
 export { default as VendorProductCreateForm } from "./Vendor.ProductCreateForm";

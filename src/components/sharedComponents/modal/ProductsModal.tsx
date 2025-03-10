@@ -34,8 +34,8 @@ const ProductsModal = ({ setIsOpen, isOpen, product }: TProps) => {
   const handleAddToCart = () => {
     dispatch(
       addToCart({
-        productId: product._id,
-        vendorId: product.vendorId,
+        productId: product?._id as string,
+        vendorId: product?.supplier?._id,
         imageUrl: product.images[0],
         name: product.name,
         price: product.price,
@@ -50,7 +50,7 @@ const ProductsModal = ({ setIsOpen, isOpen, product }: TProps) => {
   // Handle Decrease Quantity
   const handleDecreaseQuantity = () => {
     if (currentProduct && currentProduct?.quantity > 1) {
-      dispatch(decreaseQuantity(product._id));
+      dispatch(decreaseQuantity(product?._id as string));
       setIsOpen(false);
       toast.info("Decrease Quantity");
     }
@@ -95,7 +95,7 @@ const ProductsModal = ({ setIsOpen, isOpen, product }: TProps) => {
             </Link>
 
             {/* Short Description Section */}
-            <p className="text-gray-600">{product.shortDescription}</p>
+            <p className="text-gray-600">{product.description}</p>
 
             <p>
               Brand:{" "}
@@ -104,7 +104,7 @@ const ProductsModal = ({ setIsOpen, isOpen, product }: TProps) => {
               </span>
             </p>
             <p className="flex">
-              Rating: <RatingStars rating={product.rating} />
+              Rating: <RatingStars rating={product?.rating as number} />
               <span className="font-semibold text-primary">
                 {" "}
                 ({product?.reviews?.length + " Reviews" || 0})

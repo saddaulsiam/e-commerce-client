@@ -1,17 +1,5 @@
 import { USER_ROLE } from "@/contants/common";
 
-export type TUser = {
-  _id: string;
-  displayName: string;
-  phoneNumber: string;
-  email: string;
-  password: string;
-  role: TUserRole;
-  profile: TProfile;
-  createdAt: string;
-  updatedAt: string;
-};
-
 export type TUserRole = keyof typeof USER_ROLE;
 
 export type TAddress = {
@@ -33,6 +21,17 @@ export type TProfile = {
   updatedAt: string;
 };
 
+export type TUser = {
+  _id: string;
+  displayName: string;
+  phoneNumber: string;
+  email: string;
+  password: string;
+  role: TUserRole;
+  profile: TProfile;
+  createdAt: string;
+  updatedAt: string;
+};
 export type TSubcategory = {
   name: string;
   href: string;
@@ -60,7 +59,7 @@ export interface TReview {
 
 export interface TProduct {
   _id?: string;
-  supplier: string;
+  supplier: TVendor;
   name: string;
   description: string;
   // shortDescription: string;
@@ -69,7 +68,7 @@ export interface TProduct {
   stock: number;
   rating?: number;
   category: string;
-  brand: string;
+  brand: TBrand;
   colors: string[];
   images: string[];
   reviews?: TReview[];
@@ -77,3 +76,15 @@ export interface TProduct {
   createdAt?: string;
   updatedAt?: string;
 }
+
+type TVendor = {
+  _id: string;
+  userId: string;
+  storeName: string;
+  storeDescription: string;
+  storeLogo: string;
+  storeBanner: string;
+  address: TAddress;
+  products: TProduct[];
+  earnings: number;
+};

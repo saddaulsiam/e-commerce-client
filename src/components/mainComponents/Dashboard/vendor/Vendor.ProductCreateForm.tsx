@@ -39,7 +39,7 @@ interface ProductFormInputs {
   colors: string[];
 }
 
-const VendorProductCreateForm: React.FC = () => {
+const VendorProductCreateForm = () => {
   const { register, handleSubmit, reset, control } =
     useForm<ProductFormInputs>();
   const [postImages, setPostImages] = useState<File[]>([]);

@@ -32,7 +32,6 @@ const Pagination = ({
       pageNumbers.push(
         <PaginationItem key={1}>
           <PaginationLink
-            href="#"
             onClick={() => handlePageChange(1)}
             isActive={currentPage === 1}
           >
@@ -60,7 +59,6 @@ const Pagination = ({
       pageNumbers.push(
         <PaginationItem key={i}>
           <PaginationLink
-            href="#"
             onClick={() => handlePageChange(i)}
             isActive={currentPage === i}
           >
@@ -84,7 +82,6 @@ const Pagination = ({
       pageNumbers.push(
         <PaginationItem key={totalPages}>
           <PaginationLink
-            href="#"
             onClick={() => handlePageChange(totalPages)}
             isActive={currentPage === totalPages}
           >

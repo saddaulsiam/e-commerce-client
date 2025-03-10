@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import RatingStars from "@/components/ui/rating";
 import { TProduct } from "@/types/common";
 import Image from "next/image";
@@ -25,7 +24,7 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
     dispatch(
       addToCart({
         productId: product._id as string,
-        vendorId: product.supplier,
+        vendorId: product.supplier._id,
         imageUrl: product.images[0],
         name: product.name,
         price: product.price,
@@ -96,15 +95,15 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
         {/* Buttons Section */}
         <div className="flex">
           {/* Add to Cart Button */}
-          <Button
+          <button
             className="flex w-1/2 items-center justify-center gap-2 rounded-bl-lg bg-slate-200 px-4 py-3 font-semibold text-my-gray-200 transition-all duration-300 ease-in hover:bg-slate-300 active:scale-95"
             onClick={handleAddToCart}
           >
             <BsCart2 className="text-lg" /> Add to Cart
-          </Button>
+          </button>
 
           {/* Buy Now Button */}
-          <Button
+          <button
             className="flex w-1/2 items-center justify-center gap-2 rounded-br-lg bg-primary px-4 py-3 font-semibold text-white transition-all duration-300 hover:bg-orange-600 active:scale-95"
             onClick={() => {
               handleAddToCart();
@@ -112,7 +111,7 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
             }}
           >
             ⚡ Buy Now
-          </Button>
+          </button>
         </div>
 
         {/* Discount Badge */}
