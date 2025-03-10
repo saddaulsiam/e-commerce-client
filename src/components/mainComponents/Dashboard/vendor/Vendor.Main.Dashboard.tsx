@@ -18,7 +18,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ChevronRightIcon, StarIcon } from "lucide-react";
+import { ChevronRightIcon, LucideBarChart, StarIcon } from "lucide-react";
 import { ReactNode, useEffect, useState } from "react";
 import {
   FiAlertCircle,
@@ -176,12 +176,16 @@ const DashboardPage = () => {
       {/* Sales Chart */}
       <Card className="mb-8">
         <CardHeader className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
-          <div>
-            <CardTitle>Sales Overview</CardTitle>
+          <div className="mx-8 my-2">
+            <CardTitle className="flex pb-1">
+              <LucideBarChart className="mr-2 h-6 w-6 text-primary" /> Sales
+              Overview
+            </CardTitle>
             <CardDescription>
               Performance for the selected period
             </CardDescription>
           </div>
+
           <div className="flex gap-2">
             <Button
               variant={timeRange === "daily" ? "default" : "outline"}

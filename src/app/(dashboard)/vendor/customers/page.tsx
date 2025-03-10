@@ -50,8 +50,8 @@ const VendorCustomers = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center text-2xl font-semibold text-primary">
-          <BsPeople className="mr-2" />
+        <CardTitle className="flex items-center text-3xl font-semibold text-slate-800">
+          <BsPeople className="mr-2 text-primary" />
           Customers
         </CardTitle>
       </CardHeader>
