@@ -19,8 +19,8 @@ import {
 import { useAppSelector } from "@/redux/hooks";
 import { TOrderStatus, TSubOrder } from "@/types/Ordertype";
 import { format } from "date-fns";
+import { CheckCircle } from "lucide-react";
 import { useState } from "react";
-import { BsCardText } from "react-icons/bs";
 
 const VendorCompletedOrders = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -43,9 +43,9 @@ const VendorCompletedOrders = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center text-2xl font-semibold text-primary">
-          <BsCardText className="mr-2" />
-          Orders
+        <CardTitle className="flex items-center font-bold text-slate-700">
+          <CheckCircle className="mr-2 text-primary" />
+          Completed Orders
         </CardTitle>
       </CardHeader>
       <CardContent>

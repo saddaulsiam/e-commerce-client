@@ -68,7 +68,7 @@ export interface TProduct {
   stock: number;
   rating?: number;
   category: string;
-  brand: TBrand;
+  brand: string;
   colors: string[];
   images: string[];
   reviews?: TReview[];

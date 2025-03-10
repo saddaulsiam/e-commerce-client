@@ -78,8 +78,8 @@ const VendorAllProducts = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center text-2xl font-semibold text-primary">
-          <BsCardText className="mr-2" />
+        <CardTitle className="flex items-center font-bold text-slate-700">
+          <BsCardText className="mr-2 text-primary" />
           All Products
         </CardTitle>
       </CardHeader>

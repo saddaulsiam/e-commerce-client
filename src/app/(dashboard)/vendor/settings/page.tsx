@@ -1,5 +1,6 @@
 "use client";
 import { useAppSelector } from "@/redux/hooks";
+import { User } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -10,8 +11,9 @@ const VendorAccountProfile = () => {
   return (
     <div className="mx-auto max-w-4xl space-y-6">
       {/* Page Title */}
-      <h2 className="pt-3 text-2xl font-semibold text-gray-800">
-        Vendor Profile
+      <h2 className="flex items-center pt-3 text-2xl font-bold text-gray-700">
+        <User className="mr-2 text-primary" />
+        Profile
       </h2>
 
       <div className="relative overflow-hidden rounded-lg bg-white shadow-md">

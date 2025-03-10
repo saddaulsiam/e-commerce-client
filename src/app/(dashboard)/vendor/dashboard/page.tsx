@@ -1,7 +1,7 @@
-import { VendorMainDashboard } from "@/components/mainComponents/Dashboard/vendor";
+import { VendorDashboardMain } from "@/components/mainComponents/Dashboard/vendor";
 
-const Dashboard = () => {
-  return <VendorMainDashboard />;
+const VendorDashboard = () => {
+  return <VendorDashboardMain />;
 };
 
-export default Dashboard;
+export default VendorDashboard;

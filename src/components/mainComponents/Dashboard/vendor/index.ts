@@ -1,7 +1,7 @@
 export { default as VendorNavbar } from "./Vendor.Navbar";
 export { default as VendorSideBarNavigation } from "./Vendor.SideBar.Navigation";
 export { default as VendorDashboardLayout } from "../../../../app/(dashboard)/layout";
-export { default as VendorMainDashboard } from "./Vendor.Main.Dashboard";
+export { default as VendorDashboardMain } from "./Vendor.DashboardMain";
 export { default as VendorCompletedOrders } from "./Vendor.CompletedOrders";
 export { default as VendorOrderDetails } from "./Vendor.Order.Details";
 export { default as VendorUpdateAccountSettings } from "./Vendor.UpdateAccountSettings";
@@ -11,3 +11,9 @@ export { default as VendorProductCreateForm } from "./Vendor.ProductCreateForm";
 export { default as VendorProductEditForm } from "./Vendor.ProductEditForm";
 export { default as VendorOrderDetailsCart } from "./Vendor.Order.Details.Cart";
 export { default as VendorPendingOrders } from "./Vendor.PendingOrders";
+export { default as VendorDashboardCustomerGrowthReports } from "./Vendor.DashboardCustomerGrowthReports";
+export { default as VendorDashboardMonthlySalesReports } from "./Vendor.DashboardMonthlySalesReports";
+export { default as VendorDashboardMainResentOrders } from "./Vendor.DashboardMainResentOrders";
+export { default as VendorDashboardMainReviewsCard } from "./Vendor.DashboardMainReviewsCard";
+export { default as VendorDashboardMainSalesChart } from "./Vendor.DashboardMainSalesChart";
+export { default as DashboardMainStatsCard } from "./Vendor.DashboardMainStatsCard";

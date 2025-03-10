@@ -50,7 +50,7 @@ const VendorCustomers = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center text-3xl font-semibold text-slate-800">
+        <CardTitle className="flex items-center font-bold text-slate-700">
           <BsPeople className="mr-2 text-primary" />
           Customers
         </CardTitle>
