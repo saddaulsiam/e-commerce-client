@@ -26,8 +26,12 @@ const VendorDashboardMainSalesChart = ({ salesData }: any) => {
   );
 
   // Ensure salesData is defined and has the expected structure
-  const currentData =
-    salesData && salesData[timeRange] ? salesData[timeRange] : [];
+  let currentData = salesData?.[timeRange] || [];
+
+  // Use `monthlyDaysSales` instead of aggregated `monthly` data
+  if (timeRange === "monthly") {
+    currentData = salesData?.monthlyDaysSales || [];
+  }
 
   return (
     <Card className="mb-8">
@@ -68,7 +72,7 @@ const VendorDashboardMainSalesChart = ({ salesData }: any) => {
             <XAxis
               dataKey={
                 timeRange === "monthly"
-                  ? "week"
+                  ? "day"
                   : timeRange === "weekly"
                     ? "day"
                     : "hour"

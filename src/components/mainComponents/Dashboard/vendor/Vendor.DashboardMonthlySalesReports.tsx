@@ -19,18 +19,9 @@ import {
   YAxis,
 } from "recharts";
 
-const VendorDashboardMonthlySalesReports = () => {
-  const monthlySales = [
-    { month: "Jan", sales: 3000, orders: 45 },
-    { month: "Feb", sales: 4000, orders: 62 },
-    { month: "Mar", sales: 3500, orders: 78 },
-    { month: "Apr", sales: 5500, orders: 65 },
-    { month: "May", sales: 6800, orders: 89 },
-    { month: "Jun", sales: 4800, orders: 102 },
-  ];
-
+const VendorDashboardMonthlySalesReports = ({ salesData }: any) => {
   return (
-    <Card className="mb-8">
+    <Card>
       <CardHeader className="mx-8 my-2">
         <CardTitle className="flex">
           <LucideBarChart className="mr-2 h-6 w-6 text-primary" />
@@ -42,7 +33,7 @@ const VendorDashboardMonthlySalesReports = () => {
       <CardContent className="h-96">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
-            data={monthlySales}
+            data={salesData}
             margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
           >
             <CartesianGrid strokeDasharray="3 3" />

@@ -19,18 +19,13 @@ import {
   YAxis,
 } from "recharts";
 
-const VendorDashboardCustomerGrowthReports = () => {
-  const customerGrowth = [
-    { month: "Jan", customers: 50 },
-    { month: "Feb", customers: 70 },
-    { month: "Mar", customers: 65 },
-    { month: "Apr", customers: 80 },
-    { month: "May", customers: 90 },
-    { month: "Jun", customers: 85 },
-  ];
+type TProps = {
+  customerGrowth: [{ month: string; customers: number }];
+};
 
+const VendorDashboardCustomerGrowthReports = ({ customerGrowth }: TProps) => {
   return (
-    <Card className="rounded-lg bg-white p-6 shadow">
+    <Card>
       <CardHeader className="mx-8 my-2">
         <CardTitle className="flex">
           <LucideLineChart className="mr-2 h-6 w-6 text-primary" />
