@@ -1,15 +1,10 @@
 "use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Separator } from "@/components/ui/separator";
 import { USER_ROLE } from "@/contants/common";
 import { cn } from "@/lib/utils";
 import { useAppSelector } from "@/redux/hooks";
-import {
-  getDashboardMenu,
-  getDashboardTools,
-  NavItem,
-} from "@/utils/dashboardMenu";
+import { getDashboardMenu, NavItem } from "@/utils/dashboardMenu";
 import { motion } from "framer-motion";
 import { ChevronDown, Settings } from "lucide-react";
 import Image from "next/image";
@@ -30,10 +25,11 @@ const DashboardSidebar = ({ isCollapsed }: { isCollapsed: boolean }) => {
     () => getDashboardMenu(user?.role as string),
     [user?.role],
   );
-  const tools: NavItem[] = useMemo(
-    () => getDashboardTools(user?.role as string),
-    [user?.role],
-  );
+
+  // const tools: NavItem[] = useMemo(
+  //   () => getDashboardTools(user?.role as string),
+  //   [user?.role],
+  // );
 
   const toggleSubmenu = (title: string) => {
     setOpenSubmenus((prev) =>
@@ -190,6 +186,7 @@ const DashboardSidebar = ({ isCollapsed }: { isCollapsed: boolean }) => {
             </ul>
           </section>
 
+          {/*
           <Separator className="bg-gray-100" />
 
           <section aria-label="Tools">
@@ -204,7 +201,7 @@ const DashboardSidebar = ({ isCollapsed }: { isCollapsed: boolean }) => {
             <ul className="space-y-1">
               {tools.map((item) => renderMenuItem(item))}
             </ul>
-          </section>
+          </section> */}
         </div>
       </nav>
 

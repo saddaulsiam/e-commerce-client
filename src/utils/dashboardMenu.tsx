@@ -124,6 +124,11 @@ export function getDashboardMenu(role: string): NavItem[] {
         href: "/vendor/dashboard",
       },
       {
+        title: "Reports",
+        icon: <BarChart2 className="h-5 w-5" />,
+        href: "/vendor/reports",
+      },
+      {
         title: "Products",
         icon: <Package className="h-5 w-5" />,
         children: [
@@ -159,11 +164,6 @@ export function getDashboardMenu(role: string): NavItem[] {
         title: "Customers",
         icon: <Users className="h-5 w-5" />,
         href: "/vendor/customers",
-      },
-      {
-        title: "Reports",
-        icon: <BarChart2 className="h-5 w-5" />,
-        href: "/vendor/reports",
       },
     ];
   }

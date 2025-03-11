@@ -8,6 +8,7 @@ import {
   TableBody,
   TableCell,
   TableFooter,
+  TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
@@ -76,7 +77,7 @@ const VendorAllProducts = () => {
     return <div className="text-red-500">Error loading products.</div>;
 
   return (
-    <Card>
+    <Card className="m-6">
       <CardHeader>
         <CardTitle className="flex items-center font-bold text-slate-700">
           <BsCardText className="mr-2 text-primary" />
@@ -88,11 +89,12 @@ const VendorAllProducts = () => {
           {/* Table Header */}
           <TableHeader>
             <TableRow className="bg-gray-100">
-              <TableCell>Product Name</TableCell>
-              <TableCell>Details</TableCell>
-              <TableCell>Brand</TableCell>
-              <TableCell>Price</TableCell>
-              <TableCell className="text-center">Actions</TableCell>
+              <TableHead>Product</TableHead>
+              <TableHead>Details</TableHead>
+              <TableHead>Category</TableHead>
+              <TableHead>Brand</TableHead>
+              <TableHead>Price</TableHead>
+              <TableHead className="text-center">Actions</TableHead>
             </TableRow>
           </TableHeader>
 
@@ -136,16 +138,27 @@ const VendorAllProducts = () => {
                   ))}
                 </TableCell>
                 <TableCell className="p-4 text-sm text-gray-500">
+                  {product.category}
+                </TableCell>
+                <TableCell className="p-4 text-sm text-gray-500">
                   {product.brand}
                 </TableCell>
                 <TableCell className="p-4">
-                  <span className="text-sm text-gray-400 line-through">
-                    ${product.price}
-                  </span>{" "}
-                  <span className="font-bold text-primary">
-                    ${product.price - product.discount}
-                  </span>
+                  <div className="flex flex-col">
+                    <span
+                      className={`text-sm ${product.discount ? "text-gray-400 line-through" : "font-bold text-primary"}`}
+                    >
+                      ${product.price}
+                    </span>
+
+                    {product.discount && (
+                      <span className="font-bold text-primary">
+                        ${(product.price - product.discount).toFixed(2)}
+                      </span>
+                    )}
+                  </div>
                 </TableCell>
+
                 <TableCell className="space-x-2 p-4 text-center">
                   <Button
                     className="rounded-full p-3 transition-all duration-300 hover:bg-orange-600"

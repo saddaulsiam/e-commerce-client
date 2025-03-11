@@ -41,7 +41,7 @@ const VendorCompletedOrders = () => {
 
   if (isLoading) return <Loading />;
   return (
-    <Card>
+    <Card className="m-6">
       <CardHeader>
         <CardTitle className="flex items-center font-bold text-slate-700">
           <CheckCircle className="mr-2 text-primary" />
@@ -81,8 +81,8 @@ const VendorCompletedOrders = () => {
                   </TableCell>
                   <TableCell>
                     {format(
-                      new Date(parseInt(order.createdAt)),
-                      "MMMM dd, yyyy hh:mm a",
+                      new Date(order.createdAt),
+                      "dd-MMMM-yyyy | hh:mm a",
                     )}
                   </TableCell>
                 </TableRow>

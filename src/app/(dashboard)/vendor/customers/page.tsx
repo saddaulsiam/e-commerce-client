@@ -17,6 +17,7 @@ import {
 } from "@/redux/features/vendor/vendorApi";
 import { useAppSelector } from "@/redux/hooks";
 import { TUser } from "@/types/common";
+import { format } from "date-fns";
 import Image from "next/image";
 import { useState } from "react";
 import { BsPeople } from "react-icons/bs";
@@ -48,7 +49,7 @@ const VendorCustomers = () => {
   if (vendorLoading || customersLoading) return <Loading />;
 
   return (
-    <Card>
+    <Card className="m-6">
       <CardHeader>
         <CardTitle className="flex items-center font-bold text-slate-700">
           <BsPeople className="mr-2 text-primary" />
@@ -93,7 +94,7 @@ const VendorCustomers = () => {
                   <TableCell>{customer.profile?.address[0].city}</TableCell>
                   <TableCell>{customer.profile?.address[0].area}</TableCell>
                   <TableCell>
-                    {new Date(customer.createdAt).toLocaleDateString()}
+                    {format(new Date(customer.createdAt), "dd-MMMM-yyyy ")}
                   </TableCell>
                 </TableRow>
               ))
