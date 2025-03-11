@@ -30,15 +30,7 @@ const productApi = baseApi.injectEndpoints({
       providesTags: ["Products"],
     }),
 
-    updateProduct: builder.mutation({
-      query: (data) => ({
-        url: `/product/${data.id}`,
-        method: "PATCH",
-        body: data.data,
-      }),
-    }),
-
-    getProductsBySearch: builder.mutation({
+    getProductsBySearch: builder.query({
       query: (data) => ({
         url: `/product?limit=${data.limit}&page=${data.page}&sort=${data.sort}${
           data.search
@@ -49,18 +41,29 @@ const productApi = baseApi.injectEndpoints({
         }`,
         method: "GET",
       }),
+      providesTags: ["Products"],
     }),
 
     getSingleProduct: builder.query({
       query: (id) => ({
-        url: `/product/${id}`,
+        url: `/products/${id}`,
         method: "GET",
       }),
+      providesTags: ["Products"],
+    }),
+
+    updateProduct: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/products/${id}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["Products"],
     }),
 
     deleteProduct: builder.mutation({
       query: (id) => ({
-        url: `/product/${id}`,
+        url: `/products/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Products"],
@@ -71,7 +74,7 @@ const productApi = baseApi.injectEndpoints({
 export const {
   useCreateProductMutation,
   useGetAllProductsQuery,
-  useGetProductsBySearchMutation,
+  useGetProductsBySearchQuery,
   useGetSingleProductQuery,
   useUpdateProductMutation,
   useDeleteProductMutation,
