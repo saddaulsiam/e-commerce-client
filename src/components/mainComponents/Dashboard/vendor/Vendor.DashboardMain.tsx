@@ -1,17 +1,15 @@
+"use client";
+
+import { useGetDashboardMetaQuery } from "@/redux/features/vendor/vendorApi";
 import { FiAlertCircle, FiPackage, FiTrendingUp } from "react-icons/fi";
-import DashboardMainStatsCard from "./Vendor.DashboardMainStatsCard";
-import VendorDashboardMainSalesChart from "./Vendor.DashboardMainSalesChart";
 import VendorDashboardMainResentOrders from "./Vendor.DashboardMainResentOrders";
 import VendorDashboardMainReviewsCard from "./Vendor.DashboardMainReviewsCard";
+import VendorDashboardMainSalesChart from "./Vendor.DashboardMainSalesChart";
+import DashboardMainStatsCard from "./Vendor.DashboardMainStatsCard";
 
 const VendorDashboardMain = () => {
-  // Sample fake data for demonstration
-  const overview = {
-    totalSales: 32000,
-    pendingOrders: 45,
-    lowStockProducts: 12,
-    monthlyEarnings: 8500,
-  };
+  const { data: dashboardMeta } = useGetDashboardMetaQuery(undefined);
+  const meta = dashboardMeta?.data?.meta;
   return (
     <div className="flex min-h-screen w-full flex-col p-4 md:p-6">
       {/* Header Section */}
@@ -24,7 +22,7 @@ const VendorDashboardMain = () => {
       <div className="mb-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <DashboardMainStatsCard
           title="Total Revenue"
-          value={`$${overview.totalSales.toLocaleString()}`}
+          value={`$${meta?.overview?.totalSales.toLocaleString()}`}
           trend="12.5%"
           positive={true}
           icon={<FiTrendingUp className="h-6 w-6 text-white" />}
@@ -32,7 +30,7 @@ const VendorDashboardMain = () => {
         />
         <DashboardMainStatsCard
           title="Pending Orders"
-          value={overview.pendingOrders}
+          value={meta?.overview?.pendingOrders}
           trend="5.2%"
           positive={false}
           icon={<FiAlertCircle className="h-6 w-6 text-white" />}
@@ -40,7 +38,7 @@ const VendorDashboardMain = () => {
         />
         <DashboardMainStatsCard
           title="Low Stock"
-          value={overview.lowStockProducts}
+          value={meta?.overview?.lowStockProducts}
           trend="Attention"
           positive={false}
           icon={<FiPackage className="h-6 w-6 text-white" />}
@@ -48,7 +46,7 @@ const VendorDashboardMain = () => {
         />
         <DashboardMainStatsCard
           title="Earnings"
-          value={`$${overview.monthlyEarnings.toLocaleString()}`}
+          value={`$${meta?.overview?.monthlyEarnings.toLocaleString()}`}
           trend="8%"
           positive={true}
           icon={<FiTrendingUp className="h-6 w-6 text-white" />}
@@ -57,15 +55,15 @@ const VendorDashboardMain = () => {
       </div>
 
       {/* Sales Chart */}
-      <VendorDashboardMainSalesChart />
+      <VendorDashboardMainSalesChart salesData={meta?.salesData} />
 
       {/* Resent Orders & Reviews Section */}
       <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2">
         {/* Resent Orders */}
-        <VendorDashboardMainResentOrders />
+        <VendorDashboardMainResentOrders recentOrders={meta?.recentOrders} />
 
         {/* Reviews Card */}
-        <VendorDashboardMainReviewsCard />
+        <VendorDashboardMainReviewsCard reviews={meta?.reviews} />
       </div>
     </div>
   );

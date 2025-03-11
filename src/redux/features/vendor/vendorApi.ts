@@ -55,6 +55,13 @@ const authApi = baseApi.injectEndpoints({
       },
     }),
 
+    getDashboardMeta: builder.query({
+      query: () => ({
+        url: "/vendor/dashboard/meta",
+        method: "GET",
+      }),
+    }),
+
     // deleteVendor: builder.mutation({
     //   query: (email) => ({
     //     url: `/vendor/${email}`,
@@ -84,6 +91,7 @@ export const {
   useGetMyVendorQuery,
   useGetVendorOrdersQuery,
   useGetVendorCustomersQuery,
+  useGetDashboardMetaQuery,
   // useDeleteVendorMutation,
   // useUpdateMyVendorMutation,
   // useGetVendorByNameQuery,

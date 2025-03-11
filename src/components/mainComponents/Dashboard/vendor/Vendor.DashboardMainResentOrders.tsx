@@ -1,3 +1,5 @@
+"use client";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,21 +17,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  ChevronRightIcon,
-  LucideShoppingBag
-} from "lucide-react";
+import { TSubOrder } from "@/types/Ordertype";
+import { ChevronRightIcon, LucideShoppingBag } from "lucide-react";
+import { useRouter } from "next/navigation";
 
-const VendorDashboardMainResentOrders = () => {
-  // Sample fake data for demonstration
-  const recentOrders = [
-    { id: 1, customer: "John Doe", status: "Pending", amount: 150 },
-    { id: 2, customer: "Jane Smith", status: "Completed", amount: 200 },
-    { id: 3, customer: "Bob Wilson", status: "Cancelled", amount: 75 },
-    { id: 4, customer: "Alice Brown", status: "Pending", amount: 300 },
-    { id: 5, customer: "John Doe", status: "Pending", amount: 150 },
-    { id: 6, customer: "Jane Smith", status: "Completed", amount: 200 },
-  ];
+const VendorDashboardMainResentOrders = ({ recentOrders }: any) => {
+  const router = useRouter();
   return (
     <Card>
       <CardHeader>
@@ -41,7 +34,10 @@ const VendorDashboardMainResentOrders = () => {
             </CardTitle>
             <CardDescription>Latest transactions</CardDescription>
           </div>
-          <Button variant="ghost">
+          <Button
+            variant="ghost"
+            onClick={() => router.push("/vendor/orders/pending")}
+          >
             View All <ChevronRightIcon className="ml-2 h-4 w-4" />
           </Button>
         </div>
@@ -51,20 +47,26 @@ const VendorDashboardMainResentOrders = () => {
           <TableHeader>
             <TableRow>
               <TableHead>Order ID</TableHead>
-              <TableHead>Customer</TableHead>
+              <TableHead>Customer Name</TableHead>
+              <TableHead>Phone Number</TableHead>
               <TableHead>Status</TableHead>
               <TableHead className="text-right">Amount</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {recentOrders.map((order: any) => (
-              <TableRow key={order.id}>
-                <TableCell>#{order.id}</TableCell>
-                <TableCell>{order.customer}</TableCell>
-                <TableCell>
-                  <StatusBadge status={order.status} />
+            {recentOrders?.map((order: TSubOrder) => (
+              <TableRow key={order?._id}>
+                <TableCell className="truncate">
+                  {order?._id.slice(0, 5)}...{order?._id.slice(-5)}
                 </TableCell>
-                <TableCell className="text-right">${order.amount}</TableCell>
+                <TableCell>{order?.shippingAddress?.name}</TableCell>
+                <TableCell>{order?.shippingAddress?.phoneNumber}</TableCell>
+                <TableCell>
+                  <StatusBadge status={order?.status} />
+                </TableCell>
+                <TableCell className="text-right">
+                  ${order?.totalAmount}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -77,15 +79,16 @@ const VendorDashboardMainResentOrders = () => {
 // Status Badge Component using shadcn UI
 const StatusBadge = ({ status }: { status: string }) => {
   const statusMap = {
-    Completed: "bg-green-100 text-green-800",
-    Pending: "bg-amber-100 text-amber-800",
-    Cancelled: "bg-red-100 text-red-800",
+    delivered: "bg-green-200 text-green-800",
+    pending: "bg-amber-200 text-amber-800",
+    processing: "bg-amber-200 text-amber-800",
+    cancelled: "bg-red-200 text-red-800",
   };
 
   return (
     <Badge
       variant="outline"
-      className={statusMap[status as keyof typeof statusMap]}
+      className={`${statusMap[status as keyof typeof statusMap]} capitalize`}
     >
       {status}
     </Badge>
