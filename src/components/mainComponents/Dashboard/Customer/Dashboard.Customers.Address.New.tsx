@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { MdLocationPin } from "react-icons/md";
-import AddressForm from "../../../sharedComponents/forms/AddressForm";
+import CreateAddressForm from "../../../sharedComponents/forms/CreateAddressForm";
 import DashboardCustomerSideBarNavigation from "./Dashboard.Customer.SideBar.Navigation";
 import { Button } from "@/components/ui/button";
 
@@ -35,7 +35,7 @@ const DashboardCustomersAddressNew = () => {
         </div>
       </div>
       <div className="mt-5">
-        <AddressForm />
+        <CreateAddressForm />
       </div>
       {showSideNavigation && (
         <DashboardCustomerSideBarNavigation

@@ -62,18 +62,18 @@ const authApi = baseApi.injectEndpoints({
       }),
     }),
 
+    updateMyVendor: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/vendor/${id}`,
+        method: "PUT",
+        body: data,
+      }),
+    }),
+
     // deleteVendor: builder.mutation({
     //   query: (email) => ({
     //     url: `/vendor/${email}`,
     //     method: "DELETE",
-    //   }),
-    // }),
-
-    // updateMyVendor: builder.mutation({
-    //   query: (data) => ({
-    //     url: `/vendor/update/${data.email}`,
-    //     method: "PATCH",
-    //     body: data.profile,
     //   }),
     // }),
 
@@ -92,7 +92,7 @@ export const {
   useGetVendorOrdersQuery,
   useGetVendorCustomersQuery,
   useGetDashboardMetaQuery,
+  useUpdateMyVendorMutation,
   // useDeleteVendorMutation,
-  // useUpdateMyVendorMutation,
   // useGetVendorByNameQuery,
 } = authApi;

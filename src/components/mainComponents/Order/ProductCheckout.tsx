@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { HiMinusCircle, HiOutlinePlusCircle } from "react-icons/hi";
 import { useDispatch } from "react-redux";
-import AddressForm from "../../sharedComponents/forms/AddressForm";
+import CreateAddressForm from "../../sharedComponents/forms/CreateAddressForm";
 import CartSummary from "./CartSummary";
 import ProgressSteps from "./ProgressSteps";
 import { Button } from "@/components/ui/button";
@@ -115,10 +115,10 @@ const ProductCheckout = () => {
             )}
 
             {/* Show Address Form when toggled */}
-            {toggleAddressForm && <AddressForm />}
+            {toggleAddressForm && <CreateAddressForm />}
 
             {/* Show Address Form if no addresses are available */}
-            {user?.profile?.address?.length === 0 && <AddressForm />}
+            {user?.profile?.address?.length === 0 && <CreateAddressForm />}
 
             {user &&
               user?.profile?.address?.length > 0 &&

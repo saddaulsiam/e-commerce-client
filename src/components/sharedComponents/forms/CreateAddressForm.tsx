@@ -17,7 +17,7 @@ interface City {
   upazilla: string[];
 }
 
-const AddressForm = () => {
+const CreateAddressForm = () => {
   const { register, handleSubmit, reset } = useForm();
   const { setLoadUser } = useAuth();
 
@@ -220,4 +220,4 @@ const AddressForm = () => {
   );
 };
 
-export default AddressForm;
+export default CreateAddressForm;
