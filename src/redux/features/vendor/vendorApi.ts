@@ -8,6 +8,7 @@ const authApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["Vendor"],
     }),
 
     getMyVendor: builder.query({
@@ -35,6 +36,7 @@ const authApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: ["Vendor"],
     }),
 
     getVendorCustomers: builder.query({
@@ -53,6 +55,7 @@ const authApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: ["Vendor"],
     }),
 
     getDashboardMeta: builder.query({
@@ -60,6 +63,7 @@ const authApi = baseApi.injectEndpoints({
         url: "/vendor/dashboard/meta",
         method: "GET",
       }),
+      providesTags: ["Vendor"],
     }),
 
     updateMyVendor: builder.mutation({
@@ -68,6 +72,7 @@ const authApi = baseApi.injectEndpoints({
         method: "PUT",
         body: data,
       }),
+      invalidatesTags: ["Vendor"],
     }),
 
     // deleteVendor: builder.mutation({
