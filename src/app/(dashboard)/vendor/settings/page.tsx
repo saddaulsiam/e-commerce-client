@@ -1,4 +1,5 @@
 "use client";
+import { useGetMyVendorQuery } from "@/redux/features/vendor/vendorApi";
 import { useAppSelector } from "@/redux/hooks";
 import { User } from "lucide-react";
 import Image from "next/image";
@@ -7,6 +8,7 @@ import { useRouter } from "next/navigation";
 const VendorAccountProfile = () => {
   const router = useRouter();
   const { user } = useAppSelector(({ state }) => state.auth);
+  const { data: vendor } = useGetMyVendorQuery(user?._id);
 
   return (
     <div className="mx-auto max-w-4xl space-y-6">
@@ -31,7 +33,7 @@ const VendorAccountProfile = () => {
             alt="Store Banner"
             layout="fill"
             className="object-cover object-center"
-            src="https://images.pexels.com/photos/1827234/pexels-photo-1827234.jpeg?auto=compress&cs=tinysrgb&w=1600"
+            src={vendor?.data?.storeLogo || "/logo/storeLogo.jpeg"}
             priority
           />
         </div>
@@ -42,7 +44,7 @@ const VendorAccountProfile = () => {
             <Image
               layout="fill"
               className="object-cover"
-              src="https://images.pexels.com/photos/176837/pexels-photo-176837.jpeg?auto=compress&cs=tinysrgb&w=1600"
+              src={vendor?.data?.storeBanner || "/logo/storeBanner.jpeg"}
               alt="Store Logo"
             />
           </div>
@@ -51,23 +53,24 @@ const VendorAccountProfile = () => {
         {/* Store Details */}
         <div className="space-y-4 p-6 text-center">
           <h3 className="text-2xl font-semibold text-gray-800">
-            Awesome Store
+            {vendor?.data?.storeName}
           </h3>
           <div className="grid grid-cols-1 gap-4 text-left md:grid-cols-2">
             <div className="rounded-lg bg-gray-100 p-4 shadow">
               <p className="text-sm text-gray-500">Email</p>
-              <p className="text-lg font-medium text-gray-800">
-                awesome@store.com
-              </p>
+              <p className="text-lg font-medium text-gray-800">{user?.email}</p>
             </div>
             <div className="rounded-lg bg-gray-100 p-4 shadow">
               <p className="text-sm text-gray-500">Phone</p>
-              <p className="text-lg font-medium text-gray-800">+123 456 7890</p>
+              <p className="text-lg font-medium text-gray-800">
+                {vendor?.data?.phoneNumber}
+              </p>
             </div>
             <div className="col-span-2 rounded-lg bg-gray-100 p-4 shadow">
               <p className="text-sm text-gray-500">Address</p>
               <p className="text-lg font-medium text-gray-800">
-                123 Store Street, Shop City
+                {vendor?.data?.address?.street} {vendor?.data?.address?.city}{" "}
+                {vendor?.data?.address?.area}, {vendor?.data?.address?.address}
               </p>
             </div>
           </div>
