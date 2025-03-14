@@ -77,9 +77,9 @@ const VendorAllProducts = () => {
     return <div className="text-red-500">Error loading products.</div>;
 
   return (
-    <Card className="m-6">
+    <Card className="md:m-6">
       <CardHeader>
-        <CardTitle className="flex items-center font-bold text-slate-700">
+        <CardTitle className="flex items-center text-xl font-bold text-slate-700 md:text-2xl">
           <BsCardText className="mr-2 text-primary" />
           All Products
         </CardTitle>

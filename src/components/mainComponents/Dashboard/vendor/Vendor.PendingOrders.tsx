@@ -39,9 +39,9 @@ const VendorPendingOrders = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <Card className="m-6">
+    <Card className="md:m-6">
       <CardHeader>
-        <CardTitle className="flex items-center font-bold text-slate-700">
+        <CardTitle className="flex items-center text-xl font-bold text-slate-700 md:text-2xl">
           <Clock className="mr-2 text-primary" />
           Pending Orders
         </CardTitle>

@@ -14,7 +14,7 @@ const VendorDashboardMainReviewsCard = ({ reviews }: any) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="mb-1 flex">
+        <CardTitle className="mb-1 flex text-xl md:text-2xl">
           <LucideMessageCircle className="mr-2 h-6 w-6 text-primary" />
           Customer Reviews
         </CardTitle>

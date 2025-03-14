@@ -28,7 +28,7 @@ const VendorDashboardMainResentOrders = ({ recentOrders }: any) => {
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle className="mb-1 flex">
+            <CardTitle className="mb-1 flex text-xl md:text-2xl">
               <LucideShoppingBag className="mr-2 h-6 w-6 text-primary" />
               Recent Orders
             </CardTitle>

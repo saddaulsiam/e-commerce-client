@@ -11,7 +11,7 @@ const VendorDashboardMain = () => {
   const { data: dashboardMeta } = useGetDashboardMetaQuery(undefined);
   const meta = dashboardMeta?.data?.meta;
   return (
-    <div className="flex min-h-screen w-full flex-col p-4 md:p-6">
+    <div className="flex min-h-screen w-full flex-col md:p-6">
       {/* Header Section */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight">Vendor Dashboard</h1>
@@ -58,7 +58,7 @@ const VendorDashboardMain = () => {
       <VendorDashboardMainSalesChart salesData={meta?.salesData} />
 
       {/* Resent Orders & Reviews Section */}
-      <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Resent Orders */}
         <VendorDashboardMainResentOrders recentOrders={meta?.recentOrders} />
 

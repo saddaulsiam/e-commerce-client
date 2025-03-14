@@ -12,7 +12,7 @@ const Reports = () => {
   const { data: dashboardMeta } = useGetDashboardMetaQuery(undefined);
   const meta = dashboardMeta?.data?.meta;
   return (
-    <div className="p-6">
+    <div className="md:p-6">
       <h2 className="flex items-center pb-6 text-2xl font-bold text-slate-700">
         <ChartArea className="mr-2 text-primary" /> Analytics
       </h2>

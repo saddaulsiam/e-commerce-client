@@ -37,9 +37,8 @@ const VendorDashboardMainSalesChart = ({ salesData }: any) => {
     <Card className="mb-8">
       <CardHeader className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
         <div className="mx-8 my-2">
-          <CardTitle className="flex pb-1">
-            <LucideBarChart className="mr-2 h-6 w-6 text-primary" /> Sales
-            Overview
+          <CardTitle className="flex pb-1 text-xl md:text-2xl">
+            <LucideBarChart className="mr-2 text-primary" /> Sales Overview
           </CardTitle>
           <CardDescription>Performance for the selected period</CardDescription>
         </div>

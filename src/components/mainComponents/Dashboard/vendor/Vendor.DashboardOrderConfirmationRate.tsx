@@ -31,7 +31,7 @@ const VendorDashboardOrderConfirmationRate = ({ overview }: any) => {
   return (
     <Card>
       <CardHeader className="mx-8 my-2">
-        <CardTitle className="flex">
+        <CardTitle className="flex text-xl md:text-2xl">
           <LucideCheckCircle className="mr-2 h-6 w-6 text-primary" />
           Order Confirmation Rate
         </CardTitle>

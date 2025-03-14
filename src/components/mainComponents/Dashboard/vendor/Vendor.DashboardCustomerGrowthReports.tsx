@@ -27,7 +27,7 @@ const VendorDashboardCustomerGrowthReports = ({ customerGrowth }: TProps) => {
   return (
     <Card>
       <CardHeader className="mx-8 my-2">
-        <CardTitle className="flex">
+        <CardTitle className="flex text-xl md:text-2xl">
           <LucideLineChart className="mr-2 h-6 w-6 text-primary" />
           Customer Growth
         </CardTitle>

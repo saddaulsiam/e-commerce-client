@@ -23,7 +23,7 @@ const VendorDashboardMonthlySalesReports = ({ salesData }: any) => {
   return (
     <Card>
       <CardHeader className="mx-8 my-2">
-        <CardTitle className="flex">
+        <CardTitle className="flex text-xl md:text-2xl">
           <LucideBarChart className="mr-2 h-6 w-6 text-primary" />
           Monthly Sales Overview
         </CardTitle>

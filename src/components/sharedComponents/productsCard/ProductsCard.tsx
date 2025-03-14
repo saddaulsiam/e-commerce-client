@@ -23,11 +23,11 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
   const handleAddToCart = () => {
     dispatch(
       addToCart({
-        productId: product._id as string,
-        vendorId: product.supplier._id,
+        productId: product?._id as string,
+        vendorId: product.supplier?._id,
         imageUrl: product.images[0],
-        name: product.name,
-        price: product.price,
+        name: product?.name,
+        price: product?.price,
         quantity: 1,
       }),
     );
