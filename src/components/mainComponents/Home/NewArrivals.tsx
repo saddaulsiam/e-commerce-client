@@ -1,19 +1,15 @@
 "use client";
 
 import { Loading } from "@/components/sharedComponents";
-import { products } from "@/data/products";
 import { useGetAllProductsQuery } from "@/redux/features/products/productsApi";
+import { TProduct } from "@/types/common";
 import Image from "next/image";
 import Link from "next/link";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { MdFiberNew } from "react-icons/md";
 
 const NewArrivals = () => {
-  const { data, isLoading } = useGetAllProductsQuery({
-    limit: 12,
-    page: 1,
-    sort: "",
-  });
+  const { data: products, isLoading } = useGetAllProductsQuery({});
 
   return (
     <section className="container mx-auto px-4 py-10">
@@ -34,9 +30,9 @@ const NewArrivals = () => {
         <Loading />
       ) : (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
-          {products.slice(0, 10).map((product, i) => (
+          {products?.data?.data.slice(0, 10).map((product: TProduct) => (
             <Link
-              key={i}
+              key={product._id}
               href={`/product/${product._id}`}
               className="group block rounded-lg bg-white p-3 shadow transition hover:shadow-lg"
             >

@@ -19,7 +19,6 @@ const FlashDeals = () => {
   const { data: products, isLoading } = useGetAllProductsQuery({
     limit: 15,
     page: 1,
-    sort: "",
   });
 
   return (
@@ -50,10 +49,10 @@ const FlashDeals = () => {
                 slidesPerView: 4,
                 spaceBetween: 10,
               },
-              // 1440: {
-              //   slidesPerView: 5,
-              //   spaceBetween: 10,
-              // },
+              1440: {
+                slidesPerView: 5,
+                spaceBetween: 10,
+              },
             }}
             navigation={{
               prevEl: swiperPrevRef1.current,

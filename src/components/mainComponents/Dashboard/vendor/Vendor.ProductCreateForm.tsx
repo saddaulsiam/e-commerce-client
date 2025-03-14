@@ -70,12 +70,12 @@ const VendorProductCreateForm = () => {
   }, [previewImages]);
 
   const onSubmit: SubmitHandler<ProductFormInputs> = async (inputData) => {
+    const toastId = toast.loading("Creating the product...");
     try {
       if (!postImages.length) {
         toast("Please provide an image");
         return;
       }
-      const toastId = toast.loading("Creating the product...");
       const images = await uploadMultipleFilesToCloudinary(postImages);
 
       const productData = {
@@ -97,8 +97,12 @@ const VendorProductCreateForm = () => {
         setPreviewImages([]);
       }
     } catch (err: any) {
-      console.error(err);
-      toast.error(err.message);
+      toast.update(toastId, {
+        type: "error",
+        render: err?.data.message,
+        isLoading: false,
+        autoClose: 3000,
+      });
     }
   };
 

@@ -96,15 +96,16 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
         <div className="flex">
           {/* Add to Cart Button */}
           <button
-            className="flex w-1/2 items-center justify-center gap-2 rounded-bl-lg bg-slate-200 px-4 py-3 font-semibold text-my-gray-200 transition-all duration-300 ease-in hover:bg-slate-300 active:scale-95"
+            className="flex w-1/2 items-center justify-center gap-1 rounded-bl-lg bg-slate-200 px-4 py-3 font-semibold text-my-gray-200 transition-all duration-300 ease-in hover:bg-slate-300 active:scale-95"
             onClick={handleAddToCart}
           >
-            <BsCart2 className="text-lg" /> Add to Cart
+            <BsCart2 className="text-lg" />
+            Add to Cart
           </button>
 
           {/* Buy Now Button */}
           <button
-            className="flex w-1/2 items-center justify-center gap-2 rounded-br-lg bg-primary px-4 py-3 font-semibold text-white transition-all duration-300 hover:bg-orange-600 active:scale-95"
+            className="flex w-1/2 items-center justify-center gap-1 rounded-br-lg bg-primary px-4 py-3 font-semibold text-white transition-all duration-300 hover:bg-orange-600 active:scale-95"
             onClick={() => {
               handleAddToCart();
               router.push("/checkout");
