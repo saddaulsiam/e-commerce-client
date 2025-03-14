@@ -18,8 +18,8 @@ import colorsOptions from "@/data/colors";
 import { useGetBrandsQuery } from "@/redux/features/brands/brandsApi";
 import { useGetCategoriesQuery } from "@/redux/features/categories/categoriesApi";
 import { useCreateProductMutation } from "@/redux/features/products/productsApi";
-import { useGetMyVendorQuery } from "@/redux/features/vendor/vendorApi";
 import { useAppSelector } from "@/redux/hooks";
+import { uploadMultipleFilesToCloudinary } from "@/services/uploadToCloudinary";
 import { TBrand, TCategory } from "@/types/common";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -45,11 +45,10 @@ const VendorProductCreateForm = () => {
   const [postImages, setPostImages] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
 
-  const { user: myData } = useAppSelector(({ state }) => state.auth);
+  const { user } = useAppSelector(({ state }) => state.auth);
 
   const [createProduct] = useCreateProductMutation();
   const { data: brands } = useGetBrandsQuery(undefined);
-  const { data: vendor } = useGetMyVendorQuery(myData?._id);
   const { data: categories } = useGetCategoriesQuery(undefined);
 
   // Handle file selection and generate preview URLs.
@@ -76,37 +75,23 @@ const VendorProductCreateForm = () => {
         toast("Please provide an image");
         return;
       }
-      toast.info("Creating the product...");
-
-      // Upload images in parallel using Promise.all with fetch
-      const images = await Promise.all(
-        postImages.map(async (file) => {
-          const formData = new FormData();
-          formData.append("file", file);
-          formData.append("upload_preset", "siam-store");
-
-          const response = await fetch(
-            "https://api.cloudinary.com/v1_1/dtkl4ic8s/image/upload",
-            {
-              method: "POST",
-              headers: { "X-Requested-With": "XMLHttpRequest" },
-              body: formData,
-            },
-          );
-          const data = await response.json();
-          return data.url;
-        }),
-      );
+      const toastId = toast.loading("Creating the product...");
+      const images = await uploadMultipleFilesToCloudinary(postImages);
 
       const productData = {
         ...inputData,
         images: images,
-        supplier: vendor?.data?._id,
+        supplier: user?.vendor._id,
       };
 
       const res = await createProduct(productData).unwrap();
       if (res.success) {
-        toast.success(res.message);
+        toast.update(toastId, {
+          type: "success",
+          render: res.message,
+          isLoading: false,
+          autoClose: 3000,
+        });
         reset();
         setPostImages([]);
         setPreviewImages([]);

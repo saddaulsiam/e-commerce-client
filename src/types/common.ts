@@ -29,6 +29,7 @@ export type TUser = {
   password: string;
   role: TUserRole;
   profile: TProfile;
+  vendor: TVendor;
   createdAt: string;
   updatedAt: string;
 };
@@ -77,7 +78,7 @@ export interface TProduct {
   updatedAt?: string;
 }
 
-type TVendor = {
+export type TVendor = {
   _id: string;
   userId: string;
   storeName: string;
@@ -85,6 +86,7 @@ type TVendor = {
   storeLogo: string;
   storeBanner: string;
   address: TAddress;
+  phoneNumber: number;
   products: TProduct[];
   earnings: number;
 };

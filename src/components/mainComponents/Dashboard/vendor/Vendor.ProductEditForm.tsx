@@ -19,6 +19,7 @@ import { useGetBrandsQuery } from "@/redux/features/brands/brandsApi";
 import { useGetCategoriesQuery } from "@/redux/features/categories/categoriesApi";
 import { useUpdateProductMutation } from "@/redux/features/products/productsApi";
 import { useAppSelector } from "@/redux/hooks";
+import { uploadMultipleFilesToCloudinary } from "@/services/uploadToCloudinary";
 import { TBrand, TCategory, TProduct } from "@/types/common";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -49,21 +50,8 @@ interface ImageItem {
 
 const VendorProductEditForm = ({ product }: { product: TProduct }) => {
   // Remove images from form default values since we manage them separately
-  const { register, handleSubmit, reset, control } = useForm<ProductFormInputs>(
-    {
-      defaultValues: {
-        name: product?.name,
-        category: product?.category,
-        description: product?.description,
-        status: product?.status || "in-stock",
-        stock: Number(product?.stock) || 0,
-        brand: product?.brand,
-        price: Number(product?.price) || 0,
-        discount: product?.discount || 0,
-        colors: product?.colors || [],
-      },
-    },
-  );
+  const { register, handleSubmit, reset, control } =
+    useForm<ProductFormInputs>();
 
   // Manage images (both existing and new) in separate state
   const [images, setImages] = useState<ImageItem[]>([]);
@@ -131,32 +119,17 @@ const VendorProductEditForm = ({ product }: { product: TProduct }) => {
       const existingImageUrls = images
         .filter((img) => !img.isNew)
         .map((img) => img.url);
-      const newImageItems = images.filter((img) => img.isNew);
+      const newImageItems = images.filter(
+        (img) => img.isNew && img.file,
+      ) as ImageItem[];
+      const newFiles: File[] = newImageItems.map((img) => img.file!);
 
       let uploadedUrls: string[] = [];
-      if (newImageItems.length) {
+      if (newFiles.length) {
         toast.info("Uploading new images...");
-        uploadedUrls = await Promise.all(
-          newImageItems.map(async (img) => {
-            if (img.file) {
-              const formData = new FormData();
-              formData.append("file", img.file);
-              formData.append("upload_preset", "siam-store");
-              const response = await fetch(
-                "https://api.cloudinary.com/v1_1/dtkl4ic8s/image/upload",
-                {
-                  method: "POST",
-                  headers: { "X-Requested-With": "XMLHttpRequest" },
-                  body: formData,
-                },
-              );
-              const data = await response.json();
-              return data.url;
-            }
-            return "";
-          }),
-        );
+        uploadedUrls = await uploadMultipleFilesToCloudinary(newFiles);
       }
+
       // Combine existing and new image URLs.
       const finalImages = [
         ...existingImageUrls,

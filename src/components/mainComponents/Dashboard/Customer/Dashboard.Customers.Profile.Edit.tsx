@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import { addUser } from "../../../../redux/features/auth/authSlice";
 import DashboardCustomerSideBarNavigation from "./Dashboard.Customer.SideBar.Navigation";
 import { Button } from "@/components/ui/button";
+import { uploadToCloudinary } from "@/services/uploadToCloudinary";
 
 const DashboardCustomersProfileEdit = () => {
   const dispatch = useDispatch();
@@ -57,20 +58,14 @@ const DashboardCustomersProfileEdit = () => {
     formData.append("upload_preset", "siam-store");
 
     if (selectedFile?.file) {
-      formData.append("file", selectedFile.file);
-      await fetch(`https://api.cloudinary.com/v1_1/dtkl4ic8s/image/upload`, {
-        method: "POST",
-        body: formData,
-      })
-        .then((res) => res.json())
-        .then((result) => (data.photoURL = result.url));
+      data.photoURL = uploadToCloudinary(selectedFile?.file)
     }
 
     const profile = {
       displayName: data.firstName + " " + data.lastName,
       phoneNumber: data.phoneNumber,
       birthDate: data.birthDate,
-      photoURL: data.photoURL || "https://bonik-react.vercel.app/assets/images/faces/ralph.png",
+      photoURL: data.photoURL || "/user-avatar.jpg",
     };
 
     updateProfile({ email: user.email, profile }).then((res) => {

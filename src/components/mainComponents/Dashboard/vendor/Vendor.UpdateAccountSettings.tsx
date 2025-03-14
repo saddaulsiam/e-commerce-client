@@ -4,10 +4,7 @@ import AddressSelect from "@/components/sharedComponents/forms/AddressSelect";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  useGetMyVendorQuery,
-  useUpdateMyVendorMutation,
-} from "@/redux/features/vendor/vendorApi";
+import { useUpdateMyVendorMutation } from "@/redux/features/vendor/vendorApi";
 import { useAppSelector } from "@/redux/hooks";
 import { uploadToCloudinary } from "@/services/uploadToCloudinary";
 import Image from "next/image";
@@ -29,7 +26,6 @@ interface FormValues {
 
 const VendorUpdateAccountSettings = () => {
   const { user } = useAppSelector(({ state }) => state.auth);
-  const { data: vendor } = useGetMyVendorQuery(user?._id);
   const [updateVendor] = useUpdateMyVendorMutation();
 
   // Set fallback defaults for images
@@ -45,14 +41,14 @@ const VendorUpdateAccountSettings = () => {
 
   // Update states when vendor data becomes available
   useEffect(() => {
-    if (vendor && vendor.data) {
-      const { storeBanner, storeLogo } = vendor.data;
+    if (user?.vendor) {
+      const { storeBanner, storeLogo } = user?.vendor;
       setBanner(storeBanner || fallbackBanner);
       setLogo(storeLogo || fallbackLogo);
       setBannerPreview(storeBanner || fallbackBanner);
       setLogoPreview(storeLogo || fallbackLogo);
     }
-  }, [vendor]);
+  }, [user?.vendor]);
 
   // Handle image file changes and update preview
   const handleImageChange = (
@@ -72,19 +68,19 @@ const VendorUpdateAccountSettings = () => {
     useForm<FormValues>();
 
   useEffect(() => {
-    if (vendor && vendor.data) {
+    if (user?.vendor) {
       reset({
-        street: vendor.data.address.street,
-        city: vendor.data.address.city,
-        area: vendor.data.address.area,
-        address: vendor.data.address.address,
-        storeName: vendor.data.storeName,
-        phoneNumber: vendor.data.phoneNumber,
-        storeBanner: vendor.data.storeBanner || fallbackBanner,
-        storeLogo: vendor.data.storeLogo || fallbackLogo,
+        street: user?.vendor.address.street,
+        city: user?.vendor.address.city,
+        area: user?.vendor.address.area,
+        address: user?.vendor.address.address,
+        storeName: user?.vendor.storeName,
+        phoneNumber: String(user?.vendor.phoneNumber),
+        storeBanner: user?.vendor.storeBanner || fallbackBanner,
+        storeLogo: user?.vendor.storeLogo || fallbackLogo,
       });
     }
-  }, [vendor, reset]);
+  }, [user?.vendor, reset]);
 
   const onSubmit = async (data: FormValues) => {
     const toastId = toast.loading("Updating...");
@@ -97,7 +93,7 @@ const VendorUpdateAccountSettings = () => {
     data.storeLogo = logoURL;
     data.storeBanner = bannerURL;
 
-    const res = await updateVendor({ id: vendor?.data?._id, data }).unwrap();
+    const res = await updateVendor({ id: user?.vendor._id, data }).unwrap();
     if (res.success) {
       toast.update(toastId, {
         type: "success",
@@ -200,7 +196,7 @@ const VendorUpdateAccountSettings = () => {
                 setValue={setValue}
                 watch={watch}
                 name="area"
-                placeholder={`${vendor?.data?.address?.street} > ${vendor?.data?.address?.city} > ${vendor?.data?.address?.area}`}
+                placeholder={`${user?.vendor.address.street} > ${user?.vendor.address.city} > ${user?.vendor.address.area}`}
               />
               {getValues("street") !== "" && getValues("area") === "" ? (
                 <p className="text-red-500">Complete the process</p>

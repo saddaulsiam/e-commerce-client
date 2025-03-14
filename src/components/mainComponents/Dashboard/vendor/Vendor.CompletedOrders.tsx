@@ -12,10 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  useGetMyVendorQuery,
-  useGetVendorOrdersQuery,
-} from "@/redux/features/vendor/vendorApi";
+import { useGetVendorOrdersQuery } from "@/redux/features/vendor/vendorApi";
 import { useAppSelector } from "@/redux/hooks";
 import { TOrderStatus, TSubOrder } from "@/types/Ordertype";
 import { format } from "date-fns";
@@ -26,11 +23,10 @@ const VendorCompletedOrders = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const { user } = useAppSelector(({ state }) => state.auth);
 
-  const { data: vendor } = useGetMyVendorQuery(user?._id);
   const { data: orders, isLoading } = useGetVendorOrdersQuery({
     limit: 8,
     page: currentPage,
-    vendorId: vendor?.data?._id,
+    vendorId: user?.vendor._id,
     status: TOrderStatus.DELIVERED,
   });
 

@@ -11,10 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  useGetMyVendorQuery,
-  useGetVendorCustomersQuery,
-} from "@/redux/features/vendor/vendorApi";
+import { useGetVendorCustomersQuery } from "@/redux/features/vendor/vendorApi";
 import { useAppSelector } from "@/redux/hooks";
 import { TUser } from "@/types/common";
 import { format } from "date-fns";
@@ -26,19 +23,14 @@ const VendorCustomers = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const { user } = useAppSelector(({ state }) => state.auth);
 
-  const { data: vendor, isLoading: vendorLoading } = useGetMyVendorQuery(
-    user?._id,
-    { skip: !user?._id },
-  );
-
   const { data: customers, isLoading: customersLoading } =
     useGetVendorCustomersQuery(
       {
         limit: 8,
         page: currentPage,
-        vendorId: vendor?.data?._id,
+        vendorId: user?.vendor._id,
       },
-      { skip: !vendor?.data?._id },
+      { skip: !user?.vendor._id },
     );
 
   // Pagination handler
@@ -46,7 +38,7 @@ const VendorCustomers = () => {
     setCurrentPage(pageNumber);
   };
 
-  if (vendorLoading || customersLoading) return <Loading />;
+  if (customersLoading) return <Loading />;
 
   return (
     <Card className="m-6">
