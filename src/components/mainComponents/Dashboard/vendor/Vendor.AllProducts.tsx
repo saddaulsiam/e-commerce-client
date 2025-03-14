@@ -185,7 +185,7 @@ const VendorAllProducts = () => {
 
           <TableFooter className="bg-gray-100">
             <TableRow>
-              <TableCell colSpan={1}>
+              <TableCell colSpan={2}>
                 Total {products.data.meta.total} Products Found
               </TableCell>
               <TableCell colSpan={4}>

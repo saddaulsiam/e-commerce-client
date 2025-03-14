@@ -166,12 +166,11 @@ const VendorProductCreateForm = () => {
           {previewImages.length > 0 ? (
             <div className="grid grid-cols-3 gap-2">
               {previewImages.map((previewUrl, index) => (
-                <div key={previewUrl} className="relative">
+                <div key={previewUrl} className="w-68 relative h-44">
                   <Image
                     src={previewUrl}
                     alt={`Preview ${index}`}
-                    height={250}
-                    width={250}
+                    layout="fill"
                     className="rounded-md object-cover"
                     priority
                   />
