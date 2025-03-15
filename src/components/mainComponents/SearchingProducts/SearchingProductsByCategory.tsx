@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { BiCategory } from "react-icons/bi";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { TbAdjustmentsHorizontal } from "react-icons/tb";
-import { useRouter } from "next/navigation";
-import { Pagination, ProductsCard } from "../../sharedComponents";
-import SearchingProductsSidebarMenu from "./Searching.Products.Sidebar.Menu";
+import { ProductsCard } from "../../sharedComponents";
 import SearchingProductsSidebar from "./Searching.Products.Sidebar";
+import SearchingProductsSidebarMenu from "./Searching.Products.Sidebar.Menu";
 
 const SearchingProductsByCategory = () => {
   const router = useRouter();
@@ -21,18 +21,20 @@ const SearchingProductsByCategory = () => {
   const [filteredProductsByPrice, setFilteredProductsByPrice] = useState([]);
   const [filteredProductsByColors, setFilteredProductsByColors] = useState([]);
 
-  const { data: productsByCategory, isLoading } = useGetProductsByCategoryQuery({
-    category: router.query.name,
-    limit: 12,
-    page: currentPage,
-    sort: sort,
-  });
+  const { data: productsByCategory, isLoading } = useGetProductsByCategoryQuery(
+    {
+      category: router.query.name,
+      limit: 12,
+      page: currentPage,
+      sort: sort,
+    },
+  );
 
   // Filter Product By filterMinPrice >= salePrice //
   useEffect(() => {
     if (filterMinPrice) {
       const filteredProduct = productsByCategory?.data?.products.filter(
-        (product) => product.salePrice >= filterMinPrice
+        (product) => product.salePrice >= filterMinPrice,
       );
       setFilteredProductsByPrice(filteredProduct);
     }
@@ -42,7 +44,7 @@ const SearchingProductsByCategory = () => {
   useEffect(() => {
     if (filterMaxPrice) {
       const filteredProduct = productsByCategory?.data?.products.filter(
-        (product) => product.salePrice <= filterMaxPrice
+        (product) => product.salePrice <= filterMaxPrice,
       );
       setFilteredProductsByPrice(filteredProduct);
     }
@@ -52,7 +54,10 @@ const SearchingProductsByCategory = () => {
   useEffect(() => {
     if (filterMinPrice?.length && filterMaxPrice?.length) {
       const filtered = productsByCategory?.data?.products.filter((product) => {
-        return product.salePrice >= filterMinPrice && product.salePrice <= filterMaxPrice;
+        return (
+          product.salePrice >= filterMinPrice &&
+          product.salePrice <= filterMaxPrice
+        );
       });
       setFilteredProductsByPrice(filtered);
     }
@@ -69,20 +74,28 @@ const SearchingProductsByCategory = () => {
 
   // Filter Products By Colors Function //
   const filterProductsByColors = (products, colors) => {
-    return products?.filter((product) => product.colors.some((color) => colors.includes(color)));
+    return products?.filter((product) =>
+      product.colors.some((color) => colors.includes(color)),
+    );
   };
 
   // Filter Products By Colors //
   useEffect(() => {
     if (filteredProductsByBrands?.length) {
       try {
-        const filteredProducts = filterProductsByColors(filteredProductsByBrands, filterByColors);
+        const filteredProducts = filterProductsByColors(
+          filteredProductsByBrands,
+          filterByColors,
+        );
         setFilteredProductsByColors(filteredProducts);
       } catch (error) {
         console.log(error);
       }
     } else {
-      const filteredProducts = filterProductsByColors(productsByCategory?.data?.products, filterByColors);
+      const filteredProducts = filterProductsByColors(
+        productsByCategory?.data?.products,
+        filterByColors,
+      );
       setFilteredProductsByColors(filteredProducts);
     }
   }, [productsByCategory?.data?.products, filterByColors]);
@@ -97,12 +110,14 @@ const SearchingProductsByCategory = () => {
     let productsToRender = filteredProductsByPrice?.length
       ? filteredProductsByPrice
       : filteredProductsByColors?.length
-      ? filteredProductsByColors
-      : filteredProductsByBrands?.length
-      ? filteredProductsByBrands
-      : productsByCategory?.data?.products;
+        ? filteredProductsByColors
+        : filteredProductsByBrands?.length
+          ? filteredProductsByBrands
+          : productsByCategory?.data?.products;
 
-    return productsToRender?.map((product) => <ProductsCard key={product._id} product={product} />);
+    return productsToRender?.map((product) => (
+      <ProductsCard key={product._id} product={product} />
+    ));
   };
 
   return (
@@ -113,8 +128,12 @@ const SearchingProductsByCategory = () => {
         <div className="container mt-40 lg:mt-56">
           <div className="mb-10 flex-1 justify-between space-y-5 rounded-md bg-white p-5 md:flex">
             <div className="text-my-gray-200">
-              <h2 className="text-base font-semibold text-gray-800">Searching for “ {router.query.name} ”</h2>
-              <p className="text-sm">{productsByCategory?.data?.total} results found</p>
+              <h2 className="text-base font-semibold text-gray-800">
+                Searching for “ {router.query.name} ”
+              </h2>
+              <p className="text-sm">
+                {productsByCategory?.data?.total} results found
+              </p>
             </div>
             <div className="flex items-center space-x-3 text-sm text-my-gray-200 sm:space-x-4 sm:text-base">
               <p>Sort by:</p>

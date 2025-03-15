@@ -99,7 +99,7 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
             className="flex w-1/2 items-center justify-center gap-1 rounded-bl-lg bg-slate-200 px-4 py-3 font-semibold text-my-gray-200 transition-all duration-300 ease-in hover:bg-slate-300 active:scale-95"
             onClick={handleAddToCart}
           >
-            <BsCart2 className="text-lg" />
+            {/* <BsCart2 className="text-lg pr-1" /> */}
             Add to Cart
           </button>
 

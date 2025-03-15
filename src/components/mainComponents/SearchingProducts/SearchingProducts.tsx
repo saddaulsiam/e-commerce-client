@@ -1,257 +1,183 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { BiCategory } from "react-icons/bi";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { TbAdjustmentsHorizontal } from "react-icons/tb";
-import { useRouter } from "next/navigation";
-
-// local
-import { Pagination, ProductsCard } from "../../sharedComponents";
-import SearchingProductsSidebarMenu from "./Searching.Products.Sidebar.Menu";
+import { Pagination, ProductsCard } from "@/components/sharedComponents";
+import { Button } from "@/components/ui/button";
+import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
+import { TProduct } from "@/types/common";
+import { useState } from "react";
+import { BiHorizontalCenter } from "react-icons/bi";
+import { RiGridFill, RiListCheck } from "react-icons/ri";
 import SearchingProductsSidebar from "./Searching.Products.Sidebar";
-import { useGetProductsBySearchMutation } from "../../../redux/features/product/productApi";
-import { useGetBrandsQuery } from "../../../redux/features/brands/brandsApi";
 
 const SearchingProducts = () => {
-  const router = useRouter();
-
-  const [sort, setSort] = useState(null);
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [currentPage, setCurrentPage] = useState(1);
-  const [showSidebar, setShowSidebar] = useState(null);
+  const [sortBy, setSortBy] = useState<"default" | "low" | "high">("default");
+  const [priceRange, setPriceRange] = useState([0, 1000000]);
+  const [selectedColor, setSelectedColor] = useState<string | undefined>(
+    undefined,
+  );
+  const [selectedBrand, setSelectedBrand] = useState<string | undefined>(
+    undefined,
+  );
+  const [selectedStatus, setSelectedStatus] = useState<string | undefined>(
+    undefined,
+  );
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
-  const [filterMinPrice, setFilterMinPrice] = useState(0);
-  const [filterMaxPrice, setFilterMaxPrice] = useState(null);
-  const [filterByBrands, setFilterByBrands] = useState([]);
-  const [filterByColors, setFilterByColors] = useState([]);
-  const [filteredByStatus, setFilteredByStatus] = useState([]);
-  const [filteredProductsByPrice, setFilteredProductsByPrice] = useState([]);
-  const [filteredProductsByColors, setFilteredProductsByColors] = useState([]);
-
-  // console.log(filteredByStatus);
-
-  const [getData, { data: productsData, isLoading }] =
-    useGetProductsBySearchMutation();
-
-  useEffect(() => {
-    if (router.query.search) {
-      getData({
-        limit: 12,
-        page: currentPage,
-        sort: sort,
-        search: router.query.search,
-      });
-    } else if (router.query.category) {
-      getData({
-        limit: 12,
-        page: currentPage,
-        sort: sort,
-        category: router.query.category,
-      });
-    }
-  }, [currentPage, sort, getData, router.query.category, router.query.search]);
-
-  // Get brands //
-  const { data: brands } = useGetBrandsQuery();
-
-  // Filter Product By filterMinPrice >= Price //
-  useEffect(() => {
-    if (filterMinPrice) {
-      const filteredProduct = productsData?.data.products.filter(
-        (product) => product.price >= filterMinPrice,
-      );
-      setFilteredProductsByPrice(filteredProduct);
-    }
-  }, [filterMinPrice, filterMaxPrice, productsData?.data.products]);
-
-  // Filter Product By filterMaxPrice <= salePrice //
-  useEffect(() => {
-    if (filterMaxPrice) {
-      const filteredProduct = productsData?.data.products.filter(
-        (product) => product.price <= filterMaxPrice,
-      );
-      setFilteredProductsByPrice(filteredProduct);
-    }
-  }, [filterMaxPrice, filterMinPrice, productsData?.data.products]);
-
-  // Filter the products compere => <= price //
-  useEffect(() => {
-    if (filterMinPrice?.length && filterMaxPrice?.length) {
-      const filtered = productsData?.data.products.filter((product) => {
-        return (
-          product.price >= filterMinPrice && product.price <= filterMaxPrice
-        );
-      });
-      setFilteredProductsByPrice(filtered);
-    }
-  }, [filterMinPrice, filterMaxPrice, productsData?.data.products]);
-
-  // Filter Product By Brands Name //
-  const filteredProductsByBrands = [];
-  productsData?.data.products?.forEach((product) => {
-    if (filterByBrands.includes(product?.brand?.name)) {
-      filteredProductsByBrands.push(product);
-    }
+  const { data: products } = useGetAllProductsQuery({
+    sortBy: sortBy === "default" ? "createdAt" : "price",
+    sortOrder: sortBy === "high" ? "desc" : "asc",
+    limit: 50,
+    page: currentPage,
+    brand: selectedBrand || undefined,
+    color: selectedColor || undefined,
+    status: selectedStatus || undefined,
+    minPrice: priceRange[0] || undefined,
+    maxPrice: priceRange[1] || undefined,
   });
 
-  // Filter Product By Status //
-  const filteredProductsByStatus = [];
-
-  if (filteredProductsByBrands.length > 0) {
-    filteredProductsByBrands.forEach((product) => {
-      if (filteredByStatus.includes(product?.status)) {
-        filteredProductsByStatus.push(product);
-      }
-    });
-  } else {
-    productsData?.data?.products.forEach((product) => {
-      if (filteredByStatus.includes(product?.status)) {
-        filteredProductsByStatus.push(product);
-      }
-    });
-  }
-
-  // Filter Products By Colors Function //
-  const filterProductsByColors = (products, colors) => {
-    return products?.filter((product) =>
-      product.colors.some((color) => colors.includes(color.value)),
-    );
-  };
-
-  // Filter Products By Colors //
-  useEffect(() => {
-    if (filteredProductsByBrands?.length) {
-      try {
-        const filteredProducts = filterProductsByColors(
-          filteredProductsByBrands,
-          filterByColors,
-        );
-        setFilteredProductsByColors(filteredProducts);
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      const filteredProducts = filterProductsByColors(
-        productsData?.data.products,
-        filterByColors,
-      );
-      setFilteredProductsByColors(filteredProducts);
-    }
-  }, [filterByColors]);
-
-  // Pagination //
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  // Render Products //
-  const renderProducts = () => {
-    let productsToRender = filteredProductsByPrice?.length
-      ? filteredProductsByPrice
-      : filteredProductsByColors?.length
-        ? filteredProductsByColors
-        : filteredProductsByStatus?.length > 0
-          ? filteredProductsByStatus
-          : filteredProductsByBrands?.length
-            ? filteredProductsByBrands
-            : productsData?.data.products;
-
-    return productsToRender?.map((product) => (
-      <ProductsCard key={product._id} product={product} />
-    ));
+  const handleFilterReset = () => {
+    setPriceRange([0, 1000000]);
+    setSelectedColor(undefined);
+    setSelectedBrand(undefined);
+    setSelectedStatus(undefined);
   };
 
   return (
-    <>
-      {isLoading ? (
-        <>Loading...</>
-      ) : (
-        <div className="container mt-40 lg:mt-56">
-          <div className="mb-10 flex-1 justify-between space-y-5 rounded-md bg-white p-5 md:flex">
-            <div className="text-my-gray-200">
-              <h2 className="text-base font-semibold text-gray-800">
-                Searching for “ {router.query.search || router.query?.category}”
-              </h2>
-              <p className="text-sm">{productsData?.total} results found</p>
-            </div>
-            <div className="flex items-center space-x-3 text-sm text-my-gray-200 sm:space-x-4 sm:text-base">
-              <p>Sort by:</p>
-              <select
-                name=""
-                id=""
-                className="h-10 rounded border border-gray-300 focus:border-secondary"
-                onChange={(e) => setSort(e.target.value)}
-              >
-                <option value="">Best Match</option>
-                <option value="price">Price low to high</option>
-                <option value="-price">Price high to low</option>
-              </select>
-              <p
-                className="cursor-pointer rounded-full p-2 text-lg hover:bg-slate-200 sm:text-xl lg:hidden"
-                onClick={() => setShowSidebar(true)}
-              >
-                <TbAdjustmentsHorizontal />
-              </p>
-              <div className="flex items-center space-x-1">
-                <p>View:</p>
-                <p className="cursor-pointer rounded-full p-2 text-lg text-primary hover:bg-slate-200 sm:text-xl">
-                  <BiCategory />
-                </p>
-                <p className="cursor-pointer rounded-full p-2 text-lg hover:bg-slate-200 sm:text-xl">
-                  <GiHamburgerMenu />
-                </p>
-              </div>
-            </div>
+    <div className="min-h-screen bg-gray-50">
+      <div className="container mx-auto px-4 py-6">
+        {/* Header */}
+        <div className="mb-6">
+          <h1 className="mb-2 text-2xl font-bold text-gray-900">
+            Search Results for &quot;Product&quot;
+          </h1>
+          <div className="flex items-center justify-between">
+            <p className="text-gray-600">
+              {products?.data?.meta?.total.toLocaleString()} results found
+            </p>
+            <Button
+              variant="outline"
+              className="lg:hidden"
+              onClick={() => setMobileFiltersOpen(true)}
+            >
+              <BiHorizontalCenter className="mr-2" />
+              Filters
+            </Button>
           </div>
-          <div className="grid grid-cols-5 gap-5 px-3 xl:px-0">
-            <div className="hidden sm:col-span-1 lg:block">
-              <div className="rounded-md bg-white">
-                <SearchingProductsSidebarMenu
-                  brands={brands?.data}
-                  products={productsData?.data.products}
-                  setFilterByBrands={setFilterByBrands}
-                  setFilterByColors={setFilterByColors}
-                  setFilterMinPrice={setFilterMinPrice}
-                  setFilterMaxPrice={setFilterMaxPrice}
-                  setFilteredByStatus={setFilteredByStatus}
+        </div>
+
+        {/* Main Content */}
+        <div className="flex flex-col gap-8 lg:flex-row">
+          {/* Filters Sidebar (Mobile) */}
+          {mobileFiltersOpen && (
+            <div className="fixed inset-0 z-50 bg-black bg-opacity-50 lg:hidden">
+              <div className="absolute right-0 top-0 h-full w-80 overflow-y-auto bg-white p-6">
+                <div className="mb-6 flex items-center justify-between">
+                  <h2 className="text-xl font-semibold">Filters</h2>
+                  <button
+                    onClick={() => setMobileFiltersOpen(false)}
+                    className="text-gray-500 hover:text-gray-700"
+                  >
+                    ×
+                  </button>
+                </div>
+                <SearchingProductsSidebar
+                  priceRange={priceRange}
+                  setPriceRange={setPriceRange}
+                  selectedColor={selectedColor}
+                  setSelectedColor={setSelectedColor}
+                  selectedBrand={selectedBrand}
+                  setSelectedBrand={setSelectedBrand}
+                  selectedStatus={selectedStatus}
+                  setSelectedStatus={setSelectedStatus}
+                  onReset={handleFilterReset}
                 />
               </div>
             </div>
-            <div className="col-span-5 lg:col-span-4">
-              <div className="grid grid-cols-2 gap-x-2 gap-y-5 rounded-md sm:grid-cols-3 sm:gap-x-5 lg:grid-cols-4">
-                {productsData?.data.products.length > 0 ? (
-                  renderProducts()
-                ) : (
-                  <div className="flex h-[60vh] w-[53vw] items-center justify-center text-4xl text-my-gray-100">
-                    <p>Product not found</p>
-                  </div>
-                )}
-              </div>
-              <div className="mb-20 mt-10 text-center">
-                {productsData?.data?.page > 1 && (
-                  <Pagination
-                    currentPage={currentPage}
-                    totalPages={productsData?.data?.page}
-                    onPageChange={handlePageChange}
-                  />
-                )}
-              </div>
+          )}
+
+          {/* Filters Sidebar (Desktop) */}
+          <div className="hidden w-72 space-y-8 lg:block">
+            <div className="rounded-lg bg-white p-6 shadow-sm">
+              <SearchingProductsSidebar
+                priceRange={priceRange}
+                setPriceRange={setPriceRange}
+                selectedColor={selectedColor}
+                setSelectedColor={setSelectedColor}
+                selectedBrand={selectedBrand}
+                setSelectedBrand={setSelectedBrand}
+                selectedStatus={selectedStatus}
+                setSelectedStatus={setSelectedStatus}
+                onReset={handleFilterReset}
+              />
             </div>
           </div>
+
+          {/* Products Section */}
+          <div className="flex-1">
+            {/* Toolbar */}
+            <div className="mb-6 rounded-lg bg-white p-4 shadow-sm">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <span className="text-sm text-gray-600">Sort by:</span>
+                  <select
+                    onChange={(e) =>
+                      setSortBy(e.target.value as "default" | "low" | "high")
+                    }
+                    className="rounded-md border px-3 py-2 text-sm"
+                  >
+                    <option value="default">Newest Arrivals</option>
+                    <option value="low">Price: Low to High</option>
+                    <option value="high">Price: High to Low</option>
+                  </select>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Button
+                    variant={viewMode === "grid" ? "default" : "ghost"}
+                    onClick={() => setViewMode("grid")}
+                  >
+                    <RiGridFill className="text-lg" />
+                  </Button>
+                  <Button
+                    variant={viewMode === "list" ? "default" : "ghost"}
+                    onClick={() => setViewMode("list")}
+                  >
+                    <RiListCheck className="text-lg" />
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            {/* Products */}
+            {viewMode === "grid" ? (
+              <div className="grid grid-cols-1 gap-x-3 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {products?.data?.data?.map((product: TProduct) => (
+                  <ProductsCard key={product._id} product={product} />
+                ))}
+              </div>
+            ) : (
+              <div className="space-y-6">
+                {products?.data?.data?.map((product: TProduct) => (
+                  <ProductsCard key={product._id} product={product} />
+                ))}
+              </div>
+            )}
+
+            {/* Pagination */}
+            {products?.data?.meta?.total > 20 && (
+              <div className="mt-12">
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={products?.data?.meta?.page}
+                  onPageChange={setCurrentPage}
+                />
+              </div>
+            )}
+          </div>
         </div>
-      )}
-      {showSidebar && (
-        <SearchingProductsSidebar
-          products={productsData?.data.products}
-          brands={brands.data}
-          setShowSidebar={setShowSidebar}
-          setFilterMinPrice={setFilterMinPrice}
-          setFilterMaxPrice={setFilterMaxPrice}
-          setFilterByBrands={setFilterByBrands}
-          setFilterByColors={setFilterByColors}
-        />
-      )}
-    </>
+      </div>
+    </div>
   );
 };
 
