@@ -14,6 +14,7 @@ import {
   AiOutlineStar,
 } from "react-icons/ai";
 import { IoIosGitCompare } from "react-icons/io";
+import { toast } from "react-toastify";
 
 type Props = {
   product: TProduct;
@@ -156,18 +157,19 @@ const SingleProductDetails = ({ product }: Props) => {
 
         {/* Add to Cart Button */}
         <Button
-          onClick={() =>
+          onClick={() => {
             dispatch(
               addToCart({
-                name: product.name,
-                price: product.price,
-                productId: product._id!,
-                vendorId: product.supplier._id,
-                imageUrl: product.images[0],
+                name: product?.name,
+                price: product?.price,
+                productId: product?._id as string,
+                vendorId: product?.supplier?._id,
+                imageUrl: product?.images[0],
                 quantity: quantity,
               }),
-            )
-          }
+            );
+            toast.success("Product added to cart");
+          }}
           className="h-full w-full rounded-lg bg-primary text-base font-medium hover:bg-primary/90"
         >
           Add to Cart
