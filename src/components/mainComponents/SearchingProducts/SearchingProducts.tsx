@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { Pagination, ProductsCard } from "../../sharedComponents";
 import SearchingProductsSidebarMenu from "./Searching.Products.Sidebar.Menu";
 import SearchingProductsSidebar from "./Searching.Products.Sidebar";
-import { useGetProductsBySearchMutation } from "../../../redux/features/products/productsApi";
+import { useGetProductsBySearchMutation } from "../../../redux/features/product/productApi";
 import { useGetBrandsQuery } from "../../../redux/features/brands/brandsApi";
 
 const SearchingProducts = () => {
@@ -30,7 +30,8 @@ const SearchingProducts = () => {
 
   // console.log(filteredByStatus);
 
-  const [getData, { data: productsData, isLoading }] = useGetProductsBySearchMutation();
+  const [getData, { data: productsData, isLoading }] =
+    useGetProductsBySearchMutation();
 
   useEffect(() => {
     if (router.query.search) {
@@ -56,7 +57,9 @@ const SearchingProducts = () => {
   // Filter Product By filterMinPrice >= Price //
   useEffect(() => {
     if (filterMinPrice) {
-      const filteredProduct = productsData?.data.products.filter((product) => product.price >= filterMinPrice);
+      const filteredProduct = productsData?.data.products.filter(
+        (product) => product.price >= filterMinPrice,
+      );
       setFilteredProductsByPrice(filteredProduct);
     }
   }, [filterMinPrice, filterMaxPrice, productsData?.data.products]);
@@ -64,7 +67,9 @@ const SearchingProducts = () => {
   // Filter Product By filterMaxPrice <= salePrice //
   useEffect(() => {
     if (filterMaxPrice) {
-      const filteredProduct = productsData?.data.products.filter((product) => product.price <= filterMaxPrice);
+      const filteredProduct = productsData?.data.products.filter(
+        (product) => product.price <= filterMaxPrice,
+      );
       setFilteredProductsByPrice(filteredProduct);
     }
   }, [filterMaxPrice, filterMinPrice, productsData?.data.products]);
@@ -73,7 +78,9 @@ const SearchingProducts = () => {
   useEffect(() => {
     if (filterMinPrice?.length && filterMaxPrice?.length) {
       const filtered = productsData?.data.products.filter((product) => {
-        return product.price >= filterMinPrice && product.price <= filterMaxPrice;
+        return (
+          product.price >= filterMinPrice && product.price <= filterMaxPrice
+        );
       });
       setFilteredProductsByPrice(filtered);
     }
@@ -106,20 +113,28 @@ const SearchingProducts = () => {
 
   // Filter Products By Colors Function //
   const filterProductsByColors = (products, colors) => {
-    return products?.filter((product) => product.colors.some((color) => colors.includes(color.value)));
+    return products?.filter((product) =>
+      product.colors.some((color) => colors.includes(color.value)),
+    );
   };
 
   // Filter Products By Colors //
   useEffect(() => {
     if (filteredProductsByBrands?.length) {
       try {
-        const filteredProducts = filterProductsByColors(filteredProductsByBrands, filterByColors);
+        const filteredProducts = filterProductsByColors(
+          filteredProductsByBrands,
+          filterByColors,
+        );
         setFilteredProductsByColors(filteredProducts);
       } catch (error) {
         console.log(error);
       }
     } else {
-      const filteredProducts = filterProductsByColors(productsData?.data.products, filterByColors);
+      const filteredProducts = filterProductsByColors(
+        productsData?.data.products,
+        filterByColors,
+      );
       setFilteredProductsByColors(filteredProducts);
     }
   }, [filterByColors]);
@@ -134,14 +149,16 @@ const SearchingProducts = () => {
     let productsToRender = filteredProductsByPrice?.length
       ? filteredProductsByPrice
       : filteredProductsByColors?.length
-      ? filteredProductsByColors
-      : filteredProductsByStatus?.length > 0
-      ? filteredProductsByStatus
-      : filteredProductsByBrands?.length
-      ? filteredProductsByBrands
-      : productsData?.data.products;
+        ? filteredProductsByColors
+        : filteredProductsByStatus?.length > 0
+          ? filteredProductsByStatus
+          : filteredProductsByBrands?.length
+            ? filteredProductsByBrands
+            : productsData?.data.products;
 
-    return productsToRender?.map((product) => <ProductsCard key={product._id} product={product} />);
+    return productsToRender?.map((product) => (
+      <ProductsCard key={product._id} product={product} />
+    ));
   };
 
   return (
@@ -210,7 +227,7 @@ const SearchingProducts = () => {
                   </div>
                 )}
               </div>
-              <div className="mt-10 mb-20 text-center">
+              <div className="mb-20 mt-10 text-center">
                 {productsData?.data?.page > 1 && (
                   <Pagination
                     currentPage={currentPage}

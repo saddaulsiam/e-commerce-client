@@ -17,7 +17,7 @@ import { Textarea } from "@/components/ui/textarea";
 import colorsOptions from "@/data/colors";
 import { useGetBrandsQuery } from "@/redux/features/brands/brandsApi";
 import { useGetCategoriesQuery } from "@/redux/features/categories/categoriesApi";
-import { useUpdateProductMutation } from "@/redux/features/products/productsApi";
+import { useUpdateProductMutation } from "@/redux/features/product/productApi";
 import { useAppSelector } from "@/redux/hooks";
 import { uploadMultipleFilesToCloudinary } from "@/services/uploadToCloudinary";
 import { TBrand, TCategory, TProduct } from "@/types/common";

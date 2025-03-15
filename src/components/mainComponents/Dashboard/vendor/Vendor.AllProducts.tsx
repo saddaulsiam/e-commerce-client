@@ -15,7 +15,7 @@ import {
 import {
   useDeleteProductMutation,
   useGetAllProductsQuery,
-} from "@/redux/features/products/productsApi";
+} from "@/redux/features/product/productApi";
 import { TProduct } from "@/types/common";
 import Image from "next/image";
 import { useRouter } from "next/navigation";

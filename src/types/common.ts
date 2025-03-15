@@ -53,12 +53,12 @@ export interface TBrand {
 }
 
 export interface TReview {
+  _id: string;
   name: string;
   photo: string;
   rating: number;
   message: string;
   createdAt?: string;
-  updatedAt?: string;
 }
 
 export interface TProduct {

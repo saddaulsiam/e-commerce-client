@@ -2,8 +2,8 @@
 
 import { RelatedProducts } from "@/components/sharedComponents";
 import { cn } from "@/lib/utils";
-import { useGetSingleProductQuery } from "@/redux/features/products/productsApi";
-import { TProduct } from "@/types/common";
+import { useGetSingleProductQuery } from "@/redux/features/product/productApi";
+import { TProduct, TReview } from "@/types/common";
 import { AnimatePresence, motion } from "framer-motion";
 import { useParams } from "next/navigation";
 import { useState } from "react";
@@ -86,9 +86,9 @@ const SingleProduct = () => {
             ) : (
               <div className="space-y-8">
                 {/* Review Form */}
-                <SingleProductReviewForm />
+                <SingleProductReviewForm product={product} />
 
-                {product?.reviews?.map((review: any) => (
+                {product?.reviews?.map((review: TReview) => (
                   <SingleProductReview key={review._id} review={review} />
                 ))}
               </div>

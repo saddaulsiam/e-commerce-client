@@ -1,6 +1,6 @@
 "use client";
 import { VendorProductEditForm } from "@/components/mainComponents/Dashboard/vendor";
-import { useGetSingleProductQuery } from "@/redux/features/products/productsApi";
+import { useGetSingleProductQuery } from "@/redux/features/product/productApi";
 import { FilePenLine } from "lucide-react";
 import { usePathname } from "next/navigation";
 

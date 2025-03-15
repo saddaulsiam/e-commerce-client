@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { useGetAllProductsQuery } from "@/redux/features/products/productsApi";
+import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
 import { TProduct } from "@/types/common";
 import ProductsCard from "../productsCard/ProductsCard";
 

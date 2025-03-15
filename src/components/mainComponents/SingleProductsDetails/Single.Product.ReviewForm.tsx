@@ -1,4 +1,7 @@
 import { Button } from "@/components/ui/button";
+import { useMakeReviewMutation } from "@/redux/features/product/productApi";
+import { useAppSelector } from "@/redux/hooks";
+import { TProduct } from "@/types/common";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
@@ -8,9 +11,11 @@ type ReviewFormData = {
   message: string;
 };
 
-const SingleProductReviewForm = () => {
+const SingleProductReviewForm = ({ product }: { product: TProduct }) => {
   const [rating, setRating] = useState(0);
   const [hoveredStar, setHoveredStar] = useState<number | null>(null);
+  const { user } = useAppSelector(({ state }) => state.auth);
+  const [makeReview] = useMakeReviewMutation();
 
   const {
     reset,
@@ -19,18 +24,28 @@ const SingleProductReviewForm = () => {
     formState: { errors },
   } = useForm<ReviewFormData>();
 
-  const onSubmit: SubmitHandler<ReviewFormData> = (data) => {
+  const onSubmit: SubmitHandler<ReviewFormData> = async (data) => {
     if (rating === 0) {
       toast.warn("Please select a rating!");
       return;
     }
+    const reviewData = {
+      rating,
+      message: data.message,
+      name: user?.displayName,
+      photo: user?.profile.photo,
+    };
 
-    console.log("Review Submitted:", { rating, ...data });
+    const res = await makeReview({
+      id: product._id,
+      data: reviewData,
+    }).unwrap();
 
-    toast.success("Review submitted successfully!");
-
-    setRating(0);
-    reset();
+    if (res.success) {
+      toast.success(res.message);
+      setRating(0);
+      reset();
+    }
   };
 
   return (

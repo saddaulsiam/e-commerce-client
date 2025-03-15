@@ -4,7 +4,7 @@ import Head from "next/head";
 import { useState } from "react";
 import { BsFillSuitHeartFill } from "react-icons/bs";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { useGetProductsQuery } from "../../../../redux/features/products/productsApi";
+import { useGetProductsQuery } from "../../../../redux/features/product/productApi";
 import { Loading, Pagination } from "../../../sharedComponents";
 import ProductsCard from "../../../sharedComponents/productsCard/ProductsCard";
 import DashboardCustomerSideBarNavigation from "./Dashboard.Customer.SideBar.Navigation";

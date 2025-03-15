@@ -1,7 +1,7 @@
 "use client";
 
 import { Loading } from "@/components/sharedComponents";
-import { useGetAllProductsQuery } from "@/redux/features/products/productsApi";
+import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
 import { TProduct } from "@/types/common";
 import Image from "next/image";
 import Link from "next/link";

@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetAllProductsQuery } from "@/redux/features/products/productsApi";
+import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
 import { TProduct } from "@/types/common";
 import { useState } from "react";
 import { AiFillThunderbolt, AiOutlineArrowRight } from "react-icons/ai";
