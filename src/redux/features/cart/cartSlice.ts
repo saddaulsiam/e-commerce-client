@@ -32,9 +32,9 @@ const cartSlice = createSlice({
       );
 
       if (existingItem) {
-        existingItem.quantity += 1;
+        existingItem.quantity += item.quantity;
       } else {
-        state.cartItems.push({ ...item, quantity: 1 });
+        state.cartItems.push({ ...item });
       }
 
       // ✅ Ensure we only add the correct price and quantity once

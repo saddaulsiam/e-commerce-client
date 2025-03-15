@@ -7,3 +7,4 @@ export { default as NavMegaMenu } from "./navbar/NavMegaMenu";
 export { default as Pagination } from "./pagination/Pagination";
 export { default as ProductsCard } from "./productsCard/ProductsCard";
 export { default as SwiperCategoriesCard } from "./Swiper/SwiperCategoriesCard";
+export { default as RelatedProducts } from "./relatedProducts/RelatedProducts";

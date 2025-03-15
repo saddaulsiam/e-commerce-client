@@ -54,8 +54,11 @@ export interface TBrand {
 
 export interface TReview {
   name: string;
+  photo: string;
   rating: number;
-  massage: string;
+  message: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface TProduct {
