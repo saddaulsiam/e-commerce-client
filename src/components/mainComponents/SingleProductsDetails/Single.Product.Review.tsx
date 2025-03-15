@@ -1,7 +1,7 @@
 import React from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 
-const SingleProductReview = () => {
+const SingleProductReview = ({ review }) => {
   return (
     <div>
       <div className="flex items-center space-x-3">
@@ -13,7 +13,7 @@ const SingleProductReview = () => {
         <div>
           <p>Saddaul Siam</p>
           <div className="flex space-x-3">
-            <p className="flex text-lg text-yellow-500/80 ">
+            <p className="flex text-lg text-yellow-500/80">
               <AiFillStar />
               <AiFillStar />
               <AiFillStar />
@@ -26,7 +26,7 @@ const SingleProductReview = () => {
         </div>
       </div>
       <div className="mt-4 w-1/2">
-        <p className="text-my-gray-100 text-base font-normal leading-7">
+        <p className="text-base font-normal leading-7 text-my-gray-100">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam id
           aliquid laborum numquam! Sint, labore reprehenderit est corrupti earum
           numquam deserunt

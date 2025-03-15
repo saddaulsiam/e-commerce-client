@@ -1,60 +1,38 @@
+import { TProduct } from "@/types/common";
 import Image from "next/image";
-import { useRef, useState } from "react";
-import { Navigation } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
+import Magnifier from "./Single.Product.Magnifier";
 
-const SingleProductImages = ({ data }) => {
-  const [image, setImage] = useState(data?.mainImage);
-  const navigationPrevRef = useRef(null);
-  const navigationNextRef = useRef(null);
+const SingleProductImages = ({ product }: { product: TProduct }) => {
   return (
-    <div>
-      <Image
-        width="500"
-        height="550"
-        className="h-full w-full object-fill object-center"
-        src={image}
-        alt=""
-        priority
-      />
-      <div className="w-[500px]">
-        <Swiper
-          breakpoints={{
-            0: {
-              slidesPerView: 4,
-              spaceBetween: 10,
-            },
-          }}
-          navigation={{
-            prevEl: navigationPrevRef.current,
-            nextEl: navigationNextRef.current,
-          }}
-          modules={[Navigation]}
-          className="mySwiper"
-        >
-          {data?.images?.map((image, i) => (
-            <SwiperSlide
+    <div className="group relative space-y-6">
+      {/* Main Image with Zoom */}
+      <div className="relative aspect-square transform overflow-hidden">
+        <Magnifier
+          src={product.images[0]}
+          width={650}
+          height={500}
+          zoomScale={2.5}
+          transitionSpeed={0.2}
+        />
+
+        <div className="">
+          {product.images?.map((image, i) => (
+            <button
               key={i}
-              onClick={() => setImage(image)}
-              className="cursor-pointer"
+              className="aspect-square overflow-hidden rounded-lg border-2 border-transparent transition-all hover:border-primary hover:shadow-lg focus:outline-none"
+              aria-label={`Thumbnail ${i + 1}`}
             >
-              <Image src={image} height={200} width={200} alt="" priority />
-            </SwiperSlide>
+              <Image
+                src={image}
+                width={100}
+                height={100}
+                alt={`Product Thumbnail ${i + 1}`}
+                className="h-full w-full object-cover transition-transform hover:scale-110"
+                loading={i > 3 ? "lazy" : "eager"}
+              />
+            </button>
           ))}
-          <div
-            ref={navigationPrevRef}
-            className="absolute top-1/2 bottom-1/2 left-2 z-[2] flex -translate-y-1/2 transform cursor-pointer items-center justify-center rounded-full bg-[#808080] p-4 px-1.5 text-white hover:bg-primary"
-          >
-            <AiOutlineArrowLeft className="text-xl" />
-          </div>
-          <div
-            ref={navigationNextRef}
-            className="absolute top-1/2 bottom-1/2 right-2 z-[2] flex -translate-y-1/2 transform cursor-pointer items-center justify-center rounded-full bg-[#808080] p-4 px-1.5 text-white hover:bg-primary"
-          >
-            <AiOutlineArrowRight className="text-xl" />
-          </div>
-        </Swiper>
+        </div>
       </div>
     </div>
   );

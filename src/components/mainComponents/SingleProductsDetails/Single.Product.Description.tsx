@@ -1,6 +1,6 @@
 import React from "react";
 
-const SingleProductDescription = () => {
+const SingleProductDescription = ({ product }) => {
   return (
     <div className="mt-5">
       <p className="text-lg font-thin leading-8 text-my-gray-200">

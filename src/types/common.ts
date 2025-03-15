@@ -71,6 +71,7 @@ export interface TProduct {
   category: string;
   brand: string;
   colors: string[];
+  sizes: string[];
   images: string[];
   reviews?: TReview[];
   status: string;
