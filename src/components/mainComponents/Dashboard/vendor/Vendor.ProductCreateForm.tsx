@@ -1,5 +1,6 @@
 "use client";
 
+import CategorySelect from "@/components/sharedComponents/forms/CategorySelect";
 import { Button } from "@/components/ui/button";
 import ColorsSelect from "@/components/ui/ColorsSelect";
 import { Input } from "@/components/ui/input";
@@ -16,11 +17,10 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import colorsOptions from "@/data/colors";
 import { useGetBrandsQuery } from "@/redux/features/brands/brandsApi";
-import { useGetCategoriesQuery } from "@/redux/features/categories/categoriesApi";
 import { useCreateProductMutation } from "@/redux/features/product/productApi";
 import { useAppSelector } from "@/redux/hooks";
 import { uploadMultipleFilesToCloudinary } from "@/services/uploadToCloudinary";
-import { TBrand, TCategory } from "@/types/common";
+import { TBrand } from "@/types/common";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
@@ -40,7 +40,7 @@ interface ProductFormInputs {
 }
 
 const VendorProductCreateForm = () => {
-  const { register, handleSubmit, reset, control } =
+  const { register, handleSubmit, reset, control, setValue, watch } =
     useForm<ProductFormInputs>();
   const [postImages, setPostImages] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
@@ -49,7 +49,7 @@ const VendorProductCreateForm = () => {
 
   const [createProduct] = useCreateProductMutation();
   const { data: brands } = useGetBrandsQuery(undefined);
-  const { data: categories } = useGetCategoriesQuery(undefined);
+  // const { data: categories } = useGetCategoriesQuery(undefined);
 
   // Handle file selection and generate preview URLs.
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -132,35 +132,12 @@ const VendorProductCreateForm = () => {
             >
               Category
             </Label>
-            <Controller
-              control={control}
+            <CategorySelect
               name="category"
-              rules={{ required: true }}
-              render={({ field }) => (
-                <Select value={field.value} onValueChange={field.onChange}>
-                  <SelectTrigger className="h-12 w-full rounded-md focus:ring-2 focus:ring-primary">
-                    <SelectValue placeholder="Select Category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Categories</SelectLabel>
-                      {categories?.data.flatMap((category: TCategory) =>
-                        category.subcategories.flatMap((subCategory) =>
-                          subCategory?.subcategories.map((item) => (
-                            <SelectItem
-                              key={`${category.name}-${subCategory.name}-${item.name}`}
-                              value={item.name}
-                              className="capitalize"
-                            >
-                              {item.name}
-                            </SelectItem>
-                          )),
-                        ),
-                      )}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              )}
+              control={control}
+              setValue={setValue}
+              watch={watch}
+              placeholder="Main-Category > Sub-Category > Nested-Subcategory"
             />
           </div>
         </div>

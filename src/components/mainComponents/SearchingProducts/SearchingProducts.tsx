@@ -66,7 +66,7 @@ const SearchingProducts = () => {
             </span>
           </h1>
           <p className="text-gray-600">
-            {products?.data?.meta?.total.toLocaleString()} results found
+            {products?.data?.meta?.total.toLocaleString()} products found
           </p>
         </div>
 
