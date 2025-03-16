@@ -8,8 +8,12 @@ import { useState } from "react";
 import { BiHorizontalCenter } from "react-icons/bi";
 import { RiGridFill, RiListCheck } from "react-icons/ri";
 import SearchingProductsSidebar from "./Searching.Products.Sidebar";
+import { useSearchParams } from "next/navigation";
 
 const SearchingProducts = () => {
+  const searchParams = useSearchParams();
+  const searchQuery = searchParams.get("search");
+
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [currentPage, setCurrentPage] = useState(1);
   const [sortBy, setSortBy] = useState<"default" | "low" | "high">("default");
@@ -26,6 +30,7 @@ const SearchingProducts = () => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   const { data: products } = useGetAllProductsQuery({
+    search: searchQuery || undefined,
     sortBy: sortBy === "default" ? "createdAt" : "price",
     sortOrder: sortBy === "high" ? "desc" : "asc",
     limit: 50,

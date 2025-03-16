@@ -6,8 +6,6 @@ import { BiCategory } from "react-icons/bi";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { TbAdjustmentsHorizontal } from "react-icons/tb";
 import { ProductsCard } from "../../sharedComponents";
-import SearchingProductsSidebar from "./Searching.Products.Sidebar";
-import SearchingProductsSidebarMenu from "./Searching.Products.Sidebar.Menu";
 
 const SearchingProductsByCategory = () => {
   const router = useRouter();
@@ -166,16 +164,7 @@ const SearchingProductsByCategory = () => {
           </div>
           <div className="grid grid-cols-5 gap-5 px-3 xl:px-0">
             <div className="hidden sm:col-span-1 lg:block">
-              <div className="rounded-md bg-white">
-                <SearchingProductsSidebarMenu
-                  // brands={brands.data}
-                  products={productsByCategory?.data?.products}
-                  setFilterByBrands={setFilterByBrands}
-                  setFilterByColors={setFilterByColors}
-                  setFilterMinPrice={setFilterMinPrice}
-                  setFilterMaxPrice={setFilterMaxPrice}
-                />
-              </div>
+              <div className="rounded-md bg-white"></div>
             </div>
             <div className="col-span-5 lg:col-span-4">
               <div className="grid grid-cols-2 gap-x-2 gap-y-5 rounded-md sm:grid-cols-3 sm:gap-x-5 lg:grid-cols-4">
@@ -194,16 +183,6 @@ const SearchingProductsByCategory = () => {
             </div>
           </div>
         </div>
-      )}
-      {showSidebar && (
-        <SearchingProductsSidebar
-          products={productsByCategory?.data?.products}
-          setShowSidebar={setShowSidebar}
-          setFilterMinPrice={setFilterMinPrice}
-          setFilterMaxPrice={setFilterMaxPrice}
-          setFilterByBrands={setFilterByBrands}
-          setFilterByColors={setFilterByColors}
-        />
       )}
     </>
   );
