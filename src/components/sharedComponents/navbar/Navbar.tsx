@@ -25,7 +25,6 @@ import { FiSearch, FiShoppingCart } from "react-icons/fi";
 import { HiOutlineUserCircle } from "react-icons/hi";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { useDispatch } from "react-redux";
-import logo from "../../../../public/logo/logo.svg";
 import AnnouncementBar from "../announcementBar/AnnouncementBar";
 import CategoriesDropDownContent from "../DropDown/CategoriesDropDownContent";
 import LoginModal from "../modal/Loginmodal";
@@ -76,7 +75,7 @@ const Navbar = () => {
             <MobileMenu user={user} />
             <Link href="/" className="shrink-0">
               <Image
-                src={logo}
+                src="/logo/logo.svg"
                 alt="Company Logo"
                 width={120}
                 height={30}

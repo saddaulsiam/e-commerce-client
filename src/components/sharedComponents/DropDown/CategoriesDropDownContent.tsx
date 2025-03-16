@@ -30,7 +30,9 @@ const CategoriesDropDownContent = () => {
                   <DropdownMenuSeparator />
                   {sub.subcategories.map((item, itemIdx) => (
                     <DropdownMenuItem asChild key={itemIdx}>
-                      <Link href={item.href}>{item.name}</Link>
+                      <Link href={`/product?category=${item.href}`}>
+                        {item.name}
+                      </Link>
                     </DropdownMenuItem>
                   ))}
                 </DropdownMenuSubContent>

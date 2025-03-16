@@ -65,7 +65,7 @@ const NavMegaMenu = ({ isScrolled, user }: TProps) => {
 
               {/* Shop Link */}
               <NavigationMenuItem>
-                <Link href="/shop" passHref legacyBehavior>
+                <Link href="/product" passHref legacyBehavior>
                   <NavigationMenuLink asChild>
                     <a className={navigationMenuTriggerStyle()}>Shop</a>
                   </NavigationMenuLink>

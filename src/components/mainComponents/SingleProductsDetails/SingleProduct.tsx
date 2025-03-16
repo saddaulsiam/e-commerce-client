@@ -28,7 +28,10 @@ const SingleProduct = () => {
       <Breadcrumbs
         items={[
           { label: "Home", href: "/" },
-          { label: product?.category, href: `/category/${product?.category}` },
+          {
+            label: product?.category,
+            href: `/product?category=${product?.category}`,
+          },
           { label: product?.name },
         ]}
         className="mb-6"

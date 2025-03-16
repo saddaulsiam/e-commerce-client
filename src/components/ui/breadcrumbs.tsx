@@ -14,7 +14,7 @@ interface BreadcrumbsProps {
 
 const Breadcrumbs = ({ items, className }: BreadcrumbsProps) => {
   return (
-    <nav className={`flex space-x-2 text-sm ${className}`}>
+    <nav className={`flex space-x-0.5 text-sm ${className}`}>
       {items.map((item, index) => (
         <div key={index} className="flex items-center">
           {item.href ? (
@@ -27,7 +27,9 @@ const Breadcrumbs = ({ items, className }: BreadcrumbsProps) => {
           ) : (
             <span className="text-gray-500">{item.label}</span>
           )}
-          {index < items.length - 1 && <span className="text-gray-500">/</span>}
+          {index < items.length - 1 && (
+            <span className="ml-0.5 text-gray-500">/</span>
+          )}
         </div>
       ))}
     </nav>

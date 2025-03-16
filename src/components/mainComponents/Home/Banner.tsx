@@ -93,7 +93,11 @@ const Banner = () => {
                                     key={k}
                                     className="px-4 py-2 hover:bg-gray-100"
                                   >
-                                    <Link href={item.href}>{item.name}</Link>
+                                    <Link
+                                      href={`/product?category=${item.href}`}
+                                    >
+                                      {item.name}
+                                    </Link>
                                   </MenubarItem>
                                 ))}
                               </MenubarSubContent>
