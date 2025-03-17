@@ -1,9 +1,9 @@
 export const myAccount = [
-  { name: "My Profile", href: "/customer/profile" },
-  { name: "My Orders", href: "/customer/orders" },
-  { name: "Wishlists", href: "/customer/wishlists" },
-  { name: "Support Tickets", href: "/customer/support-tickets" },
-  { name: "Payment Methods", href: "/customer/payment-methods" },
+  { name: "My Profile", href: "/profile" },
+  { name: "My Orders", href: "/orders" },
+  { name: "Wishlists", href: "/wishlists" },
+  { name: "Support Tickets", href: "/support-tickets" },
+  { name: "Payment Methods", href: "/payment-methods" },
 ];
 
 export const vendorAccount = [

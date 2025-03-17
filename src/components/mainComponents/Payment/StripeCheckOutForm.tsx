@@ -4,17 +4,16 @@ import { removeOrderDetails } from "@/redux/features/order/orderDetails/orderDet
 import { useOrderNowMutation } from "@/redux/features/order/orders/ordersApi";
 import { useCreateStipePaymentIntentMutation } from "@/redux/features/order/payment/paymentApi";
 import { useAppSelector } from "@/redux/hooks";
+import {
+  TOrderStatus,
+  TPaymentMethod,
+  TPaymentStatus,
+} from "@/types/Orderstype";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import {
-  TMainOrder,
-  PaymentMethod,
-  PaymentStatus,
-  TOrderStatus,
-} from "../../../types/Ordertype";
 
 interface TProps {
   setOpenStripe: Dispatch<SetStateAction<boolean>>;
@@ -126,12 +125,12 @@ const StripeCheckOutForm = ({ setOpenStripe }: TProps) => {
         toast.success("Payment completed successfully!");
 
         // Prepare order data for order creation
-        const orderData: TMainOrder = {
+        const orderData = {
           userId: user?._id as string,
           totalAmount: cart.totalAmount,
-          paymentMethod: PaymentMethod.STRIPE,
+          paymentMethod: TPaymentMethod.STRIPE,
           isPaid: true,
-          paymentStatus: PaymentStatus.PAID,
+          paymentStatus: TPaymentStatus.PAID,
           shippingAddress: shippingAddress,
           status: TOrderStatus.PROCESSING,
           subOrders: cart.cartItems,

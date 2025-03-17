@@ -36,10 +36,12 @@ const ProductsModal = ({ setIsOpen, isOpen, product }: TProps) => {
       addToCart({
         productId: product?._id as string,
         vendorId: product?.supplier?._id,
-        imageUrl: product.images[0],
+        image: product.images[0],
         name: product.name,
         price: product.price,
         quantity: 1,
+        color: product?.colors[0],
+        size: product?.sizes[0],
       }),
     );
 
@@ -100,7 +102,7 @@ const ProductsModal = ({ setIsOpen, isOpen, product }: TProps) => {
             <p>
               Brand:{" "}
               <span className="font-semibold text-primary">
-                {product?.brand?.name}
+                {product?.brand}
               </span>
             </p>
             <p className="flex">

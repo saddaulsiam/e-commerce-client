@@ -88,7 +88,7 @@ const MobileMenu = ({ user }: { user: TUser | null }) => {
           {user?.role == "customer" && (
             <DropdownMenuItem>
               <Link
-                href="/customer/orders"
+                href="/orders"
                 className="w-full text-sm font-medium text-gray-700 hover:bg-gray-100"
               >
                 Track My Order

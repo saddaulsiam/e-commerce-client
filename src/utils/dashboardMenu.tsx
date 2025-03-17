@@ -15,9 +15,7 @@ import {
   Users,
 } from "lucide-react";
 import React from "react";
-import { BiSupport } from "react-icons/bi";
-import { BsBag, BsCreditCard2Back } from "react-icons/bs";
-import { FiHeart } from "react-icons/fi";
+import { BsBag } from "react-icons/bs";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { MdOutlineAccountCircle } from "react-icons/md";
 
@@ -196,36 +194,17 @@ export function getDashboardTools(role: string): NavItem[] {
 export const userDashboard = [
   {
     title: "Orders",
-    route: "/customer/orders",
+    route: "/orders",
     icon: BsBag,
   },
   {
-    title: "Wishlists",
-    route: "/customer/wishlists",
-    icon: FiHeart,
-  },
-  {
-    title: "Support Tickets",
-    route: "/customer/support-tickets",
-    icon: BiSupport,
-  },
-];
-
-// Account Settings Menu
-export const userAccounts = [
-  {
     title: "Profile Info",
-    route: "/customer/profile",
+    route: "/profile",
     icon: MdOutlineAccountCircle,
   },
   {
     title: "Addresses",
-    route: "/customer/addresses",
+    route: "/addresses",
     icon: HiOutlineLocationMarker,
-  },
-  {
-    title: "Payment Methods",
-    route: "/customer/payment-methods",
-    icon: BsCreditCard2Back,
   },
 ];

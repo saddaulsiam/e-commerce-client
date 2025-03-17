@@ -32,9 +32,11 @@ const SideBarShoppingCartItem = ({ product }: { product: TCartItem }) => {
                   name: product.name,
                   productId: product.productId,
                   vendorId: product.vendorId,
-                  imageUrl: product.imageUrl,
+                  image: product.image,
                   price: product.price,
                   quantity: 1,
+                  color: product?.color,
+                  size: product?.size,
                 }),
               )
             }
@@ -50,7 +52,7 @@ const SideBarShoppingCartItem = ({ product }: { product: TCartItem }) => {
             height={80}
             width={80}
             className="rounded-md object-cover"
-            src={product.imageUrl}
+            src={product.image}
             alt={product.name}
             priority
           />

@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/table";
 import { useGetVendorOrdersQuery } from "@/redux/features/vendor/vendorApi";
 import { useAppSelector } from "@/redux/hooks";
-import { TOrderStatus, TSubOrder } from "@/types/Ordertype";
+import { TOrderStatus, TSubOrder } from "@/types/Orderstype";
 import { format } from "date-fns";
 import { CheckCircle } from "lucide-react";
 import { useState } from "react";

@@ -6,13 +6,13 @@ const DashboardCustomerOrdersCart = ({ orders }) => {
     <>
       {orders
         ?.map(({ _id, orderStatus, orderDate, total, paymentDetails }, i) => (
-          <Link key={i} href={`/customer/orders/${_id}`}>
-            <ul className="my-3 grid cursor-pointer grid-cols-5 rounded-md bg-white py-5 px-5 text-base font-light text-my-gray-200 shadow">
+          <Link key={i} href={`/orders/${_id}`}>
+            <ul className="my-3 grid cursor-pointer grid-cols-5 rounded-md bg-white px-5 py-5 text-base font-light text-my-gray-200 shadow">
               <li className="text-sm text-black sm:text-lg">
                 {_id.slice(0, 8)}...
               </li>
               <li>
-                <p className="inline rounded-full bg-slate-200 py-1 px-3 text-sm">
+                <p className="inline rounded-full bg-slate-200 px-3 py-1 text-sm">
                   {orderStatus}
                 </p>
               </li>

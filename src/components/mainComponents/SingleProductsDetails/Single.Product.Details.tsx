@@ -164,8 +164,10 @@ const SingleProductDetails = ({ product }: Props) => {
                 price: product?.price,
                 productId: product?._id as string,
                 vendorId: product?.supplier?._id,
-                imageUrl: product?.images[0],
+                image: product?.images[0],
                 quantity: quantity,
+                color: selectedColor as string,
+                size: selectedSize,
               }),
             );
             toast.success("Product added to cart");

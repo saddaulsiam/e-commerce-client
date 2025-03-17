@@ -1,7 +1,7 @@
 import { TAddress, TProduct } from "@/types/common";
 
 // Payment Status Enum
-export enum PaymentStatus {
+export enum TPaymentStatus {
   UNPAID = "unpaid",
   PAID = "paid",
   REFUNDED = "refunded",
@@ -17,7 +17,7 @@ export enum TOrderStatus {
 }
 
 // Payment Methods Enum
-export enum PaymentMethod {
+export enum TPaymentMethod {
   CASH_ON_DELIVERY = "cashOnDelivery",
   SSLCOMMERZ = "sslCommerz",
   STRIPE = "stripe",
@@ -30,12 +30,16 @@ export interface TSubOrder {
   productId: string;
   item: {
     name: string;
+    image: string;
     productId: TProduct;
-    quantity: number;
     price: number;
+    quantity: number;
+    color: string;
+    size: string;
   };
   totalAmount: number;
   paymentMethod: string;
+  paymentStatus: string;
   isPaid: boolean;
   shippingAddress: TAddress;
   status: TOrderStatus;
@@ -48,9 +52,9 @@ export interface TMainOrder {
   _id?: string;
   userId: string;
   totalAmount: number;
-  paymentMethod: PaymentMethod;
+  paymentMethod: TPaymentMethod;
   isPaid: boolean;
-  paymentStatus: PaymentStatus;
+  paymentStatus: TPaymentStatus;
   shippingAddress: TAddress;
   status: TOrderStatus;
   subOrders: TSubOrder[];

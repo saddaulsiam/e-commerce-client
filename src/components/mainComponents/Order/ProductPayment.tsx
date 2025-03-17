@@ -7,7 +7,11 @@ import { removeOrderDetails } from "@/redux/features/order/orderDetails/orderDet
 import { useOrderNowMutation } from "@/redux/features/order/orders/ordersApi";
 import { useCreateSSLPaymentIntentMutation } from "@/redux/features/order/payment/paymentApi";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { PaymentMethod, PaymentStatus, TOrderStatus } from "@/types/Ordertype";
+import {
+  TPaymentMethod,
+  TPaymentStatus,
+  TOrderStatus,
+} from "@/types/Orderstype";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FcOk } from "react-icons/fc";
@@ -36,9 +40,9 @@ const ProductPayment = () => {
   const orderData = {
     userId: user?._id as string,
     totalAmount: cart.totalAmount,
-    paymentMethod: payWith as PaymentMethod,
+    paymentMethod: payWith as TPaymentMethod,
     isPaid: false,
-    paymentStatus: PaymentStatus.UNPAID,
+    paymentStatus: TPaymentStatus.UNPAID,
     shippingAddress: shippingAddress,
     status: TOrderStatus.PROCESSING,
     subOrders: cart.cartItems,
@@ -63,7 +67,7 @@ const ProductPayment = () => {
               toast.success(res.message);
               dispatch(clearCart());
               dispatch(removeOrderDetails());
-              router.push("/customer/orders");
+              router.push("/orders");
             }
           });
       }

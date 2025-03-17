@@ -1,12 +1,7 @@
-import { DashboardCustomersProfile } from "../../../components/mainComponents/Dashboard/Customer";
-import DashboardCustomerLayout from "../../../components/mainComponents/Dashboard/Customer/Dashboard.Customer.Layout";
+import { DashboardCustomersProfile } from "@/components/mainComponents/Dashboard/Customer";
 
 const Index = () => {
-  return (
-    <DashboardCustomerLayout>
-      <DashboardCustomersProfile />
-    </DashboardCustomerLayout>
-  );
+  return <DashboardCustomersProfile />;
 };
 
 export default Index;

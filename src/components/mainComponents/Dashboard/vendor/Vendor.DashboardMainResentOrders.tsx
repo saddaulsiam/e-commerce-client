@@ -17,7 +17,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { TSubOrder } from "@/types/Ordertype";
+import { TSubOrder } from "@/types/Orderstype";
 import { ChevronRightIcon, LucideShoppingBag } from "lucide-react";
 import { useRouter } from "next/navigation";
 

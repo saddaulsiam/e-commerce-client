@@ -1,6 +1,7 @@
 "use client";
 
 import RatingStars from "@/components/ui/rating";
+import { addToCart } from "@/redux/features/cart/cartSlice";
 import { TProduct } from "@/types/common";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,7 +12,6 @@ import { BsCart2 } from "react-icons/bs";
 import { GrCompare } from "react-icons/gr";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { addToCart } from "../../../redux/features/cart/cartSlice";
 import ProductsModal from "../modal/ProductsModal";
 
 const ProductsCard = ({ product }: { product: TProduct }) => {
@@ -19,16 +19,20 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
 
+  console.log(product);
+
   // Handle Add to Cart
   const handleAddToCart = () => {
     dispatch(
       addToCart({
         productId: product?._id as string,
-        vendorId: product.supplier?._id,
-        imageUrl: product.images[0],
+        vendorId: product?.supplier?._id,
+        image: product?.images[0],
         name: product?.name,
         price: product?.price,
         quantity: 1,
+        color: product?.colors[0],
+        size: "L",
       }),
     );
 

@@ -119,7 +119,7 @@ const NavMegaMenu = ({ isScrolled, user }: TProps) => {
               {/* Track My Order - Customer Only */}
               {user?.role === USER_ROLE.customer && (
                 <NavigationMenuItem>
-                  <Link href="/customer/orders" passHref legacyBehavior>
+                  <Link href="/orders" passHref legacyBehavior>
                     <NavigationMenuLink asChild>
                       <a className={navigationMenuTriggerStyle()}>
                         Track My Order

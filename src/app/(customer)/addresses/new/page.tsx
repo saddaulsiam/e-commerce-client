@@ -1,12 +1,7 @@
 import { DashboardCustomersAddressNew } from "@/components/mainComponents/Dashboard/Customer";
-import DashboardCustomerLayout from "@/components/mainComponents/Dashboard/Customer/Dashboard.Customer.Layout";
 
 const NewAddress = () => {
-  return (
-    <DashboardCustomerLayout>
-      <DashboardCustomersAddressNew />
-    </DashboardCustomerLayout>
-  );
+  return <DashboardCustomersAddressNew />;
 };
 
 export default NewAddress;

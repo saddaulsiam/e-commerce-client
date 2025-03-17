@@ -42,6 +42,7 @@ interface ProductFormInputs {
 const VendorProductCreateForm = () => {
   const { register, handleSubmit, reset, control, setValue, watch } =
     useForm<ProductFormInputs>();
+
   const [postImages, setPostImages] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
 
@@ -49,7 +50,6 @@ const VendorProductCreateForm = () => {
 
   const [createProduct] = useCreateProductMutation();
   const { data: brands } = useGetBrandsQuery(undefined);
-  // const { data: categories } = useGetCategoriesQuery(undefined);
 
   // Handle file selection and generate preview URLs.
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>): void => {

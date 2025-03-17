@@ -8,7 +8,7 @@ const PaymentSuccess = () => {
       <p className="mt-3 text-2xl font-medium text-primary">
         Payment successfully completed
       </p>
-      <Link href="/customer/orders" className="button mt-10">
+      <Link href="/orders" className="button mt-10">
         My Orders
       </Link>
     </div>

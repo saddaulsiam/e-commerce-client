@@ -1,12 +1,7 @@
 import { DashboardCustomersProfileEdit } from "@/components/mainComponents/Dashboard/Customer";
-import DashboardCustomerLayout from "@/components/mainComponents/Dashboard/Customer/Dashboard.Customer.Layout";
 
 const ProfileEdit = () => {
-  return (
-    <DashboardCustomerLayout>
-      <DashboardCustomersProfileEdit />
-    </DashboardCustomerLayout>
-  );
+  return <DashboardCustomersProfileEdit />;
 };
 
 export default ProfileEdit;

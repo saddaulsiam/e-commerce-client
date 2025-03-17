@@ -36,7 +36,7 @@ const ProductCart = () => {
                       height={130}
                       width={120}
                       className="h-full w-full rounded-md object-cover"
-                      src={product.imageUrl}
+                      src={product.image}
                       alt={product.name}
                       priority
                     />
@@ -80,9 +80,11 @@ const ProductCart = () => {
                                 name: product.name,
                                 productId: product.productId,
                                 vendorId: product.vendorId,
-                                imageUrl: product.imageUrl,
+                                image: product.image,
                                 price: product.price,
                                 quantity: 1,
+                                color: product?.color,
+                                size: product?.size,
                               }),
                             )
                           }

@@ -1,24 +1,25 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React from "react";
+import { usePathname } from "next/navigation";
 
 const DashboardCustomerNavigation = ({ navData }) => {
-  const router = useRouter();
+  const path = usePathname();
 
   return (
-    <ul>
+    <ul className="space-y-2">
       {navData.map((nav, index) => (
         <Link href={nav.route} key={index}>
           <li
-            className={`my-2 flex cursor-pointer items-center space-x-3 border-l-4 p-1 pl-3 text-base text-my-gray-100 transition duration-200 ease-in-out hover:border-primary hover:text-primary ${
-              router.route.split("/")[2] == nav.route.split("/")[2]
-                ? "border-l-4 border-primary text-primary"
-                : "border-white bg-white text-my-gray-100"
+            className={`my-1 flex cursor-pointer items-center space-x-3 rounded-md border-l-4 p-2 pl-4 text-base transition duration-200 ease-in-out hover:bg-gray-100 ${
+              path.startsWith(nav.route)
+                ? "border-primary bg-gray-100 text-primary"
+                : "border-white text-gray-700 hover:border-primary hover:text-primary"
             }`}
           >
-            <span className="text-lg">{nav.icon}</span>
+            <span className="text-lg">
+              <nav.icon />
+            </span>
             <span>{nav.title}</span>
           </li>
         </Link>

@@ -1,12 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface TCartItem {
-  name: string;
   productId: string;
   vendorId: string;
+  name: string;
+  image: string;
   price: number;
   quantity: number;
-  imageUrl: string;
+  color?: string;
+  size?: string;
 }
 
 export interface TCart {

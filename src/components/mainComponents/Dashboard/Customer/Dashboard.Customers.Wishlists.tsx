@@ -1,35 +1,17 @@
 "use client";
 
 import Head from "next/head";
-import { useState } from "react";
 import { BsFillSuitHeartFill } from "react-icons/bs";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { useGetProductsQuery } from "../../../../redux/features/product/productApi";
-import { Loading, Pagination } from "../../../sharedComponents";
-import ProductsCard from "../../../sharedComponents/productsCard/ProductsCard";
 import DashboardCustomerSideBarNavigation from "./Dashboard.Customer.SideBar.Navigation";
 import { Button } from "@/components/ui/button";
 
 const DashboardCustomersWishlists = () => {
-  const [showSideNavigation, setShowSideNavigation] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const { data, isLoading } = useGetProductsQuery({
-    limit: 4,
-    page: currentPage,
-    sort: "",
-  });
-
-  //  pagination
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
   return (
     <>
       <Head>
         <title>My Wish List</title>
       </Head>
-
       <div className="mb-10">
         <div className="grid grid-cols-2 gap-y-5">
           <div className="flex items-center">
@@ -39,33 +21,24 @@ const DashboardCustomersWishlists = () => {
             </h2>
           </div>
           <div className="flex justify-end lg:hidden">
-            <Button className="text-2xl font-thin " onClick={() => setShowSideNavigation(true)}>
+            <Button className="text-2xl font-thin">
               <GiHamburgerMenu />
             </Button>
           </div>
           <div className="flex lg:justify-end">
-            <Button className="button">Add All To Cart</button>
+            <Button className="button">Add All To Cart</Button>
           </div>
         </div>
-        {isLoading ? (
-          <>
-            <Loading />
-          </>
-        ) : (
-          <div className="pt-5 ">
-            <div className="bg-whit grid grid-cols-2 gap-x-3 gap-y-10 rounded-md sm:grid-cols-3 lg:grid-cols-4 ">
-              {data?.data?.products.slice(0, 8).map((product, index) => (
-                <ProductsCard product={product} key={index} />
-              ))}
-            </div>
-            <div className="mt-10 text-center">
-              {data?.data?.page < 1 && (
-                <Pagination currentPage={currentPage} totalPages={data?.data?.page} onPageChange={handlePageChange} />
-              )}
-            </div>
+        <div className="pt-5">
+          <div className="grid grid-cols-2 gap-x-3 gap-y-10 rounded-md bg-white sm:grid-cols-3 lg:grid-cols-4">
+            {/* Product cards will be inserted here */}
           </div>
-        )}
-        {showSideNavigation && <DashboardCustomerSideBarNavigation setShowSideNavigation={setShowSideNavigation} />}
+          <div className="mt-10 text-center">
+            {/* Pagination will be inserted here */}
+          </div>
+        </div>
+        {/* Side Navigation */}
+        <DashboardCustomerSideBarNavigation />
       </div>
     </>
   );
