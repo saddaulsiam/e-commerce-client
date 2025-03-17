@@ -3,6 +3,7 @@ import { USER_ROLE } from "@/contants/common";
 export type TUserRole = keyof typeof USER_ROLE;
 
 export type TAddress = {
+  _id?: string;
   name: string;
   email: string;
   phoneNumber: string;

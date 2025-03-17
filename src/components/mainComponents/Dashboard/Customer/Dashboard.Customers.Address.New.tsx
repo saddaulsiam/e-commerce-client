@@ -1,47 +1,22 @@
-"use client";
-
-import Link from "next/link";
-import React, { useState } from "react";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { MdLocationPin } from "react-icons/md";
-import CreateAddressForm from "../../../sharedComponents/forms/CreateAddressForm";
-import DashboardCustomerSideBarNavigation from "./Dashboard.Customer.SideBar.Navigation";
+import CreateAddressForm from "@/components/sharedComponents/forms/CreateAddressForm";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { MdLocationPin } from "react-icons/md";
 
 const DashboardCustomersAddressNew = () => {
-  const [showSideNavigation, setShowSideNavigation] = useState(null);
-
   return (
-    <div>
-      <div className="grid grid-cols-2 gap-y-5">
-        <div className="flex items-center">
-          <h2 className="text-2xl font-semibold text-primary">
-            <MdLocationPin className="mr-3 inline text-3xl text-primary" />
-            <span>New Address</span>
-          </h2>
-        </div>
-        <div className="flex justify-end lg:hidden">
-          <Button
-            className="text-2xl font-thin"
-            onClick={() => setShowSideNavigation(true)}
-          >
-            <GiHamburgerMenu />
-          </Button>
-        </div>
-        <div className="flex lg:justify-end">
-          <Link href="/customer/addresses">
-            <Button className="button">Back To Addresses</Button>
-          </Link>
-        </div>
+    <div className="rounded-lg bg-white p-4 shadow-sm sm:p-6">
+      <div className="flex items-center justify-between gap-4 pb-6">
+        <h2 className="text-2xl font-semibold text-primary">
+          <MdLocationPin className="mr-3 inline text-3xl text-primary" />
+          <span>New Address</span>
+        </h2>
+        <Link href="/addresses">
+          <Button>Back To Addresses</Button>
+        </Link>
       </div>
-      <div className="mt-5">
-        <CreateAddressForm />
-      </div>
-      {showSideNavigation && (
-        <DashboardCustomerSideBarNavigation
-          setShowSideNavigation={setShowSideNavigation}
-        />
-      )}
+
+      <CreateAddressForm />
     </div>
   );
 };

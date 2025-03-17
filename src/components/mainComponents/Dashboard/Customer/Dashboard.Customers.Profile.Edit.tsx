@@ -21,7 +21,7 @@ const DashboardCustomersProfileEdit = () => {
           </Button>
         </div>
         <div className="flex lg:justify-end">
-          <Link href="/customer/profile">
+          <Link href="/profile">
             <Button className="button">Back Profile</Button>
           </Link>
         </div>

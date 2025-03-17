@@ -3,12 +3,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const DashboardCustomerNavigation = ({ navData }) => {
+const DashboardCustomerNavigation = ({ navData }: { navData: any }) => {
   const path = usePathname();
 
   return (
     <ul className="space-y-2">
-      {navData.map((nav, index) => (
+      {navData.map((nav: any, index: any) => (
         <Link href={nav.route} key={index}>
           <li
             className={`my-1 flex cursor-pointer items-center space-x-3 rounded-md border-l-4 p-2 pl-4 text-base transition duration-200 ease-in-out hover:bg-gray-100 ${

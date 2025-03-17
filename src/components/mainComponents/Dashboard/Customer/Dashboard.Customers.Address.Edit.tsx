@@ -1,44 +1,22 @@
-"use client";
-
-import Link from "next/link";
-import React, { useState } from "react";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { MdLocationPin } from "react-icons/md";
-import CreateAddressForm from "../../../sharedComponents/forms/CreateAddressForm";
-import DashboardCustomerSideBarNavigation from "./Dashboard.Customer.SideBar.Navigation";
+import CreateAddressForm from "@/components/sharedComponents/forms/CreateAddressForm";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { MdLocationPin } from "react-icons/md";
 
 const DashboardCustomersAddressEdit = () => {
-  const [showSideNavigation, setShowSideNavigation] = useState(null);
   return (
     <div>
-      <div className="mb-5 grid grid-cols-2 gap-y-5">
-        <div className="flex items-center">
-          <h2 className="text-2xl font-semibold text-primary">
-            <MdLocationPin className="mr-3 inline text-3xl text-primary" />
-            <span>Edit Address</span>
-          </h2>
-        </div>
-        <div className="flex justify-end lg:hidden">
-          <Button
-            className="text-2xl font-thin"
-            onClick={() => setShowSideNavigation(true)}
-          >
-            <GiHamburgerMenu />
-          </Button>
-        </div>
-        <div className="flex lg:justify-end">
-          <Link href="/customer/addresses">
-            <Button>Back To Addresses</Button>
-          </Link>
-        </div>
+      <div className="mb-5 flex items-center justify-between">
+        <h2 className="text-2xl font-semibold text-primary">
+          <MdLocationPin className="mr-3 inline text-3xl text-primary" />
+          <span>Edit Address</span>
+        </h2>
+        <Link href="/addresses">
+          <Button>Back To Addresses</Button>
+        </Link>
       </div>
+
       <CreateAddressForm />
-      {showSideNavigation && (
-        <DashboardCustomerSideBarNavigation
-          setShowSideNavigation={setShowSideNavigation}
-        />
-      )}
     </div>
   );
 };

@@ -1,6 +1,8 @@
 "use client";
 
+import { Loading } from "@/components/sharedComponents";
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 import { useGetMyOrdersQuery } from "@/redux/features/order/orders/ordersApi";
 import { TOrderStatus, TSubOrder } from "@/types/Orderstype";
 import { format } from "date-fns";
@@ -13,8 +15,8 @@ const DashboardCustomersOrders = () => {
   const orders: TSubOrder[] = data?.data || [];
 
   // Handle loading and error states first
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error loading orders</div>;
+  if (isLoading) return <Loading />;
+  if (isError) return <div className="text-red-500">Error loading orders</div>;
 
   return (
     <div className="mb-10">
@@ -37,8 +39,6 @@ const DashboardCustomersOrders = () => {
           <div className="mt-4 text-center text-gray-500">No orders found</div>
         ) : (
           orders
-            .slice()
-            .reverse()
             .map(
               ({
                 _id,
@@ -56,7 +56,19 @@ const DashboardCustomersOrders = () => {
                     <li>
                       <Badge
                         variant="default"
-                        className={`${status === TOrderStatus.PENDING || TOrderStatus.PROCESSING ? "bg-primary" : status === TOrderStatus.CANCELLED ? "bg-red-500" : "bg-green-500"} capitalize`}
+                        className={cn(
+                          {
+                            [TOrderStatus.PENDING]: "bg-primary",
+                            [TOrderStatus.PROCESSING]: "bg-primary",
+                            [TOrderStatus.DELIVERED]:
+                              "bg-green-500 hover:bg-green-600",
+                            [TOrderStatus.SHIPPED]:
+                              "bg-blue-500 hover:bg-blue-600",
+                            [TOrderStatus.CANCELLED]:
+                              "bg-red-500 hover:bg-red-600",
+                          }[status],
+                          "capitalize",
+                        )}
                       >
                         {status}
                       </Badge>
@@ -84,6 +96,7 @@ const DashboardCustomersOrders = () => {
                 </Link>
               ),
             )
+            .reverse()
         )}
       </div>
     </div>

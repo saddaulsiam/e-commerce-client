@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/redux/hooks";
+import { Edit } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { MdAccountCircle } from "react-icons/md";
@@ -10,15 +11,15 @@ const DashboardCustomersProfile = () => {
   const { user } = useAppSelector(({ state }) => state.auth);
 
   return (
-    <div className="mb-10 rounded-lg bg-gray-50 p-6 shadow-sm">
+    <div className="mb-10 rounded-lg bg-white p-6 shadow-sm">
       {/* Header */}
       <div className="mb-6 flex items-center justify-between">
         <h2 className="mb-4 flex items-center text-2xl font-semibold text-primary">
           <MdAccountCircle className="mr-2 text-primary" /> My Profile
         </h2>
         <Link href="/profile/edit">
-          <Button className="w-full bg-red-200 text-red-600 hover:bg-red-300 sm:w-auto">
-            Edit Profile
+          <Button className="w-full hover:bg-orange-600 sm:w-auto">
+            <Edit /> Edit Profile
           </Button>
         </Link>
       </div>
@@ -26,7 +27,7 @@ const DashboardCustomersProfile = () => {
       {/* Profile & Order Summary */}
       <div className="mb-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {/* Profile Card */}
-        <div className="col-span-2 flex items-center rounded-lg bg-white p-5 shadow-md sm:col-span-1">
+        <div className="col-span-2 flex items-center rounded-lg bg-slate-100 p-5 shadow-md sm:col-span-1">
           <Image
             className="rounded-full border"
             height={60}
@@ -42,26 +43,23 @@ const DashboardCustomersProfile = () => {
             <h3 className="text-lg font-semibold text-gray-800">
               {user?.displayName}
             </h3>
-            <p className="text-sm text-gray-500">
-              Balance: <span className="text-red-500">$500</span>
-            </p>
-            <p className="text-sm font-medium text-gray-400">SILVER USER</p>
+            <p className="text-sm font-medium text-slate-400">SILVER USER</p>
           </div>
         </div>
 
         {/* Order Summary */}
         <div className="col-span-2 grid grid-cols-2 gap-4 sm:grid-cols-4">
           {[
-            { count: 16, label: "All Orders", color: "text-red-500" },
-            { count: 2, label: "Awaiting Payments", color: "text-red-500" },
-            { count: 0, label: "Awaiting Shipment", color: "text-gray-400" },
-            { count: 1, label: "Awaiting Delivery", color: "text-red-500" },
+            { count: 16, label: "All Orders" },
+            { count: 2, label: "Awaiting Payments" },
+            { count: 0, label: "Awaiting Shipment" },
+            { count: 1, label: "Awaiting Delivery" },
           ].map((item, index) => (
             <div
               key={index}
-              className="flex flex-col items-center justify-center rounded-lg bg-white p-4 shadow-md"
+              className="flex flex-col items-center justify-center rounded-lg bg-slate-100 p-4 shadow-md"
             >
-              <h2 className={`text-xl font-semibold ${item.color}`}>
+              <h2 className="text-xl font-semibold text-primary">
                 {item.count.toString().padStart(2, "0")}
               </h2>
               <p className="text-center text-xs text-gray-500">{item.label}</p>
@@ -71,7 +69,7 @@ const DashboardCustomersProfile = () => {
       </div>
 
       {/* Personal Information */}
-      <div className="rounded-lg bg-white p-5 shadow-md">
+      <div className="rounded-lg bg-slate-100 p-5 shadow-md">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
             { label: "Full Name", value: "Nick DuBuque" },
@@ -81,7 +79,7 @@ const DashboardCustomersProfile = () => {
           ].map((item, index) => (
             <div key={index}>
               <p className="text-xs text-gray-500">{item.label}</p>
-              <p className="text-base font-medium text-gray-800">
+              <p className="text-base font-medium text-gray-600">
                 {item.value}
               </p>
             </div>
