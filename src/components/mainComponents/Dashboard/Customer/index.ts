@@ -6,5 +6,4 @@ export { default as DashboardCustomersProfile } from "./Dashboard.Customers.Prof
 export { default as DashboardCustomersProfileEdit } from "./Dashboard.Customers.Profile.Edit";
 export { default as DashboardCustomersAddresses } from "./Dashboard.Customers.Addresses";
 export { default as DashboardCustomersAddressNew } from "./Dashboard.Customers.Address.New";
-export { default as DashboardCustomersAddressEdit } from "./Dashboard.Customers.Address.Edit";
 export { default as DashboardCustomerNavigation } from "./Dashboard.Customer.Navigation";

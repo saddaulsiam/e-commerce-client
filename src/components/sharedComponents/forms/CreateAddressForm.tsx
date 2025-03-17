@@ -31,7 +31,7 @@ const CreateAddressForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 p-5">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       {/* Personal Details */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
@@ -96,13 +96,11 @@ const CreateAddressForm = () => {
       </div>
 
       {/* Submit Button */}
-      <Button
-        type="submit"
-        className="w-full rounded-md bg-primary py-2 text-lg font-medium text-white transition duration-200 hover:bg-opacity-90"
-        disabled={isLoading}
-      >
-        {isLoading ? "Submitting..." : "Create New Address"}
-      </Button>
+      <div className="pt-5">
+        <Button type="submit" className="w-full text-lg" disabled={isLoading}>
+          {isLoading ? "Submitting..." : "Create New Address"}
+        </Button>
+      </div>
     </form>
   );
 };

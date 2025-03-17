@@ -8,20 +8,14 @@ import {
 } from "@/components/ui/tooltip";
 import { useAppSelector } from "@/redux/hooks";
 import Link from "next/link";
-import {
-  MdDelete,
-  MdEdit,
-  MdEmail,
-  MdLocationPin,
-  MdPhone,
-} from "react-icons/md";
+import { MdDelete, MdEmail, MdLocationPin, MdPhone } from "react-icons/md";
 
 const DashboardCustomersAddresses = () => {
   const { user } = useAppSelector(({ state }) => state.auth);
 
   return (
-    <div className="rounded-lg bg-white p-4 shadow-sm sm:p-6">
-      <div className="flex items-center justify-between gap-4 pb-6">
+    <div className="rounded-lg bg-white p-10 shadow-sm">
+      <div className="flex items-center justify-between gap-4 pb-10">
         <h2 className="flex items-center text-xl font-semibold text-primary sm:text-2xl">
           <MdLocationPin className="mr-2 text-2xl text-primary sm:mr-3 sm:text-3xl" />
           My Addresses
@@ -41,24 +35,13 @@ const DashboardCustomersAddresses = () => {
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <h3 className="font-medium text-gray-900">{address.name}</h3>
-                  <div className="flex gap-1">
-                    <Link href="/addresses/edit">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-9 w-9 text-gray-500 hover:bg-gray-100"
-                      >
-                        <MdEdit className="text-lg" />
-                      </Button>
-                    </Link>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-9 w-9 text-red-500 hover:bg-red-100"
-                    >
-                      <MdDelete className="text-lg" />
-                    </Button>
-                  </div>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-9 w-9 text-red-500 hover:bg-red-100"
+                  >
+                    <MdDelete className="text-lg" />
+                  </Button>
                 </div>
                 <div className="space-y-2 text-sm text-gray-600">
                   <p className="flex items-start gap-2">
@@ -127,21 +110,7 @@ const DashboardCustomersAddresses = () => {
                   <div className="col-span-2 truncate text-primary">
                     {address.email}
                   </div>
-                  <div className="col-span-1 flex items-center gap-2">
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Link href={`/addresses/edit/${address._id}`}>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-8 w-8 text-gray-500 hover:bg-gray-100"
-                          >
-                            <MdEdit className="text-lg" />
-                          </Button>
-                        </Link>
-                      </TooltipTrigger>
-                      <TooltipContent>Edit Address</TooltipContent>
-                    </Tooltip>
+                  <div className="col-span-1 flex items-end justify-end gap-2">
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Button
