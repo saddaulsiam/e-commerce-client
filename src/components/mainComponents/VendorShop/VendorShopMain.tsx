@@ -98,7 +98,7 @@ const VendorMain = () => {
             ))}
           </div>
           {selectTabs === "All Products" && (
-            <div className="relative mt-5">
+            <div className="relative mt-5 sm:mt-0">
               <Input
                 type="search"
                 placeholder="Search products, brands, and categories..."
