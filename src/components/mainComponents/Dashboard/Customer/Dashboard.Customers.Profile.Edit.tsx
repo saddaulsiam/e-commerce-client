@@ -73,7 +73,7 @@ const DashboardCustomersProfileEdit = () => {
         </h2>
 
         <Link href="/profile">
-          <Button className="button">Back to Profile</Button>
+          <Button>Back to Profile</Button>
         </Link>
       </div>
 

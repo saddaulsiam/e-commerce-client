@@ -25,7 +25,7 @@ const DashboardCustomersProfile = () => {
           <MdAccountCircle className="mr-2 text-primary" /> My Profile
         </h2>
         <Link href="/profile/edit">
-          <Button className="w-full hover:bg-orange-600 sm:w-auto">
+          <Button>
             <Edit /> Edit Profile
           </Button>
         </Link>
