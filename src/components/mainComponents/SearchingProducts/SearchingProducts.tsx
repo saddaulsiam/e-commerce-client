@@ -15,13 +15,15 @@ import { useState } from "react";
 import { BiHorizontalCenter } from "react-icons/bi";
 import SearchingProductsSidebar from "./Searching.Products.Sidebar";
 
+export type SortByType = "default" | "low" | "high";
+
 const SearchingProducts = () => {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("search");
   const categoryQuery = searchParams.get("category");
 
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [sortBy, setSortBy] = useState<"default" | "low" | "high">("default");
+  const [sortBy, setSortBy] = useState<SortByType>("default");
   const [priceRange, setPriceRange] = useState([0, 1000000]);
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
     undefined,

@@ -75,17 +75,17 @@ const authApi = baseApi.injectEndpoints({
       invalidatesTags: ["Vendor"],
     }),
 
+    getVendorByName: builder.query({
+      query: (name) => ({
+        url: `/vendor/${name}`,
+        method: "GET",
+      }),
+    }),
+
     // deleteVendor: builder.mutation({
     //   query: (email) => ({
     //     url: `/vendor/${email}`,
     //     method: "DELETE",
-    //   }),
-    // }),
-
-    // getVendorByName: builder.query({
-    //   query: ({ name }) => ({
-    //     url: `/vendor/${name}`,
-    //     method: "GET",
     //   }),
     // }),
   }),
@@ -98,6 +98,6 @@ export const {
   useGetVendorCustomersQuery,
   useGetDashboardMetaQuery,
   useUpdateMyVendorMutation,
+  useGetVendorByNameQuery,
   // useDeleteVendorMutation,
-  // useGetVendorByNameQuery,
 } = authApi;

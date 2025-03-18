@@ -19,8 +19,6 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
 
-  console.log(product);
-
   // Handle Add to Cart
   const handleAddToCart = () => {
     dispatch(
