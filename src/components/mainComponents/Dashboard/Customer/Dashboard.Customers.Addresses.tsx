@@ -1,17 +1,51 @@
 "use client";
 
+import { Loading } from "@/components/sharedComponents";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import useAuth from "@/hooks/useAuth";
+import { useRemoveAddressMutation } from "@/redux/features/user/userApi";
 import { useAppSelector } from "@/redux/hooks";
 import Link from "next/link";
 import { MdDelete, MdEmail, MdLocationPin, MdPhone } from "react-icons/md";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const DashboardCustomersAddresses = () => {
+  const { setLoadUser } = useAuth();
   const { user } = useAppSelector(({ state }) => state.auth);
+  const [removeAddress, { isLoading }] = useRemoveAddressMutation();
+
+  const handleDelete = async (id: string) => {
+    Swal.fire({
+      icon: "warning",
+      title: "Confirm Address Removal",
+      text: "Are you sure you want to delete this address? This action cannot be undone.",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await removeAddress(id).unwrap();
+          if (res.success) {
+            toast.success("Address has been successfully removed.");
+            setLoadUser(true);
+          }
+        } catch (error: any) {
+          toast.error(error.message);
+        }
+      }
+    });
+  };
+
+  if (isLoading) return <Loading />;
 
   return (
     <div className="rounded-lg bg-white p-10 shadow-sm">
@@ -38,6 +72,7 @@ const DashboardCustomersAddresses = () => {
                   <Button
                     variant="ghost"
                     size="icon"
+                    onClick={() => handleDelete(address?._id as string)}
                     className="h-9 w-9 text-red-500 hover:bg-red-100"
                   >
                     <MdDelete className="text-lg" />
@@ -116,6 +151,7 @@ const DashboardCustomersAddresses = () => {
                         <Button
                           variant="ghost"
                           size="icon"
+                          onClick={() => handleDelete(address?._id as string)}
                           className="h-8 w-8 text-red-500 hover:bg-red-100"
                         >
                           <MdDelete className="text-lg" />

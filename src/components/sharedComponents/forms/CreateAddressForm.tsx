@@ -8,8 +8,10 @@ import { useAppSelector } from "@/redux/hooks";
 import { FieldValues, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import AddressSelect from "./AddressSelect";
+import { useRouter } from "next/navigation";
 
 const CreateAddressForm = () => {
+  const router = useRouter();
   const { register, handleSubmit, reset, control, setValue, watch } = useForm();
   const { setLoadUser } = useAuth();
 
@@ -24,6 +26,7 @@ const CreateAddressForm = () => {
         toast.success(res.message);
         reset();
         setLoadUser(true);
+        router.push("/addresses");
       }
     } catch (error: any) {
       toast.error(error.massage || "Failed to add address");
@@ -71,7 +74,9 @@ const CreateAddressForm = () => {
           />
         </div>
         <div>
-          <label className="mb-1 block text-sm text-gray-600">City</label>
+          <label className="mb-1 block text-sm text-gray-600">
+            Full Address
+          </label>
           <Input
             {...register("address", { required: true })}
             type="text"
@@ -84,9 +89,7 @@ const CreateAddressForm = () => {
 
       {/* Email Input */}
       <div>
-        <label className="mb-1 block text-sm text-gray-600">
-          Email (Optional)
-        </label>
+        <label className="mb-1 block text-sm text-gray-600">Email</label>
         <Input
           {...register("email")}
           type="email"

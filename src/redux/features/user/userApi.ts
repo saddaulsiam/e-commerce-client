@@ -11,10 +11,9 @@ const authApi = baseApi.injectEndpoints({
     }),
 
     removeAddress: builder.mutation({
-      query: ({ id, data }) => ({
+      query: (id) => ({
         url: `/users/${id}/address`,
         method: "DELETE",
-        body: data,
       }),
     }),
 
