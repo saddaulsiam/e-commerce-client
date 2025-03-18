@@ -91,12 +91,12 @@ const DashboardCustomersOrders = () => {
                         : "N/A"}
                     </div>
                     <div className="flex items-center gap-1">
-                      {order.paymentStatus ? (
+                      {order.isPaid ? (
                         <IoCheckmarkCircle className="text-green-500" />
                       ) : (
                         <IoCloseCircle className="text-red-500" />
                       )}
-                      <span>{order.paymentStatus ? "Paid" : "Pending"}</span>
+                      <span>{order.isPaid ? "Paid" : "Unpaid"}</span>
                     </div>
                     <div className="flex items-center">
                       {getPaymentIcon(order.paymentMethod)}

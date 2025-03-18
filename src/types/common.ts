@@ -16,6 +16,7 @@ export type TAddress = {
 export type TProfile = {
   userId: string;
   address: TAddress[];
+  birthDate: string;
   photo: string;
   orders: string[];
   createdAt: string;

@@ -2,6 +2,14 @@ import baseApi from "../api/baseApi";
 
 const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    changeUserProfile: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/users/${id}/profile`,
+        method: "PUT",
+        body: data,
+      }),
+    }),
+
     addNewAddress: builder.mutation({
       query: ({ id, data }) => ({
         url: `/users/${id}/address`,
@@ -27,6 +35,7 @@ const authApi = baseApi.injectEndpoints({
 });
 
 export const {
+  useChangeUserProfileMutation,
   useAddNewAddressMutation,
   useRemoveAddressMutation,
   useGetAllUsersQuery,
