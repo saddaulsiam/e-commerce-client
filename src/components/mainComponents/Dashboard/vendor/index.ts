@@ -1,5 +1,3 @@
-export { default as VendorNavbar } from "./Vendor.Navbar";
-export { default as VendorSideBarNavigation } from "./Vendor.SideBar.Navigation";
 export { default as VendorDashboardLayout } from "../../../../app/(dashboard)/layout";
 export { default as VendorDashboardMain } from "./Vendor.DashboardMain";
 export { default as VendorCompletedOrders } from "./Vendor.CompletedOrders";

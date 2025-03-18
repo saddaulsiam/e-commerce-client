@@ -1,6 +1,16 @@
-"use client";
+import { Dispatch, SetStateAction } from "react";
 
-export const BrandFilter = ({ selectedBrand, onBrandChange, brands }) => {
+interface TProps {
+  selectedBrand: string | undefined;
+  onBrandChange: Dispatch<SetStateAction<string | undefined>>;
+  brands: string[];
+}
+
+export const BrandFilter = ({
+  selectedBrand,
+  onBrandChange,
+  brands,
+}: TProps) => {
   const handleBrandToggle = (brand: string) => {
     // If the selected brand is already active, clear the filter
     if (selectedBrand === brand) {

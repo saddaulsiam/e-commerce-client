@@ -1,14 +1,13 @@
 "use client";
 
-import { products } from "@/data/products";
+import { ProductsCard } from "@/components/sharedComponents";
+import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
 import { useState } from "react";
 import { BiCategory } from "react-icons/bi";
 import { FiFilter } from "react-icons/fi";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { SearchingProductsSidebarMenu } from "../SearchingProducts";
-import { ProductsCard } from "@/components/sharedComponents";
 
-const VendorShopAllProducts = ({ search, setShowSidebar }) => {
+const VendorShopAllProducts = ({ search, setShowSidebar }: any) => {
   const [sort, setSort] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [filterMinPrice, setFilterMinPrice] = useState(0);
@@ -19,11 +18,11 @@ const VendorShopAllProducts = ({ search, setShowSidebar }) => {
   const [filteredByStatus, setFilteredByStatus] = useState([]);
   const [filteredProductsByColors, setFilteredProductsByColors] = useState([]);
 
-  // const { data: productsData, isLoading } = useGetProductsQuery({
-  //   limit: 8,
-  //   page: currentPage,
-  //   sort,
-  // });
+  const { data: products, isLoading } = useGetAllProductsQuery({
+    limit: 8,
+    page: currentPage,
+    sort,
+  });
 
   // useEffect(() => {
   //   if (router.query.search) {
@@ -145,7 +144,7 @@ const VendorShopAllProducts = ({ search, setShowSidebar }) => {
           //     ? filteredProductsByBrands
           products;
 
-    return productsToRender?.map((product, i) => (
+    return productsToRender?.map((product: any, i: number) => (
       <ProductsCard key={i} product={product} />
     ));
   };

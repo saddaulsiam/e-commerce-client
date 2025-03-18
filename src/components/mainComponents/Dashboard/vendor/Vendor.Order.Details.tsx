@@ -3,20 +3,19 @@ import { Loading } from "@/components/sharedComponents";
 import { Button } from "@/components/ui/button";
 import { useGetSingleOrderQuery } from "@/redux/features/order/orders/ordersApi";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { BsBagFill, BsBoxSeam } from "react-icons/bs";
 import { FcCheckmark } from "react-icons/fc";
 import { FiShoppingBag } from "react-icons/fi";
 import { TbTruckDelivery } from "react-icons/tb";
 import VendorOrderDetailsCart from "./Vendor.Order.Details.Cart";
-// import { DashboardSideBarNavigation } from "../Common";
 
 const VendorOrderDetails = () => {
-  const router = useRouter();
+  const params = useParams();
   const [showSideNavigation, setShowSideNavigation] = useState(null);
 
-  const { data: order, isLoading } = useGetSingleOrderQuery(router.query.id);
+  const { data: order, isLoading } = useGetSingleOrderQuery(params.id);
   return (
     <>
       {isLoading ? (

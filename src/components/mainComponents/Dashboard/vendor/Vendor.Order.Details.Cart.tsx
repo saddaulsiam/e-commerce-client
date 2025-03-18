@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { AiOutlineArrowRight } from "react-icons/ai";
 
-const VendorOrderDetailsCart = ({ order }) => {
+const VendorOrderDetailsCart = ({ order }: any) => {
   return (
     <>
       <div className="mt-10 overflow-x-auto print:overflow-hidden">
@@ -20,7 +20,7 @@ const VendorOrderDetailsCart = ({ order }) => {
           </thead>
           <tbody>
             {/* row */}
-            {order?.products?.map((product, i) => (
+            {order?.products?.map((product: any, i: number) => (
               <tr key={i}>
                 <td>
                   <div className="flex items-center space-x-3">

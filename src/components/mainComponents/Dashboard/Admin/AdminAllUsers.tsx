@@ -19,7 +19,7 @@ const AdminAllUsers = () => {
   });
 
   //  pagination
-  const handlePageChange = (pageNumber) => {
+  const handlePageChange = (pageNumber: any) => {
     setCurrentPage(pageNumber);
   };
 
@@ -51,7 +51,7 @@ const AdminAllUsers = () => {
               </tr>
             </thead>
             <tbody>
-              {usersData?.data?.users?.map((user, i) => (
+              {usersData?.data?.users?.map((user: any, i: number) => (
                 <tr key={i}>
                   <th>
                     <label>
@@ -67,8 +67,8 @@ const AdminAllUsers = () => {
                           "https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
                         }
                         alt="user photo"
-                        height="35px"
-                        width="35px"
+                        height="35"
+                        width="35"
                         priority
                       />
                     </div>

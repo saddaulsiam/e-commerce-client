@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useGetAllUsersQuery } from "@/redux/features/user/userApi";
+import { TUser } from "@/types/common";
 import Image from "next/image";
 import { BiUpArrowAlt } from "react-icons/bi";
 import { BsEye, BsFillCreditCardFill } from "react-icons/bs";
@@ -313,14 +314,14 @@ const AdminMainDashboard = () => {
               </thead>
               <tbody>
                 {userData?.data?.users
-                  ?.map(({ displayName, email, role, _id, photoURL }, i) => (
-                    <tr key={i}>
+                  ?.map(({ displayName, email, role, _id, profile }: TUser) => (
+                    <tr key={_id}>
                       <th>
                         <Image
                           height={50}
                           width={50}
                           src={
-                            photoURL ||
+                            profile?.photo ||
                             "https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
                           }
                           alt="user image"

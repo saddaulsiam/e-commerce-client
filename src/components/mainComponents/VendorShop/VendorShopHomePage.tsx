@@ -1,9 +1,9 @@
 "use client";
 
 import { ProductsCard } from "@/components/sharedComponents";
-import { products } from "@/data/products";
+import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import {
   AiFillThunderbolt,
   AiOutlineArrowLeft,
@@ -15,6 +15,12 @@ import { Swiper, SwiperSlide } from "swiper/react";
 const VendorShopHomePage = () => {
   const swiperPrevRef2 = useRef<any>(undefined);
   const swiperNextRef2 = useRef<any>(undefined);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const { data: products, isLoading } = useGetAllProductsQuery({
+    limit: 8,
+    page: currentPage,
+  });
   return (
     <div>
       {/* Top DesCounts */}
@@ -131,7 +137,7 @@ const VendorShopHomePage = () => {
           modules={[Navigation]}
           className="mySwiper"
         >
-          {products?.map((product, index) => (
+          {products?.data?.data?.map((product: any, index: number) => (
             <SwiperSlide
               key={index}
               className="rounded-md bg-white shadow-2xl shadow-gray-300"
@@ -159,7 +165,7 @@ const VendorShopHomePage = () => {
           <AiFillThunderbolt className="inline text-secondary" /> Just For You
         </h2>
         <div className="grid grid-cols-2 gap-x-3 gap-y-10 rounded-md sm:grid-cols-3 lg:grid-cols-5">
-          {products.map((product, index) => (
+          {products?.data?.data?.map((product: any, index: number) => (
             <ProductsCard product={product} key={index} />
           ))}
         </div>

@@ -3,6 +3,7 @@
 import { Loading } from "@/components/sharedComponents";
 import { Card, CardContent } from "@/components/ui/card";
 import { useGetBrandsQuery } from "@/redux/features/brands/brandsApi";
+import { TBrand } from "@/types/common";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -23,7 +24,7 @@ const AllBrands = () => {
   }
 
   // Filter brands based on the search query (case-insensitive)
-  const filteredBrands = brandsData?.data.filter((brand: any) =>
+  const filteredBrands = brandsData?.data.filter((brand: TBrand) =>
     brand.name.toLowerCase().includes(search.toLowerCase()),
   );
 
@@ -41,7 +42,7 @@ const AllBrands = () => {
       </div>
       {filteredBrands && filteredBrands.length > 0 ? (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 lg:grid-cols-5">
-          {filteredBrands.map((brand: any) => (
+          {filteredBrands.map((brand: TBrand) => (
             <Card
               key={brand._id}
               className="shadow transition-shadow duration-300 hover:shadow-lg"

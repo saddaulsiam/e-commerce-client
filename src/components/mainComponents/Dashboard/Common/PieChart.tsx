@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { Tooltip, ResponsiveContainer, Pie, Cell } from "recharts";
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
-const PieChart = () => {
+const PieChartComponent = () => {
   const data = [
     { name: "Group A", value: 400 },
     { name: "Group B", value: 300 },
@@ -65,4 +65,4 @@ const PieChart = () => {
   );
 };
 
-export default PieChart;
+export default PieChartComponent;
