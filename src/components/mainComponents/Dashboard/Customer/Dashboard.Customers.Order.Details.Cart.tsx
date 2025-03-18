@@ -1,18 +1,41 @@
+"use client";
+
 import { TMainOrder, TOrderStatus, TSubOrder } from "@/types/Orderstype";
 import { format } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 type TProps = {
   singleOrder: TMainOrder;
 };
 
 const DashboardCustomersOrderDetailsCart = ({ singleOrder }: TProps) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(singleOrder?._id as string);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error("Failed to copy:", err);
+    }
+  };
   return (
     <div className="mt-8 rounded-lg bg-white p-6 shadow-sm transition-all duration-300 ease-in hover:shadow-md">
       <header className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">
-          Order # {singleOrder?._id}
+        <h2 className="text-xl font-bold text-gray-800">
+          Order Id{": "}
+          <span
+            className="cursor-pointer text-base text-primary transition hover:text-orange-600"
+            onClick={handleCopy}
+          >
+            {singleOrder?._id?.slice(0, 5)}...{singleOrder?._id?.slice(-5)}
+            {copied && (
+              <span className="ml-2 text-sm text-green-500">Copied!</span>
+            )}
+          </span>
         </h2>
         <p className="mt-1 text-sm text-gray-500">
           Ordered on{" "}

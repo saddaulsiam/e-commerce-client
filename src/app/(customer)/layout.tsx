@@ -17,7 +17,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
         {/* Sidebar for larger screens */}
         <aside className="relative hidden lg:col-span-1 lg:block">
           <nav className="rounded-md bg-white p-6 shadow">
-            <h2 className="pb-4 text-sm font-bold text-gray-700">DASHBOARD</h2>
+            <h2 className="pb-4 text-xl font-bold text-gray-700">Dashboard</h2>
             <DashboardCustomerNavigation navData={userDashboard} />
           </nav>
         </aside>
@@ -25,7 +25,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
         {/* Main Content */}
         <main className="col-span-4 min-h-[80vh] px-2 lg:col-span-3">
           <div className="mb-6 flex items-center justify-between lg:hidden">
-            <h2 className="text-xl font-semibold text-primary">Dashboard</h2>
+            <h2 className="text-2xl font-semibold text-primary">Dashboard</h2>
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="outline">
@@ -33,8 +33,8 @@ const Layout = ({ children }: { children: ReactNode }) => {
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="w-64 p-6 pt-14">
-                <h2 className="pb-3 text-sm font-bold text-gray-700">
-                  DASHBOARD
+                <h2 className="pb-3 text-xl font-bold text-gray-700">
+                  Dashboard
                 </h2>
                 <DashboardCustomerNavigation navData={userDashboard} />
               </SheetContent>

@@ -6,7 +6,8 @@ import { TMainOrder, TOrderStatus } from "@/types/Orderstype";
 import { addDays, format } from "date-fns";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { BsBagFill, BsBoxSeam } from "react-icons/bs";
+import { BsBoxSeam } from "react-icons/bs";
+import { FaShoppingBag } from "react-icons/fa";
 import { FcCheckmark } from "react-icons/fc";
 import { TbTruckDelivery } from "react-icons/tb";
 import DashboardCustomersOrderDetailsCart from "./Dashboard.Customers.Order.Details.Cart";
@@ -18,16 +19,14 @@ const DashboardCustomersOrderDetails = () => {
   return (
     <div className="mb-10">
       {/* Header Section */}
-      <div className="grid grid-cols-2 gap-y-5">
-        <h2 className="text-2xl font-semibold text-primary">
-          <BsBagFill className="mr-3 inline text-2xl text-primary" />
-          <span>My Orders</span>
+      <div className="flex items-center justify-between pt-5 sm:pt-0">
+        <h2 className="flex items-center text-xl font-semibold text-primary sm:text-2xl">
+          <FaShoppingBag className="mr-2 text-2xl text-primary sm:mr-3 sm:text-3xl" />
+          My Orders
         </h2>
-        <div className="flex lg:justify-end">
-          <Link href="/orders">
-            <Button className="button">Back To Orders</Button>
-          </Link>
-        </div>
+        <Link href="/orders">
+          <Button className="button">Back To Orders</Button>
+        </Link>
       </div>
 
       {/* Order Status */}

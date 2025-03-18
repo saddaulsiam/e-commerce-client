@@ -11,7 +11,7 @@ const DashboardCustomersProfile = () => {
   const { user } = useAppSelector(({ state }) => state.auth);
 
   return (
-    <div className="mb-10 rounded-lg bg-white p-6 shadow-sm">
+    <div className="mb-10 rounded-lg bg-white p-10 shadow-sm">
       {/* Header */}
       <div className="mb-6 flex items-center justify-between">
         <h2 className="mb-4 flex items-center text-2xl font-semibold text-primary">
