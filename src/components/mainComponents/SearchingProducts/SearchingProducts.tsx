@@ -11,7 +11,7 @@ import {
 import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
 import { TProduct } from "@/types/common";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { BiHorizontalCenter } from "react-icons/bi";
 import SearchingProductsSidebar from "./Searching.Products.Sidebar";
 
@@ -25,36 +25,46 @@ const SearchingProducts = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [sortBy, setSortBy] = useState<SortByType>("default");
   const [priceRange, setPriceRange] = useState([0, 1000000]);
-  const [selectedColor, setSelectedColor] = useState<string | undefined>(
-    undefined,
-  );
-  const [selectedBrand, setSelectedBrand] = useState<string | undefined>(
-    undefined,
-  );
-  const [selectedStatus, setSelectedStatus] = useState<string | undefined>(
-    undefined,
-  );
+  const [selectedColor, setSelectedColor] = useState<string | undefined>();
+  const [selectedBrand, setSelectedBrand] = useState<string | undefined>();
+  const [selectedStatus, setSelectedStatus] = useState<string | undefined>();
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
-  const { data: products } = useGetAllProductsQuery({
-    search: searchQuery || categoryQuery || undefined,
-    sortBy: sortBy === "default" ? "createdAt" : "price",
-    sortOrder: sortBy === "high" ? "desc" : "asc",
-    limit: 8,
-    page: currentPage,
-    brand: selectedBrand || undefined,
-    color: selectedColor || undefined,
-    status: selectedStatus || undefined,
-    minPrice: priceRange[0] || undefined,
-    maxPrice: priceRange[1] || undefined,
-  });
+  // Memoized API query parameters
+  const queryParams = useMemo(
+    () => ({
+      search: searchQuery || categoryQuery || undefined,
+      sortBy: sortBy === "default" ? "createdAt" : "price",
+      sortOrder: sortBy === "high" ? "desc" : "asc",
+      limit: 8,
+      page: currentPage,
+      brand: selectedBrand || undefined,
+      color: selectedColor || undefined,
+      status: selectedStatus || undefined,
+      minPrice: priceRange[0] || undefined,
+      maxPrice: priceRange[1] || undefined,
+    }),
+    [
+      searchQuery,
+      categoryQuery,
+      sortBy,
+      currentPage,
+      selectedBrand,
+      selectedColor,
+      selectedStatus,
+      priceRange,
+    ],
+  );
 
-  const handleFilterReset = () => {
+  const { data: products } = useGetAllProductsQuery(queryParams);
+
+  // Memoized filter reset function
+  const handleFilterReset = useCallback(() => {
     setPriceRange([0, 1000000]);
     setSelectedColor(undefined);
     setSelectedBrand(undefined);
     setSelectedStatus(undefined);
-  };
+  }, []);
 
   return (
     <div className="min-h-[70vh] bg-gray-50">
