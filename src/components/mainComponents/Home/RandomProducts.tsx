@@ -19,8 +19,8 @@ const RandomProducts = () => {
     setCurrentPage(pageNumber);
   };
   return (
-    <section className="relative bg-white py-10">
-      <div className="container">
+    <section className="relative bg-white">
+      <div className="container py-16">
         <div className="flex justify-between">
           <h2 className="pb-5 text-2xl font-bold italic text-primary">
             <AiFillThunderbolt className="mr-1 inline text-primary" />

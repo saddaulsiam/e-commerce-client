@@ -5,7 +5,7 @@ import { TbTruckDelivery } from "react-icons/tb";
 
 const OurServices = () => {
   return (
-    <section className="bg-accent py-10">
+    <section className="bg-accent py-16">
       <div className="container grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
         <div className="flex flex-col items-center justify-center space-y-3 rounded-md bg-white px-6 py-10 shadow-sm hover:shadow-lg">
           <span className="rounded-full bg-gray-200 p-4">

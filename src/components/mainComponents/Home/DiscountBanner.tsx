@@ -3,7 +3,7 @@ import React from "react";
 
 const DiscountBanner = () => {
   return (
-    <section className="bg-white py-10 pb-20">
+    <section className="bg-white">
       <div className="container">
         <div className="grid h-96 grid-cols-3 gap-5 md:h-[40rem] lg:h-96">
           <div className="relative col-span-3 cursor-pointer lg:col-span-1">

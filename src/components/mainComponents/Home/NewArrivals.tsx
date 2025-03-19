@@ -12,8 +12,8 @@ const NewArrivals = () => {
   const { data: products, isLoading } = useGetAllProductsQuery({});
 
   return (
-    <section className="container mx-auto px-4 py-10">
-      <div className="flex items-center justify-between pb-6">
+    <section className="container pb-16 pt-10">
+      <div className="flex items-center justify-between">
         <h2 className="pb-5 text-2xl font-bold italic text-primary">
           <MdFiberNew className="mr-1 inline text-primary" />
           New Arrivals

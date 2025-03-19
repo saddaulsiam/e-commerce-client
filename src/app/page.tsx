@@ -1,12 +1,11 @@
 import {
-  AllCategories,
   Banner,
   DiscountBanner,
   FlashDeals,
   NewArrivals,
   OurServices,
   RandomProducts,
-  TopCategories,
+  TopCategories
 } from "@/components/mainComponents/Home";
 import { BottomBar, Footer, Navbar } from "@/components/sharedComponents";
 
@@ -19,7 +18,6 @@ const Home = () => {
       <TopCategories />
       <NewArrivals />
       <DiscountBanner />
-      <AllCategories />
       <RandomProducts />
       <OurServices />
       <BottomBar />
