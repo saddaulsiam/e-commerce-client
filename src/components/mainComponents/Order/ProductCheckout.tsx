@@ -34,7 +34,7 @@ const ProductCheckout = () => {
 
   return (
     <div className="bg-accent">
-      <div className="container pb-32">
+      <div className="container px-2 pb-32">
         <ProgressSteps />
 
         {user && user.profile?.address?.length > 0 && (

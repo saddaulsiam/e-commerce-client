@@ -14,27 +14,27 @@ const ProgressSteps = () => {
   );
 
   return (
-    <div className="flex items-center py-10">
+    <div className="flex items-center py-6 sm:py-10">
       {steps.map((step, index) => {
         const isActiveBg = index <= currentStep;
         const isActiveBorder = index < currentStep;
+
         return (
           <div key={step} className="flex items-center">
             <Link href={`/${step.toLowerCase()}`}>
               <Button
-                className={`cursor-pointer rounded-full px-6 py-2 text-sm font-semibold ${
+                className={`cursor-pointer rounded-full px-4 py-2 text-xs font-semibold transition-all sm:px-6 sm:py-2 sm:text-sm ${
                   isActiveBg ? "bg-primary text-white" : "bg-slate-200"
                 }`}
               >
-                <span className="hidden sm:block">
+                <span>
                   {index + 1}. {step}
                 </span>
-                <span className="sm:hidden">{step}</span>
               </Button>
             </Link>
             {index < steps.length - 1 && (
               <div
-                className={`w-20 border-t-4 ${
+                className={`w-12 border-t-4 transition-all sm:w-20 ${
                   isActiveBorder ? "border-primary" : "border-gray-300"
                 }`}
               />

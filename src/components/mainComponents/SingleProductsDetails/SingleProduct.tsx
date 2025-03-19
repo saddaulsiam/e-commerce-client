@@ -24,7 +24,7 @@ const SingleProduct = () => {
   const product: TProduct = singleProductData?.data;
 
   return (
-    <div className="container py-8 md:py-12">
+    <div className="container px-2 py-8 md:py-12">
       <Breadcrumbs
         items={[
           { label: "Home", href: "/" },

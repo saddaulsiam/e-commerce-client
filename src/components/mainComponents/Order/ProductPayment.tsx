@@ -8,9 +8,9 @@ import { useOrderNowMutation } from "@/redux/features/order/orders/ordersApi";
 import { useCreateSSLPaymentIntentMutation } from "@/redux/features/order/payment/paymentApi";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
+  TOrderStatus,
   TPaymentMethod,
   TPaymentStatus,
-  TOrderStatus,
 } from "@/types/Orderstype";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -83,12 +83,12 @@ const ProductPayment = () => {
         dispatch(removeOrderDetails());
       }
     } catch (error: any) {
-      console.log(error);
+      toast.error(error?.message);
     }
   };
   return (
     <div className="bg-accent">
-      <div className="container pb-20">
+      <div className="container px-2 pb-20">
         <ProgressSteps />
 
         <div className="grid grid-cols-3 gap-5">

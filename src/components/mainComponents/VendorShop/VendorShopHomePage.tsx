@@ -17,7 +17,7 @@ const VendorShopHomePage = () => {
   return (
     <>
       {/* Best sealing products */}
-      <div className="mt-10">
+      <div className="px-2 mt-10">
         <h2 className="pb-5 text-2xl font-bold italic text-primary">
           <AiFillThunderbolt className="inline text-primary" /> Best Sealing
           Products
@@ -27,7 +27,7 @@ const VendorShopHomePage = () => {
       </div>
 
       {/* Just for you products */}
-      <div className="my-20">
+      <div className="px-2 my-20">
         <h2 className="pb-5 text-2xl font-bold italic text-primary">
           <AiFillThunderbolt className="inline text-primary" /> Just For You
         </h2>

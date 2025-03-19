@@ -68,7 +68,7 @@ const SearchingProducts = () => {
 
   return (
     <div className="min-h-[70vh] bg-gray-50">
-      <div className="container mx-auto px-4 py-6">
+      <div className="container mx-auto px-2 py-6">
         {/* Header */}
         <div className="mb-6">
           <h1 className="mb-2 text-2xl font-bold text-gray-900">
@@ -153,7 +153,7 @@ const SearchingProducts = () => {
             </div>
 
             {/* Products */}
-            <div className="grid grid-cols-1 gap-x-3 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="grid grid-cols-2 gap-x-3 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
               {products?.data?.data?.map((product: TProduct) => (
                 <ProductsCard key={product._id} product={product} />
               ))}

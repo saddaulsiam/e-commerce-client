@@ -20,7 +20,7 @@ const ProductCart = () => {
 
   return (
     <div className="bg-accent">
-      <div className="container">
+      <div className="container px-2">
         <ProgressSteps />
 
         <div className="grid grid-cols-3 gap-5 pb-32">
