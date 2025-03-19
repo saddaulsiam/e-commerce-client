@@ -48,7 +48,7 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
             alt={product.name}
             width={400}
             height={250}
-            className="h-52 w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            className="h-32 w-full object-cover transition-transform duration-300 group-hover:scale-105 md:h-52"
             priority
           />
           {/* Floating Icons */}
@@ -75,7 +75,7 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
         </div>
 
         {/* Product Details */}
-        <div className="p-4">
+        <div className="p-1.5 md:p-4">
           <Link href={`/product/${product._id}`}>
             <h3 className="truncate text-lg font-semibold capitalize text-gray-800 transition duration-200 hover:text-primary">
               {product?.name}
@@ -98,7 +98,7 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
         <div className="flex">
           {/* Add to Cart Button */}
           <button
-            className="flex w-1/2 items-center justify-center gap-1 rounded-bl-lg bg-slate-200 px-4 py-3 font-semibold text-my-gray-200 transition-all duration-300 ease-in hover:bg-slate-300 active:scale-95"
+            className="flex w-1/2 items-center justify-center gap-1 rounded-bl-lg bg-slate-200 py-1.5 font-semibold text-my-gray-200 transition-all duration-300 ease-in hover:bg-slate-300 active:scale-95 md:py-3"
             onClick={handleAddToCart}
           >
             <BsCart2 className="pr-1 text-lg" />
@@ -108,7 +108,7 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
 
           {/* Buy Now Button */}
           <button
-            className="flex w-1/2 items-center justify-center gap-1 rounded-br-lg bg-primary px-4 py-3 font-semibold text-white transition-all duration-300 hover:bg-orange-600 active:scale-95"
+            className="flex w-1/2 items-center justify-center gap-1 rounded-br-lg bg-primary py-1.5 font-semibold text-white transition-all duration-300 hover:bg-orange-600 active:scale-95 md:py-3"
             onClick={() => {
               handleAddToCart();
               router.push("/checkout");

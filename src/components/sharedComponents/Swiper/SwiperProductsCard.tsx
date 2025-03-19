@@ -15,19 +15,19 @@ const SwiperProductsCard = ({ products }: { products: TProduct[] }) => {
       breakpoints={{
         0: {
           slidesPerView: 2,
-          spaceBetween: 5,
+          spaceBetween: 12,
         },
         768: {
           slidesPerView: 3,
-          spaceBetween: 10,
+          spaceBetween: 12,
         },
         1024: {
           slidesPerView: 4,
-          spaceBetween: 10,
+          spaceBetween: 12,
         },
         1440: {
           slidesPerView: 5,
-          spaceBetween: 10,
+          spaceBetween: 12,
         },
       }}
       navigation={{

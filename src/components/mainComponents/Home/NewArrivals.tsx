@@ -12,7 +12,7 @@ const NewArrivals = () => {
   const { data: products, isLoading } = useGetAllProductsQuery({});
 
   return (
-    <section className="container pb-16 pt-10">
+    <section className="container px-2 pb-16 pt-10">
       <div className="flex items-center justify-between">
         <h2 className="pb-5 text-2xl font-bold italic text-primary">
           <MdFiberNew className="mr-1 inline text-primary" />

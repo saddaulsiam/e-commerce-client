@@ -20,7 +20,7 @@ const RandomProducts = () => {
   };
   return (
     <section className="relative bg-white">
-      <div className="container py-16">
+      <div className="container px-2 py-16">
         <div className="flex justify-between">
           <h2 className="pb-5 text-2xl font-bold italic text-primary">
             <AiFillThunderbolt className="mr-1 inline text-primary" />

@@ -14,7 +14,7 @@ const FlashDeals = () => {
 
   return (
     <section className="bg-white">
-      <div className="container pb-16 pt-10">
+      <div className="container px-2 pb-16 pt-10">
         <div className="flex justify-between">
           <h2 className="pb-5 text-2xl font-bold italic text-primary">
             <AiFillThunderbolt className="inline" /> Flash Deals
