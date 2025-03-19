@@ -145,7 +145,9 @@ const ProductsModal = ({ setIsOpen, isOpen, product }: TProps) => {
                 )}
               </div>
             </div>
-            <p className="text-lg leading-8">{product?.description}</p>
+            <p className="text-base leading-relaxed text-gray-600">
+              {product?.description}
+            </p>
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-4 rounded-lg border border-gray-200 px-4 py-2">
                 <button
