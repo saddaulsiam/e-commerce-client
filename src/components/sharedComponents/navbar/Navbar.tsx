@@ -7,6 +7,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -30,6 +31,7 @@ import CategoriesDropDownContent from "../DropDown/CategoriesDropDownContent";
 import LoginModal from "../modal/Loginmodal";
 import MobileMenu from "./MobileMenu";
 import NavMegaMenu from "./NavMegaMenu";
+import { myAccount, vendorAccount } from "@/data/navbar.navigation";
 
 const Navbar = () => {
   const router = useRouter();
@@ -157,28 +159,29 @@ const Navbar = () => {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-48">
-                  <div className="px-2 py-1.5 text-sm font-medium">
+                  <DropdownMenuLabel>
                     {user.displayName || user.email}
-                  </div>
+                  </DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <Link
-                    href={
-                      user.role === USER_ROLE.customer
-                        ? "/account"
-                        : user.role === USER_ROLE.vendor
-                          ? "/vendor/dashboard"
-                          : "/"
-                    }
-                  >
-                    <DropdownMenuItem className="cursor-pointer">
-                      My Account
-                    </DropdownMenuItem>
-                  </Link>
-                  <Link href="/orders">
-                    <DropdownMenuItem className="cursor-pointer">
-                      My Orders
-                    </DropdownMenuItem>
-                  </Link>
+
+                  {user?.role === USER_ROLE.customer &&
+                    myAccount.map((account) => (
+                      <Link href={account.href} key={account.name}>
+                        <DropdownMenuItem className="cursor-pointer">
+                          {account.name}
+                        </DropdownMenuItem>
+                      </Link>
+                    ))}
+
+                  {user?.role === USER_ROLE.vendor &&
+                    vendorAccount.map((account) => (
+                      <Link href={account.href} key={account.name}>
+                        <DropdownMenuItem className="cursor-pointer">
+                          {account.name}
+                        </DropdownMenuItem>
+                      </Link>
+                    ))}
+
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
                     onClick={handleLogOut}

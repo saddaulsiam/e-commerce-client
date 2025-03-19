@@ -96,37 +96,36 @@ const NavMegaMenu = ({ isScrolled, user }: TProps) => {
 
               {/* My Account Dropdown - Customer */}
               {user?.role === USER_ROLE.customer && (
-                <NavigationMenuItem className="relative">
-                  <NavigationMenuTrigger>My Account</NavigationMenuTrigger>
-                  <NavigationMenuContent className="absolute left-0 z-50 flex min-w-48 flex-col gap-y-1 rounded-md border bg-white p-1.5 shadow-md">
-                    <Label className="cursor-auto p-1 pl-2 text-sm">
-                      My Account
-                    </Label>
-                    <Separator />
-                    {myAccount.map((item, i) => (
-                      <Link href={item.href} passHref legacyBehavior key={i}>
-                        <NavigationMenuLink asChild>
-                          <a className="p-1 pl-2 text-sm transition-all duration-100 ease-in hover:bg-accent hover:text-primary">
-                            {item.name}
-                          </a>
-                        </NavigationMenuLink>
-                      </Link>
-                    ))}
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-              )}
+                <>
+                  <NavigationMenuItem className="relative">
+                    <NavigationMenuTrigger>My Account</NavigationMenuTrigger>
+                    <NavigationMenuContent className="absolute left-0 z-50 flex min-w-48 flex-col gap-y-1 rounded-md border bg-white p-1.5 shadow-md">
+                      <Label className="cursor-auto p-1 pl-2 text-sm">
+                        My Account
+                      </Label>
+                      <Separator />
+                      {myAccount.map((item, i) => (
+                        <Link href={item.href} passHref legacyBehavior key={i}>
+                          <NavigationMenuLink asChild>
+                            <a className="p-1 pl-2 text-sm transition-all duration-100 ease-in hover:bg-accent hover:text-primary">
+                              {item.name}
+                            </a>
+                          </NavigationMenuLink>
+                        </Link>
+                      ))}
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
 
-              {/* Track My Order - Customer Only */}
-              {user?.role === USER_ROLE.customer && (
-                <NavigationMenuItem>
-                  <Link href="/orders" passHref legacyBehavior>
-                    <NavigationMenuLink asChild>
-                      <a className={navigationMenuTriggerStyle()}>
-                        Track My Order
-                      </a>
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
+                  <NavigationMenuItem>
+                    <Link href="/orders" passHref legacyBehavior>
+                      <NavigationMenuLink asChild>
+                        <a className={navigationMenuTriggerStyle()}>
+                          Track My Order
+                        </a>
+                      </NavigationMenuLink>
+                    </Link>
+                  </NavigationMenuItem>
+                </>
               )}
             </NavigationMenuList>
           </NavigationMenu>
