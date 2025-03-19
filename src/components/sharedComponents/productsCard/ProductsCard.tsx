@@ -101,8 +101,9 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
             className="flex w-1/2 items-center justify-center gap-1 rounded-bl-lg bg-slate-200 px-4 py-3 font-semibold text-my-gray-200 transition-all duration-300 ease-in hover:bg-slate-300 active:scale-95"
             onClick={handleAddToCart}
           >
-            {/* <BsCart2 className="text-lg pr-1" /> */}
-            Add to Cart
+            <BsCart2 className="pr-1 text-lg" />
+            Add
+            <span className="hidden xl:block"> to Cart</span>
           </button>
 
           {/* Buy Now Button */}
@@ -113,7 +114,8 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
               router.push("/checkout");
             }}
           >
-            ⚡ Buy Now
+            ⚡ Buy
+            <div className="hidden xl:block">Now</div>
           </button>
         </div>
 
