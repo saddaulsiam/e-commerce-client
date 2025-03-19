@@ -1,32 +1,39 @@
-import React from "react";
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { BiCart, BiHomeAlt } from "react-icons/bi";
 import { MdOutlineAccountCircle } from "react-icons/md";
-import { BiHomeAlt, BiCategoryAlt, BiCart } from "react-icons/bi";
 
 const BottomBar = () => {
+  const pathname = usePathname();
+
+  const navItems = [
+    { href: "/", label: "Home", icon: <BiHomeAlt className="h-5 w-5" /> },
+    { href: "/cart", label: "Cart", icon: <BiCart className="h-5 w-5" /> },
+    {
+      href: "/profile",
+      label: "Account",
+      icon: <MdOutlineAccountCircle className="h-5 w-5" />,
+    },
+  ];
+
   return (
-    <div className="fixed bottom-0 z-50 w-full bg-white lg:hidden">
-      <ul className="flex text-primary/80">
-        <Link href="/">
-          <li className="flex w-full cursor-pointer flex-col items-center justify-center py-2 hover:text-secondary">
-            <BiHomeAlt className="h-6 w-6" /> <p>Home</p>
-          </li>
-        </Link>
-        <Link href="#">
-          <li className="flex w-full cursor-pointer flex-col items-center justify-center py-2 hover:text-secondary">
-            <BiCategoryAlt className="h-6 w-6" /> <p>Categories</p>
-          </li>
-        </Link>
-        <Link href="/cart">
-          <li className="flex w-full cursor-pointer flex-col items-center justify-center py-2 hover:text-secondary">
-            <BiCart className="h-6 w-6" /> <p>Cart</p>
-          </li>
-        </Link>
-        <Link href="customer/profile">
-          <li className="flex w-full cursor-pointer flex-col items-center justify-center py-2 hover:text-secondary">
-            <MdOutlineAccountCircle className="h-6 w-6" /> <p>Account</p>
-          </li>
-        </Link>
+    <div className="fixed bottom-4 left-1/2 z-50 w-[90%] -translate-x-1/2 rounded-2xl bg-white shadow-lg lg:hidden">
+      <ul className="flex items-center justify-around p-2 text-primary/80">
+        {navItems.map(({ href, label, icon }) => (
+          <Link key={href} href={href}>
+            <li
+              className={`flex w-full cursor-pointer flex-col items-center justify-center rounded-xl p-3 transition-all ${
+                pathname === href
+                  ? "bg-gray-100 text-primary"
+                  : "hover:text-primary"
+              }`}
+            >
+              {icon} <p className="text-xs">{label}</p>
+            </li>
+          </Link>
+        ))}
       </ul>
     </div>
   );
