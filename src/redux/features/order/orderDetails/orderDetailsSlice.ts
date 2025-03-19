@@ -2,19 +2,11 @@ import { TAddress } from "@/types/common";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface TDetails {
-  shippingAddress: TAddress;
+  shippingAddress: TAddress | null;
 }
 
 const initialState: TDetails = {
-  shippingAddress: {
-    name: "",
-    email: "",
-    phoneNumber: "",
-    street: "",
-    city: "",
-    area: "",
-    address: "",
-  },
+  shippingAddress: null,
 };
 
 // Create Slice
@@ -25,7 +17,9 @@ const orderDetailsSlice = createSlice({
     addOrderDetails: (state, action: PayloadAction<TAddress>) => {
       state.shippingAddress = action.payload;
     },
-    removeOrderDetails: () => initialState,
+    removeOrderDetails: (state) => {
+      state.shippingAddress = null;
+    },
   },
 });
 

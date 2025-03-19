@@ -32,6 +32,7 @@ import CategoriesDropDownContent from "../DropDown/CategoriesDropDownContent";
 import LoginModal from "../modal/Loginmodal";
 import NavMegaMenu from "./NavMegaMenu";
 import { X } from "lucide-react";
+import { removeOrderDetails } from "@/redux/features/order/orderDetails/orderDetailsSlice";
 
 const Navbar = () => {
   const router = useRouter();
@@ -64,6 +65,7 @@ const Navbar = () => {
   const handleLogOut = async () => {
     await logOut();
     dispatch(logOutUser());
+    dispatch(removeOrderDetails());
     localStorage.removeItem("access-token");
   };
 

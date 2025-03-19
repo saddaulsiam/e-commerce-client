@@ -1,5 +1,6 @@
 "use client";
 
+import { Loading } from "@/components/sharedComponents";
 import useAuth from "@/hooks/useAuth";
 import { auth } from "@/providers/AuthProvider";
 import { usePathname, useRouter } from "next/navigation";
@@ -21,7 +22,7 @@ const PrivateRoute = ({ children }: { children: ReactNode }) => {
   }, [loading, pathname, router]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return <>{children}</>;

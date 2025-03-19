@@ -1,6 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { useAppSelector } from "@/redux/hooks";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -8,41 +10,91 @@ const steps = ["Cart", "Checkout", "Payment"];
 
 const ProgressSteps = () => {
   const path = usePathname();
-  const currentPath = path.replace("/", "");
+  const { cartItems } = useAppSelector(({ state }) => state.cart);
+  const { shippingAddress } = useAppSelector(({ state }) => state.orderDetails);
+
   const currentStep = steps.findIndex(
-    (step) => step.toLowerCase() === currentPath,
+    (step) => path.toLowerCase() === `/${step.toLowerCase()}`,
   );
 
-  return (
-    <div className="flex items-center py-6 sm:py-10">
-      {steps.map((step, index) => {
-        const isActiveBg = index <= currentStep;
-        const isActiveBorder = index < currentStep;
+  const isStepActive = (stepIndex: number) => currentStep >= stepIndex;
+  const isConnectionActive = (stepIndex: number) => currentStep > stepIndex;
 
-        return (
-          <div key={step} className="flex items-center">
-            <Link href={`/${step.toLowerCase()}`}>
-              <Button
-                className={`cursor-pointer rounded-full px-4 py-2 text-xs font-semibold transition-all sm:px-6 sm:py-2 sm:text-sm ${
-                  isActiveBg ? "bg-primary text-white" : "bg-slate-200"
-                }`}
-              >
-                <span>
-                  {index + 1}. {step}
-                </span>
-              </Button>
+  return (
+    <nav className="flex items-center py-6 sm:py-10">
+      {/* Cart Step */}
+      <div className="flex items-center">
+        <Button
+          className={cn(
+            "cursor-pointer rounded-full px-4 py-2 text-xs font-semibold transition-all sm:px-6 sm:py-2 sm:text-sm",
+            {
+              "bg-primary text-white": isStepActive(0),
+              "bg-slate-200 text-slate-600 hover:text-white": !isStepActive(0),
+            },
+          )}
+        >
+          <Link href="/cart">
+            <span>1. Cart</span>
+          </Link>
+        </Button>
+        <div
+          className={cn("w-12 border-t-4 transition-all sm:w-20", {
+            "border-primary": isConnectionActive(0),
+            "border-gray-300": !isConnectionActive(0),
+          })}
+        />
+      </div>
+
+      {/* Checkout Step */}
+      <div className="flex items-center">
+        <Button
+          disabled={cartItems.length === 0}
+          className={cn(
+            "cursor-pointer rounded-full px-4 py-2 text-xs font-semibold transition-all sm:px-6 sm:py-2 sm:text-sm",
+            {
+              "bg-primary text-white": isStepActive(1),
+              "bg-slate-200 text-slate-600 hover:text-white": !isStepActive(1),
+            },
+          )}
+        >
+          {cartItems.length > 0 ? (
+            <Link href="/checkout">
+              <span>2. Checkout</span>
             </Link>
-            {index < steps.length - 1 && (
-              <div
-                className={`w-12 border-t-4 transition-all sm:w-20 ${
-                  isActiveBorder ? "border-primary" : "border-gray-300"
-                }`}
-              />
-            )}
-          </div>
-        );
-      })}
-    </div>
+          ) : (
+            <span>2. Checkout</span>
+          )}
+        </Button>
+        <div
+          className={cn("w-12 border-t-4 transition-all sm:w-20", {
+            "border-primary": isConnectionActive(1),
+            "border-gray-300": !isConnectionActive(1),
+          })}
+        />
+      </div>
+
+      {/* Payment Step */}
+      <div className="flex items-center">
+        <Button
+          disabled={cartItems.length === 0 || !shippingAddress}
+          className={cn(
+            "cursor-pointer rounded-full px-4 py-2 text-xs font-semibold transition-all sm:px-6 sm:py-2 sm:text-sm",
+            {
+              "bg-primary text-white": isStepActive(2),
+              "bg-slate-200 text-slate-600 hover:text-white": !isStepActive(2),
+            },
+          )}
+        >
+          {cartItems.length > 0 && shippingAddress ? (
+            <Link href="/payment">
+              <span>3. Payment</span>
+            </Link>
+          ) : (
+            <span>3. Payment</span>
+          )}
+        </Button>
+      </div>
+    </nav>
   );
 };
 
