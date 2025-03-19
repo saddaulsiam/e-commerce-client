@@ -14,6 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import { USER_ROLE } from "@/contants/common";
+import { myAccount, vendorAccount } from "@/data/navbar.navigation";
 import useAuth from "@/hooks/useAuth";
 import { logOutUser } from "@/redux/features/auth/authSlice";
 import { useAppSelector } from "@/redux/hooks";
@@ -29,9 +30,8 @@ import { useDispatch } from "react-redux";
 import AnnouncementBar from "../announcementBar/AnnouncementBar";
 import CategoriesDropDownContent from "../DropDown/CategoriesDropDownContent";
 import LoginModal from "../modal/Loginmodal";
-import MobileMenu from "./MobileMenu";
 import NavMegaMenu from "./NavMegaMenu";
-import { myAccount, vendorAccount } from "@/data/navbar.navigation";
+import { X } from "lucide-react";
 
 const Navbar = () => {
   const router = useRouter();
@@ -41,6 +41,7 @@ const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [openLoginModal, setOpenLoginModal] = useState<boolean>(false);
+  const [showMobileSearch, setShowMobileSearch] = useState<boolean>(false);
 
   const { cartItems } = useAppSelector(({ state }) => state.cart);
   const { user } = useAppSelector(({ state }) => state.auth);
@@ -65,16 +66,18 @@ const Navbar = () => {
     dispatch(logOutUser());
     localStorage.removeItem("access-token");
   };
+
   return (
-    <header className="sticky left-0 top-0 z-50 w-full">
+    <header className="sticky left-0 top-0 z-50 w-full bg-white">
       <AnnouncementBar />
       <nav
-        className={`bg-white py-1.5 transition-all duration-300 ease-in-out ${isScrolled ? "shadow-lg" : "shadow-sm"}`}
+        className={`p-2 transition-all duration-300 ease-in-out ${
+          isScrolled ? "shadow-lg" : "shadow-sm"
+        }`}
       >
         <div className="container mx-auto flex items-center justify-between py-4">
           {/* Left Section (Logo & Categories) */}
           <div className="flex items-center gap-2">
-            <MobileMenu user={user} />
             <Link href="/" className="shrink-0">
               <Image
                 src="/logo/logo.svg"
@@ -101,7 +104,7 @@ const Navbar = () => {
             </DropdownMenu>
           </div>
 
-          {/* Center Section - Search */}
+          {/* Center Section - Search (Hidden on Mobile) */}
           <div className="hidden w-full max-w-2xl lg:block">
             <form onSubmit={handleSearch} className="relative">
               <Input
@@ -122,10 +125,17 @@ const Navbar = () => {
           </div>
 
           {/* Right Section (Icons & User Menu) */}
-          <div className="flex items-center space-x-5">
+          <div className="flex items-center space-x-4">
+            <button
+              className="text-gray-700 lg:hidden"
+              onClick={() => setShowMobileSearch((pre) => !pre)}
+            >
+              <FiSearch className="h-6 w-6" />
+            </button>
+
             {/* Cart Icon (Triggers Sidebar) */}
             <Sheet>
-              <SheetTrigger asChild>
+              <SheetTrigger asChild className="hidden lg:block">
                 <div className="relative cursor-pointer p-2 text-gray-700 transition-colors hover:text-primary">
                   <FiShoppingCart className="h-6 w-6" />
                   {cartItems.length > 0 && (
@@ -137,6 +147,7 @@ const Navbar = () => {
               </SheetTrigger>
               <SideBarShoppingCart />
             </Sheet>
+
             {/* Auth Section */}
             {user ? (
               <DropdownMenu>
@@ -199,9 +210,9 @@ const Navbar = () => {
                   onClick={() => setOpenLoginModal((pre) => !pre)}
                 >
                   <HiOutlineUserCircle className="h-5 w-5" />
-                  <span className="hidden lg:inline">Sign In</span>
+                  <span>Sign In</span>
                 </Button>
-                <span className="text-gray-300">|</span>
+                <span className="hidden text-gray-300 lg:inline">|</span>
                 <Link
                   href="/register"
                   className="hover:bg-primary-dark hidden rounded-md bg-primary px-4 py-2 text-sm font-medium text-white lg:block"
@@ -216,6 +227,42 @@ const Navbar = () => {
         {/* Navbar Menu */}
         <NavMegaMenu isScrolled={isScrolled} user={user} />
       </nav>
+
+      {/* Mobile Search Bar */}
+      {showMobileSearch && (
+        <div className="flex flex-col items-center bg-white p-3">
+          <form
+            onSubmit={handleSearch}
+            className="flex w-full max-w-md items-center space-x-2"
+          >
+            <Input
+              type="search"
+              placeholder="Search..."
+              className="flex-1 rounded-full px-4 py-2 text-sm"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              autoFocus
+            />
+            <Button
+              type="submit"
+              size="icon"
+              className="h-10 w-10 rounded-full"
+            >
+              <FiSearch className="h-5 w-5" />
+            </Button>
+            <Button
+              size="icon"
+              variant="outline"
+              className="h-10 w-10 rounded-full"
+              onClick={() => setShowMobileSearch(false)}
+            >
+              <X />
+            </Button>
+          </form>
+        </div>
+      )}
+
+      {/* Login Modal */}
       <LoginModal
         openLoginModal={openLoginModal}
         setOpenLoginModal={setOpenLoginModal}
