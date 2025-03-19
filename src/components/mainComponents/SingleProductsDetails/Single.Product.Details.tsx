@@ -190,10 +190,10 @@ const SingleProductDetails = ({ product }: Props) => {
         <div className="flex items-center gap-2">
           <span className="text-gray-600">Category:</span>
           <Link
-            href={`/product?search=${product?.category}` || ""}
-            className="font-medium text-gray-900 hover:text-primary hover:underline"
+            href={`/product?category=${product?.category}` || ""}
+            className="font-medium capitalize text-gray-900 hover:text-primary hover:underline"
           >
-            {product?.category}
+            {product?.category.split("-")[2]}
           </Link>
         </div>
         <div className="flex items-center gap-2">

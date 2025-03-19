@@ -2,16 +2,15 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import RatingStars from "@/components/ui/rating";
-import { addToCart, decreaseQuantity } from "@/redux/features/cart/cartSlice";
-import { useAppSelector } from "@/redux/hooks";
+import { addToCart } from "@/redux/features/cart/cartSlice";
+import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { TProduct } from "@/types/common";
-import { Minus, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";
-import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 
 type TProps = {
   setIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -21,136 +20,159 @@ type TProps = {
 
 const ProductsModal = ({ setIsOpen, isOpen, product }: TProps) => {
   const router = useRouter();
-  const dispatch = useDispatch();
-  const [image, setImage] = useState(product.images[0]);
+  const dispatch = useAppDispatch();
 
-  // Get the current product from the cart items based on its _id
+  // Get the current product from the cart if it exists
   const { cartItems } = useAppSelector(({ state }) => state.cart);
   const currentProduct = cartItems.find(
     (item) => item.productId === product._id,
   );
 
-  // Handle Add to Cart
+  // Initialize local quantity state with currentProduct's quantity if available, otherwise default to 1
+  const [quantity, setQuantity] = useState<number>(
+    currentProduct?.quantity ?? 1,
+  );
+  const [selectedImage, setSelectedImage] = useState(0);
+
+  const discountedPrice = product?.price - product?.discount;
+  const discountPercentage = Math.round(
+    (product?.discount / product?.price) * 100,
+  );
+
+  const handleQuantityChange = (type: "increment" | "decrement") => {
+    setQuantity((prev) =>
+      Math.max(1, type === "increment" ? prev + 1 : prev - 1),
+    );
+  };
+
   const handleAddToCart = () => {
     dispatch(
       addToCart({
+        name: product?.name,
+        price: product?.price,
         productId: product?._id as string,
         vendorId: product?.supplier?._id,
-        image: product.images[0],
-        name: product.name,
-        price: product.price,
-        quantity: 1,
-        color: product?.colors[0],
-        size: product?.sizes[0],
+        image: product?.images[0],
+        quantity: quantity,
+        color: product?.colors ? product?.colors[0] : "",
+        size: product?.sizes ? product?.sizes[0] : "",
       }),
     );
-
-    toast.success("Added to cart");
+    toast.success("Product added to cart");
     setIsOpen(false);
-  };
-
-  // Handle Decrease Quantity
-  const handleDecreaseQuantity = () => {
-    if (currentProduct && currentProduct?.quantity > 1) {
-      dispatch(decreaseQuantity(product?._id as string));
-      setIsOpen(false);
-      toast.info("Decrease Quantity");
-    }
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="mx-auto rounded-xl p-6 sm:max-w-3xl">
-        <div className="grid grid-cols-2 gap-6">
-          {/* Image Section */}
-          <div className="w-full">
-            <Image
-              className="rounded-md object-cover object-center"
-              height="600"
-              width="350"
-              src={image}
-              alt={product.name}
-              priority
-            />
-            <div className="mt-3 flex gap-x-2">
-              {product.images.slice(0, 4).map((img, i) => (
+      <DialogContent className="mx-auto rounded-xl p-6 sm:max-w-4xl">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+          {/* Left: Product Images Section */}
+          <div className="space-y-4">
+            <div className="relative w-full overflow-hidden rounded-xl bg-gray-50">
+              {product?.images?.length ? (
                 <Image
-                  key={i}
-                  className="cursor-pointer rounded-md border object-cover p-1 hover:border-primary"
-                  height="80"
-                  width="80"
-                  src={img}
+                  src={product.images[selectedImage]}
                   alt={product.name}
-                  onClick={() => setImage(img)}
+                  width={800}
+                  height={800}
+                  className="block h-full w-full object-contain object-center"
                   priority
                 />
-              ))}
+              ) : (
+                <div className="flex h-full items-center justify-center bg-gray-100 text-gray-500">
+                  No Image Available
+                </div>
+              )}
             </div>
+            {product?.images?.length > 0 && (
+              <div className="grid grid-cols-5 gap-2">
+                {product.images.map((img: string, index: number) => (
+                  <button
+                    key={index}
+                    onClick={() => setSelectedImage(index)}
+                    className={`relative block overflow-hidden rounded-lg border-2 transition-all duration-200 ${
+                      selectedImage === index
+                        ? "border-primary"
+                        : "border-transparent hover:border-gray-300"
+                    }`}
+                  >
+                    <Image
+                      src={img}
+                      width={100}
+                      height={100}
+                      alt={product.name}
+                      className="block h-full w-full object-cover"
+                      loading={index > 2 ? "lazy" : "eager"}
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Product Info Section */}
-          <div className="space-y-4 text-sm text-gray-700">
-            <Link href={`product/${product._id}`}>
-              <DialogTitle className="text-xl font-semibold capitalize text-black transition hover:text-primary sm:text-2xl">
-                {product.name}
-              </DialogTitle>
-            </Link>
-
-            {/* Short Description Section */}
-            <p className="text-gray-600">{product.description}</p>
-
-            <p>
-              Brand:{" "}
-              <span className="font-semibold text-primary">
-                {product?.brand}
+          {/* Right: Product Details Section */}
+          <div className="space-y-6">
+            <DialogTitle className="text-3xl font-semibold text-gray-900">
+              {product?.name}
+            </DialogTitle>
+            <div className="flex flex-wrap items-center gap-3">
+              <RatingStars rating={product?.rating as number} />
+              <span className="text-sm text-gray-500">
+                ({product?.reviews?.length || 0} reviews)
               </span>
-            </p>
-            <p className="flex">
-              Rating: <RatingStars rating={product?.rating as number} />
-              <span className="font-semibold text-primary">
-                {" "}
-                ({product?.reviews?.length + " Reviews" || 0})
-              </span>
-            </p>
-            <p>Status: {product.stock > 0 ? "In Stock" : "Out of Stock"}</p>
-
-            {/* Price Section */}
-            <div className="flex items-center space-x-3">
-              <span className="text-2xl font-bold text-primary sm:text-3xl">
-                ${(product.price - 2).toFixed(2)}
-              </span>
-              <span className="text-lg font-semibold text-gray-400 line-through">
-                ${product.price}
+              <span className="text-sm text-gray-500">•</span>
+              <span className="text-sm font-medium text-green-600">
+                {product?.stock > 0 ? "In Stock" : "Out of Stock"}
               </span>
             </div>
-
-            {/* Quantity Section */}
-            <div className="flex items-center gap-4">
-              <Button
-                className="size-10 rounded-md bg-slate-200 text-xl text-slate-600 hover:text-slate-600"
-                onClick={handleDecreaseQuantity}
-              >
-                <Minus />
-              </Button>
-              <span className="text-xl">{currentProduct?.quantity || 0}</span>
-              <Button
-                className="size-10 rounded-md bg-slate-200 text-xl text-slate-600 hover:text-slate-600"
-                onClick={handleAddToCart}
-              >
-                <Plus />
-              </Button>
+            <div className="flex flex-wrap items-center gap-3">
+              {product?.discount > 0 && (
+                <span className="rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-800">
+                  -{discountPercentage}% off
+                </span>
+              )}
+              <div className="flex items-center gap-2">
+                <span className="text-2xl font-bold text-primary">
+                  $
+                  {product?.discount
+                    ? discountedPrice.toFixed(2)
+                    : product?.price.toFixed(2)}
+                </span>
+                {product?.discount > 0 && (
+                  <span className="text-sm text-gray-500 line-through">
+                    ${product?.price.toFixed(2)}
+                  </span>
+                )}
+              </div>
             </div>
-
-            {/* Buttons Section */}
-            <div className="mt-4 flex gap-4">
+            <p className="text-lg leading-8">{product?.description}</p>
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-4 rounded-lg border border-gray-200 px-4 py-2">
+                <button
+                  onClick={() => handleQuantityChange("decrement")}
+                  className="rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-primary"
+                >
+                  <AiOutlineMinus className="h-4 w-4" />
+                </button>
+                <span className="w-8 text-center font-medium">{quantity}</span>
+                <button
+                  onClick={() => handleQuantityChange("increment")}
+                  className="rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-primary"
+                >
+                  <AiOutlinePlus className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+            <div className="flex gap-4">
               <Button
-                className="flex-1 bg-slate-200 font-semibold text-my-gray-200 transition-all duration-300 ease-in hover:bg-slate-300 active:scale-95"
                 onClick={handleAddToCart}
+                className="flex-1 rounded-lg bg-primary text-base font-medium hover:bg-primary/90"
               >
                 Add to Cart
               </Button>
               <Button
-                className="flex-1 bg-orange-500 text-white transition-all hover:bg-orange-600"
+                variant="outline"
+                className="flex-1 rounded-lg text-base font-medium"
                 onClick={() => {
                   handleAddToCart();
                   router.push("/cart");
@@ -158,6 +180,26 @@ const ProductsModal = ({ setIsOpen, isOpen, product }: TProps) => {
               >
                 Buy Now
               </Button>
+            </div>
+            <div className="space-y-2 pt-4 text-sm">
+              <div className="flex items-center gap-2">
+                <span className="text-gray-600">Category:</span>
+                <Link
+                  href={`/product?category=${product?.category}`}
+                  className="font-medium capitalize text-gray-900 hover:text-primary hover:underline"
+                >
+                  {product?.category.split("-")[2]}
+                </Link>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-gray-600">Vendor:</span>
+                <Link
+                  href={`/shop/${product?.supplier?.storeName}`}
+                  className="font-medium text-gray-900 hover:text-primary hover:underline"
+                >
+                  {product?.supplier?.storeName}
+                </Link>
+              </div>
             </div>
           </div>
         </div>
