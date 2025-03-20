@@ -231,6 +231,7 @@ import { addUser } from "@/redux/features/auth/authSlice";
 import { deleteCookies } from "@/services/deleteCookies";
 import { removeFromLocalStorage } from "@/utils/localStorage";
 import {
+  browserLocalPersistence,
   createUserWithEmailAndPassword,
   FacebookAuthProvider,
   getAuth,
@@ -239,6 +240,7 @@ import {
   onAuthStateChanged,
   sendEmailVerification,
   sendPasswordResetEmail,
+  setPersistence,
   signInWithEmailAndPassword,
   signInWithRedirect,
   signOut,
@@ -346,11 +348,10 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const googleLogIn = async () => {
     setLoading(true);
     try {
-      // Note: This call will redirect the page.
+      await setPersistence(auth, browserLocalPersistence);
+      // This call will redirect the page.
       await signInWithRedirect(auth, googleProvider);
-      // After the redirect, onAuthStateChanged or getRedirectResult() can be used to obtain the user credentials.
-      const userCred = await getRedirectResult(auth);
-      console.log({ userCred });
+      // Do not call getRedirectResult() here.
     } catch (error: any) {
       toast.error(error.message);
       throw error;
@@ -398,10 +399,26 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  // This useEffect runs once on app initialization to handle redirect results.
+  useEffect(() => {
+    getRedirectResult(auth)
+      .then((result) => {
+        if (result && result.user) {
+          console.log("Redirect result:", result.user);
+          // Optionally update state or dispatch actions here.
+        }
+      })
+      .catch((error) => {
+        console.error("Error retrieving redirect result:", error);
+      });
+  }, []);
+
+  // Listen to auth state changes.
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(
       auth,
       async (currentUser: User | null) => {
+        console.log("Auth state changed:", currentUser);
         if (currentUser) {
           if (!currentUser.emailVerified) {
             await signOut(auth);
