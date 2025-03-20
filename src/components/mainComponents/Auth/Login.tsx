@@ -62,23 +62,23 @@ const Login = () => {
   const handleGoogleLogin = async () => {
     try {
       const userCredential = await googleLogIn();
-      if (userCredential.user) {
-        const data = {
-          displayName: userCredential.user.displayName,
-          email: userCredential.user.email,
-        };
+      // if (userCredential.user) {
+      //   const data = {
+      //     displayName: userCredential.user.displayName,
+      //     email: userCredential.user.email,
+      //   };
 
-        const res = await postUser(data).unwrap();
-        if (res.success) {
-          toast.success("Login Successful");
-          dispatch(addUser(res.data.user));
-          setToLocalStorage({
-            key: authKey.ACCESS_TOKEN,
-            token: res.data.accessToken,
-          });
-          router.replace(redirectTo);
-        }
-      }
+      //   const res = await postUser(data).unwrap();
+      //   if (res.success) {
+      //     toast.success("Login Successful");
+      //     dispatch(addUser(res.data.user));
+      //     setToLocalStorage({
+      //       key: authKey.ACCESS_TOKEN,
+      //       token: res.data.accessToken,
+      //     });
+      //     router.replace(redirectTo);
+      //   }
+      // }
     } catch (error: any) {
       toast.error(error.code);
     } finally {
