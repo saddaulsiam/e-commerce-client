@@ -24,7 +24,7 @@ interface ErrorData {
 }
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: process.env.NEXT_PUBLIC_BACKEND_API_URL,
+  baseUrl: "https://siam-store24.up.railway.app",
   credentials: "include",
   prepareHeaders: (headers) => {
     const token = getFromLocalStorage(authKey.accessToken);
