@@ -3,8 +3,7 @@ import { Loading } from "@/components/sharedComponents";
 import { Button } from "@/components/ui/button";
 import { useGetSingleOrderQuery } from "@/redux/features/order/orders/ordersApi";
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useParams } from "next/navigation";
 import { BsBagFill, BsBoxSeam } from "react-icons/bs";
 import { FcCheckmark } from "react-icons/fc";
 import { FiShoppingBag } from "react-icons/fi";
@@ -13,7 +12,6 @@ import VendorOrderDetailsCart from "./Vendor.Order.Details.Cart";
 
 const VendorOrderDetails = () => {
   const params = useParams();
-  const [showSideNavigation, setShowSideNavigation] = useState(null);
 
   const { data: order, isLoading } = useGetSingleOrderQuery(params.id);
   return (

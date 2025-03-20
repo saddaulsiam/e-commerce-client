@@ -1,6 +1,6 @@
 "use client";
 
-import { Loading } from "@/components/sharedComponents";
+import { ProductsSkeleton } from "@/components/sharedComponents";
 import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
 import { TProduct } from "@/types/common";
 import Image from "next/image";
@@ -27,7 +27,7 @@ const NewArrivals = () => {
       </div>
 
       {isLoading ? (
-        <Loading />
+        <ProductsSkeleton />
       ) : (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
           {products?.data?.data.slice(0, 10).map((product: TProduct) => (

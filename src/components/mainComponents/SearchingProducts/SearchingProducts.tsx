@@ -1,6 +1,6 @@
 "use client";
 
-import { Pagination, ProductsCard } from "@/components/sharedComponents";
+import { Pagination, ProductsCard, ProductsSkeleton } from "@/components/sharedComponents";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -56,7 +56,7 @@ const SearchingProducts = () => {
     ],
   );
 
-  const { data: products } = useGetAllProductsQuery(queryParams);
+  const { data: products, isLoading } = useGetAllProductsQuery(queryParams);
 
   // Memoized filter reset function
   const handleFilterReset = useCallback(() => {
@@ -153,11 +153,15 @@ const SearchingProducts = () => {
             </div>
 
             {/* Products */}
-            <div className="grid grid-cols-2 gap-x-3 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
-              {products?.data?.data?.map((product: TProduct) => (
-                <ProductsCard key={product._id} product={product} />
-              ))}
-            </div>
+            {isLoading ? (
+              <ProductsSkeleton classname="lg:grid-cols-4" number={8} />
+            ) : (
+              <div className="grid grid-cols-2 gap-x-3 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
+                {products?.data?.data?.map((product: TProduct) => (
+                  <ProductsCard key={product._id} product={product} />
+                ))}
+              </div>
+            )}
 
             {/* Pagination */}
             {products?.data?.meta?.total > 8 && (

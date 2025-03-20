@@ -1,10 +1,11 @@
 "use client";
 
+import { ProductsSkeleton } from "@/components/sharedComponents";
 import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
 import { TProduct } from "@/types/common";
 import { useState } from "react";
 import { AiFillThunderbolt, AiOutlineArrowRight } from "react-icons/ai";
-import { Loading, Pagination, ProductsCard } from "../../sharedComponents";
+import { Pagination, ProductsCard } from "../../sharedComponents";
 
 const RandomProducts = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -31,7 +32,7 @@ const RandomProducts = () => {
           </a>
         </div>
         {isLoading ? (
-          <Loading />
+          <ProductsSkeleton />
         ) : (
           <>
             <div className="grid grid-cols-2 gap-x-3 gap-y-10 sm:grid-cols-3 lg:grid-cols-5">

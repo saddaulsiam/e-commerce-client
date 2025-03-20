@@ -22,7 +22,7 @@ import {
   useLoginMutation,
   useRegisterMutation,
 } from "../../../redux/features/auth/authApi";
-import Loading from "../loading/Loading";
+import Loading from "../loader/Loading";
 import { setToLocalStorage } from "@/utils/localStorage";
 import { authKey } from "@/constants/common";
 import { useAppDispatch } from "@/redux/hooks";

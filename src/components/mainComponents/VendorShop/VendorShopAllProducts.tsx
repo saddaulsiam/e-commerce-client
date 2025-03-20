@@ -1,6 +1,10 @@
 "use client";
 
-import { Pagination, ProductsCard } from "@/components/sharedComponents";
+import {
+  Pagination,
+  ProductsCard,
+  ProductsSkeleton,
+} from "@/components/sharedComponents";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -49,7 +53,7 @@ const VendorShopAllProducts = ({ search }: { search: string }) => {
     ],
   );
 
-  const { data: products } = useGetAllProductsQuery(queryParams);
+  const { data: products, isLoading } = useGetAllProductsQuery(queryParams);
 
   // Memoized filter reset function
   const handleFilterReset = useCallback(() => {
@@ -129,17 +133,21 @@ const VendorShopAllProducts = ({ search }: { search: string }) => {
         </div>
 
         {/*  Product Grid  */}
-        <div className="grid grid-cols-2 gap-x-2 gap-y-5 rounded-md pb-5 sm:gap-x-5 md:grid-cols-3 lg:grid-cols-4">
-          {products?.data?.data?.length > 0 ? (
-            products.data.data.map((product: TProduct) => (
-              <ProductsCard key={product._id} product={product} />
-            ))
-          ) : (
-            <div className="pl-2 text-2xl text-gray-500">
-              Ops! Product not found
-            </div>
-          )}
-        </div>
+        {isLoading ? (
+          <ProductsSkeleton classname="lg:grid-cols-4" number={8} />
+        ) : (
+          <div className="grid grid-cols-2 gap-x-2 gap-y-5 rounded-md pb-5 sm:gap-x-5 md:grid-cols-3 lg:grid-cols-4">
+            {products?.data?.data?.length > 0 ? (
+              products.data.data.map((product: TProduct) => (
+                <ProductsCard key={product._id} product={product} />
+              ))
+            ) : (
+              <div className="pl-2 text-2xl text-gray-500">
+                Ops! Product not found
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Pagination */}
         {products?.data?.meta?.total > 8 && (

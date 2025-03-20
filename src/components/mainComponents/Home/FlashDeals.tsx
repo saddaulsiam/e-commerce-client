@@ -2,15 +2,13 @@
 
 import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
 import { AiFillThunderbolt, AiOutlineArrowRight } from "react-icons/ai";
-import { Loading, SwiperProductsCard } from "../../sharedComponents";
+import { ProductsSkeleton, SwiperProductsCard } from "../../sharedComponents";
 
 const FlashDeals = () => {
   const { data: products, isLoading } = useGetAllProductsQuery({
     limit: 15,
     page: 1,
   });
-
-  if (isLoading) return <Loading />;
 
   return (
     <section className="bg-white">
@@ -24,7 +22,11 @@ const FlashDeals = () => {
           </a>
         </div>
 
-        <SwiperProductsCard products={products?.data?.data} />
+        {isLoading ? (
+          <ProductsSkeleton />
+        ) : (
+          <SwiperProductsCard products={products?.data?.data} />
+        )}
       </div>
     </section>
   );
