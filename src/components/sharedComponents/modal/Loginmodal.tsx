@@ -24,7 +24,7 @@ import {
 } from "../../../redux/features/auth/authApi";
 import Loading from "../loading/Loading";
 import { setToLocalStorage } from "@/utils/localStorage";
-import { authKey } from "@/contants/common";
+import { authKey } from "@/constants/common";
 import { useAppDispatch } from "@/redux/hooks";
 import { addUser } from "@/redux/features/auth/authSlice";
 
@@ -56,7 +56,7 @@ const LoginModal = ({ openLoginModal, setOpenLoginModal }: LoginModalProps) => {
           toast.success("Login Successful");
           dispatch(addUser(res.data.user));
           setToLocalStorage({
-            key: authKey.accessToken,
+            key: authKey.ACCESS_TOKEN,
             token: res.data.accessToken,
           });
           setOpenLoginModal(!openLoginModal);
@@ -85,7 +85,7 @@ const LoginModal = ({ openLoginModal, setOpenLoginModal }: LoginModalProps) => {
           toast.success("Login Successful");
           dispatch(addUser(res.data.user));
           setToLocalStorage({
-            key: authKey.accessToken,
+            key: authKey.ACCESS_TOKEN,
             token: res.data.accessToken,
           });
           setOpenLoginModal(!openLoginModal);

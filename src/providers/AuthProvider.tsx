@@ -1,6 +1,6 @@
 "use client";
 
-import { authKey } from "@/contants/common";
+import { authKey } from "@/constants/common";
 import { useGetAdminByEmailMutation } from "@/redux/features/admin/adminApi";
 import { useGetMeMutation } from "@/redux/features/auth/authApi";
 import { addUser } from "@/redux/features/auth/authSlice";
@@ -145,8 +145,8 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setLoading(true);
     try {
       await signOut(auth);
-      removeFromLocalStorage(authKey.accessToken);
-      await deleteCookies(authKey.refreshToken);
+      removeFromLocalStorage(authKey.ACCESS_TOKEN);
+      await deleteCookies(authKey.REFRESH_TOKEN);
     } catch (error) {
       console.log("Error logging out:", error);
     } finally {
@@ -193,7 +193,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             setLoadUser(false);
           }
         } else {
-          await deleteCookies(authKey.refreshToken);
+          await deleteCookies(authKey.REFRESH_TOKEN);
         }
       },
     );

@@ -3,6 +3,7 @@
 import { Loading, Pagination } from "@/components/sharedComponents";
 import { Button } from "@/components/ui/button";
 import { useGetAllUsersQuery } from "@/redux/features/user/userApi";
+import { TUser } from "@/types/common";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -17,11 +18,6 @@ const AdminAllUsers = () => {
     limit: 8,
     page: currentPage,
   });
-
-  //  pagination
-  const handlePageChange = (pageNumber: any) => {
-    setCurrentPage(pageNumber);
-  };
 
   return (
     <div className="container overflow-x-auto">
@@ -51,8 +47,8 @@ const AdminAllUsers = () => {
               </tr>
             </thead>
             <tbody>
-              {usersData?.data?.users?.map((user: any, i: number) => (
-                <tr key={i}>
+              {usersData?.data?.users?.map((user: TUser) => (
+                <tr key={user?._id}>
                   <th>
                     <label>
                       <input type="checkbox" className="checkbox" />
@@ -63,7 +59,7 @@ const AdminAllUsers = () => {
                       <Image
                         className="rounded-lg"
                         src={
-                          user.photoURL ||
+                          user?.profile?.photo ||
                           "https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
                         }
                         alt="user photo"
@@ -81,13 +77,13 @@ const AdminAllUsers = () => {
                   </td>
                   <td>{user.email}</td>
                   <td>
-                    {user.shippingAddress.length > 0 ? (
+                    {user.profile.address.length > 0 ? (
                       <>
-                        {user.shippingAddress[0]?.address}{" "}
-                        {user.shippingAddress[0]?.area}
+                        {user.profile.address[0].address}{" "}
+                        {user.profile.address[0]?.area}
                         <br />
-                        {user.shippingAddress[0]?.city}{" "}
-                        {user.shippingAddress[0]?.region}
+                        {user.profile.address[0]?.city}{" "}
+                        {user.profile.address[0]?.street}
                       </>
                     ) : (
                       "Address not added"
@@ -123,7 +119,7 @@ const AdminAllUsers = () => {
                   <Pagination
                     currentPage={currentPage}
                     totalPages={usersData?.data?.page}
-                    onPageChange={handlePageChange}
+                    onPageChange={setCurrentPage}
                   />
                 </th>
                 <th></th>

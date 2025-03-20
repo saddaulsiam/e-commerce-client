@@ -16,7 +16,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { Separator } from "@/components/ui/separator";
-import { USER_ROLE } from "@/contants/common";
+import { USER_ROLE } from "@/constants/common";
 import { myAccount, vendorAccount } from "@/data/navbar.navigation";
 import { TUser } from "@/types/common";
 import Link from "next/link";
@@ -73,7 +73,7 @@ const NavMegaMenu = ({ isScrolled, user }: TProps) => {
               </NavigationMenuItem>
 
               {/* My Account Dropdown - Vendor */}
-              {user?.role === USER_ROLE.vendor && (
+              {user?.role === (USER_ROLE.VENDOR as string) && (
                 <NavigationMenuItem className="relative">
                   <NavigationMenuTrigger>My Account</NavigationMenuTrigger>
                   <NavigationMenuContent className="absolute left-0 z-50 flex min-w-48 flex-col gap-y-1 rounded-md border bg-white p-1.5 shadow-md">
@@ -95,7 +95,7 @@ const NavMegaMenu = ({ isScrolled, user }: TProps) => {
               )}
 
               {/* My Account Dropdown - Customer */}
-              {user?.role === USER_ROLE.customer && (
+              {user?.role === (USER_ROLE.CUSTOMER as string) && (
                 <>
                   <NavigationMenuItem className="relative">
                     <NavigationMenuTrigger>My Account</NavigationMenuTrigger>

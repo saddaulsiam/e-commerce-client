@@ -1,4 +1,4 @@
-import { USER_ROLE } from "@/contants/common";
+import { USER_ROLE } from "@/constants/common";
 
 export type TUserRole = keyof typeof USER_ROLE;
 
@@ -32,9 +32,18 @@ export type TUser = {
   role: TUserRole;
   profile: TProfile;
   vendor: TVendor;
+  status: TUserStatus;
   createdAt: string;
   updatedAt: string;
 };
+
+export enum TUserStatus {
+  INACTIVE = "inactive",
+  ACTIVE = "active",
+  BLOCK = "block",
+  DELETED = "deleted",
+}
+
 export type TSubcategory = {
   name: string;
   href: string;

@@ -1,6 +1,6 @@
 "use client";
 
-import { USER_ROLE } from "@/contants/common";
+import { USER_ROLE } from "@/constants/common";
 import {
   BarChart2,
   CheckCircle,
@@ -27,7 +27,7 @@ export type NavItem = {
 };
 
 export function getDashboardMenu(role: string): NavItem[] {
-  if (role === USER_ROLE.admin) {
+  if (role === USER_ROLE.ADMIN) {
     return [
       {
         title: "Dashboard",
@@ -114,7 +114,7 @@ export function getDashboardMenu(role: string): NavItem[] {
         href: "/admin/settings",
       },
     ];
-  } else if (role === USER_ROLE.vendor) {
+  } else if (role === USER_ROLE.VENDOR) {
     return [
       {
         title: "Dashboard",
@@ -177,13 +177,13 @@ export function getDashboardTools(role: string): NavItem[] {
         {
           title: "Themes",
           icon: <Folder className="h-5 w-5" />,
-          href: role === USER_ROLE.admin ? "/admin/themes" : "/vendor/themes",
+          href: role === USER_ROLE.ADMIN ? "/admin/themes" : "/vendor/themes",
         },
         {
           title: "Templates",
           icon: <PlusCircle className="h-5 w-5" />,
           href:
-            role === USER_ROLE.admin ? "/admin/templates" : "/vendor/templates",
+            role === USER_ROLE.ADMIN ? "/admin/templates" : "/vendor/templates",
         },
       ],
     },

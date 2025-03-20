@@ -21,7 +21,9 @@ import { TSubOrder } from "@/types/Orderstype";
 import { ChevronRightIcon, LucideShoppingBag } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-const VendorDashboardMainResentOrders = ({ recentOrders }: any) => {
+type TProps = { recentOrders: TSubOrder[] };
+
+const VendorDashboardMainResentOrders = ({ recentOrders }: TProps) => {
   const router = useRouter();
   return (
     <Card>

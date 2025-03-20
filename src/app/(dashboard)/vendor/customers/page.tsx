@@ -1,5 +1,6 @@
 "use client";
 
+import { Pagination } from "@/components/sharedComponents";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
@@ -96,11 +97,11 @@ const VendorCustomers = () => {
                 Total {customers?.data?.meta?.total} Customers
               </TableCell>
               <TableCell colSpan={3} className="text-right">
-                {/* <Pagination
+                <Pagination
                   currentPage={currentPage}
-                  totalPages={1}
+                  totalPages={customers?.data?.meta?.page}
                   onPageChange={setCurrentPage}
-                /> */}
+                />
               </TableCell>
             </TableRow>
           </TableFooter>

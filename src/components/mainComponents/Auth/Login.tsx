@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { authKey } from "@/contants/common";
+import { authKey } from "@/constants/common";
 import useAuth from "@/hooks/useAuth";
 import {
   useLoginMutation,
@@ -45,7 +45,7 @@ const Login = () => {
           toast.success("Login Successful");
           dispatch(addUser(res.data.user));
           setToLocalStorage({
-            key: authKey.accessToken,
+            key: authKey.ACCESS_TOKEN,
             token: res.data.accessToken,
           });
           router.replace(redirectTo);
@@ -73,7 +73,7 @@ const Login = () => {
           toast.success("Login Successful");
           dispatch(addUser(res.data.user));
           setToLocalStorage({
-            key: authKey.accessToken,
+            key: authKey.ACCESS_TOKEN,
             token: res.data.accessToken,
           });
           router.replace(redirectTo);

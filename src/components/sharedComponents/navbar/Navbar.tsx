@@ -13,11 +13,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
-import { USER_ROLE } from "@/contants/common";
+import { USER_ROLE } from "@/constants/common";
 import { myAccount, vendorAccount } from "@/data/navbar.navigation";
 import useAuth from "@/hooks/useAuth";
 import { logOutUser } from "@/redux/features/auth/authSlice";
+import { removeOrderDetails } from "@/redux/features/order/orderDetails/orderDetailsSlice";
 import { useAppSelector } from "@/redux/hooks";
+import { X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -31,8 +33,6 @@ import AnnouncementBar from "../announcementBar/AnnouncementBar";
 import CategoriesDropDownContent from "../DropDown/CategoriesDropDownContent";
 import LoginModal from "../modal/Loginmodal";
 import NavMegaMenu from "./NavMegaMenu";
-import { X } from "lucide-react";
-import { removeOrderDetails } from "@/redux/features/order/orderDetails/orderDetailsSlice";
 
 const Navbar = () => {
   const router = useRouter();
@@ -177,7 +177,7 @@ const Navbar = () => {
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
 
-                  {user?.role === USER_ROLE.customer &&
+                  {user?.role === (USER_ROLE.CUSTOMER as string) &&
                     myAccount.map((account) => (
                       <Link href={account.href} key={account.name}>
                         <DropdownMenuItem className="cursor-pointer">
@@ -186,7 +186,7 @@ const Navbar = () => {
                       </Link>
                     ))}
 
-                  {user?.role === USER_ROLE.vendor &&
+                  {user?.role === (USER_ROLE.VENDOR as string) &&
                     vendorAccount.map((account) => (
                       <Link href={account.href} key={account.name}>
                         <DropdownMenuItem className="cursor-pointer">

@@ -17,11 +17,18 @@ import {
   Tooltip,
 } from "recharts";
 
-const VendorDashboardOrderConfirmationRate = ({
-  overview,
-}: {
-  overview: any;
-}) => {
+type TProps = {
+  overview: {
+    cancelledOrders: number;
+    completedOrders: number;
+    lowStockProducts: number;
+    monthlyEarnings: number;
+    pendingOrders: number;
+    totalSales: number;
+  };
+};
+
+const VendorDashboardOrderConfirmationRate = ({ overview }: TProps) => {
   // Prepare data for the pie chart
   const data = [
     { name: "Completed Orders", value: overview?.completedOrders },

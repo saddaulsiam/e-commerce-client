@@ -1,4 +1,4 @@
-import { authKey } from "@/contants/common";
+import { authKey } from "@/constants/common";
 import { deleteCookies } from "@/services/deleteCookies";
 import {
   getFromLocalStorage,
@@ -24,10 +24,10 @@ interface ErrorData {
 }
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://siam-store24.up.railway.app",
+  baseUrl: process.env.NEXT_PUBLIC_BACKEND_API_URL,
   credentials: "include",
   prepareHeaders: (headers) => {
-    const token = getFromLocalStorage(authKey.accessToken);
+    const token = getFromLocalStorage(authKey.ACCESS_TOKEN);
 
     if (token) {
       headers.set("authorization", `Barer ${token}`);
@@ -57,7 +57,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
 
     if (data?.data?.accessToken) {
       setToLocalStorage({
-        key: authKey.accessToken,
+        key: authKey.ACCESS_TOKEN,
         token: data.data.accessToken,
       });
 
@@ -71,8 +71,8 @@ const baseQueryWithRefreshToken: BaseQueryFn<
       result = await baseQuery(args, api, extraOptions);
     } else {
       api.dispatch(logOutUser());
-      removeFromLocalStorage(authKey.accessToken);
-      deleteCookies(authKey.refreshToken);
+      removeFromLocalStorage(authKey.ACCESS_TOKEN);
+      deleteCookies(authKey.REFRESH_TOKEN);
     }
   }
 

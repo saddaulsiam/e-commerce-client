@@ -5,7 +5,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { authKey } from "@/contants/common";
+import { authKey } from "@/constants/common";
 import { logOutUser } from "@/redux/features/auth/authSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { removeFromLocalStorage } from "@/utils/localStorage";
@@ -60,7 +60,7 @@ const DashboardNavbar = ({ isCollapsed }: { isCollapsed: boolean }) => {
             <DropdownMenuItem
               onClick={() => {
                 dispatch(logOutUser());
-                removeFromLocalStorage(authKey.accessToken);
+                removeFromLocalStorage(authKey.ACCESS_TOKEN);
               }}
               className="flex items-center gap-2 text-red-600"
             >

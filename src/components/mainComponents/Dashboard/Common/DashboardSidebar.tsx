@@ -1,7 +1,7 @@
 "use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { USER_ROLE } from "@/contants/common";
+import { USER_ROLE } from "@/constants/common";
 import { cn } from "@/lib/utils";
 import { useAppSelector } from "@/redux/hooks";
 import { getDashboardMenu, NavItem } from "@/utils/dashboardMenu";
@@ -161,7 +161,7 @@ const DashboardSidebar = ({ isCollapsed }: { isCollapsed: boolean }) => {
               {user?.displayName}
             </p>
             <p className="truncate text-xs text-primary/60">
-              {user?.role === USER_ROLE.admin
+              {user?.role === (USER_ROLE.ADMIN as string)
                 ? "Admin Account"
                 : "Vendor Account"}
             </p>

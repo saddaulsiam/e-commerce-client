@@ -19,11 +19,15 @@ import {
   YAxis,
 } from "recharts";
 
-const VendorDashboardMonthlySalesReports = ({
-  salesData,
-}: {
-  salesData: any;
-}) => {
+type TProps = {
+  salesData: {
+    month: string;
+    orders: number;
+    sales: number;
+  }[];
+};
+
+const VendorDashboardMonthlySalesReports = ({ salesData }: TProps) => {
   return (
     <Card>
       <CardHeader className="mx-8 my-2">
