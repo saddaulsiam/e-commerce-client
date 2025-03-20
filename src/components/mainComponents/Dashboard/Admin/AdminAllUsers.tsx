@@ -90,7 +90,7 @@ const AdminAllUsers = () => {
                     )}
                   </td>
                   <td>{user.status}</td>
-                  <td>{`${user?.emailVerified}`}</td>
+                  <td></td>
                   <td
                     onClick={() => {
                       navigator.clipboard.writeText(user._id).then(() => {
