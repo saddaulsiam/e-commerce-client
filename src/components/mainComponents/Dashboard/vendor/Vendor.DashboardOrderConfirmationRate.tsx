@@ -17,7 +17,11 @@ import {
   Tooltip,
 } from "recharts";
 
-const VendorDashboardOrderConfirmationRate = ({ overview }: any) => {
+const VendorDashboardOrderConfirmationRate = ({
+  overview,
+}: {
+  overview: any;
+}) => {
   // Prepare data for the pie chart
   const data = [
     { name: "Completed Orders", value: overview?.completedOrders },

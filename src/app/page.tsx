@@ -5,7 +5,7 @@ import {
   NewArrivals,
   OurServices,
   RandomProducts,
-  TopCategories,
+  TopCategories
 } from "@/components/mainComponents/Home";
 import { BottomBar, Footer, Navbar } from "@/components/sharedComponents";
 

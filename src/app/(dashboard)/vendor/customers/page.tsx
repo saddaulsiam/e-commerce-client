@@ -1,6 +1,5 @@
 "use client";
 
-import { Loading, Pagination } from "@/components/sharedComponents";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
@@ -23,22 +22,11 @@ const VendorCustomers = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const { user } = useAppSelector(({ state }) => state.auth);
 
-  const { data: customers, isLoading: customersLoading } =
-    useGetVendorCustomersQuery(
-      {
-        limit: 8,
-        page: currentPage,
-        vendorId: user?.vendor._id,
-      },
-      { skip: !user?.vendor._id },
-    );
-
-  // Pagination handler
-  const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
-  };
-
-  if (customersLoading) return <Loading />;
+  const { data: customers } = useGetVendorCustomersQuery({
+    limit: 8,
+    page: currentPage,
+    vendorId: user?.vendor?._id,
+  });
 
   return (
     <Card className="md:m-6">
@@ -63,30 +51,30 @@ const VendorCustomers = () => {
           </TableHeader>
           <TableBody>
             {customers?.data?.data?.length > 0 ? (
-              customers.data.data.map((customer: TUser) => (
-                <TableRow key={customer._id} className="hover:bg-gray-50">
+              customers?.data?.data?.map((customer: TUser) => (
+                <TableRow key={customer?._id} className="hover:bg-gray-50">
                   <TableCell>
                     <div className="relative h-16 w-16">
                       <Image
                         layout="fill"
                         className="rounded-full"
-                        src={customer.profile.photo || "/user-avatar.jpg"}
+                        src={customer?.profile?.photo || "/user-avatar.jpg"}
                         alt="Customer Image"
                         priority
                       />
                     </div>
                   </TableCell>
                   <TableCell className="font-medium">
-                    {customer.displayName}
+                    {customer?.displayName}
                   </TableCell>
-                  <TableCell>{customer.email}</TableCell>
+                  <TableCell>{customer?.email}</TableCell>
                   <TableCell>
-                    {customer.profile?.address[0].phoneNumber}
+                    {customer?.profile?.address[0]?.phoneNumber}
                   </TableCell>
-                  <TableCell>{customer.profile?.address[0].city}</TableCell>
-                  <TableCell>{customer.profile?.address[0].area}</TableCell>
+                  <TableCell>{customer?.profile?.address[0]?.city}</TableCell>
+                  <TableCell>{customer?.profile?.address[0]?.area}</TableCell>
                   <TableCell>
-                    {format(new Date(customer.createdAt), "dd-MMMM-yyyy ")}
+                    {format(new Date(customer?.createdAt), "dd-MMMM-yyyy ")}
                   </TableCell>
                 </TableRow>
               ))
@@ -108,11 +96,11 @@ const VendorCustomers = () => {
                 Total {customers?.data?.meta?.total} Customers
               </TableCell>
               <TableCell colSpan={3} className="text-right">
-                <Pagination
+                {/* <Pagination
                   currentPage={currentPage}
-                  totalPages={customers?.data?.meta?.page}
-                  onPageChange={handlePageChange}
-                />
+                  totalPages={1}
+                  onPageChange={setCurrentPage}
+                /> */}
               </TableCell>
             </TableRow>
           </TableFooter>
