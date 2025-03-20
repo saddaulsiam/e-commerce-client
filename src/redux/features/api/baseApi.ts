@@ -24,7 +24,7 @@ interface ErrorData {
 }
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://siam-store24.up.railway.app",
+  baseUrl: "https://siam-store24.up.railway.app/api/v1",
   credentials: "include",
   prepareHeaders: (headers) => {
     const token = getFromLocalStorage(authKey.accessToken);
