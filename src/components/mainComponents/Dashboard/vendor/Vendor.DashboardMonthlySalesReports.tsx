@@ -19,7 +19,11 @@ import {
   YAxis,
 } from "recharts";
 
-const VendorDashboardMonthlySalesReports = ({ salesData }: any) => {
+const VendorDashboardMonthlySalesReports = ({
+  salesData,
+}: {
+  salesData: any;
+}) => {
   return (
     <Card>
       <CardHeader className="mx-8 my-2">
