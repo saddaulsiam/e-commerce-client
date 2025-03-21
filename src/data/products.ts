@@ -1,5 +1,3 @@
-import { TProduct } from "@/types/common";
-
 // export const products: TProduct[] = [
 //   {
 //     _id: "67c958a1f1bc2bb8780bddcd",

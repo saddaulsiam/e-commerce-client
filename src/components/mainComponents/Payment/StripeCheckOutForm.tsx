@@ -122,8 +122,6 @@ const StripeCheckOutForm = ({ setOpenStripe }: TProps) => {
 
       // Payment was successful
       if (paymentIntent?.status === "succeeded") {
-        toast.success("Payment completed successfully!");
-
         // Prepare order data for order creation
         const orderData = {
           userId: user?._id as string,
@@ -141,12 +139,12 @@ const StripeCheckOutForm = ({ setOpenStripe }: TProps) => {
 
         if (res.success) {
           // Clear the cart and order details in Redux, then redirect
-          toast.success(res?.message || "Order placed successfully!");
           dispatch(clearCart());
           dispatch(removeOrderDetails());
           router.push("/payment/success");
           setOpenStripe(false);
         } else {
+          router.push("/payment/fail");
           throw new Error("Order processing failed. Contact support.");
         }
       }
@@ -155,6 +153,7 @@ const StripeCheckOutForm = ({ setOpenStripe }: TProps) => {
         error?.message || "Something went wrong with the payment process.",
       );
       toast.error(error?.message || "Payment failed. Try again.");
+      router.push("/payment/fail");
     } finally {
       setProcessing(false);
     }

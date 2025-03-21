@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  Pagination,
-  ProductsCard,
-  ProductsSkeleton,
-} from "@/components/sharedComponents";
+import { Pagination, ProductsCard } from "@/components/sharedComponents";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -18,6 +14,7 @@ import { useCallback, useMemo, useState } from "react";
 import { BiHorizontalCenter } from "react-icons/bi";
 import { SearchingProductsSidebar } from "../SearchingProducts";
 import { SortByType } from "../SearchingProducts/SearchingProducts";
+import { ProductsSkeleton } from "@/components/sharedComponents/loader";
 
 const VendorShopAllProducts = ({ search }: { search: string }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);

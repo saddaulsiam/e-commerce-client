@@ -1,6 +1,6 @@
 "use client";
 
-import { ProductsSkeleton } from "@/components/sharedComponents";
+import { ProductsSkeleton } from "@/components/sharedComponents/loader";
 import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
 import { TProduct } from "@/types/common";
 import { useState } from "react";

@@ -20,7 +20,7 @@ const ProductCart = () => {
 
   return (
     <div className="bg-accent">
-      <div className="container px-2">
+      <div className="container h-[calc(100vh-19.5vh)] px-2">
         <ProgressSteps />
 
         <div className="grid grid-cols-3 gap-5 pb-32">
@@ -35,15 +35,17 @@ const ProductCart = () => {
                     <Image
                       height={130}
                       width={120}
-                      className="h-full w-full rounded-md object-cover"
+                      className="h-full w-full rounded-bl-md rounded-tl-md object-cover"
                       src={product.image}
                       alt={product.name}
                       priority
                     />
                   </div>
                   <div className="flex w-full flex-col justify-between p-6">
-                    <div className="flex w-full justify-between text-lg text-my-gray-200">
-                      <h4>{product.name}</h4>
+                    <div className="flex w-full justify-between text-lg">
+                      <h4 className="font-medium text-gray-800">
+                        {product.name}
+                      </h4>
                       <Button
                         variant="ghost"
                         onClick={() =>
@@ -55,8 +57,8 @@ const ProductCart = () => {
                       </Button>
                     </div>
                     <div className="flex w-full justify-between">
-                      <p className="text-sm text-my-gray-100">
-                        ${product.price} x {product.quantity}
+                      <p className="text-sm text-gray-400">
+                        ${product.price} × {product.quantity}
                         <span className="text-base text-primary">
                           {" "}
                           = ${product.price * product.quantity}
@@ -99,7 +101,8 @@ const ProductCart = () => {
             ) : (
               <div className="col-span-3 text-center">
                 <p className="text-2xl text-my-gray-200">
-                  Your cart is empty. Start shopping!
+                  Your cart is empty. Browse our collection to find your
+                  favorites!
                 </p>
               </div>
             )}

@@ -1,11 +1,10 @@
 "use client";
 
 import {
-  Loading,
   ProductsCard,
-  ProductsSkeleton,
   SwiperProductsCard,
 } from "@/components/sharedComponents";
+import { ProductsSkeleton } from "@/components/sharedComponents/loader";
 import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
 import { TProduct } from "@/types/common";
 import { AiFillThunderbolt } from "react-icons/ai";

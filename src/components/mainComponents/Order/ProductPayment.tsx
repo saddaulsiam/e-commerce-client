@@ -14,10 +14,11 @@ import {
 } from "@/types/Orderstype";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { FcOk } from "react-icons/fc";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { SSLCommerzPaymentDetails } from "../Payment";
+import CashOnDeliveryDetails from "../Payment/HowToPay/CashOnDeliveryDetails";
+import StripePaymentDetails from "../Payment/HowToPay/StripePaymentDetails";
 import CartSummary from "./CartSummary";
 import ProgressSteps from "./ProgressSteps";
 import SelectPaymentOption from "./SelectPaymentOption";
@@ -101,18 +102,9 @@ const ProductPayment = () => {
                   <h2 className="mb-5 mt-10 text-lg font-semibold text-my-gray-200">
                     পেমেন্ট করার নিয়মঃ
                   </h2>
-                  {payWith === "stripe" && (
-                    <p>
-                      <FcOk className="mr-3 inline" /> Stripe on the way
-                    </p>
-                  )}
+                  {payWith === "stripe" && <StripePaymentDetails />}
                   {payWith === "sslCommerz" && <SSLCommerzPaymentDetails />}
-                  {payWith === "cashOnDelivery" && (
-                    <p>
-                      <FcOk className="mr-3 inline" /> Cash on Delivery on the
-                      way
-                    </p>
-                  )}
+                  {payWith === "cashOnDelivery" && <CashOnDeliveryDetails />}
                 </div>
               )}
             </div>

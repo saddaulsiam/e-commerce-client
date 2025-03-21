@@ -1,6 +1,6 @@
 "use client";
 
-import { Pagination, ProductsCard, ProductsSkeleton } from "@/components/sharedComponents";
+import { Pagination, ProductsCard } from "@/components/sharedComponents";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -14,6 +14,7 @@ import { useSearchParams } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
 import { BiHorizontalCenter } from "react-icons/bi";
 import SearchingProductsSidebar from "./Searching.Products.Sidebar";
+import { ProductsSkeleton } from "@/components/sharedComponents/loader";
 
 export type SortByType = "default" | "low" | "high";
 
