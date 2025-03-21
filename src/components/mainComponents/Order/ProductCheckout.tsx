@@ -37,7 +37,7 @@ const ProductCheckout = () => {
       <div className="container px-2 pb-32">
         <ProgressSteps />
 
-        {user && user.profile?.address?.length > 0 && (
+        {user && user?.profile?.address?.length > 0 && (
           <div>
             <p className="pb-3 text-xl font-bold text-primary">
               Select Your Address
@@ -48,7 +48,7 @@ const ProductCheckout = () => {
         <div className="grid grid-cols-3 gap-5">
           <div className="col-span-3 lg:col-span-2">
             {/* Show exiting Address */}
-            {user && user.profile?.address?.length > 0 && (
+            {user && user?.profile?.address?.length > 0 && (
               <div className="overflow-x-auto rounded-lg bg-white shadow-md">
                 <table className="min-w-full">
                   <thead className="bg-gray-100 text-sm font-semibold text-gray-600">
@@ -63,7 +63,7 @@ const ProductCheckout = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {user.profile.address.map((address, i) => (
+                    {user?.profile?.address.map((address, i) => (
                       <tr
                         key={i}
                         className="border-b transition duration-200 hover:bg-gray-50"
@@ -78,12 +78,12 @@ const ProductCheckout = () => {
                             }
                           />
                         </td>
-                        <td className="px-4 py-3">{address.name}</td>
-                        <td className="px-4 py-3">{address.email || "N/A"}</td>
-                        <td className="px-4 py-3">{address.phoneNumber}</td>
-                        <td className="px-4 py-3">{address.city}</td>
-                        <td className="px-4 py-3">{address.area}</td>
-                        <td className="px-4 py-3">{address.address}</td>
+                        <td className="px-4 py-3">{address?.name}</td>
+                        <td className="px-4 py-3">{address?.email || "N/A"}</td>
+                        <td className="px-4 py-3">{address?.phoneNumber}</td>
+                        <td className="px-4 py-3">{address?.city}</td>
+                        <td className="px-4 py-3">{address?.area}</td>
+                        <td className="px-4 py-3">{address?.address}</td>
                       </tr>
                     ))}
                   </tbody>
