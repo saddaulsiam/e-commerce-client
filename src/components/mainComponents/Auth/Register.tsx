@@ -1,10 +1,12 @@
 "use client";
 
+import { Loading } from "@/components/sharedComponents/loader";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authKey } from "@/constants/common";
+import { addUser } from "@/redux/features/auth/authSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { setToLocalStorage } from "@/utils/localStorage";
 import Link from "next/link";
@@ -14,9 +16,8 @@ import { FieldValues, useForm } from "react-hook-form";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
-import useAuth from "../../../hooks/useAuth";
-import { useRegisterMutation } from "../../../redux/features/auth/authApi";
-import { addUser } from "@/redux/features/auth/authSlice";
+import useAuth from "@/hooks/useAuth";
+import { useRegisterMutation } from "@/redux/features/auth/authApi";
 
 const Register = () => {
   const router = useRouter();
@@ -188,7 +189,7 @@ const Register = () => {
 
         {(loading || isLoading) && (
           <div className="absolute inset-0 flex items-center justify-center bg-gray-900/40">
-            <div className="h-10 w-10 animate-spin rounded-full border-4 border-t-4 border-gray-500"></div>
+            <Loading />
           </div>
         )}
       </Card>

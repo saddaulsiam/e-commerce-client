@@ -1,7 +1,7 @@
 "use client";
 import Lottie from "lottie-react";
 import Link from "next/link";
-import success from "../../../../public/animation/success.json";
+import success from "@/../public/animation/success.json";
 import { Button } from "@/components/ui/button";
 
 const PaymentSuccess = () => {

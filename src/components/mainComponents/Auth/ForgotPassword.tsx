@@ -5,7 +5,7 @@ import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
-import useAuth from "../../../hooks/useAuth";
+import useAuth from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 
 const ForgotPassword = () => {

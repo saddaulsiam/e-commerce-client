@@ -15,7 +15,7 @@ const FlashDeals = () => {
       <div className="container px-2 pb-16 pt-10">
         <div className="flex justify-between">
           <h2 className="pb-5 text-2xl font-bold italic text-primary">
-            <AiFillThunderbolt className="inline" /> Flash Deals
+            <AiFillThunderbolt className="inline" />Flash Deals
           </h2>
           <a href="" className="text-sm text-my-gray-100">
             View all <AiOutlineArrowRight className="inline" />

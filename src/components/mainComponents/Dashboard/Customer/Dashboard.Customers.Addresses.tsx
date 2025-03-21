@@ -1,6 +1,6 @@
 "use client";
 
-import { Loading } from "@/components/sharedComponents";
+import { Loading } from "@/components/sharedComponents/loader";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -48,7 +48,7 @@ const DashboardCustomersAddresses = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <div className="rounded-lg bg-white p-10 shadow-sm">
+    <div className="rounded-lg bg-white p-4 shadow-sm md:p-10">
       <div className="flex items-center justify-between gap-4 pb-10">
         <h2 className="flex items-center text-xl font-semibold text-primary sm:text-2xl">
           <MdLocationPin className="mr-2 text-2xl text-primary sm:mr-3 sm:text-3xl" />

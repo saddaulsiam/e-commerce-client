@@ -1,7 +1,7 @@
 "use client";
 
-import { Loading } from "@/components/sharedComponents";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { useGetMyOrdersQuery } from "@/redux/features/order/orders/ordersApi";
 import { TOrderStatus, TSubOrder } from "@/types/Orderstype";
@@ -26,7 +26,6 @@ const DashboardCustomersOrders = () => {
     }
   };
 
-  if (isLoading) return <Loading />;
   if (isError) return <div className="text-red-500">Error loading orders</div>;
 
   return (
@@ -49,14 +48,13 @@ const DashboardCustomersOrders = () => {
               <div>Total</div>
             </div>
 
-            {orders.length === 0 ? (
-              <div className="flex flex-col items-center py-8 text-center text-gray-500">
-                <FaShoppingBag className="mb-4 text-4xl text-gray-300" />
-                <p className="max-w-[300px]">
-                  No orders found. Start shopping to see your orders here!
-                </p>
+            {isLoading ? (
+              <div>
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <Skeleton key={index} className="my-3 h-16 w-full" />
+                ))}
               </div>
-            ) : (
+            ) : orders.length > 0 ? (
               orders.map((order) => (
                 <Link key={order._id} href={`/orders/${order._id}`}>
                   <div className="my-3 grid grid-cols-6 items-center gap-4 bg-slate-50 px-5 py-8 text-sm shadow-sm transition-all duration-300 ease-in-out hover:bg-slate-100 hover:shadow">
@@ -109,6 +107,13 @@ const DashboardCustomersOrders = () => {
                   </div>
                 </Link>
               ))
+            ) : (
+              <div className="flex flex-col items-center py-8 text-center text-gray-500">
+                <FaShoppingBag className="mb-4 text-4xl text-gray-300" />
+                <p className="max-w-[300px]">
+                  No orders found. Start shopping to see your orders here!
+                </p>
+              </div>
             )}
           </div>
         </div>

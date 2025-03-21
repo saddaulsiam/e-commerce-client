@@ -8,8 +8,8 @@ import {
   FaTwitter,
   FaYoutube,
 } from "react-icons/fa";
-import googlePlay from "../../../../public/logo/googleplay.png";
-import logo from "../../../../public/logo/logo.svg";
+import googlePlay from "@/../public/logo/googleplay.png";
+import logo from "@/../public/logo/logo.svg";
 
 const socialLinks = [
   {

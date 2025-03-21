@@ -1,6 +1,6 @@
 "use client";
 
-import { Loading } from "@/components/sharedComponents";
+import { Loading } from "@/components/sharedComponents/loader";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";

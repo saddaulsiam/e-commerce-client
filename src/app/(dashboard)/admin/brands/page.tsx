@@ -1,6 +1,6 @@
 "use client";
 
-import { Loading } from "@/components/sharedComponents";
+import BrandsSkeleton from "@/components/sharedComponents/loader/BrandsSkeleton";
 import { Card, CardContent } from "@/components/ui/card";
 import { useGetBrandsQuery } from "@/redux/features/brands/brandsApi";
 import { TBrand } from "@/types/common";
@@ -10,10 +10,6 @@ import { useState } from "react";
 const AllBrands = () => {
   const { data: brandsData, isLoading, isError } = useGetBrandsQuery(undefined);
   const [search, setSearch] = useState("");
-
-  if (isLoading) {
-    return <Loading />;
-  }
 
   if (isError) {
     return (
@@ -40,7 +36,9 @@ const AllBrands = () => {
           className="w-full rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-primary"
         />
       </div>
-      {filteredBrands && filteredBrands.length > 0 ? (
+      {isLoading ? (
+        <BrandsSkeleton />
+      ) : filteredBrands && filteredBrands.length > 0 ? (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 lg:grid-cols-5">
           {filteredBrands.map((brand: TBrand) => (
             <Card

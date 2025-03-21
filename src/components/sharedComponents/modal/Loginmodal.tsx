@@ -10,6 +10,15 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { authKey } from "@/constants/common";
+import useAuth from "@/hooks/useAuth";
+import {
+  useLoginMutation,
+  useRegisterMutation,
+} from "@/redux/features/auth/authApi";
+import { addUser } from "@/redux/features/auth/authSlice";
+import { useAppDispatch } from "@/redux/hooks";
+import { setToLocalStorage } from "@/utils/localStorage";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
@@ -17,16 +26,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
-import useAuth from "../../../hooks/useAuth";
-import {
-  useLoginMutation,
-  useRegisterMutation,
-} from "../../../redux/features/auth/authApi";
 import Loading from "../loader/Loading";
-import { setToLocalStorage } from "@/utils/localStorage";
-import { authKey } from "@/constants/common";
-import { useAppDispatch } from "@/redux/hooks";
-import { addUser } from "@/redux/features/auth/authSlice";
 
 type LoginModalProps = {
   openLoginModal: boolean;

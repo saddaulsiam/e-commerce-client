@@ -18,7 +18,7 @@ import Link from "next/link";
 import { CSSProperties, useCallback, useEffect, useRef, useState } from "react";
 import { Autoplay, Pagination } from "swiper/modules";
 import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
-import banners from "../../../../public/banners";
+import banners from "@/../public/banners";
 
 const Banner = () => {
   // State to track the current slide index

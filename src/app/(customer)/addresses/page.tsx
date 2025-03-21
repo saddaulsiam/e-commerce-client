@@ -1,4 +1,4 @@
-import { DashboardCustomersAddresses } from "../../../components/mainComponents/Dashboard/Customer";
+import { DashboardCustomersAddresses } from "@/components/mainComponents/Dashboard/Customer";
 
 const Address = () => {
   return <DashboardCustomersAddresses />;

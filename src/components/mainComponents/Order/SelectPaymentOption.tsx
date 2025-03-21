@@ -1,5 +1,5 @@
 import Image, { StaticImageData } from "next/image";
-import { cash, sslcommerz, stripe } from "../../../../public/logo";
+import { cash, sslcommerz, stripe } from "@/../public/logo";
 
 interface TProps {
   payWith: string;

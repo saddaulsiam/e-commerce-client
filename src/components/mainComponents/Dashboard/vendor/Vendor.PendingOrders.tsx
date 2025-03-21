@@ -1,6 +1,7 @@
 "use client";
 
-import { Loading, Pagination } from "@/components/sharedComponents";
+import { Pagination } from "@/components/sharedComponents";
+import { Loading } from "@/components/sharedComponents/loader";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {

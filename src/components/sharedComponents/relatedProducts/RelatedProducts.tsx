@@ -2,9 +2,10 @@ import { Button } from "@/components/ui/button";
 import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
 import { TProduct } from "@/types/common";
 import ProductsCard from "../productsCard/ProductsCard";
+import ProductsSkeleton from "../loader/ProductsSkeleton";
 
 const RelatedProducts = ({ category }: { category: string }) => {
-  const { data: products } = useGetAllProductsQuery({
+  const { data: products, isLoading } = useGetAllProductsQuery({
     limit: 5,
     page: 1,
     category,
@@ -17,11 +18,15 @@ const RelatedProducts = ({ category }: { category: string }) => {
           View All →
         </Button>
       </div>
-      <div className="grid grid-cols-2 gap-x-3 gap-y-10 sm:grid-cols-3 lg:grid-cols-5">
-        {products?.data?.data?.map((product: TProduct) => (
-          <ProductsCard product={product} key={product._id} />
-        ))}
-      </div>
+      {isLoading ? (
+        <ProductsSkeleton />
+      ) : (
+        <div className="grid grid-cols-2 gap-x-3 gap-y-10 sm:grid-cols-3 lg:grid-cols-5">
+          {products?.data?.data?.map((product: TProduct) => (
+            <ProductsCard product={product} key={product._id} />
+          ))}
+        </div>
+      )}
     </section>
   );
 };

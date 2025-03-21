@@ -1,6 +1,6 @@
 "use client";
 
-import { Loading } from "@/components/sharedComponents";
+import { Loading } from "@/components/sharedComponents/loader";
 import useAuth from "@/hooks/useAuth";
 import { auth } from "@/providers/AuthProvider";
 import { usePathname, useRouter } from "next/navigation";

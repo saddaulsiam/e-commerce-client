@@ -1,5 +1,5 @@
 "use client";
-import { Loading } from "@/components/sharedComponents";
+import { Loading } from "@/components/sharedComponents/loader";
 import { Button } from "@/components/ui/button";
 import { useGetSingleOrderQuery } from "@/redux/features/order/orders/ordersApi";
 import Link from "next/link";

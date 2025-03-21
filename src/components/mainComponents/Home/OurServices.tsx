@@ -7,7 +7,7 @@ const OurServices = () => {
   return (
     <section className="bg-accent px-2 py-16">
       <div className="container grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="flex flex-col items-center justify-center space-y-3 rounded-md bg-white px-6 py-10 shadow-sm hover:shadow-lg">
+        <div className="flex flex-col items-center justify-center space-y-3 rounded-md bg-white px-6 py-10 shadow-sm transition-shadow duration-300 hover:shadow-lg">
           <span className="rounded-full bg-gray-200 p-4">
             <TbTruckDelivery className="text-4xl text-primary" />
           </span>
@@ -19,7 +19,7 @@ const OurServices = () => {
             range.
           </p>
         </div>
-        <div className="flex flex-col items-center justify-center space-y-3 rounded-md bg-white px-6 py-10 shadow-sm hover:shadow-lg">
+        <div className="flex flex-col items-center justify-center space-y-3 rounded-md bg-white px-6 py-10 shadow-sm transition-shadow duration-300 hover:shadow-lg">
           <span className="rounded-full bg-gray-200 p-4">
             <MdPayment className="text-4xl text-primary" />
           </span>
@@ -31,7 +31,7 @@ const OurServices = () => {
             range.
           </p>
         </div>
-        <div className="flex flex-col items-center justify-center space-y-3 rounded-md bg-white px-6 py-10 shadow-sm hover:shadow-lg">
+        <div className="flex flex-col items-center justify-center space-y-3 rounded-md bg-white px-6 py-10 shadow-sm transition-shadow duration-300 hover:shadow-lg">
           <span className="rounded-full bg-gray-200 p-4">
             <AiOutlineSafety className="text-4xl text-primary" />
           </span>
@@ -43,7 +43,7 @@ const OurServices = () => {
             range.
           </p>
         </div>
-        <div className="flex flex-col items-center justify-center space-y-3 rounded-md bg-white px-6 py-10 shadow-sm hover:shadow-lg">
+        <div className="flex flex-col items-center justify-center space-y-3 rounded-md bg-white px-6 py-10 shadow-sm transition-shadow duration-300 hover:shadow-lg">
           <span className="rounded-full bg-gray-200 p-4">
             <BiSupport className="text-4xl text-primary" />
           </span>
