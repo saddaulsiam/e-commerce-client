@@ -1,7 +1,7 @@
 "use client";
 
 import Lottie from "lottie-react";
-import loading from "../../../../public/loading.json";
+import loading from "../../../../public/animation/loading.json";
 
 const Loading = () => {
   return (

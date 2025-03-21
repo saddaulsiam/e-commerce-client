@@ -8,10 +8,8 @@ import { useAppSelector } from "@/redux/hooks";
 import { FieldValues, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import AddressSelect from "./AddressSelect";
-import { useRouter } from "next/navigation";
 
 const CreateAddressForm = () => {
-  const router = useRouter();
   const { register, handleSubmit, reset, control, setValue, watch } = useForm();
   const { setLoadUser } = useAuth();
 
@@ -26,7 +24,6 @@ const CreateAddressForm = () => {
         toast.success(res.message);
         reset();
         setLoadUser(true);
-        router.push("/addresses");
       }
     } catch (error: any) {
       toast.error(error.massage || "Failed to add address");
@@ -43,7 +40,7 @@ const CreateAddressForm = () => {
             {...register("name", { required: true })}
             type="text"
             placeholder="Enter your full name"
-            className="w-full rounded-md border px-3 py-2 focus:border-primary focus:ring-primary"
+            className="w-full rounded-md border bg-white px-3 py-2 focus:border-primary focus:ring-primary"
             required
           />
         </div>
@@ -55,7 +52,7 @@ const CreateAddressForm = () => {
             {...register("phoneNumber", { required: true })}
             type="number"
             placeholder="Enter your phone number"
-            className="w-full rounded-md border px-3 py-2 focus:border-primary focus:ring-primary"
+            className="w-full rounded-md border bg-white px-3 py-2 focus:border-primary focus:ring-primary"
             required
           />
         </div>
@@ -80,7 +77,7 @@ const CreateAddressForm = () => {
             {...register("address", { required: true })}
             type="text"
             placeholder="House# 123, Street# 123, ABC Road"
-            className="w-full rounded-md border px-3 py-2 focus:border-primary focus:ring-primary"
+            className="w-full rounded-md border bg-white px-3 py-2 focus:border-primary focus:ring-primary"
             required
           />
         </div>
@@ -93,7 +90,7 @@ const CreateAddressForm = () => {
           {...register("email")}
           type="email"
           placeholder="Enter your email"
-          className="w-full rounded-md border px-3 py-2 focus:border-primary focus:ring-primary"
+          className="w-full rounded-md border bg-white px-3 py-2 focus:border-primary focus:ring-primary"
         />
       </div>
 
