@@ -70,7 +70,6 @@ const CreateAddressForm = () => {
             setValue={setValue}
             watch={watch}
             name="area"
-            placeholder={`${user?.vendor.address.street} > ${user?.vendor.address.city} > ${user?.vendor.address.area}`}
           />
         </div>
         <div>

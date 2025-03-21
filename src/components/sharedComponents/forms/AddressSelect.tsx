@@ -21,7 +21,7 @@ interface AddressSelectProps {
   setValue: any;
   watch: any;
   name: string;
-  placeholder: string;
+  placeholder?: string;
 }
 
 const AddressSelect = ({
