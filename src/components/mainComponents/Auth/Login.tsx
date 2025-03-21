@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authKey } from "@/constants/common";
 import useAuth from "@/hooks/useAuth";
-import { auth } from "@/providers/AuthProvider";
 import {
   useLoginMutation,
   useRegisterMutation,
@@ -15,14 +14,9 @@ import {
 import { addUser } from "@/redux/features/auth/authSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { setToLocalStorage } from "@/utils/localStorage";
-import {
-  getRedirectResult,
-  GoogleAuthProvider,
-  signInWithRedirect,
-} from "firebase/auth";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
@@ -92,22 +86,6 @@ const Login = () => {
     }
   };
 
-  // When the app loads after a redirect, check for a redirect result.
-  useEffect(() => {
-    getRedirectResult(auth)
-      .then((result) => {
-        if (result && result.user) {
-          console.log("Redirect result:", result.user);
-          // You can handle the signed-in user here (e.g. update state or redirect)
-        } else {
-          console.log("No redirect result found.");
-        }
-      })
-      .catch((error) => {
-        console.error("Error getting redirect result:", error);
-      });
-  }, []);
-
   return (
     <div className="flex min-h-[calc(100vh-180px)] items-center justify-center bg-gray-100 px-2">
       <Card className="w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
@@ -174,7 +152,7 @@ const Login = () => {
           <Button
             variant="outline"
             className="flex w-full items-center justify-center space-x-2"
-            onClick={() => signInWithRedirect(auth, new GoogleAuthProvider())}
+            onClick={handleGoogleLogin}
           >
             <FcGoogle />
             <span>Continue with Google</span>
