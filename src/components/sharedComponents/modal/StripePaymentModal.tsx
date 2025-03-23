@@ -7,7 +7,7 @@ import { Dispatch, SetStateAction } from "react";
 
 // Load your Stripe publishable key (use environment variables in production)
 const stripePromise = loadStripe(
-  "pk_test_51NkLj1AkOdLWdOinJDXwCB46g94gCswPiDIPPKXrEatrIOD76cTVNDrOXXkfHsLnZcE2RevaXokXTl2tGTut6sf800rXH7FYT3",
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!,
 );
 
 interface TProps {
