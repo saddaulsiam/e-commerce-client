@@ -1,7 +1,7 @@
-import { DashboardCustomersProfileEdit } from "@/components/mainComponents/Dashboard/Customer";
+import { CustomersProfileEdit } from "@/components/mainComponents/Dashboard/Customer";
 
 const ProfileEdit = () => {
-  return <DashboardCustomersProfileEdit />;
+  return <CustomersProfileEdit />;
 };
 
 export default ProfileEdit;

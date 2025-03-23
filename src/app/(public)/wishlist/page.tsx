@@ -1,7 +1,7 @@
-import { DashboardCustomersWishlists } from "@/components/mainComponents/Dashboard/Customer";
+import { CustomersWishlists } from "@/components/mainComponents/Dashboard/Customer";
 
 const Wishlist = () => {
-  return <DashboardCustomersWishlists />;
+  return <CustomersWishlists />;
 };
 
 export default Wishlist;

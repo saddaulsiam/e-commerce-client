@@ -1,7 +1,7 @@
-import { DashboardCustomersAddresses } from "@/components/mainComponents/Dashboard/Customer";
+import { CustomersAddresses } from "@/components/mainComponents/Dashboard/Customer";
 
 const Address = () => {
-  return <DashboardCustomersAddresses />;
+  return <CustomersAddresses />;
 };
 
 export default Address;

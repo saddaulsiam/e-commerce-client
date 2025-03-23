@@ -1,7 +1,7 @@
-import { DashboardCustomersOrderDetails } from "@/components/mainComponents/Dashboard/Customer";
+import { CustomersOrderDetails } from "@/components/mainComponents/Dashboard/Customer";
 
 const OrderById = () => {
-  return <DashboardCustomersOrderDetails />;
+  return <CustomersOrderDetails />;
 };
 
 export default OrderById;

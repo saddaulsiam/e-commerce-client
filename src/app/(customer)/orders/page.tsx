@@ -1,7 +1,7 @@
-import { DashboardCustomersOrders } from "@/components/mainComponents/Dashboard/Customer";
+import { CustomersOrders } from "@/components/mainComponents/Dashboard/Customer";
 
 const Orders = () => {
-  return <DashboardCustomersOrders />;
+  return <CustomersOrders />;
 };
 
 export default Orders;

@@ -1,7 +1,7 @@
-import { DashboardCustomersProfile } from "@/components/mainComponents/Dashboard/Customer";
+import { CustomersProfile } from "@/components/mainComponents/Dashboard/Customer";
 
 const Index = () => {
-  return <DashboardCustomersProfile />;
+  return <CustomersProfile />;
 };
 
 export default Index;

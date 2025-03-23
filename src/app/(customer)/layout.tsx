@@ -1,6 +1,6 @@
 "use client";
 
-import { DashboardCustomerNavigation } from "@/components/mainComponents/Dashboard/Customer";
+import { CustomerNavigation } from "@/components/mainComponents/Dashboard/Customer";
 import { BottomBar, Footer, Navbar } from "@/components/sharedComponents";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -18,7 +18,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
         <aside className="relative hidden lg:col-span-1 lg:block">
           <nav className="rounded-md bg-white p-6 shadow">
             <h2 className="pb-4 text-xl font-bold text-gray-700">Dashboard</h2>
-            <DashboardCustomerNavigation navData={userDashboard} />
+            <CustomerNavigation navData={userDashboard} />
           </nav>
         </aside>
 
@@ -36,7 +36,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
                 <h2 className="pb-3 text-xl font-bold text-gray-700">
                   Dashboard
                 </h2>
-                <DashboardCustomerNavigation navData={userDashboard} />
+                <CustomerNavigation navData={userDashboard} />
               </SheetContent>
             </Sheet>
           </div>
