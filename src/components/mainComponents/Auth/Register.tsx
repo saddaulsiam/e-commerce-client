@@ -10,7 +10,7 @@ import { addUser } from "@/redux/features/auth/authSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { setToLocalStorage } from "@/utils/localStorage";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
@@ -22,12 +22,16 @@ import { useRegisterMutation } from "@/redux/features/auth/authApi";
 const Register = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirectTo") || "/";
+
+  const [showPass, setShowPass] = useState(false);
+  const [showConfirmPass, setShowConfirmPass] = useState(false);
+
   const { register, handleSubmit, reset } = useForm();
   const [postUser, { isLoading }] = useRegisterMutation();
   const { createUser, googleLogIn, setLoading, loading, updateUserProfile } =
     useAuth();
-  const [showPass, setShowPass] = useState(false);
-  const [showConfirmPass, setShowConfirmPass] = useState(false);
 
   const onSubmit = async (data: FieldValues) => {
     if (data.password !== data.confirmPassword) {
@@ -54,7 +58,7 @@ const Register = () => {
             key: authKey.ACCESS_TOKEN,
             token: res.data.accessToken,
           });
-          router.replace("/");
+          router.replace(redirectTo);
         }
       }
     } catch (error: any) {
@@ -82,7 +86,7 @@ const Register = () => {
             key: authKey.ACCESS_TOKEN,
             token: res.data.accessToken,
           });
-          router.replace("/dashboard");
+          router.replace("/");
         }
       }
     } catch (error: any) {
