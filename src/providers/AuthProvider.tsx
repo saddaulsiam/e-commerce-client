@@ -103,8 +103,8 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         password,
       );
       if (!userCredential.user.emailVerified) {
-        await sendEmailVerification(userCredential.user);
         toast.error("Please verify your email before logging in.");
+        await sendEmailVerification(userCredential.user);
         await signOut(auth);
         return;
       }

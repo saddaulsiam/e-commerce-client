@@ -51,14 +51,13 @@ const Register = () => {
 
         const res = await postUser(userData).unwrap();
         if (res.success) {
-          toast.success("Registration Successful");
           dispatch(addUser(res.data.user));
           reset();
           setToLocalStorage({
             key: authKey.ACCESS_TOKEN,
             token: res.data.accessToken,
           });
-          router.replace(redirectTo);
+          router.replace("/login");
         }
       }
     } catch (error: any) {
@@ -86,7 +85,7 @@ const Register = () => {
             key: authKey.ACCESS_TOKEN,
             token: res.data.accessToken,
           });
-          router.replace("/");
+          router.replace(redirectTo);
         }
       }
     } catch (error: any) {
