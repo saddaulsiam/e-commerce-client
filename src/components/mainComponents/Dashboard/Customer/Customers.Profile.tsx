@@ -35,7 +35,7 @@ const DashboardCustomersProfile = () => {
           {/* Profile & Order Summary */}
           <div className="mb-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {/* Profile Card */}
-            <div className="col-span-2 flex items-center rounded-lg bg-slate-100 p-5 shadow-md sm:col-span-1">
+            <div className="col-span-2 flex items-center rounded-lg bg-slate-50 p-5 shadow-md sm:col-span-1">
               <Avatar className="h-16 w-16 border-2 border-white shadow-sm">
                 <AvatarImage src={user?.profile?.photo || "/user-avatar.jpg"} />
                 <AvatarFallback className="bg-primary/10">
@@ -75,7 +75,7 @@ const DashboardCustomersProfile = () => {
               ].map((item, index) => (
                 <div
                   key={index}
-                  className="flex flex-col items-center justify-center rounded-lg bg-slate-100 p-4 shadow-md"
+                  className="flex flex-col items-center justify-center rounded-lg bg-slate-50 p-4 shadow-md"
                 >
                   <h2 className="text-xl font-semibold text-primary">
                     {item.count.toString().padStart(2, "0")}
@@ -89,13 +89,16 @@ const DashboardCustomersProfile = () => {
           </div>
 
           {/* Personal Information */}
-          <div className="rounded-lg bg-slate-100 p-5 shadow-md">
+          <div className="rounded-lg bg-slate-50 p-5 shadow-md">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {[
-                { label: "Full Name", value: user?.displayName },
-                { label: "Phone", value: user?.phoneNumber },
-                { label: "Date Of Birth", value: user?.profile.birthDate },
-                { label: "Email", value: user?.email },
+                { label: "Full Name", value: user?.displayName || "N/A" },
+                { label: "Phone", value: user?.phoneNumber || "N/A" },
+                {
+                  label: "Date Of Birth",
+                  value: user?.profile.birthDate || "N/A",
+                },
+                { label: "Email", value: user?.email || "N/A" },
               ].map((item, index) => (
                 <div key={index}>
                   <p className="text-xs text-gray-500">{item.label}</p>

@@ -1,30 +1,35 @@
+"use client";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
+import Lottie from "lottie-react";
 import Link from "next/link";
+import notFoundAnimation from "../../public/animation/not-found.json";
 
 const NotFound = () => {
   return (
-    <div className="flex h-screen flex-col items-center justify-center bg-gray-50">
-      <div className="mb-8 text-center">
-        <Image
-          src="/not-found"
-          width={350}
-          height={350}
-          alt="Page Not Found"
-          priority
+    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 px-4">
+      <div className="mb-8 h-72 w-72 sm:h-80 sm:w-80">
+        <Lottie
+          animationData={notFoundAnimation}
+          loop
+          className="pointer-events-none"
         />
       </div>
-      <h1 className="text-4xl font-bold text-gray-800">Oops! Page Not Found</h1>
-      <p className="mt-4 text-lg text-gray-600">
-        Looks like the page you&apos;re looking for doesn&apos;t exist. But
-        don’t worry, we can help you find your way back!
+      <h1 className="text-center text-4xl font-extrabold text-gray-700 sm:text-5xl">
+        Oops! Page Not Found
+      </h1>
+      <p className="mt-4 max-w-md text-center text-base text-gray-600 sm:text-lg">
+        Looks like the page you&apos;re looking for doesn&apos;t exist.
       </p>
-      <div className="mt-8 flex space-x-4">
+      <div className="mt-8 flex flex-col gap-4 sm:flex-row">
         <Link href="/">
-          <Button>Go to Home Page</Button>
+          <Button variant="default" className="w-full sm:w-auto">
+            Go to Home
+          </Button>
         </Link>
         <Link href="/shop">
-          <Button className="bg-green-600 hover:bg-green-500">Shop Now</Button>
+          <Button className="w-full bg-green-500 hover:bg-green-600 sm:w-auto">
+            Shop Now
+          </Button>
         </Link>
       </div>
     </div>

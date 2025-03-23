@@ -32,24 +32,12 @@ const CartSummary = ({ cart }: { cart: TCart }) => {
         </div>
       </div>
       {path === "/cart" && (
-        <div className="mt-4 space-y-4">
-          <div className="flex space-x-0">
-            <input
-              type="text"
-              className="h-10 flex-grow rounded-l border border-gray-300 px-3 focus:border-primary focus:outline-none"
-              placeholder="Enter Voucher Code"
-            />
-            <Button className="h-10 rounded-none border bg-teal-500 px-4 py-2 text-white transition-colors duration-150 hover:bg-teal-600">
-              APPLY
-            </Button>
-          </div>
-          <Button
-            onClick={() => router.push("/checkout")}
-            className="h-12 w-full rounded bg-primary font-semibold text-white transition-colors duration-150 hover:bg-primary/90"
-          >
-            PROCEED TO CHECKOUT
-          </Button>
-        </div>
+        <Button
+          onClick={() => router.push("/checkout")}
+          className="h-12 w-full rounded bg-primary font-semibold text-white transition-colors duration-150 hover:bg-primary/90"
+        >
+          PROCEED TO CHECKOUT
+        </Button>
       )}
     </div>
   );
