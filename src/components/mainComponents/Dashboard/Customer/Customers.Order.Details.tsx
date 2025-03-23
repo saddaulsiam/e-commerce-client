@@ -10,7 +10,7 @@ import { BsBoxSeam } from "react-icons/bs";
 import { FaShoppingBag } from "react-icons/fa";
 import { FcCheckmark } from "react-icons/fc";
 import { TbTruckDelivery } from "react-icons/tb";
-import DashboardCustomersOrderDetailsCart from "./Dashboard.Customers.Order.Details.Cart";
+import DashboardCustomersOrderDetailsCart from "./Customers.Order.Details.Cart";
 
 const DashboardCustomersOrderDetails = () => {
   const params = useParams();

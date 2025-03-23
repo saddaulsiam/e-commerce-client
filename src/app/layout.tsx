@@ -36,7 +36,7 @@ const RootLayout = ({
           <MainProviders>
             <TooltipProvider>{children}</TooltipProvider>
           </MainProviders>
-          <ToastContainer />
+          <ToastContainer autoClose={1000} />
         </body>
       </html>
     </MotionConfig>

@@ -1,6 +1,7 @@
 "use client";
 
 import { Pagination, ProductsCard } from "@/components/sharedComponents";
+import { ProductsSkeleton } from "@/components/sharedComponents/loader";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -14,7 +15,6 @@ import { useSearchParams } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
 import { BiHorizontalCenter } from "react-icons/bi";
 import SearchingProductsSidebar from "./Searching.Products.Sidebar";
-import { ProductsSkeleton } from "@/components/sharedComponents/loader";
 
 export type SortByType = "default" | "low" | "high";
 
@@ -156,12 +156,16 @@ const SearchingProducts = () => {
             {/* Products */}
             {isLoading ? (
               <ProductsSkeleton classname="lg:grid-cols-4" number={8} />
-            ) : (
+            ) : products?.data?.data?.length > 0 ? (
               <div className="grid grid-cols-2 gap-x-3 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
                 {products?.data?.data?.map((product: TProduct) => (
                   <ProductsCard key={product._id} product={product} />
                 ))}
               </div>
+            ) : (
+              <p className="flex min-h-96 w-full items-center justify-center text-3xl font-semibold text-gray-400">
+                Products Not Found&apos;s
+              </p>
             )}
 
             {/* Pagination */}
