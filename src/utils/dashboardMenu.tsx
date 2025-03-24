@@ -11,6 +11,7 @@ import {
   PlusCircle,
   Settings,
   ShoppingCart,
+  StoreIcon,
   Tag,
   Users,
 } from "lucide-react";
@@ -21,13 +22,31 @@ import { MdOutlineAccountCircle } from "react-icons/md";
 
 export type NavItem = {
   title: string;
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   href?: string;
   children?: NavItem[];
 };
 
 export function getDashboardMenu(role: string): NavItem[] {
-  if (role === USER_ROLE.ADMIN) {
+  if (role === USER_ROLE.CUSTOMER) {
+    return [
+      {
+        title: "Orders",
+        icon: <BsBag className="h-5 w-5" />,
+        href: "/orders",
+      },
+      {
+        title: "Profile Info",
+        icon: <MdOutlineAccountCircle className="h-5 w-5" />,
+        href: "/profile",
+      },
+      {
+        title: "Addresses",
+        icon: <HiOutlineLocationMarker className="h-5 w-5" />,
+        href: "/addresses",
+      },
+    ];
+  } else if (role === USER_ROLE.ADMIN) {
     return [
       {
         title: "Dashboard",
@@ -35,20 +54,14 @@ export function getDashboardMenu(role: string): NavItem[] {
         href: "/admin/dashboard",
       },
       {
-        title: "Vendors",
-        icon: <Users className="h-5 w-5" />,
-        href: "/admin/vendors",
+        title: "Reports",
+        icon: <BarChart2 className="h-5 w-5" />,
+        href: "/admin/reports",
       },
       {
-        title: "Products",
+        title: "All Products",
         icon: <Package className="h-5 w-5" />,
-        children: [
-          {
-            title: "All Products",
-            icon: <Package className="h-5 w-5" />,
-            href: "/admin/products",
-          },
-        ],
+        href: "/admin/products",
       },
       {
         title: "Orders",
@@ -99,19 +112,14 @@ export function getDashboardMenu(role: string): NavItem[] {
         ],
       },
       {
+        title: "Vendors",
+        icon: <StoreIcon className="h-5 w-5" />,
+        href: "/admin/vendors",
+      },
+      {
         title: "Customers",
         icon: <Users className="h-5 w-5" />,
         href: "/admin/customers",
-      },
-      {
-        title: "Reports",
-        icon: <BarChart2 className="h-5 w-5" />,
-        href: "/admin/reports",
-      },
-      {
-        title: "Account Settings",
-        icon: <Settings className="h-5 w-5" />,
-        href: "/admin/settings",
       },
     ];
   } else if (role === USER_ROLE.VENDOR) {
@@ -189,22 +197,3 @@ export function getDashboardTools(role: string): NavItem[] {
     },
   ];
 }
-
-// Dashboard Menu
-export const userDashboard = [
-  {
-    title: "Orders",
-    route: "/orders",
-    icon: BsBag,
-  },
-  {
-    title: "Profile Info",
-    route: "/profile",
-    icon: MdOutlineAccountCircle,
-  },
-  {
-    title: "Addresses",
-    route: "/addresses",
-    icon: HiOutlineLocationMarker,
-  },
-];

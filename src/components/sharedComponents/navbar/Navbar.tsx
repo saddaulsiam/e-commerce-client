@@ -14,27 +14,31 @@ import {
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import { USER_ROLE } from "@/constants/common";
-import { myAccount, vendorAccount } from "@/data/navbar.navigation";
 import useAuth from "@/hooks/useAuth";
 import { logOutUser } from "@/redux/features/auth/authSlice";
 import { removeOrderDetails } from "@/redux/features/order/orderDetails/orderDetailsSlice";
 import { useAppSelector } from "@/redux/hooks";
+import {
+  myAccount,
+  vendorAccount,
+  adminAccount,
+} from "@/utils/navbarNavigation";
 import { X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { AiOutlineHeart } from "react-icons/ai";
 import { BiCategory } from "react-icons/bi";
 import { FiSearch, FiShoppingCart } from "react-icons/fi";
 import { HiOutlineUserCircle } from "react-icons/hi";
+import { IoIosGitCompare } from "react-icons/io";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import AnnouncementBar from "../announcementBar/AnnouncementBar";
 import CategoriesDropDownContent from "../DropDown/CategoriesDropDownContent";
 import LoginModal from "../modal/Loginmodal";
 import NavMegaMenu from "./NavMegaMenu";
-import { IoIosGitCompare } from "react-icons/io";
-import { AiOutlineHeart } from "react-icons/ai";
 
 const Navbar = () => {
   const router = useRouter();
@@ -205,18 +209,27 @@ const Navbar = () => {
 
                   {user?.role === (USER_ROLE.CUSTOMER as string) &&
                     myAccount.map((account) => (
-                      <Link href={account.href} key={account.name}>
+                      <Link href={account.href!} key={account.title}>
                         <DropdownMenuItem className="cursor-pointer">
-                          {account.name}
+                          {account.title}
                         </DropdownMenuItem>
                       </Link>
                     ))}
 
                   {user?.role === (USER_ROLE.VENDOR as string) &&
                     vendorAccount.map((account) => (
-                      <Link href={account.href} key={account.name}>
+                      <Link href={account.href!} key={account.title}>
                         <DropdownMenuItem className="cursor-pointer">
-                          {account.name}
+                          {account.title}
+                        </DropdownMenuItem>
+                      </Link>
+                    ))}
+
+                  {user?.role === (USER_ROLE.ADMIN as string) &&
+                    adminAccount.map((account) => (
+                      <Link href={account.href!} key={account.title}>
+                        <DropdownMenuItem className="cursor-pointer">
+                          {account.title}
                         </DropdownMenuItem>
                       </Link>
                     ))}

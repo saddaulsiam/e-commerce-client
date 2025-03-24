@@ -4,11 +4,17 @@ import { CustomerNavigation } from "@/components/mainComponents/Dashboard/Custom
 import { BottomBar, Footer, Navbar } from "@/components/sharedComponents";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { userDashboard } from "@/utils/dashboardMenu";
-import { ReactNode } from "react";
+import { useAppSelector } from "@/redux/hooks";
+import { getDashboardMenu, NavItem } from "@/utils/dashboardMenu";
+import { ReactNode, useMemo } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 
 const Layout = ({ children }: { children: ReactNode }) => {
+  const { user } = useAppSelector(({ state }) => state.auth);
+  const menu: NavItem[] = useMemo(
+    () => getDashboardMenu(user?.role as string),
+    [user?.role],
+  );
   return (
     <div className="bg-accent">
       <Navbar />
@@ -18,7 +24,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
         <aside className="relative hidden lg:col-span-1 lg:block">
           <nav className="rounded-md bg-white p-6 shadow">
             <h2 className="pb-4 text-xl font-bold text-gray-700">Dashboard</h2>
-            <CustomerNavigation navData={userDashboard} />
+            <CustomerNavigation navData={menu} />
           </nav>
         </aside>
 
@@ -36,7 +42,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
                 <h2 className="pb-3 text-xl font-bold text-gray-700">
                   Dashboard
                 </h2>
-                <CustomerNavigation navData={userDashboard} />
+                <CustomerNavigation navData={menu} />
               </SheetContent>
             </Sheet>
           </div>

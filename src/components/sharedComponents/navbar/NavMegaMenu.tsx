@@ -17,8 +17,12 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Separator } from "@/components/ui/separator";
 import { USER_ROLE } from "@/constants/common";
-import { myAccount, vendorAccount } from "@/data/navbar.navigation";
 import { TUser } from "@/types/common";
+import {
+  adminAccount,
+  myAccount,
+  vendorAccount,
+} from "@/utils/navbarNavigation";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BiCategory } from "react-icons/bi";
@@ -32,7 +36,6 @@ type TProps = {
 
 const NavMegaMenu = ({ isScrolled, user }: TProps) => {
   const path = usePathname();
-
   return (
     <div className="relative z-50 transform scroll-smooth transition duration-500 xl:container">
       <div className="hidden lg:block">
@@ -72,28 +75,6 @@ const NavMegaMenu = ({ isScrolled, user }: TProps) => {
                 </Link>
               </NavigationMenuItem>
 
-              {/* My Account Dropdown - Vendor */}
-              {user?.role === (USER_ROLE.VENDOR as string) && (
-                <NavigationMenuItem className="relative">
-                  <NavigationMenuTrigger>My Account</NavigationMenuTrigger>
-                  <NavigationMenuContent className="absolute left-0 z-50 flex min-w-48 flex-col gap-y-1 rounded-md border bg-white p-1.5 shadow-md">
-                    <Label className="cursor-auto p-1 pl-2 text-sm">
-                      My Account
-                    </Label>
-                    <Separator />
-                    {vendorAccount.map((item, i) => (
-                      <Link href={item.href} passHref legacyBehavior key={i}>
-                        <NavigationMenuLink asChild>
-                          <a className="p-1 pl-2 text-sm transition-all duration-100 ease-in hover:bg-accent hover:text-primary">
-                            {item.name}
-                          </a>
-                        </NavigationMenuLink>
-                      </Link>
-                    ))}
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-              )}
-
               {/* My Account Dropdown - Customer */}
               {user?.role === (USER_ROLE.CUSTOMER as string) && (
                 <>
@@ -105,10 +86,10 @@ const NavMegaMenu = ({ isScrolled, user }: TProps) => {
                       </Label>
                       <Separator />
                       {myAccount.map((item, i) => (
-                        <Link href={item.href} passHref legacyBehavior key={i}>
+                        <Link href={item.href!} passHref legacyBehavior key={i}>
                           <NavigationMenuLink asChild>
                             <a className="p-1 pl-2 text-sm transition-all duration-100 ease-in hover:bg-accent hover:text-primary">
-                              {item.name}
+                              {item.title}
                             </a>
                           </NavigationMenuLink>
                         </Link>
@@ -126,6 +107,50 @@ const NavMegaMenu = ({ isScrolled, user }: TProps) => {
                     </Link>
                   </NavigationMenuItem>
                 </>
+              )}
+
+              {/* My Account Dropdown - Vendor */}
+              {user?.role === (USER_ROLE.VENDOR as string) && (
+                <NavigationMenuItem className="relative">
+                  <NavigationMenuTrigger>My Account</NavigationMenuTrigger>
+                  <NavigationMenuContent className="absolute left-0 z-50 flex min-w-48 flex-col gap-y-1 rounded-md border bg-white p-1.5 shadow-md">
+                    <Label className="cursor-auto p-1 pl-2 text-sm">
+                      My Account
+                    </Label>
+                    <Separator />
+                    {vendorAccount.map((item, i) => (
+                      <Link href={item.href!} passHref legacyBehavior key={i}>
+                        <NavigationMenuLink asChild>
+                          <a className="p-1 pl-2 text-sm transition-all duration-100 ease-in hover:bg-accent hover:text-primary">
+                            {item.title}
+                          </a>
+                        </NavigationMenuLink>
+                      </Link>
+                    ))}
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              )}
+
+              {/* My Account Dropdown - Vendor */}
+              {user?.role === (USER_ROLE.ADMIN as string) && (
+                <NavigationMenuItem className="relative">
+                  <NavigationMenuTrigger>My Account</NavigationMenuTrigger>
+                  <NavigationMenuContent className="absolute left-0 z-50 flex min-w-48 flex-col gap-y-1 rounded-md border bg-white p-1.5 shadow-md">
+                    <Label className="cursor-auto p-1 pl-2 text-sm">
+                      My Account
+                    </Label>
+                    <Separator />
+                    {adminAccount.map((item, i) => (
+                      <Link href={item.href!} passHref legacyBehavior key={i}>
+                        <NavigationMenuLink asChild>
+                          <a className="p-1 pl-2 text-sm transition-all duration-100 ease-in hover:bg-accent hover:text-primary">
+                            {item.title}
+                          </a>
+                        </NavigationMenuLink>
+                      </Link>
+                    ))}
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
               )}
             </NavigationMenuList>
           </NavigationMenu>

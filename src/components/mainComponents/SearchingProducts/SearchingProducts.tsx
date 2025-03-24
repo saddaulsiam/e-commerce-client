@@ -164,7 +164,7 @@ const SearchingProducts = () => {
               </div>
             ) : (
               <p className="flex min-h-96 w-full items-center justify-center text-3xl font-semibold text-gray-400">
-                Products Not Found&apos;s
+                Products Not Found !
               </p>
             )}
 
