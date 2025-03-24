@@ -48,6 +48,7 @@ const Navbar = () => {
 
   const { cartItems } = useAppSelector(({ state }) => state.cart);
   const { items: compareItems } = useAppSelector(({ state }) => state.compare);
+  const { items: wishlist } = useAppSelector(({ state }) => state.wishlist);
   const { user } = useAppSelector(({ state }) => state.auth);
 
   useEffect(() => {
@@ -135,15 +136,15 @@ const Navbar = () => {
               className="text-gray-700 lg:hidden"
               onClick={() => setShowMobileSearch((pre) => !pre)}
             >
-              <FiSearch className="h-6 w-6" />
+              <FiSearch className="h-5 w-5" />
             </button>
 
             <Link href="/wishlist" className="hidden sm:block">
               <div className="relative cursor-pointer p-2 text-gray-700 transition-colors hover:text-primary">
-                <AiOutlineHeart className="h-6 w-6" />
-                {compareItems.length > 0 && (
-                  <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-white">
-                    {compareItems.length}
+                <AiOutlineHeart className="h-5 w-5" />
+                {wishlist.length > 0 && (
+                  <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-xs text-white">
+                    {wishlist.length}
                   </span>
                 )}
               </div>
@@ -151,9 +152,9 @@ const Navbar = () => {
 
             <Link href="/compare" className="hidden sm:block">
               <div className="relative cursor-pointer p-2 text-gray-700 transition-colors hover:text-primary">
-                <IoIosGitCompare className="h-6 w-6" />
+                <IoIosGitCompare className="h-5 w-5" />
                 {compareItems.length > 0 && (
-                  <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-white">
+                  <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-xs text-white">
                     {compareItems.length}
                   </span>
                 )}
@@ -163,10 +164,10 @@ const Navbar = () => {
             {/* Cart Icon (Triggers Sidebar) */}
             <Sheet>
               <SheetTrigger asChild className="hidden sm:block">
-                <div className="relative cursor-pointer p-2 text-gray-700 transition-colors hover:text-primary">
-                  <FiShoppingCart className="h-6 w-6" />
+                <div className="relative cursor-pointer p-2 text-gray-600 transition-colors hover:text-primary">
+                  <FiShoppingCart className="h-5 w-5" />
                   {cartItems.length > 0 && (
-                    <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-white">
+                    <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-xs text-white">
                       {cartItems.length}
                     </span>
                   )}
@@ -183,14 +184,14 @@ const Navbar = () => {
                     variant="ghost"
                     className="h-10 w-10 rounded-full p-0"
                   >
-                    <Avatar className="h-9 w-9 border-2 border-gray-100">
+                    <Avatar className="h-10 w-10 border-2 border-gray-100">
                       <AvatarImage
                         src={user?.profile?.photo}
                         alt={user?.displayName}
                       />
                       <AvatarFallback>
                         {user.displayName?.[0] || (
-                          <HiOutlineUserCircle className="h-6 w-6" />
+                          <HiOutlineUserCircle className="h-9 w-9" />
                         )}
                       </AvatarFallback>
                     </Avatar>

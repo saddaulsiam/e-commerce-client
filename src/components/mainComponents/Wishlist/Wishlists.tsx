@@ -20,25 +20,17 @@ const Wishlists = () => {
   };
 
   return (
-    <div className="container my-10 p-2">
+    <div className="container my-10 px-2">
       {/* Header */}
-      <div className="grid grid-cols-2 gap-y-5">
-        <div className="flex items-center">
-          <h2 className="text-2xl font-semibold text-primary">
-            <BsFillSuitHeartFill className="mr-3 inline text-primary" />
-            <span> My Wish List</span>
-          </h2>
-        </div>
-        <div className="flex justify-end lg:hidden">
-          <Button className="text-2xl font-thin">
-            <GiHamburgerMenu />
-          </Button>
-        </div>
-        <div className="flex lg:justify-end">
-          <Button onClick={() => dispatch(clearWishlist())}>
-            Remove All Wishlist
-          </Button>
-        </div>
+      <div className="flex justify-between">
+        <h2 className="text-2xl font-semibold text-primary">
+          <BsFillSuitHeartFill className="mr-3 inline text-primary" />
+          <span>My Wishlist</span>
+        </h2>
+
+        <Button onClick={() => dispatch(clearWishlist())}>
+          Clear All
+        </Button>
       </div>
 
       {/* Wishlist Items */}

@@ -3,6 +3,7 @@
 import ProductsModal from "@/components/sharedComponents/modal/ProductsModal";
 import RatingStars from "@/components/ui/rating";
 import { addToCart } from "@/redux/features/cart/cartSlice";
+import { addToCompare } from "@/redux/features/compare/compareSlice";
 import { TProduct } from "@/types/common";
 import { Delete } from "lucide-react";
 import Image from "next/image";
@@ -46,7 +47,11 @@ const WishlistCard = ({ product, onRemove }: WishlistCardProps) => {
   // Handle Remove from Wishlist
   const handleRemoveFromWishlist = () => {
     onRemove(product?._id as string);
-    toast.info("Removed from wishlist");
+  };
+
+  const handleAddToCompare = () => {
+    dispatch(addToCompare(product));
+    toast.success("Added to Compare List");
   };
 
   return (
@@ -74,6 +79,7 @@ const WishlistCard = ({ product, onRemove }: WishlistCardProps) => {
             <button
               className="rounded-full bg-white p-2 transition duration-300 hover:bg-primary hover:text-white"
               aria-label="Remove from wishlist"
+              onClick={handleAddToCompare}
             >
               <IoIosGitCompare />
             </button>
