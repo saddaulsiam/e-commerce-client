@@ -2,6 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { addToCart } from "@/redux/features/cart/cartSlice";
+import { addToCompare } from "@/redux/features/compare/compareSlice";
+import { addToWishlist } from "@/redux/features/wishlist/wishlistSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { TProduct } from "@/types/common";
 import Link from "next/link";
@@ -36,6 +38,17 @@ const SingleProductDetails = ({ product }: Props) => {
       Math.max(1, type === "increment" ? prev + 1 : prev - 1),
     );
   };
+
+  const handleAddToWishlist = () => {
+    dispatch(addToWishlist(product));
+    toast.success("Added to wishlist");
+  };
+
+  const handleAddToCompare = () => {
+    dispatch(addToCompare(product));
+    toast.success("Added to Compare List");
+  };
+
   return (
     <div className="space-y-8">
       {/* Product Title & Actions */}
@@ -45,10 +58,18 @@ const SingleProductDetails = ({ product }: Props) => {
             {product?.name}
           </h1>
           <div className="flex items-center text-xl text-gray-500">
-            <Button variant="ghost" className="hover:text-red-500">
+            <Button
+              onClick={handleAddToWishlist}
+              variant="ghost"
+              className="hover:text-red-500"
+            >
               <AiOutlineHeart />
             </Button>
-            <Button variant="ghost" className="hover:text-blue-600">
+            <Button
+              onClick={handleAddToCompare}
+              variant="ghost"
+              className="hover:text-blue-600"
+            >
               <IoIosGitCompare />
             </Button>
           </div>

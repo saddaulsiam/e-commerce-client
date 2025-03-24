@@ -7,7 +7,8 @@ export const myAccount: NavLink[] = [
   { name: "Profile", href: "/profile" },
   { name: "My Orders", href: "/orders" },
   { name: "Addresses", href: "/addresses" },
-  { name: "Wishlists", href: "/wishlists" },
+  { name: "Wishlist", href: "/wishlist" },
+  { name: "Compare list", href: "/compare" },
 ];
 
 export const vendorAccount: NavLink[] = [

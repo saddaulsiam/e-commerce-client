@@ -33,6 +33,8 @@ import AnnouncementBar from "../announcementBar/AnnouncementBar";
 import CategoriesDropDownContent from "../DropDown/CategoriesDropDownContent";
 import LoginModal from "../modal/Loginmodal";
 import NavMegaMenu from "./NavMegaMenu";
+import { IoIosGitCompare } from "react-icons/io";
+import { AiOutlineHeart } from "react-icons/ai";
 
 const Navbar = () => {
   const router = useRouter();
@@ -45,6 +47,7 @@ const Navbar = () => {
   const [showMobileSearch, setShowMobileSearch] = useState<boolean>(false);
 
   const { cartItems } = useAppSelector(({ state }) => state.cart);
+  const { items: compareItems } = useAppSelector(({ state }) => state.compare);
   const { user } = useAppSelector(({ state }) => state.auth);
 
   useEffect(() => {
@@ -135,9 +138,31 @@ const Navbar = () => {
               <FiSearch className="h-6 w-6" />
             </button>
 
+            <Link href="/wishlist" className="hidden sm:block">
+              <div className="relative cursor-pointer p-2 text-gray-700 transition-colors hover:text-primary">
+                <AiOutlineHeart className="h-6 w-6" />
+                {compareItems.length > 0 && (
+                  <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-white">
+                    {compareItems.length}
+                  </span>
+                )}
+              </div>
+            </Link>
+
+            <Link href="/compare" className="hidden sm:block">
+              <div className="relative cursor-pointer p-2 text-gray-700 transition-colors hover:text-primary">
+                <IoIosGitCompare className="h-6 w-6" />
+                {compareItems.length > 0 && (
+                  <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-white">
+                    {compareItems.length}
+                  </span>
+                )}
+              </div>
+            </Link>
+
             {/* Cart Icon (Triggers Sidebar) */}
             <Sheet>
-              <SheetTrigger asChild className="hidden lg:block">
+              <SheetTrigger asChild className="hidden sm:block">
                 <div className="relative cursor-pointer p-2 text-gray-700 transition-colors hover:text-primary">
                   <FiShoppingCart className="h-6 w-6" />
                   {cartItems.length > 0 && (

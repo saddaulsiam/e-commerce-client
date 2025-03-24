@@ -1,22 +1,26 @@
 "use client";
 
+import ProductsModal from "@/components/sharedComponents/modal/ProductsModal";
 import RatingStars from "@/components/ui/rating";
 import { addToCart } from "@/redux/features/cart/cartSlice";
-import { addToCompare } from "@/redux/features/compare/compareSlice";
-import { addToWishlist } from "@/redux/features/wishlist/wishlistSlice";
 import { TProduct } from "@/types/common";
+import { Delete } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { AiFillEye, AiOutlineHeart } from "react-icons/ai";
+import { AiFillEye, AiFillHeart } from "react-icons/ai";
 import { BsCart2 } from "react-icons/bs";
 import { IoIosGitCompare } from "react-icons/io";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import ProductsModal from "../modal/ProductsModal";
 
-const ProductsCard = ({ product }: { product: TProduct }) => {
+type WishlistCardProps = {
+  product: TProduct;
+  onRemove: (id: string) => void;
+};
+
+const WishlistCard = ({ product, onRemove }: WishlistCardProps) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
@@ -35,19 +39,14 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
         size: "L",
       }),
     );
-
     toast.success("Added to cart");
     setIsOpen(false);
   };
 
-  const handleAddToWishlist = () => {
-    dispatch(addToWishlist(product));
-    toast.success("Added to wishlist");
-  };
-
-  const handleAddToCompare = () => {
-    dispatch(addToCompare(product));
-    toast.success("Added to Compare List");
+  // Handle Remove from Wishlist
+  const handleRemoveFromWishlist = () => {
+    onRemove(product?._id as string);
+    toast.info("Removed from wishlist");
   };
 
   return (
@@ -66,31 +65,25 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
           {/* Floating Icons */}
           <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 transform space-x-3 text-lg text-gray-700 group-hover:flex">
             <button
-              title="Quick view"
               className="rounded-full bg-white p-2 transition duration-300 hover:bg-primary hover:text-white"
               onClick={() => setIsOpen(true)}
+              aria-label="Quick view"
             >
               <AiFillEye />
             </button>
             <button
-              title="Add to wishlist"
               className="rounded-full bg-white p-2 transition duration-300 hover:bg-primary hover:text-white"
+              aria-label="Remove from wishlist"
             >
-              <AiOutlineHeart onClick={handleAddToWishlist} />
+              <IoIosGitCompare />
             </button>
             <button
-              title="Add to compare list"
-              className="rounded-full bg-white p-2 transition duration-300 hover:bg-primary hover:text-white"
-            >
-              <IoIosGitCompare onClick={handleAddToCompare} />
-            </button>
-            <button
-              title="Add to cart"
               className="rounded-full bg-white p-2 transition duration-300 hover:bg-primary hover:text-white"
               onClick={() => {
                 handleAddToCart();
                 router.push("/cart");
               }}
+              aria-label="Add to cart"
             >
               <BsCart2 />
             </button>
@@ -101,12 +94,12 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
         <div className="p-1.5 md:p-4">
           <Link href={`/product/${product._id}`}>
             <h3 className="truncate text-lg font-semibold capitalize text-gray-800 transition duration-200 hover:text-primary">
-              {product?.name}
+              {product.name}
             </h3>
           </Link>
 
           {/* Rating Section */}
-          <RatingStars rating={product?.rating as number} />
+          <RatingStars rating={product.rating as number} />
 
           {/* Price Section */}
           <div className="mt-2 flex items-center space-x-2 text-lg font-semibold">
@@ -129,16 +122,13 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
             <span className="hidden xl:block"> to Cart</span>
           </button>
 
-          {/* Buy Now Button */}
+          {/* Remove Button */}
           <button
-            className="flex w-1/2 items-center justify-center gap-1 rounded-br-lg bg-primary py-1.5 font-semibold text-white transition-all duration-300 hover:bg-orange-600 active:scale-95 md:py-3"
-            onClick={() => {
-              handleAddToCart();
-              router.push("/checkout");
-            }}
+            className="flex w-1/2 items-center justify-center gap-1 rounded-br-lg bg-red-500 py-1.5 font-semibold text-white transition-all duration-300 hover:bg-red-600 active:scale-95 md:py-3"
+            onClick={handleRemoveFromWishlist}
           >
-            ⚡ Buy
-            <div className="hidden xl:block">Now</div>
+            <Delete className="pr-1 text-lg" />
+            Remove
           </button>
         </div>
 
@@ -163,4 +153,4 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
   );
 };
 
-export default ProductsCard;
+export default WishlistCard;

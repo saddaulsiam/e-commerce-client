@@ -9,23 +9,27 @@ import {
   REGISTER,
   REHYDRATE,
 } from "redux-persist";
-import storage from "redux-persist/lib/storage"; // Local storage for persistence
+import storage from "redux-persist/lib/storage";
 import baseApi from "./features/api/baseApi";
 import authReducer from "./features/auth/authSlice";
 import cartReducer from "./features/cart/cartSlice";
+import compareReducer from "./features/compare/compareSlice";
 import orderDetailsReducer from "./features/order/orderDetails/orderDetailsSlice";
+import wishlistReducer from "./features/wishlist/wishlistSlice";
 
 // Persist Configuration
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth", "cart", "orderDetails"],
+  whitelist: ["auth", "cart", "orderDetails", "wishlist", "compare"],
 };
 
 // Root Reducer
 const rootReducer = combineReducers({
   auth: authReducer,
   cart: cartReducer,
+  wishlist: wishlistReducer,
+  compare: compareReducer,
   orderDetails: orderDetailsReducer,
 });
 
