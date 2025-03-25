@@ -1,10 +1,21 @@
 "use client";
-import Lottie from "lottie-react";
-import Link from "next/link";
 import success from "@/../public/animation/success.json";
 import { Button } from "@/components/ui/button";
+import { clearCart } from "@/redux/features/cart/cartSlice";
+import { removeOrderDetails } from "@/redux/features/order/orderDetails/orderDetailsSlice";
+import { useAppDispatch } from "@/redux/hooks";
+import Lottie from "lottie-react";
+import Link from "next/link";
+import { useEffect } from "react";
 
 const PaymentSuccess = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(clearCart());
+    dispatch(removeOrderDetails());
+  }, []);
+
   return (
     <div className="flex min-h-[calc(100vh-20vh)] w-full flex-col items-center justify-center bg-accent p-4">
       <div className="max-w-md rounded-xl bg-white p-8 text-center shadow-lg">

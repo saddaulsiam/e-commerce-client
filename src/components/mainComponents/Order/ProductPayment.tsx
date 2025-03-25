@@ -2,11 +2,9 @@
 
 import StripePaymentModal from "@/components/sharedComponents/modal/StripePaymentModal";
 import { Button } from "@/components/ui/button";
-import { clearCart } from "@/redux/features/cart/cartSlice";
-import { removeOrderDetails } from "@/redux/features/order/orderDetails/orderDetailsSlice";
 import { useOrderNowMutation } from "@/redux/features/order/orders/ordersApi";
 import { useCreateSSLPaymentIntentMutation } from "@/redux/features/order/payment/paymentApi";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useAppSelector } from "@/redux/hooks";
 import {
   TOrderStatus,
   TPaymentMethod,
@@ -25,8 +23,6 @@ import SelectPaymentOption from "./SelectPaymentOption";
 
 const ProductPayment = () => {
   const router = useRouter();
-  // const path = usePathname();
-  const dispatch = useAppDispatch();
 
   const cart = useAppSelector(({ state }) => state.cart);
   const { user } = useAppSelector(({ state }) => state.auth);
@@ -35,8 +31,9 @@ const ProductPayment = () => {
   const [openStripe, setOpenStripe] = useState<boolean>(false);
   const [payWith, setPayWith] = useState<string>("stripe");
 
-  const [orderNow] = useOrderNowMutation();
-  const [createSSLPaymentIntent] = useCreateSSLPaymentIntentMutation();
+  const [orderNow, { isLoading: codLoading }] = useOrderNowMutation();
+  const [createSSLPaymentIntent, { isLoading: sslLoading }] =
+    useCreateSSLPaymentIntentMutation();
 
   const orderData = {
     userId: user?._id as string,
@@ -66,8 +63,6 @@ const ProductPayment = () => {
           .then((res) => {
             if (res.success) {
               toast.success(res.message);
-              dispatch(clearCart());
-              dispatch(removeOrderDetails());
               router.push("/orders");
             }
           });
@@ -80,8 +75,6 @@ const ProductPayment = () => {
       const res = await createSSLPaymentIntent(orderData).unwrap();
       if (res.success) {
         window.location.replace(res.data.gatewayPageURL);
-        dispatch(clearCart());
-        dispatch(removeOrderDetails());
       }
     } catch (error: any) {
       toast.error(error?.message);
@@ -119,7 +112,7 @@ const ProductPayment = () => {
               </Button>
               <Button
                 className="w-full bg-primary py-2 text-base font-semibold capitalize text-white disabled:cursor-not-allowed"
-                disabled={!payWith}
+                disabled={!payWith || openStripe || sslLoading || codLoading}
                 onClick={
                   payWith === "stripe"
                     ? () => setOpenStripe(true)

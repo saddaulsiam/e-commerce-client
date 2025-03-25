@@ -62,7 +62,8 @@ const StripeCheckOutForm = ({ setOpenStripe }: TProps) => {
         }
       } catch (error: any) {
         setErrorMessage(
-          error.message || "Error creating payment intent. Please try again.",
+          error?.data?.message ||
+            "Error creating payment intent. Please try again.",
         );
       }
     })();
