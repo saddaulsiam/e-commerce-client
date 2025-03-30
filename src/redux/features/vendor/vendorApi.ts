@@ -11,6 +11,23 @@ const authApi = baseApi.injectEndpoints({
       invalidatesTags: ["Vendor"],
     }),
 
+    getAllVendors: builder.query({
+      query: ({ limit, page, sort }) => {
+        const url = `/vendor?`;
+        const params = new URLSearchParams();
+
+        if (limit) params.append("limit", limit);
+        if (page) params.append("page", page);
+        if (sort) params.append("sort", sort);
+
+        return {
+          url: `${url}${params.toString()}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["Vendor"],
+    }),
+
     getMyVendor: builder.query({
       query: (userId) => ({
         url: `/vendor/${userId}`,
@@ -58,14 +75,6 @@ const authApi = baseApi.injectEndpoints({
       providesTags: ["Vendor"],
     }),
 
-    getDashboardMeta: builder.query({
-      query: () => ({
-        url: "/vendor/dashboard/meta",
-        method: "GET",
-      }),
-      providesTags: ["Vendor"],
-    }),
-
     updateMyVendor: builder.mutation({
       query: ({ id, data }) => ({
         url: `/vendor/${id}`,
@@ -82,22 +91,23 @@ const authApi = baseApi.injectEndpoints({
       }),
     }),
 
-    // deleteVendor: builder.mutation({
-    //   query: (email) => ({
-    //     url: `/vendor/${email}`,
-    //     method: "DELETE",
-    //   }),
-    // }),
+    getDashboardMeta: builder.query({
+      query: () => ({
+        url: "/vendor/dashboard/meta",
+        method: "GET",
+      }),
+      providesTags: ["Vendor"],
+    }),
   }),
 });
 
 export const {
   useRegisterVendorMutation,
+  useGetAllVendorsQuery,
   useGetMyVendorQuery,
   useGetVendorOrdersQuery,
   useGetVendorCustomersQuery,
   useGetDashboardMetaQuery,
   useUpdateMyVendorMutation,
   useGetVendorByNameQuery,
-  // useDeleteVendorMutation,
 } = authApi;

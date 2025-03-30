@@ -19,21 +19,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { USER_ROLE } from "@/constants/common";
 import { cn } from "@/lib/utils";
-import { useGetAllVendorsQuery } from "@/redux/features/vendor/vendorApi";
-import { TUser, TVendor } from "@/types/common";
+import { useGetAllCustomersQuery } from "@/redux/features/admin/adminApi";
+import { TUser } from "@/types/common";
 import { format } from "date-fns";
-import { EllipsisVertical, Eye, Store, Trash2 } from "lucide-react";
+import { EllipsisVertical, Trash2 } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
 import { BiLockAlt } from "react-icons/bi";
 import { BsPeople } from "react-icons/bs";
 
-const AdminAllVendors = () => {
+const AdminAllCustomers = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { data: vendors } = useGetAllVendorsQuery({
+  const { data: customers } = useGetAllCustomersQuery({
     page: currentPage,
     limit: 20,
   });
@@ -42,8 +42,8 @@ const AdminAllVendors = () => {
     <Card className="md:m-6">
       <CardHeader>
         <CardTitle className="flex items-center text-xl font-bold text-slate-700 md:text-2xl">
-          <Store className="mr-2 text-primary" />
-          Vendors
+          <BsPeople className="mr-2 text-primary" />
+          Customers
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -51,7 +51,8 @@ const AdminAllVendors = () => {
           <TableHeader>
             <TableRow className="bg-gray-100">
               <TableHead>Image</TableHead>
-              <TableHead>Store Name</TableHead>
+              <TableHead>Name</TableHead>
+              <TableHead>Role</TableHead>
               <TableHead>Email</TableHead>
               <TableHead>Phone</TableHead>
               <TableHead>Address</TableHead>
@@ -61,51 +62,62 @@ const AdminAllVendors = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {vendors?.data?.data?.length > 0 ? (
-              vendors?.data?.data?.map((vendor: TVendor) => (
-                <TableRow key={vendor?._id} className="hover:bg-gray-50">
+            {customers?.data?.data?.length > 0 ? (
+              customers?.data?.data?.map((customer: TUser) => (
+                <TableRow key={customer?._id} className="hover:bg-gray-50">
                   <TableCell>
                     <div className="relative h-16 w-16">
                       <Image
                         layout="fill"
                         className="rounded-full"
-                        src={vendor?.storeLogo || "/user-avatar.jpg"}
+                        src={customer?.profile?.photo || "/user-avatar.jpg"}
                         alt="Customer Image"
                         priority
                       />
                     </div>
                   </TableCell>
                   <TableCell className="font-medium">
-                    {vendor?.storeName}
-                  </TableCell>
-                  <TableCell>{vendor?.email || "N/A"}</TableCell>
-                  <TableCell>{vendor?.phoneNumber || "N/A"}</TableCell>
-                  <TableCell>
-                    {vendor?.address
-                      ? `${vendor.address.street}, ${vendor.address.area}, ${vendor.address.city}, ${vendor.address.street}`
-                      : "N/A"}
-                  </TableCell>
-                  <TableCell>
-                    {vendor?.createdAt
-                      ? format(new Date(vendor.createdAt), "dd-MMMM-yyyy")
-                      : "N/A"}
+                    {customer?.displayName}
                   </TableCell>
                   <TableCell>
                     <Badge
                       className={
                         (cn(
-                          vendor.status === "inactive"
+                          customer?.role === (USER_ROLE.ADMIN as string)
                             ? "bg-primary hover:bg-primary/90"
-                            : vendor.status === "active"
+                            : customer?.role === (USER_ROLE.CUSTOMER as string)
                               ? "bg-green-500 hover:bg-green-600"
-                              : "bg-red-500 hover:bg-red-600",
+                              : "bg-purple-500 hover:bg-purple-600",
                         ),
                         "capitalize")
                       }
                     >
-                      {vendor?.status || "N/A"}
+                      {customer?.role || "N/A"}
                     </Badge>
                   </TableCell>
+                  <TableCell>{customer?.email || "N/A"}</TableCell>
+                  <TableCell>
+                    {customer?.profile?.address[0]?.phoneNumber || "N/A"}
+                  </TableCell>
+                  <TableCell>
+                    {customer?.profile?.address[0]?.address &&
+                    customer?.profile?.address[0]?.area &&
+                    customer?.profile?.address[0]?.city &&
+                    customer?.profile?.address[0]?.street
+                      ? customer?.profile?.address[0]?.address +
+                        ", " +
+                        customer?.profile?.address[0]?.area +
+                        ", " +
+                        customer?.profile?.address[0]?.city +
+                        ", " +
+                        customer?.profile?.address[0]?.street
+                      : "N/A"}
+                  </TableCell>
+                  <TableCell>
+                    {format(new Date(customer?.createdAt), "dd-MMMM-yyyy ") ||
+                      "N/A"}
+                  </TableCell>
+                  <TableCell>{customer?.status}</TableCell>
                   <TableCell>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
@@ -114,15 +126,6 @@ const AdminAllVendors = () => {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent className="w-40">
-                        <DropdownMenuItem>
-                          <Link
-                            className="flex"
-                            href={`/admin/vendors/${vendor._id}`}
-                          >
-                            <Eye className="mr-2 h-5 w-5" />
-                            Details
-                          </Link>
-                        </DropdownMenuItem>
                         <DropdownMenuItem>
                           <BiLockAlt />
                           Block
@@ -141,7 +144,7 @@ const AdminAllVendors = () => {
                   colSpan={7}
                   className="text-center text-lg text-gray-600"
                 >
-                  No Vendors found at the moment.
+                  No customers found at the moment.
                 </TableCell>
               </TableRow>
             )}
@@ -150,12 +153,12 @@ const AdminAllVendors = () => {
           <TableFooter className="bg-gray-100">
             <TableRow>
               <TableCell colSpan={6}>
-                Total {vendors?.data?.meta?.total} Vendors
+                Total {customers?.data?.meta?.total} Customers
               </TableCell>
               <TableCell colSpan={3} className="text-right">
                 <Pagination
                   currentPage={currentPage}
-                  totalPages={vendors?.data?.meta?.page}
+                  totalPages={customers?.data?.meta?.page}
                   onPageChange={setCurrentPage}
                 />
               </TableCell>
@@ -167,4 +170,4 @@ const AdminAllVendors = () => {
   );
 };
 
-export default AdminAllVendors;
+export default AdminAllCustomers;

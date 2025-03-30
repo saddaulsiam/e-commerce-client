@@ -77,7 +77,7 @@ const ProductPayment = () => {
         window.location.replace(res.data.gatewayPageURL);
       }
     } catch (error: any) {
-      toast.error(error?.message);
+      toast.error(error?.data?.message);
     }
   };
   return (

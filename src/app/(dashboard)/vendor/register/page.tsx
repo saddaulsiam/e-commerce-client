@@ -37,6 +37,7 @@ const VendorRegister = () => {
 
   const onSubmit = async (data: FieldValues) => {
     data.userId = user?._id;
+    data.email = user?.email;
 
     const res = await registerVendor(data).unwrap();
     if (res.success) {

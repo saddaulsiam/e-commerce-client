@@ -32,12 +32,12 @@ export type TUser = {
   role: TUserRole;
   profile: TProfile;
   vendor: TVendor;
-  status: TUserStatus;
+  status: TStatus;
   createdAt: string;
   updatedAt: string;
 };
 
-export enum TUserStatus {
+export enum TStatus {
   INACTIVE = "inactive",
   ACTIVE = "active",
   BLOCK = "block",
@@ -96,6 +96,7 @@ export interface TProduct {
 export type TVendor = {
   _id: string;
   userId: string;
+  email: string;
   storeName: string;
   storeDescription: string;
   storeLogo: string;
@@ -104,4 +105,7 @@ export type TVendor = {
   phoneNumber: number;
   products: TProduct[];
   earnings: number;
+  status: TStatus;
+  createdAt?: string;
+  updatedAt?: string;
 };

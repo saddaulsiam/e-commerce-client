@@ -8,7 +8,24 @@ const authApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+
+    getAllCustomers: builder.query({
+      query: ({ limit, page, sort, search }) => {
+        const url = `/users?`;
+        const params = new URLSearchParams();
+
+        if (limit) params.append("limit", limit);
+        if (page) params.append("page", page);
+        if (sort) params.append("sort", sort);
+        if (search) params.append("search", search);
+
+        return {
+          url: `${url}${params.toString()}`,
+          method: "GET",
+        };
+      },
+    }),
   }),
 });
 
-export const { useGetAdminByEmailMutation } = authApi;
+export const { useGetAdminByEmailMutation, useGetAllCustomersQuery } = authApi;

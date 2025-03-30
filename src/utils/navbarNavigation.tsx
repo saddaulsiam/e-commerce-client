@@ -20,8 +20,8 @@ export const vendorAccount: NavLink[] = [
 ];
 
 export const adminAccount: NavLink[] = [
-  { title: "Dashboard", href: "/vendor/dashboard" },
-  { title: "All Products", href: "/vendor/products" },
-  { title: "All Orders", href: "/vendor/orders/pending" },
-  { title: "Accounts Settings", href: "/vendor/settings" },
+  { title: "Dashboard", href: "/admin/dashboard" },
+  { title: "All Products", href: "/admin/products" },
+  { title: "All Orders", href: "/admin/orders/pending" },
+  { title: "Accounts Settings", href: "/admin/settings" },
 ];
