@@ -2,10 +2,10 @@
 
 import { useGetDashboardMetaQuery } from "@/redux/features/vendor/vendorApi";
 import { FiAlertCircle, FiPackage, FiTrendingUp } from "react-icons/fi";
-import VendorDashboardMainResentOrders from "./Vendor.DashboardMainResentOrders";
-import VendorDashboardMainReviewsCard from "./Vendor.DashboardMainReviewsCard";
-import VendorDashboardMainSalesChart from "./Vendor.DashboardMainSalesChart";
-import DashboardMainStatsCard from "./Vendor.DashboardMainStatsCard";
+import VendorDashboardMainResentOrders from "./Vendor.MainResentOrders";
+import VendorDashboardMainReviewsCard from "./Vendor.MainReviewsCard";
+import VendorDashboardMainSalesChart from "./Vendor.MainSalesChart";
+import DashboardMainStatsCard from "./Vendor.MainStatsCard";
 
 const VendorDashboardMain = () => {
   const { data: dashboardMeta } = useGetDashboardMetaQuery(undefined);

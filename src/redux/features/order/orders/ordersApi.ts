@@ -11,8 +11,8 @@ const orderNowApi = baseApi.injectEndpoints({
       invalidatesTags: ["Orders"],
     }),
 
-    getOrders: builder.query({
-      query: ({ limit, page, sort, search, category }) => {
+    getAllOrders: builder.query({
+      query: ({ limit, page, sort, search, status }) => {
         const url = `/orders?`;
         const params = new URLSearchParams();
 
@@ -20,7 +20,7 @@ const orderNowApi = baseApi.injectEndpoints({
         if (page) params.append("page", page);
         if (sort) params.append("sort", sort);
         if (search) params.append("search", search);
-        if (category) params.append("category", category);
+        if (status) params.append("status", status);
 
         return {
           url: `${url}${params.toString()}`,
@@ -49,7 +49,7 @@ const orderNowApi = baseApi.injectEndpoints({
 });
 
 export const {
-  useGetOrdersQuery,
+  useGetAllOrdersQuery,
   useOrderNowMutation,
   useGetSingleOrderQuery,
   useGetMyOrdersQuery,

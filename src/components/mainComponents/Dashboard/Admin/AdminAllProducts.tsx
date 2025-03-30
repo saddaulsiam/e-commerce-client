@@ -5,6 +5,12 @@ import { Loading } from "@/components/sharedComponents/loader";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
   Table,
   TableBody,
   TableCell,
@@ -13,26 +19,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  useDeleteProductMutation,
-  useGetAllProductsQuery,
-} from "@/redux/features/product/productApi";
-import { useAppSelector } from "@/redux/hooks";
+import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
 import { TProduct } from "@/types/common";
+import { EllipsisVertical, Eye, Trash2 } from "lucide-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useState } from "react";
+import { BiLockAlt } from "react-icons/bi";
 import { BsCardText } from "react-icons/bs";
-import { MdDeleteOutline } from "react-icons/md";
-import { TbEdit } from "react-icons/tb";
-import { toast } from "react-toastify";
-import Swal from "sweetalert2";
 
-const VendorAllProducts = () => {
-  const router = useRouter();
+const AdminAllProducts = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
-
-  const { user } = useAppSelector(({ state }) => state.auth);
 
   // Fetch products
   const {
@@ -42,39 +39,7 @@ const VendorAllProducts = () => {
   } = useGetAllProductsQuery({
     limit: 6,
     page: currentPage,
-    supplier: user?.vendor._id || undefined,
   });
-
-  // Handle product deletion
-  const [deleteProduct] = useDeleteProductMutation();
-
-  const handleDeleteProduct = (id: string) => {
-    Swal.fire({
-      title: "Are you sure?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        deleteProduct(id)
-          .unwrap()
-          .then((res) => {
-            if (res.success) {
-              toast.success(res.data.message);
-            } else {
-              toast.error("Failed to delete product");
-            }
-          });
-      }
-    });
-  };
-
-  // Handle page change
-  const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
-  };
 
   if (isLoading) return <Loading />;
 
@@ -165,24 +130,28 @@ const VendorAllProducts = () => {
                 </TableCell>
 
                 <TableCell className="space-x-2 p-4 text-center">
-                  <Button
-                    className="rounded-full p-3 transition-all duration-300 hover:bg-orange-600"
-                    onClick={() =>
-                      router.push(`/vendor/products/${product._id}`)
-                    }
-                    aria-label="Edit Product"
-                    title="Edit Product"
-                  >
-                    <TbEdit />
-                  </Button>
-                  <Button
-                    className="rounded-full bg-red-500 p-3 transition-all duration-300 hover:bg-red-600"
-                    onClick={() => handleDeleteProduct(product._id!)}
-                    aria-label="Delete Product"
-                    title="Delete Product"
-                  >
-                    <MdDeleteOutline />
-                  </Button>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost">
+                        <EllipsisVertical size={20} />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-40">
+                      <DropdownMenuItem>
+                        <Link className="flex" href={`/product/${product._id}`}>
+                          <Eye className="mr-2 h-5 w-5" />
+                          Details
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <BiLockAlt />
+                        Block
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="text-red-500">
+                        <Trash2 /> Delete
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </TableCell>
               </TableRow>
             ))}
@@ -197,7 +166,7 @@ const VendorAllProducts = () => {
                 <Pagination
                   currentPage={currentPage}
                   totalPages={products.data.meta.page}
-                  onPageChange={handlePageChange}
+                  onPageChange={setCurrentPage}
                 />
               </TableCell>
             </TableRow>
@@ -208,4 +177,4 @@ const VendorAllProducts = () => {
   );
 };
 
-export default VendorAllProducts;
+export default AdminAllProducts;

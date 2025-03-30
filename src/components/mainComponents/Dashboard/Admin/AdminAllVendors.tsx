@@ -117,7 +117,7 @@ const AdminAllVendors = () => {
                         <DropdownMenuItem>
                           <Link
                             className="flex"
-                            href={`/admin/vendors/${vendor._id}`}
+                            href={`/shop/${vendor.storeName}`}
                           >
                             <Eye className="mr-2 h-5 w-5" />
                             Details

@@ -24,6 +24,7 @@ const productApi = baseApi.injectEndpoints({
         status,
         minPrice,
         maxPrice,
+        supplier,
       }) => {
         const params = new URLSearchParams();
 
@@ -38,6 +39,7 @@ const productApi = baseApi.injectEndpoints({
         if (status) params.append("status", status);
         if (minPrice) params.append("minPrice", minPrice);
         if (maxPrice) params.append("maxPrice", maxPrice);
+        if (supplier) params.append("supplier", supplier);
 
         return {
           url: `/products?${params.toString()}`,

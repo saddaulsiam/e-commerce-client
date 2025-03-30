@@ -1,5 +1,7 @@
+import { AdminAllProducts } from "@/components/mainComponents/Dashboard/Admin";
+
 const AllProducts = () => {
-  return <div>All Products</div>;
+  return <AdminAllProducts />;
 };
 
 export default AllProducts;

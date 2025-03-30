@@ -8,6 +8,7 @@ import {
   Folder,
   LayoutDashboard,
   Package,
+  ParkingCircle,
   PlusCircle,
   Settings,
   ShoppingCart,
@@ -66,18 +67,7 @@ export function getDashboardMenu(role: string): NavItem[] {
       {
         title: "Orders",
         icon: <ShoppingCart className="h-5 w-5" />,
-        children: [
-          {
-            title: "Pending Orders",
-            icon: <Clock className="h-5 w-5" />,
-            href: "/admin/orders/pending",
-          },
-          {
-            title: "Completed Orders",
-            icon: <CheckCircle className="h-5 w-5" />,
-            href: "/admin/orders/completed",
-          },
-        ],
+        href: "/admin/orders",
       },
       {
         title: "Brands",

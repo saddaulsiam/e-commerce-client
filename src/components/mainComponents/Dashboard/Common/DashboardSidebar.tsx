@@ -9,12 +9,14 @@ import { motion } from "framer-motion";
 import { ChevronDown, Settings } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 
 const DashboardSidebar = ({ isCollapsed }: { isCollapsed: boolean }) => {
   const router = useRouter();
   const pathname = usePathname();
+  const params = useParams();
+
   const [openSubmenus, setOpenSubmenus] = useState<string[]>([]);
 
   // Get the user role from Redux state.
@@ -40,7 +42,9 @@ const DashboardSidebar = ({ isCollapsed }: { isCollapsed: boolean }) => {
   const renderMenuItem = (item: NavItem, depth: number = 0) => {
     const isActive =
       pathname === item.href ||
-      item.children?.some((child) => child.href === pathname);
+      (params.id && pathname === `${item.href}/${params.id}`) ||
+      item.children?.some((child) => pathname.startsWith(child.href as string));
+
     const hasChildren = item.children && item.children.length > 0;
     const isSubmenuOpen = openSubmenus.includes(item.title);
 
