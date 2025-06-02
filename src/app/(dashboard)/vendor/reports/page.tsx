@@ -5,11 +5,11 @@ import {
   VendorDashboardMonthlySalesReports,
   VendorDashboardOrderConfirmationRate,
 } from "@/components/mainComponents/Dashboard/vendor";
-import { useGetDashboardMetaQuery } from "@/redux/features/vendor/vendorApi";
+import { useGetVendorDashboardMetaQuery } from "@/redux/features/vendor/vendorApi";
 import { ChartArea } from "lucide-react";
 
 const Reports = () => {
-  const { data: dashboardMeta } = useGetDashboardMetaQuery("");
+  const { data: dashboardMeta } = useGetVendorDashboardMetaQuery("");
   const meta = dashboardMeta?.data?.meta;
   return (
     <div className="md:p-6">

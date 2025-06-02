@@ -14,3 +14,6 @@ export { default as VendorMainReviewsCard } from "./Vendor.MainReviewsCard";
 export { default as VendorMainSalesChart } from "./Vendor.MainSalesChart";
 export { default as MainStatsCard } from "./Vendor.MainStatsCard";
 export { default as VendorOrderConfirmationRate } from "./Vendor.OrderConfirmationRate";
+export { default as VendorDashboardCustomerGrowthReports } from "./Vendor.CustomerGrowthReports";
+export { default as VendorDashboardMonthlySalesReports } from "./Vendor.MonthlySalesReports";
+export { default as VendorDashboardOrderConfirmationRate } from "./Vendor.OrderConfirmationRate";

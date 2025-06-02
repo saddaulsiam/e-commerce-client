@@ -92,7 +92,7 @@ const authApi = baseApi.injectEndpoints({
       }),
     }),
 
-    getDashboardMeta: builder.query({
+    getVendorDashboardMeta: builder.query({
       query: () => ({
         url: "/vendor/dashboard/meta",
         method: "GET",
@@ -108,7 +108,7 @@ export const {
   useGetMyVendorQuery,
   useGetVendorOrdersQuery,
   useGetVendorCustomersQuery,
-  useGetDashboardMetaQuery,
   useUpdateMyVendorMutation,
   useGetVendorByNameQuery,
+  useGetVendorDashboardMetaQuery,
 } = authApi;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetDashboardMetaQuery } from "@/redux/features/vendor/vendorApi";
+import { useGetVendorDashboardMetaQuery } from "@/redux/features/vendor/vendorApi";
 import { FiAlertCircle, FiPackage, FiTrendingUp } from "react-icons/fi";
 import VendorDashboardMainResentOrders from "./Vendor.MainResentOrders";
 import VendorDashboardMainReviewsCard from "./Vendor.MainReviewsCard";
@@ -8,7 +8,7 @@ import VendorDashboardMainSalesChart from "./Vendor.MainSalesChart";
 import DashboardMainStatsCard from "./Vendor.MainStatsCard";
 
 const VendorDashboardMain = () => {
-  const { data: dashboardMeta } = useGetDashboardMetaQuery(undefined);
+  const { data: dashboardMeta } = useGetVendorDashboardMetaQuery(undefined);
   const meta = dashboardMeta?.data?.meta;
   return (
     <div className="flex min-h-screen w-full flex-col md:p-6">
@@ -22,7 +22,7 @@ const VendorDashboardMain = () => {
       <div className="mb-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <DashboardMainStatsCard
           title="Total Revenue"
-          value={`$${meta?.overview?.totalSales.toLocaleString()}`}
+          value={`$${meta?.overview?.totalSales}`}
           trend="12.5%"
           positive={true}
           icon={<FiTrendingUp className="h-6 w-6 text-white" />}

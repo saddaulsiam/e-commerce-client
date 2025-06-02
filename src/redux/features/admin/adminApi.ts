@@ -25,7 +25,19 @@ const authApi = baseApi.injectEndpoints({
         };
       },
     }),
+
+    getAdminDashboardMeta: builder.query({
+      query: () => ({
+        url: "/admin/dashboard/meta",
+        method: "GET",
+      }),
+      
+    }),
   }),
 });
 
-export const { useGetAdminByEmailMutation, useGetAllCustomersQuery } = authApi;
+export const {
+  useGetAdminByEmailMutation,
+  useGetAllCustomersQuery,
+  useGetAdminDashboardMetaQuery,
+} = authApi;

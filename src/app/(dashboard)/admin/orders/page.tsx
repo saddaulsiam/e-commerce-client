@@ -3,14 +3,7 @@
 import { Pagination } from "@/components/sharedComponents";
 import { Loading } from "@/components/sharedComponents/loader";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -32,10 +25,9 @@ import { cn } from "@/lib/utils";
 import { useGetAllOrdersQuery } from "@/redux/features/order/orders/ordersApi";
 import { TMainOrder, TOrderStatus } from "@/types/Orderstype";
 import { format } from "date-fns";
-import { EllipsisVertical, Eye, Package, Trash2 } from "lucide-react";
+import { Eye, Package } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import { BiLockAlt } from "react-icons/bi";
 
 const statusColors: Record<TOrderStatus, string> = {
   [TOrderStatus.PENDING]: "bg-blue-500 hover:bg-blue-600",
@@ -78,7 +70,7 @@ const AdminAllOrders = () => {
               setCurrentPage(1); // reset page when search changes
             }}
             placeholder="Search Order ID"
-            className="w-full md:w-72 h-10"
+            className="h-10 w-full md:w-72"
           />
           <Select
             value={statusFilter}

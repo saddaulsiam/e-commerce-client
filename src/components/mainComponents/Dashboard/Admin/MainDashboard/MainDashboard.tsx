@@ -1,8 +1,13 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import {
+  useGetAdminDashboardMetaQuery,
+  useGetAllCustomersQuery,
+} from "@/redux/features/admin/adminApi";
+import { TUser } from "@/types/common";
 import Image from "next/image";
-import { BiUpArrowAlt } from "react-icons/bi";
+import Link from "next/link";
 import { BsEye, BsFillCreditCardFill } from "react-icons/bs";
 import { FaUsers } from "react-icons/fa";
 import { FiShoppingCart } from "react-icons/fi";
@@ -21,6 +26,8 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import StatCard from "./StatCard";
+import RevenueChart from "./RevenueChart";
 
 // Demo data
 const demoStats = {
@@ -55,102 +62,19 @@ const demoStats = {
   totalSales: 70050,
 };
 
-const demoUsers = [
-  {
-    _id: "65a1f2e85f7d4c3b8ae3d1f2",
-    displayName: "John Smith",
-    email: "john@vendor.com",
-    role: "vendor",
-    profile: {
-      photo: "/electronics-vendor.jpg",
-    },
-    status: "active",
-  },
-  {
-    _id: "65a1f3a15f7d4c3b8ae3d1f3",
-    displayName: "Sarah Johnson",
-    email: "sarah@customer.com",
-    role: "customer",
-    profile: {
-      photo: "/fashion-customer.jpg",
-    },
-    status: "active",
-  },
-  {
-    _id: "65a1f4355f7d4c3b8ae3d1f4",
-    displayName: "Mike Chen",
-    email: "mike@admin.com",
-    role: "admin",
-    profile: {
-      photo: "/admin-profile.jpg",
-    },
-    status: "active",
-  },
-  {
-    _id: "65a1f4d25f7d4c3b8ae3d1f5",
-    displayName: "Emma Wilson",
-    email: "emma@vendor.com",
-    role: "vendor",
-    profile: {
-      photo: "/homegoods-vendor.jpg",
-    },
-    status: "pending",
-  },
-  {
-    _id: "65a1f55e5f7d4c3b8ae3d1f6",
-    displayName: "David Kim",
-    email: "david@customer.com",
-    role: "customer",
-    profile: {
-      photo: "/beauty-customer.jpg",
-    },
-    status: "active",
-  },
-];
-
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
-const StatCard = ({
-  title,
-  value,
-  change,
-  icon: Icon,
-  color,
-}: {
-  title: string;
-  value: string;
-  change: string;
-  icon: React.ElementType;
-  color: string;
-}) => (
-  <div
-    className="h-40 w-full rounded-lg p-6 shadow-md"
-    style={{ backgroundColor: color }}
-  >
-    <div className="flex items-center justify-between">
-      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-black/10">
-        <Icon className="text-2xl text-white" />
-      </div>
-      <h3 className="text-lg font-semibold text-white">{title}</h3>
-    </div>
-    <div className="mt-4 text-3xl font-bold text-white">{value}</div>
-    <div className="flex justify-between text-sm">
-      <span className="text-white/80">vs previous month</span>
-      <span className="flex items-center font-medium text-green-300">
-        {change} <BiUpArrowAlt className="ml-1 text-xl" />
-      </span>
-    </div>
-  </div>
-);
-
 const AdminMainDashboard = () => {
-  // In a real app, you would use these hooks:
-  // const { data: userData } = useGetAllUsersQuery({ limit: 5, page: 1 });
-  // const { data: stats } = useGetDashboardStatsQuery();
+  const { data: customers } = useGetAllCustomersQuery({
+    page: 1,
+    limit: 20,
+  });
+
+  const { data: dashboardMeta } = useGetAdminDashboardMetaQuery(undefined);
+  const meta = dashboardMeta?.data?.meta;
 
   // For demo purposes:
   const stats = demoStats;
-  const users = demoUsers;
 
   const dashboardStats = [
     {
@@ -189,7 +113,7 @@ const AdminMainDashboard = () => {
         return "bg-green-100 text-green-800";
       case "pending":
         return "bg-yellow-100 text-yellow-800";
-      case "suspended":
+      case "block":
         return "bg-red-100 text-red-800";
       default:
         return "bg-gray-100 text-gray-800";
@@ -221,51 +145,7 @@ const AdminMainDashboard = () => {
       {/* Charts Section */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* Main Revenue Chart */}
-        <div className="rounded-lg bg-white p-6 shadow lg:col-span-2">
-          <div className="mb-6 flex flex-col justify-between md:flex-row md:items-center">
-            <h2 className="text-xl font-bold text-gray-800">
-              Revenue Overview
-            </h2>
-            <div className="mt-4 flex gap-2 md:mt-0">
-              <Button variant="outline">Monthly</Button>
-              <Button variant="outline">Yearly</Button>
-            </div>
-          </div>
-          <div className="h-80">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={stats.revenueData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
-                <XAxis
-                  dataKey="month"
-                  tick={{ fill: "#6b7280" }}
-                  axisLine={{ stroke: "#e5e7eb" }}
-                />
-                <YAxis
-                  tick={{ fill: "#6b7280" }}
-                  axisLine={{ stroke: "#e5e7eb" }}
-                  tickFormatter={(value) => `$${value / 1000}k`}
-                />
-                <Tooltip
-                  formatter={(value) => [`$${value}`, "Revenue"]}
-                  labelFormatter={(label) => `Month: ${label}`}
-                  contentStyle={{
-                    borderRadius: "0.5rem",
-                    border: "1px solid #e5e7eb",
-                    boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
-                  }}
-                />
-                <Area
-                  type="monotone"
-                  dataKey="revenue"
-                  stroke="#3b82f6"
-                  fill="#3b82f6"
-                  fillOpacity={0.2}
-                  strokeWidth={2}
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
+        <RevenueChart meta={meta} />
 
         {/* Sales Distribution Pie Chart */}
         <div className="rounded-lg bg-white p-6 shadow">
@@ -327,7 +207,9 @@ const AdminMainDashboard = () => {
       <div className="rounded-lg bg-white p-6 shadow">
         <div className="mb-6 flex justify-between">
           <h2 className="text-xl font-bold text-gray-800">Recent Users</h2>
-          <Button variant="outline">View All</Button>
+          <Link href="/admin/customers">
+            <Button variant="link">View All</Button>
+          </Link>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full">
@@ -341,20 +223,17 @@ const AdminMainDashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {users.map((user) => (
+              {customers?.data?.data?.map((user: TUser) => (
                 <tr key={user._id} className="border-b hover:bg-gray-50">
                   <td className="px-4 py-3">
-                    <div className="flex items-center">
+                    <div className="relative h-16 w-16">
                       <Image
-                        src={user.profile?.photo || "/default-avatar.png"}
-                        alt={user.displayName}
-                        width={40}
-                        height={40}
+                        layout="fill"
                         className="rounded-full"
+                        src={user?.profile?.photo || "/user-avatar.jpg"}
+                        alt="User Image"
+                        priority
                       />
-                      <span className="ml-3 font-medium">
-                        {user.displayName}
-                      </span>
                     </div>
                   </td>
                   <td className="px-4 py-3 text-gray-600">{user.email}</td>
@@ -362,15 +241,14 @@ const AdminMainDashboard = () => {
                     <span
                       className={`rounded-full px-3 py-1 text-sm ${getRoleBadge(user.role)}`}
                     >
-                      {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
+                      {user.role.toUpperCase()}
                     </span>
                   </td>
                   <td className="px-4 py-3">
                     <span
-                      className={`rounded-full px-3 py-1 text-sm ${getStatusBadge(user.status)}`}
+                      className={`rounded-full px-3 py-1 text-sm capitalize ${getStatusBadge(user.status)}`}
                     >
-                      {user.status.charAt(0).toUpperCase() +
-                        user.status.slice(1)}
+                      {user.status}
                     </span>
                   </td>
                   <td className="px-4 py-3">
