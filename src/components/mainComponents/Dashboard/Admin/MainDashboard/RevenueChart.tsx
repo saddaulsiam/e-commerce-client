@@ -1,4 +1,6 @@
+"use client";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 import {
   Area,
   AreaChart,
@@ -9,23 +11,39 @@ import {
   YAxis,
 } from "recharts";
 
-const RevenueChart = ({ meta }: any) => {
-  console.log(meta)
+const RevenueChart = ({ revenueData }: any) => {
+  const [timeRange, setTimeRange] = useState<"monthly" | "yearly">("monthly");
+
+  let currentData = revenueData?.[timeRange] || [];
+
+  if (timeRange === "yearly") {
+    currentData = revenueData?.yearly || [];
+  }
   return (
     <div className="rounded-lg bg-white p-6 shadow lg:col-span-2">
       <div className="mb-6 flex flex-col justify-between md:flex-row md:items-center">
         <h2 className="text-xl font-bold text-gray-800">Revenue Overview</h2>
         <div className="mt-4 flex gap-2 md:mt-0">
-          <Button variant="outline">Monthly</Button>
-          <Button variant="outline">Yearly</Button>
+          <Button
+            variant={timeRange === "monthly" ? "default" : "outline"}
+            onClick={() => setTimeRange("monthly")}
+          >
+            Monthly
+          </Button>
+          <Button
+            variant={timeRange === "yearly" ? "default" : "outline"}
+            onClick={() => setTimeRange("yearly")}
+          >
+            Yearly
+          </Button>
         </div>
       </div>
       <div className="h-80">
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={meta?.revenue}>
+          <AreaChart data={currentData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
             <XAxis
-              dataKey="month"
+              dataKey={timeRange === "monthly" ? "month" : "year"}
               tick={{ fill: "#6b7280" }}
               axisLine={{ stroke: "#e5e7eb" }}
             />

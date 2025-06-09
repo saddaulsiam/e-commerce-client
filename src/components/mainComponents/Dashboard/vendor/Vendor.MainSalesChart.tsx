@@ -21,7 +21,6 @@ import {
 } from "recharts";
 
 const VendorDashboardMainSalesChart = ({ salesData }: any) => {
-  console.log(salesData);
   const [timeRange, setTimeRange] = useState<"daily" | "weekly" | "monthly">(
     "weekly",
   );
