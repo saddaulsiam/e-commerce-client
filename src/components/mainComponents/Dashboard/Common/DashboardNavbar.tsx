@@ -6,7 +6,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { authKey } from "@/constants/common";
+import useAuth from "@/hooks/useAuth";
 import { logOutUser } from "@/redux/features/auth/authSlice";
+import { removeOrderDetails } from "@/redux/features/order/orderDetails/orderDetailsSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { removeFromLocalStorage } from "@/utils/localStorage";
 import { Bell, Settings, Users } from "lucide-react";
@@ -14,6 +16,14 @@ import Link from "next/link";
 
 const DashboardNavbar = ({ isCollapsed }: { isCollapsed: boolean }) => {
   const dispatch = useAppDispatch();
+  const { logOut } = useAuth();
+
+  const handleLogOut = async () => {
+    await logOut();
+    dispatch(logOutUser());
+    dispatch(removeOrderDetails());
+    removeFromLocalStorage(authKey.ACCESS_TOKEN);
+  };
 
   return (
     <nav
@@ -58,10 +68,7 @@ const DashboardNavbar = ({ isCollapsed }: { isCollapsed: boolean }) => {
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => {
-                dispatch(logOutUser());
-                removeFromLocalStorage(authKey.ACCESS_TOKEN);
-              }}
+              onClick={handleLogOut}
               className="flex items-center gap-2 text-red-600"
             >
               <Settings className="h-4 w-4" />
