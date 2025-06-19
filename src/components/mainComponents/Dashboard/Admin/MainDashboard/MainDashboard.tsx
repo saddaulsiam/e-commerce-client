@@ -50,7 +50,6 @@ const AdminMainDashboard = () => {
     },
   ];
 
-  console.log(meta);
   return (
     <div className="mx-4 my-5 space-y-8 md:mx-8">
       {/* Stats Grid */}

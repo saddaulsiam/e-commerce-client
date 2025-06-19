@@ -1,5 +1,7 @@
+import { AdminMainReports } from "@/components/mainComponents/Dashboard/Admin/Reports";
+
 const Reports = () => {
-  return <div>Reports</div>;
+  return <AdminMainReports />;
 };
 
 export default Reports;
