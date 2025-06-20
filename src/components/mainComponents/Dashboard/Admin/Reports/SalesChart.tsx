@@ -1,4 +1,5 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,26 +11,35 @@ import {
 import { LucideBarChart } from "lucide-react";
 import { useState } from "react";
 import {
-  Bar,
-  BarChart,
+  Area,
+  AreaChart,
   CartesianGrid,
-  Legend,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
-const SalesChart = ({ salesData }: any) => {
-  const [timeRange, setTimeRange] = useState<"daily" | "weekly" | "monthly">(
-    "weekly",
-  );
 
-  // Ensure salesData is defined and has the expected structure
-  let currentData = salesData?.[timeRange] || [];
+const AdminSalesChart = ({ salesData }: any) => {
+  const [timeRange, setTimeRange] = useState<
+    "hourly" | "daily" | "weekly" | "monthly"
+  >("weekly");
 
-  // Use `monthlyDaysSales` instead of aggregated `monthly` data
-  if (timeRange === "monthly") {
-    currentData = salesData?.monthlyDaysSales || [];
+  let currentData = [];
+
+  switch (timeRange) {
+    case "hourly":
+      currentData = salesData?.hourly || [];
+      break;
+    case "daily":
+      currentData = salesData?.daily || [];
+      break;
+    case "weekly":
+      currentData = salesData?.weekly || [];
+      break;
+    case "monthly":
+      currentData = salesData?.monthly || [];
+      break;
   }
 
   return (
@@ -43,49 +53,73 @@ const SalesChart = ({ salesData }: any) => {
         </div>
 
         <div className="flex gap-2">
-          <Button
-            variant={timeRange === "daily" ? "default" : "outline"}
-            onClick={() => setTimeRange("daily")}
-          >
-            Daily
-          </Button>
-          <Button
-            variant={timeRange === "weekly" ? "default" : "outline"}
-            onClick={() => setTimeRange("weekly")}
-          >
-            Weekly
-          </Button>
-          <Button
-            variant={timeRange === "monthly" ? "default" : "outline"}
-            onClick={() => setTimeRange("monthly")}
-          >
-            Monthly
-          </Button>
+          {["hourly", "daily", "weekly", "monthly"].map((range) => (
+            <Button
+              key={range}
+              variant={timeRange === range ? "default" : "outline"}
+              onClick={() => setTimeRange(range as any)}
+            >
+              {range.charAt(0).toUpperCase() + range.slice(1)}
+            </Button>
+          ))}
         </div>
       </CardHeader>
+
       <CardContent className="h-96">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={currentData}>
-            <CartesianGrid strokeDasharray="3 3" />
+          <AreaChart data={currentData}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
             <XAxis
               dataKey={
                 timeRange === "monthly"
-                  ? "day"
+                  ? "month"
                   : timeRange === "weekly"
                     ? "day"
-                    : "hour"
+                    : timeRange === "daily"
+                      ? "day"
+                      : "hour"
               }
+              tick={{ fill: "#6b7280" }}
+              axisLine={{ stroke: "#e5e7eb" }}
             />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="sales" fill="#6366f1" name="Sales ($)" />
-            <Bar dataKey="orders" fill="hsl(var(--primary))" name="Orders" />
-          </BarChart>
+            {/* <YAxis
+              tick={{ fill: "#6b7280" }}
+              axisLine={{ stroke: "#e5e7eb" }}
+            /> */}
+            <Tooltip
+              labelFormatter={(label) => {
+                if (timeRange === "monthly") return `Month: ${label}`;
+                if (timeRange === "weekly") return `Day: ${label}`;
+                if (timeRange === "daily") return `Date: ${label}`;
+                return `Hour: ${label}`;
+              }}
+              contentStyle={{
+                borderRadius: "0.5rem",
+                border: "1px solid #e5e7eb",
+                boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+              }}
+            />
+            <Area
+              type="monotone"
+              dataKey="sales"
+              stroke="#3b82f8"
+              fill="#3b82f8"
+              fillOpacity={0.2}
+              strokeWidth={2}
+            />
+            <Area
+              type="monotone"
+              dataKey="orders"
+              stroke="#60a5fa"
+              fill="#60a5fa"
+              fillOpacity={0.2}
+              strokeWidth={2}
+            />
+          </AreaChart>
         </ResponsiveContainer>
       </CardContent>
     </Card>
   );
 };
 
-export default SalesChart;
+export default AdminSalesChart;
