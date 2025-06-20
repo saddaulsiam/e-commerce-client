@@ -28,11 +28,6 @@ const DashboardSidebar = ({ isCollapsed }: { isCollapsed: boolean }) => {
     [user?.role],
   );
 
-  // const tools: NavItem[] = useMemo(
-  //   () => getDashboardTools(user?.role as string),
-  //   [user?.role],
-  // );
-
   const toggleSubmenu = (title: string) => {
     setOpenSubmenus((prev) =>
       prev.includes(title) ? prev.filter((t) => t !== title) : [...prev, title],

@@ -39,6 +39,11 @@ export type TUser = {
 
 export enum TStatus {
   INACTIVE = "inactive",
+  PENDING = "pending",
+  APPROVED = "approved",
+  REJECTED = "rejected",
+  PROCESSING = "processing",
+  VERIFIED = "verified",
   ACTIVE = "active",
   BLOCK = "block",
   DELETED = "deleted",

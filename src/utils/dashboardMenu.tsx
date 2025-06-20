@@ -8,15 +8,15 @@ import {
   Folder,
   LayoutDashboard,
   Package,
-  ParkingCircle,
   PlusCircle,
   Settings,
   ShoppingCart,
   StoreIcon,
   Tag,
-  Users,
+  Users
 } from "lucide-react";
 import React from "react";
+import { BiStore } from "react-icons/bi";
 import { BsBag } from "react-icons/bs";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { MdOutlineAccountCircle } from "react-icons/md";
@@ -70,6 +70,21 @@ export function getDashboardMenu(role: string): NavItem[] {
         href: "/admin/orders",
       },
       {
+        title: "New Vendor Request",
+        icon: <BiStore className="h-5 w-5" />,
+        href: "/admin/new-vendor",
+      },
+      {
+        title: "All Vendors",
+        icon: <StoreIcon className="h-5 w-5" />,
+        href: "/admin/vendors",
+      },
+      {
+        title: "Customers",
+        icon: <Users className="h-5 w-5" />,
+        href: "/admin/customers",
+      },
+      {
         title: "Brands",
         icon: <Tag className="h-5 w-5" />,
         children: [
@@ -100,16 +115,6 @@ export function getDashboardMenu(role: string): NavItem[] {
             href: "/admin/categories/new",
           },
         ],
-      },
-      {
-        title: "Vendors",
-        icon: <StoreIcon className="h-5 w-5" />,
-        href: "/admin/vendors",
-      },
-      {
-        title: "Customers",
-        icon: <Users className="h-5 w-5" />,
-        href: "/admin/customers",
       },
     ];
   } else if (role === USER_ROLE.VENDOR) {

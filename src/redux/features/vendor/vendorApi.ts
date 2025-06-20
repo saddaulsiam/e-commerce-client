@@ -12,7 +12,7 @@ const authApi = baseApi.injectEndpoints({
     }),
 
     getAllVendors: builder.query({
-      query: ({ limit, page, sort, search }) => {
+      query: ({ limit, page, sort, search, status }) => {
         const url = `/vendor?`;
         const params = new URLSearchParams();
 
@@ -20,6 +20,7 @@ const authApi = baseApi.injectEndpoints({
         if (page) params.append("page", page);
         if (sort) params.append("sort", sort);
         if (search) params.append("search", search);
+        if (status) params.append("status", status);
 
         return {
           url: `${url}${params.toString()}`,

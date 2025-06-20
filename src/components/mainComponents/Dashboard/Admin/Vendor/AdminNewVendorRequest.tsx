@@ -21,21 +21,30 @@ import {
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { useGetAllVendorsQuery } from "@/redux/features/vendor/vendorApi";
-import { TUser, TVendor } from "@/types/common";
+import { TStatus, TVendor } from "@/types/common";
 import { format } from "date-fns";
-import { EllipsisVertical, Eye, Store, Trash2 } from "lucide-react";
+import {
+  Copy,
+  EllipsisVertical,
+  Eye,
+  ShieldCheck,
+  Store,
+  Trash2,
+} from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { BiLockAlt } from "react-icons/bi";
-import { BsPeople } from "react-icons/bs";
+import { toast } from "react-toastify";
 
-const AdminAllVendors = () => {
+const AdminNewVendorRequest = () => {
+  const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
 
   const { data: vendors } = useGetAllVendorsQuery({
     page: currentPage,
     limit: 20,
+    status: TStatus.INACTIVE,
   });
 
   return (
@@ -43,7 +52,7 @@ const AdminAllVendors = () => {
       <CardHeader>
         <CardTitle className="flex items-center text-xl font-bold text-slate-700 md:text-2xl">
           <Store className="mr-2 text-primary" />
-          Vendors
+          New Vendor Request
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -114,21 +123,37 @@ const AdminAllVendors = () => {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent className="w-40">
-                        <DropdownMenuItem>
-                          <Link
-                            className="flex"
-                            href={`/shop/${vendor.storeName}`}
-                          >
-                            <Eye className="mr-2 h-5 w-5" />
-                            Details
-                          </Link>
+                        <DropdownMenuItem
+                          onClick={() => {
+                            navigator.clipboard.writeText(vendor._id);
+                            toast.success("Copied to clipboard");
+                          }}
+                        >
+                          <Copy className="h-4 w-4" />
+                          Copy UID
                         </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          <BiLockAlt />
-                          Block
+                        <DropdownMenuItem
+                          onClick={() =>
+                            router.push(`/shop/${vendor.storeName}`)
+                          }
+                        >
+                          <Eye className="h-4 w-4" />
+                          Details
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="text-red-500">
-                          <Trash2 /> Delete
+                        {vendor.status === TStatus.INACTIVE ||
+                        TStatus.PROCESSING ? (
+                          <DropdownMenuItem>
+                            <ShieldCheck className="h-4 w-4" />
+                            Make Active
+                          </DropdownMenuItem>
+                        ) : (
+                          <DropdownMenuItem disabled>
+                            <BiLockAlt className="h-4 w-4" />
+                            Block
+                          </DropdownMenuItem>
+                        )}
+                        <DropdownMenuItem disabled className="text-red-500">
+                          <Trash2 className="h-4 w-4" /> Delete
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -141,7 +166,7 @@ const AdminAllVendors = () => {
                   colSpan={7}
                   className="text-center text-lg text-gray-600"
                 >
-                  No Vendors found at the moment.
+                  No New Vendor Request found at the moment.
                 </TableCell>
               </TableRow>
             )}
@@ -167,4 +192,4 @@ const AdminAllVendors = () => {
   );
 };
 
-export default AdminAllVendors;
+export default AdminNewVendorRequest;

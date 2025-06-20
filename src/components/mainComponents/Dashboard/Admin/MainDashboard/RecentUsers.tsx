@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import Status from "@/components/ui/status";
 import { TUser } from "@/types/common";
 import { Users } from "lucide-react";
 import Image from "next/image";
@@ -15,32 +16,6 @@ import Link from "next/link";
 import { toast } from "react-toastify";
 
 const RecentUsers = ({ recentCustomers }: any) => {
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case "active":
-        return "bg-green-100 text-green-800";
-      case "pending":
-        return "bg-yellow-100 text-yellow-800";
-      case "block":
-        return "bg-red-100 text-red-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
-
-  const getRoleBadge = (role: string) => {
-    switch (role) {
-      case "admin":
-        return "bg-purple-100 text-purple-800";
-      case "vendor":
-        return "bg-blue-100 text-blue-800";
-      case "customer":
-        return "bg-orange-100 text-orange-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
-
   return (
     <Card className="mb-8">
       <CardHeader className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
@@ -85,18 +60,10 @@ const RecentUsers = ({ recentCustomers }: any) => {
                 </td>
                 <td className="px-4 py-3 text-gray-700">{user.email}</td>
                 <td className="px-4 py-3">
-                  <span
-                    className={`rounded-full px-3 py-1 text-xs font-medium ${getRoleBadge(user.role)}`}
-                  >
-                    {user.role.toUpperCase()}
-                  </span>
+                  <Status status={user.role} />
                 </td>
                 <td className="px-4 py-3">
-                  <span
-                    className={`rounded-full px-3 py-1 text-xs font-medium capitalize ${getStatusBadge(user.status)}`}
-                  >
-                    {user.status}
-                  </span>
+                  <Status status={user.status} />
                 </td>
                 <td className="px-4 py-3">
                   <Button

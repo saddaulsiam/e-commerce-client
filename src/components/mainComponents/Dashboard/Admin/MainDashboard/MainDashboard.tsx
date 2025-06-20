@@ -9,6 +9,7 @@ import RevenueChart from "./RevenueChart";
 import SalesDistribution from "./SalesDistribution";
 import StatCard from "./StatCard";
 import VendorPerformance from "./VendorPerformance";
+import RecentVendor from "./RecentVendor";
 
 const AdminMainDashboard = () => {
   const { data: dashboardMeta } = useGetAdminDashboardMetaQuery(undefined);
@@ -49,7 +50,6 @@ const AdminMainDashboard = () => {
       color: "#f59e0b",
     },
   ];
-
   return (
     <div className="mx-4 my-5 space-y-8 md:mx-8">
       {/* Stats Grid */}
@@ -70,6 +70,9 @@ const AdminMainDashboard = () => {
 
       {/* Vendor Performance Section */}
       <VendorPerformance topVendors={meta?.topVendors} />
+
+      {/* Recent Vendor */}
+      <RecentVendor recentVendors={meta?.recentVendors} />
 
       {/* Recent Users Table */}
       <RecentUsers recentCustomers={meta?.recentCustomers} />
