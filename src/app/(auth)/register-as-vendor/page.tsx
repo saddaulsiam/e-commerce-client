@@ -1,6 +1,5 @@
 "use client";
 
-import { Footer, Navbar } from "@/components/sharedComponents";
 import { Button } from "@/components/ui/button";
 import useAuth from "@/hooks/useAuth";
 import PrivateRoute from "@/providers/PrivateRoute";
@@ -58,7 +57,6 @@ const VendorRegister = () => {
 
   return (
     <PrivateRoute>
-      <Navbar />
       <div className="flex min-h-[calc(100vh-180px)] items-center justify-center bg-gray-100">
         <div className="w-full max-w-2xl rounded bg-white p-8 shadow-md">
           <h2 className="mb-6 text-center text-2xl font-bold">
@@ -248,7 +246,6 @@ const VendorRegister = () => {
           </form>
         </div>
       </div>
-      <Footer />
     </PrivateRoute>
   );
 };

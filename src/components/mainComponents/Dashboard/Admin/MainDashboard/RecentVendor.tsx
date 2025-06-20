@@ -112,8 +112,7 @@ const RecentVendor = ({
                         <Eye className="h-4 w-4" />
                         Details
                       </DropdownMenuItem>
-                      {vendor.status === TStatus.INACTIVE ||
-                      TStatus.PROCESSING ? (
+                      {vendor.status === TStatus.INACTIVE ? (
                         <DropdownMenuItem>
                           <ShieldCheck className="h-4 w-4" />
                           Make Active

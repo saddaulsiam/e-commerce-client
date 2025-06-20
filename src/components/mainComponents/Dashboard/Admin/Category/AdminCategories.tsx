@@ -1,6 +1,6 @@
 "use client";
 
-import AdminCategoryItem from "@/components/mainComponents/Dashboard/Admin/AdminCategoryItem";
+import AdminCategoryItem from "@/components/mainComponents/Dashboard/Admin/Category/AdminCategoryItem";
 import { useGetCategoriesQuery } from "@/redux/features/categories/categoriesApi";
 import { TCategory } from "@/types/common";
 
