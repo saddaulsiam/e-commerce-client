@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/ui/button";
+
 import { useState } from "react";
 import {
   Area,
@@ -10,20 +10,32 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
+import { LucideWallet } from "lucide-react";
 
 const RevenueChart = ({ revenueData }: any) => {
   const [timeRange, setTimeRange] = useState<"monthly" | "yearly">("monthly");
 
-  let currentData = revenueData?.[timeRange] || [];
+  const currentData = revenueData?.[timeRange] || [];
 
-  if (timeRange === "yearly") {
-    currentData = revenueData?.yearly || [];
-  }
   return (
-    <div className="rounded-lg bg-white p-6 shadow lg:col-span-2">
-      <div className="mb-6 flex flex-col justify-between md:flex-row md:items-center">
-        <h2 className="text-xl font-bold text-gray-800">Revenue Overview</h2>
-        <div className="mt-4 flex gap-2 md:mt-0">
+    <Card className="lg:col-span-2">
+      <CardHeader className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+        <div className="mx-8 my-2">
+          <CardTitle className="flex items-center gap-2 text-xl md:text-2xl">
+            <LucideWallet className="text-primary" />
+            Revenue Overview
+          </CardTitle>
+          <CardDescription>Total revenue over time</CardDescription>
+        </div>
+        <div className="flex gap-2">
           <Button
             variant={timeRange === "monthly" ? "default" : "outline"}
             onClick={() => setTimeRange("monthly")}
@@ -37,8 +49,9 @@ const RevenueChart = ({ revenueData }: any) => {
             Yearly
           </Button>
         </div>
-      </div>
-      <div className="h-80">
+      </CardHeader>
+
+      <CardContent className="h-80">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={currentData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
@@ -54,7 +67,9 @@ const RevenueChart = ({ revenueData }: any) => {
             />
             <Tooltip
               formatter={(value) => [`$${value}`, "Revenue"]}
-              labelFormatter={(label) => `Month: ${label}`}
+              labelFormatter={(label) =>
+                timeRange === "yearly" ? `Year: ${label}` : `Month: ${label}`
+              }
               contentStyle={{
                 borderRadius: "0.5rem",
                 border: "1px solid #e5e7eb",
@@ -71,8 +86,8 @@ const RevenueChart = ({ revenueData }: any) => {
             />
           </AreaChart>
         </ResponsiveContainer>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 };
 

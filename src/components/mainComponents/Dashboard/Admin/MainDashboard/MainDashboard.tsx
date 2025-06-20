@@ -68,11 +68,11 @@ const AdminMainDashboard = () => {
         <SalesDistribution />
       </div>
 
-      {/* Recent Users Table */}
-      <RecentUsers recentCustomers={meta?.recentCustomers} />
-
       {/* Vendor Performance Section */}
       <VendorPerformance topVendors={meta?.topVendors} />
+
+      {/* Recent Users Table */}
+      <RecentUsers recentCustomers={meta?.recentCustomers} />
     </div>
   );
 };

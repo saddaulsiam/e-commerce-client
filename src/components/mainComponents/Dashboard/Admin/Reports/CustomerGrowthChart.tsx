@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/ui/button";
+
 import { useState } from "react";
 import {
   Area,
@@ -10,23 +10,32 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { LucideUsers } from "lucide-react";
 
 const CustomerGrowthChart = ({ customerGrowthData }: any) => {
   const [timeRange, setTimeRange] = useState<"monthly" | "yearly">("monthly");
 
-  let currentData = customerGrowthData?.[timeRange] || [];
-
-  if (timeRange === "yearly") {
-    currentData = customerGrowthData?.yearly || [];
-  }
+  const currentData = customerGrowthData?.[timeRange] || [];
 
   return (
-    <div className="rounded-lg bg-white p-6 shadow">
-      <div className="mb-6 flex flex-col justify-between md:flex-row md:items-center">
-        <h2 className="text-xl font-bold text-gray-800">
-          Customer Growth Overview
-        </h2>
-        <div className="mt-4 flex gap-2 md:mt-0">
+    <Card className="mb-8">
+      <CardHeader className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+        <div className="mx-8 my-2">
+          <CardTitle className="flex items-center gap-2 text-xl md:text-2xl">
+            <LucideUsers className="text-primary" />
+            Customer Growth Overview
+          </CardTitle>
+          <CardDescription>New customers over time</CardDescription>
+        </div>
+        <div className="flex gap-2">
           <Button
             variant={timeRange === "monthly" ? "default" : "outline"}
             onClick={() => setTimeRange("monthly")}
@@ -40,8 +49,9 @@ const CustomerGrowthChart = ({ customerGrowthData }: any) => {
             Yearly
           </Button>
         </div>
-      </div>
-      <div className="h-80">
+      </CardHeader>
+
+      <CardContent className="h-80">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={currentData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
@@ -56,7 +66,9 @@ const CustomerGrowthChart = ({ customerGrowthData }: any) => {
             />
             <Tooltip
               formatter={(value) => [`${value}`, "Customers"]}
-              labelFormatter={(label) => `Month: ${label}`}
+              labelFormatter={(label) =>
+                timeRange === "yearly" ? `Year: ${label}` : `Month: ${label}`
+              }
               contentStyle={{
                 borderRadius: "0.5rem",
                 border: "1px solid #e5e7eb",
@@ -73,8 +85,8 @@ const CustomerGrowthChart = ({ customerGrowthData }: any) => {
             />
           </AreaChart>
         </ResponsiveContainer>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 };
 

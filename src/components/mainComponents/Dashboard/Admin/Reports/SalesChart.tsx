@@ -17,7 +17,6 @@ import {
   ResponsiveContainer,
   Tooltip,
   XAxis,
-  YAxis,
 } from "recharts";
 
 const AdminSalesChart = ({ salesData }: any) => {
@@ -82,10 +81,6 @@ const AdminSalesChart = ({ salesData }: any) => {
               tick={{ fill: "#6b7280" }}
               axisLine={{ stroke: "#e5e7eb" }}
             />
-            {/* <YAxis
-              tick={{ fill: "#6b7280" }}
-              axisLine={{ stroke: "#e5e7eb" }}
-            /> */}
             <Tooltip
               labelFormatter={(label) => {
                 if (timeRange === "monthly") return `Month: ${label}`;
