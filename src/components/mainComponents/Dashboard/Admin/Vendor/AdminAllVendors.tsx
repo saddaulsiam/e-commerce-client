@@ -21,7 +21,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { useGetAllVendorsQuery } from "@/redux/features/vendor/vendorApi";
+import {
+  useChangeVendorStatusMutation,
+  useGetAllVendorsQuery,
+} from "@/redux/features/vendor/vendorApi";
 import { TStatus, TVendor } from "@/types/common";
 import { format } from "date-fns";
 import {
@@ -45,8 +48,18 @@ const AdminAllVendors = () => {
   const { data: vendors } = useGetAllVendorsQuery({
     page: currentPage,
     limit: 20,
-    status: TStatus.ACTIVE,
+    // status: TStatus.DELETED,
   });
+
+  const [changeVendorStatus] = useChangeVendorStatusMutation();
+
+  const handleChangeStatus = async (id: string, status: string) => {
+    const res = await changeVendorStatus({ id, status }).unwrap();
+    if (res.success) {
+      toast.success(`Vendor status changed to ${status}`);
+      router.refresh();
+    }
+  };
 
   return (
     <Card className="md:m-6">
@@ -128,19 +141,32 @@ const AdminAllVendors = () => {
                           <Eye className="h-4 w-4" />
                           Details
                         </DropdownMenuItem>
-                        {vendor.status === TStatus.INACTIVE ||
-                        TStatus.PROCESSING ? (
-                          <DropdownMenuItem>
+                        {vendor.status !== TStatus.ACTIVE && (
+                          <DropdownMenuItem
+                            onClick={() =>
+                              handleChangeStatus(vendor._id, TStatus.ACTIVE)
+                            }
+                          >
                             <ShieldCheck className="h-4 w-4" />
                             Make Active
                           </DropdownMenuItem>
-                        ) : (
-                          <DropdownMenuItem disabled>
-                            <BiLockAlt className="h-4 w-4" />
-                            Block
-                          </DropdownMenuItem>
                         )}
-                        <DropdownMenuItem disabled className="text-red-500">
+
+                        <DropdownMenuItem
+                          onClick={() =>
+                            handleChangeStatus(vendor._id, TStatus.BLOCK)
+                          }
+                        >
+                          <BiLockAlt className="h-4 w-4" />
+                          Block
+                        </DropdownMenuItem>
+
+                        <DropdownMenuItem
+                          className="text-red-500"
+                          onClick={() =>
+                            handleChangeStatus(vendor._id, TStatus.DELETED)
+                          }
+                        >
                           <Trash2 className="h-4 w-4" /> Delete
                         </DropdownMenuItem>
                       </DropdownMenuContent>

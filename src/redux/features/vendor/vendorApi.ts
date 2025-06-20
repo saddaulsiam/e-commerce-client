@@ -100,6 +100,15 @@ const authApi = baseApi.injectEndpoints({
       }),
       providesTags: ["Vendor"],
     }),
+
+    changeVendorStatus: builder.mutation({
+      query: (payload) => ({
+        url: `/vendor/${payload.id}/status`,
+        method: "PUT",
+        body: payload,
+      }),
+      invalidatesTags: ["Vendor"],
+    }),
   }),
 });
 
@@ -112,4 +121,5 @@ export const {
   useUpdateMyVendorMutation,
   useGetVendorByNameQuery,
   useGetVendorDashboardMetaQuery,
+  useChangeVendorStatusMutation,
 } = authApi;
