@@ -8,10 +8,10 @@ import {
 import {
   getArea,
   getCity,
-  getStreet,
+  getRegion,
+  TArea,
   TCities,
   TDivision,
-  TArea,
 } from "@/services/addressSelectOption";
 import { useEffect, useState } from "react";
 import { Controller } from "react-hook-form";
@@ -22,6 +22,7 @@ interface AddressSelectProps {
   watch: any;
   name: string;
   placeholder?: string;
+  required?: boolean;
 }
 
 const AddressSelect = ({
@@ -30,6 +31,7 @@ const AddressSelect = ({
   watch,
   name,
   placeholder,
+  required = false,
 }: AddressSelectProps) => {
   const [divisions, setDivisions] = useState<TDivision[]>([]);
   const [cities, setCities] = useState<TCities[]>([]);
@@ -37,7 +39,7 @@ const AddressSelect = ({
   const [step, setStep] = useState<number>(0);
   const [open, setOpen] = useState<boolean>(false);
 
-  const selectedDivision = watch("street", "");
+  const selectedDivision = watch("region", "");
   const selectedCity = watch("city", "");
   const selectedArea = watch("area", "");
 
@@ -51,7 +53,7 @@ const AddressSelect = ({
           : "";
 
   useEffect(() => {
-    getStreet().then((data: TDivision[] | undefined) => {
+    getRegion().then((data: TDivision[] | undefined) => {
       setDivisions(data || []);
     });
   }, []);
@@ -83,7 +85,7 @@ const AddressSelect = ({
   const handleChange = async (value: string): Promise<void> => {
     if (step === 0) {
       const selectedDivisionObj = divisions.find((div) => div.id === value);
-      setValue("street", selectedDivisionObj?.name);
+      setValue("region", selectedDivisionObj?.name);
       setValue("city", "");
       setValue("area", "");
       const citiesData: TCities[] | undefined = await getCity(value);
@@ -112,6 +114,7 @@ const AddressSelect = ({
       control={control}
       render={({ field }) => (
         <Select
+          required={required}
           open={open}
           onOpenChange={setOpen}
           onValueChange={(value: string) => {
@@ -121,7 +124,7 @@ const AddressSelect = ({
         >
           <SelectTrigger className="h-12">
             <SelectValue
-              placeholder={placeholder || "Select street > City > Area"}
+              placeholder={placeholder || "Select region > City > Area"}
             >
               {displayValue}
             </SelectValue>

@@ -1,5 +1,6 @@
 "use client";
 
+import AddressSelect from "@/components/sharedComponents/forms/AddressSelect";
 import { Button } from "@/components/ui/button";
 import useAuth from "@/hooks/useAuth";
 import PrivateRoute from "@/providers/PrivateRoute";
@@ -15,10 +16,10 @@ interface VendorRegisterFormData {
   storeLogo: string;
   storeBanner: string;
   address: {
-    street: string;
+    region: string;
     city: string;
     area: string;
-    address: string;
+    street: string;
   };
 }
 
@@ -27,6 +28,9 @@ const VendorRegister = () => {
     register,
     handleSubmit,
     reset,
+    control,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm<VendorRegisterFormData>();
   const { user } = useAppSelector(({ state }) => state.auth);
@@ -34,16 +38,35 @@ const VendorRegister = () => {
   const router = useRouter();
   const { setLoadUser } = useAuth();
 
-  const onSubmit = async (data: FieldValues) => {
-    data.userId = user?._id;
-    data.email = user?.email;
+  const onSubmit = async (values: FieldValues) => {
+    try {
+      const payload = {
+        userId: user?._id,
+        email: user?.email,
+        storeName: values.storeName,
+        storeDescription: values.storeDescription,
+        address: {
+          region: values.region,
+          city: values.city,
+          area: values.area,
+          street: values.address.street,
+        },
+      };
 
-    const res = await registerVendor(data).unwrap();
-    if (res.success) {
-      setLoadUser(true);
-      reset();
-      toast.success(res.message);
-      router.push("/vendor/dashboard");
+      const res = await registerVendor(payload).unwrap();
+
+      if (res?.success) {
+        setLoadUser(true);
+        reset();
+        toast.success(res?.message || "Vendor registered successfully");
+        router.push("/vendor/dashboard");
+      }
+    } catch (err: any) {
+      const apiError =
+        err?.data?.message ||
+        err?.message ||
+        "Something went wrong. Please try again.";
+      toast.error(apiError);
     }
   };
 
@@ -103,113 +126,21 @@ const VendorRegister = () => {
               )}
             </div>
 
-            {/* Store Logo */}
-            <div>
-              <label htmlFor="storeLogo" className="block text-gray-700">
-                Store Logo URL
-              </label>
-              <input
-                type="text"
-                id="storeLogo"
-                {...register("storeLogo", {
-                  required: "Store Logo is required",
-                })}
-                className={inputClasses(errors.storeLogo)}
-                placeholder="Enter URL for your store logo"
-              />
-              {errors.storeLogo && (
-                <p className="mt-1 text-sm text-red-500">
-                  {errors.storeLogo.message}
-                </p>
-              )}
-            </div>
-
-            {/* Store Banner */}
-            <div>
-              <label htmlFor="storeBanner" className="block text-gray-700">
-                Store Banner URL
-              </label>
-              <input
-                type="text"
-                id="storeBanner"
-                {...register("storeBanner", {
-                  required: "Store Banner is required",
-                })}
-                className={inputClasses(errors.storeBanner)}
-                placeholder="Enter URL for your store banner"
-              />
-              {errors.storeBanner && (
-                <p className="mt-1 text-sm text-red-500">
-                  {errors.storeBanner.message}
-                </p>
-              )}
-            </div>
-
             {/* Address Fields */}
             <fieldset className="rounded border border-gray-300 p-4">
-              <legend className="font-medium text-gray-700">Address</legend>
+              <legend className="font-medium text-gray-700">
+                Store Address
+              </legend>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                {/* Street */}
                 <div>
-                  <label
-                    htmlFor="address.street"
-                    className="block text-gray-700"
-                  >
-                    Street
-                  </label>
-                  <input
-                    id="address.street"
-                    {...register("address.street", {
-                      required: "Street is required",
-                    })}
-                    className={inputClasses(errors.address?.street)}
-                    placeholder="Enter your street"
+                  <label className="mb-1 block text-gray-600">Area</label>
+                  <AddressSelect
+                    control={control}
+                    setValue={setValue}
+                    watch={watch}
+                    name="area"
+                    required={true}
                   />
-                  {errors.address?.street && (
-                    <p className="mt-1 text-sm text-red-500">
-                      {errors.address.street.message}
-                    </p>
-                  )}
-                </div>
-
-                {/* City */}
-                <div>
-                  <label htmlFor="address.city" className="block text-gray-700">
-                    City
-                  </label>
-                  <input
-                    id="address.city"
-                    {...register("address.city", {
-                      required: "City is required",
-                    })}
-                    className={inputClasses(errors.address?.city)}
-                    placeholder="Enter your city"
-                  />
-                  {errors.address?.city && (
-                    <p className="mt-1 text-sm text-red-500">
-                      {errors.address.city.message}
-                    </p>
-                  )}
-                </div>
-
-                {/* Area */}
-                <div>
-                  <label htmlFor="address.area" className="block text-gray-700">
-                    Area
-                  </label>
-                  <input
-                    id="address.area"
-                    {...register("address.area", {
-                      required: "Area is required",
-                    })}
-                    className={inputClasses(errors.address?.area)}
-                    placeholder="Enter your area"
-                  />
-                  {errors.address?.area && (
-                    <p className="mt-1 text-sm text-red-500">
-                      {errors.address.area.message}
-                    </p>
-                  )}
                 </div>
 
                 {/* Full Address */}
@@ -218,19 +149,19 @@ const VendorRegister = () => {
                     htmlFor="address.address"
                     className="block text-gray-700"
                   >
-                    Full Address
+                    Street
                   </label>
                   <input
                     id="address.address"
-                    {...register("address.address", {
+                    {...register("address.street", {
                       required: "Full address is required",
                     })}
-                    className={inputClasses(errors.address?.address)}
+                    className={inputClasses(errors.address?.street)}
                     placeholder="Enter your full address"
                   />
-                  {errors.address?.address && (
+                  {errors.address?.street && (
                     <p className="mt-1 text-sm text-red-500">
-                      {errors.address.address.message}
+                      {errors.address.street.message}
                     </p>
                   )}
                 </div>

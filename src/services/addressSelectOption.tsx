@@ -25,7 +25,7 @@ export interface TArea {
   url: string;
 }
 
-export async function getStreet() {
+export async function getRegion() {
   const response = await fetch("https://bdapi.vercel.app/api/v.1/division");
   const { data } = await response.json();
   return data;
