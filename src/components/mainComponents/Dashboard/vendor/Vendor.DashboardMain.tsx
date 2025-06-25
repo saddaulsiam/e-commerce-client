@@ -1,10 +1,11 @@
 "use client";
 
 import { useGetVendorDashboardMetaQuery } from "@/redux/features/vendor/vendorApi";
+import { useAppSelector } from "@/redux/hooks";
 import { FiAlertCircle, FiPackage, FiTrendingUp } from "react-icons/fi";
 import VendorDashboardMainResentOrders from "./Vendor.MainResentOrders";
 import VendorDashboardMainReviewsCard from "./Vendor.MainReviewsCard";
-import VendorDashboardMainSalesChart from "./Vendor.MainSalesChart";
+import VendorSalesChart from "./Vendor.MainSalesChart";
 import DashboardMainStatsCard from "./Vendor.MainStatsCard";
 
 const VendorDashboardMain = () => {
@@ -23,11 +24,11 @@ const VendorDashboardMain = () => {
       <div className="mb-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <DashboardMainStatsCard
           title="Total Revenue"
-          value={`$${meta?.overview?.totalSales}`}
+          value={`$${meta?.overview?.totalRevenue}`}
           trend="12.5%"
           positive={true}
           icon={<FiTrendingUp className="h-6 w-6 text-white" />}
-          color="bg-gradient-to-br from-indigo-500 to-purple-500 "
+          color="bg-gradient-to-br from-indigo-500 to-purple-500"
         />
         <DashboardMainStatsCard
           title="Pending Orders"
@@ -39,7 +40,7 @@ const VendorDashboardMain = () => {
         />
         <DashboardMainStatsCard
           title="Low Stock"
-          value={meta?.overview?.lowStockProducts}
+          value={meta?.overview?.lowStock}
           trend="Attention"
           positive={false}
           icon={<FiPackage className="h-6 w-6 text-white" />}
@@ -47,7 +48,7 @@ const VendorDashboardMain = () => {
         />
         <DashboardMainStatsCard
           title="Earnings"
-          value={`$${meta?.overview?.monthlyEarnings.toLocaleString()}`}
+          value={`$${meta?.overview?.earnings}`}
           trend="8%"
           positive={true}
           icon={<FiTrendingUp className="h-6 w-6 text-white" />}
@@ -56,7 +57,7 @@ const VendorDashboardMain = () => {
       </div>
 
       {/* Sales Chart */}
-      <VendorDashboardMainSalesChart salesData={meta?.salesData} />
+      <VendorSalesChart salesData={meta?.salesData} />
 
       {/* Resent Orders & Reviews Section */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">

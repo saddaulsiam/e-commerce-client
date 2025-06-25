@@ -9,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import Status from "@/components/ui/status";
 import {
   Table,
   TableBody,
@@ -64,7 +65,7 @@ const VendorDashboardMainResentOrders = ({ recentOrders }: TProps) => {
                 <TableCell>{order?.shippingAddress?.name}</TableCell>
                 <TableCell>{order?.shippingAddress?.phoneNumber}</TableCell>
                 <TableCell>
-                  <StatusBadge status={order?.status} />
+                  <Status status={order?.status} />
                 </TableCell>
                 <TableCell className="text-right">
                   ${order?.totalAmount}
@@ -78,23 +79,6 @@ const VendorDashboardMainResentOrders = ({ recentOrders }: TProps) => {
   );
 };
 
-// Status Badge Component using shadcn UI
-const StatusBadge = ({ status }: { status: string }) => {
-  const statusMap = {
-    delivered: "bg-green-200 text-green-800",
-    pending: "bg-amber-200 text-amber-800",
-    processing: "bg-amber-200 text-amber-800",
-    cancelled: "bg-red-200 text-red-800",
-  };
 
-  return (
-    <Badge
-      variant="outline"
-      className={`${statusMap[status as keyof typeof statusMap]} capitalize`}
-    >
-      {status}
-    </Badge>
-  );
-};
 
 export default VendorDashboardMainResentOrders;

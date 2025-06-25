@@ -17,6 +17,7 @@ import {
   ResponsiveContainer,
   Tooltip,
   XAxis,
+  YAxis,
 } from "recharts";
 
 const AdminSalesChart = ({ salesData }: any) => {
@@ -68,6 +69,7 @@ const AdminSalesChart = ({ salesData }: any) => {
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={currentData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
+            <YAxis />
             <XAxis
               dataKey={
                 timeRange === "monthly"
