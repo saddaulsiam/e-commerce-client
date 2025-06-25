@@ -4,6 +4,7 @@ import { Pagination } from "@/components/sharedComponents";
 import { Loading } from "@/components/sharedComponents/loader";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -76,10 +77,10 @@ const VendorAllProducts = () => {
     setCurrentPage(pageNumber);
   };
 
-  if (isLoading) return <Loading />;
+  // if (isLoading) return <Loading />;
 
-  if (isError || !products?.data?.data)
-    return <div className="text-red-500">Error loading products.</div>;
+  // if (isError || !products?.data?.data)
+  //   return <div className="text-red-500">Error loading products.</div>;
 
   return (
     <Card className="md:m-6">
@@ -105,98 +106,118 @@ const VendorAllProducts = () => {
 
           {/* Table Body */}
           <TableBody>
-            {products.data.data.map((product: TProduct) => (
-              <TableRow key={product._id} className="hover:bg-gray-50">
-                <TableCell className="p-4">
-                  <div className="flex items-center space-x-3">
-                    <div className="relative h-16 w-24">
-                      <Image
-                        layout="fill"
-                        src={product.images[0]}
-                        alt={product.name}
-                        priority
-                      />
-                    </div>
-                    <div>
-                      <div className="text-lg font-bold">
-                        {product.name.slice(0, 25)}...
-                      </div>
-                      <div className="text-sm text-gray-500">
-                        {product.status} ({product.stock})
-                      </div>
-                    </div>
-                  </div>
-                </TableCell>
-                <TableCell className="p-4 text-base text-gray-600">
-                  {product.description.slice(0, 40)}...
-                  <br />
-                  {product.colors?.map((color, i) => (
-                    <span
-                      key={i}
-                      className="rounded-full px-3 text-sm text-white"
-                      style={{
-                        backgroundColor: color,
-                      }}
-                    >
-                      {color}
-                    </span>
-                  ))}
-                </TableCell>
-                <TableCell className="p-4 text-sm text-gray-500">
-                  {product.category}
-                </TableCell>
-                <TableCell className="p-4 text-sm text-gray-500">
-                  {product.brand}
-                </TableCell>
-                <TableCell className="p-4">
-                  <div className="flex flex-col">
-                    <span
-                      className={`text-sm ${product.discount ? "text-gray-400 line-through" : "font-bold text-primary"}`}
-                    >
-                      ${product.price}
-                    </span>
-
-                    {product.discount && (
-                      <span className="font-bold text-primary">
-                        ${(product.price - product.discount).toFixed(2)}
-                      </span>
-                    )}
-                  </div>
-                </TableCell>
-
-                <TableCell className="space-x-2 p-4 text-center">
-                  <Button
-                    className="rounded-full p-3 transition-all duration-300 hover:bg-orange-600"
-                    onClick={() =>
-                      router.push(`/vendor/products/${product._id}`)
-                    }
-                    aria-label="Edit Product"
-                    title="Edit Product"
-                  >
-                    <TbEdit />
-                  </Button>
-                  <Button
-                    className="rounded-full bg-red-500 p-3 transition-all duration-300 hover:bg-red-600"
-                    onClick={() => handleDeleteProduct(product._id!)}
-                    aria-label="Delete Product"
-                    title="Delete Product"
-                  >
-                    <MdDeleteOutline />
-                  </Button>
+            {isLoading ? (
+              <TableRow>
+                <TableCell colSpan={6} className="text-center">
+                  <Skeleton className="my-2 h-20 w-full" />
+                  <Skeleton className="my-2 h-20 w-full" />
+                  <Skeleton className="my-2 h-20 w-full" />
+                  <Skeleton className="my-2 h-20 w-full" />
+                  <Skeleton className="my-2 h-20 w-full" />
                 </TableCell>
               </TableRow>
-            ))}
+            ) : products?.data?.data && products.data.data.length > 0 ? (
+              products.data.data.map((product: TProduct) => (
+                <TableRow key={product._id} className="hover:bg-gray-50">
+                  <TableCell className="p-4">
+                    <div className="flex items-center space-x-3">
+                      <div className="relative h-16 w-24">
+                        <Image
+                          layout="fill"
+                          src={product.images[0]}
+                          alt={product.name}
+                          priority
+                        />
+                      </div>
+                      <div>
+                        <div className="text-lg font-bold">
+                          {product.name.length > 25
+                            ? `${product.name.slice(0, 25)}...`
+                            : product.name}
+                        </div>
+                        <div className="text-sm text-gray-500">
+                          {product.status} ({product.stock})
+                        </div>
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell className="p-4 text-base text-gray-600">
+                    {product.description.length > 40
+                      ? `${product.description.slice(0, 40)}...`
+                      : product.description}
+                    <br />
+                    {product.colors?.map((color, i) => (
+                      <span
+                        key={i}
+                        className="rounded-full px-3 text-sm text-white"
+                        style={{
+                          backgroundColor: color,
+                        }}
+                      >
+                        {color}
+                      </span>
+                    ))}
+                  </TableCell>
+                  <TableCell className="p-4 text-sm text-gray-500">
+                    {product.category}
+                  </TableCell>
+                  <TableCell className="p-4 text-sm text-gray-500">
+                    {product.brand}
+                  </TableCell>
+                  <TableCell className="p-4">
+                    <div className="flex flex-col">
+                      <span
+                        className={`text-sm ${product.discount ? "text-gray-400 line-through" : "font-bold text-primary"}`}
+                      >
+                        ${product.price}
+                      </span>
+                      {product.discount && (
+                        <span className="font-bold text-primary">
+                          ${(product.price - product.discount).toFixed(2)}
+                        </span>
+                      )}
+                    </div>
+                  </TableCell>
+                  <TableCell className="space-x-2 p-4 text-center">
+                    <Button
+                      className="rounded-full p-3 transition-all duration-300 hover:bg-orange-600"
+                      onClick={() =>
+                        router.push(`/vendor/products/${product._id}`)
+                      }
+                      aria-label="Edit Product"
+                      title="Edit Product"
+                    >
+                      <TbEdit />
+                    </Button>
+                    <Button
+                      className="rounded-full bg-red-500 p-3 transition-all duration-300 hover:bg-red-600"
+                      onClick={() => handleDeleteProduct(product._id!)}
+                      aria-label="Delete Product"
+                      title="Delete Product"
+                    >
+                      <MdDeleteOutline />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={6} className="text-center text-red-500">
+                  No products found.
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
 
           <TableFooter className="bg-gray-100">
             <TableRow>
               <TableCell colSpan={2}>
-                Total {products.data.meta.total} Products Found
+                Total {products?.data?.meta?.total} Products Found
               </TableCell>
               <TableCell colSpan={4}>
                 <Pagination
                   currentPage={currentPage}
-                  totalPages={products.data.meta.page}
+                  totalPages={products?.data?.meta?.page}
                   onPageChange={handlePageChange}
                 />
               </TableCell>

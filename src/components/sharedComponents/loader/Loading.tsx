@@ -5,7 +5,7 @@ import loading from "@/../public/animation/loading.json";
 
 const Loading = () => {
   return (
-    <div className="flex h-screen w-screen items-center justify-center">
+    <div className="absolute inset-0 flex items-center justify-center">
       <div className="h-40 w-40">
         <Lottie animationData={loading} />
       </div>
