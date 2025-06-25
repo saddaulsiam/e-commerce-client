@@ -184,10 +184,8 @@ const DashboardSidebar = ({ isCollapsed }: { isCollapsed: boolean }) => {
               {menu && menu.map((item) => renderMenuItem(item))}
             </ul>
           </section>
-
-          {/*
+          {/* 
           <Separator className="bg-gray-100" />
-
           <section aria-label="Tools">
             <h3
               className={cn(

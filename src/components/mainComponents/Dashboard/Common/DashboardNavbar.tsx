@@ -9,14 +9,15 @@ import { authKey } from "@/constants/common";
 import useAuth from "@/hooks/useAuth";
 import { logOutUser } from "@/redux/features/auth/authSlice";
 import { removeOrderDetails } from "@/redux/features/order/orderDetails/orderDetailsSlice";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { removeFromLocalStorage } from "@/utils/localStorage";
 import { Bell, Settings, Users } from "lucide-react";
 import Link from "next/link";
 
 const DashboardNavbar = ({ isCollapsed }: { isCollapsed: boolean }) => {
-  const dispatch = useAppDispatch();
   const { logOut } = useAuth();
+  const dispatch = useAppDispatch();
+  const { user } = useAppSelector(({ state }) => state.auth);
 
   const handleLogOut = async () => {
     await logOut();
@@ -27,7 +28,7 @@ const DashboardNavbar = ({ isCollapsed }: { isCollapsed: boolean }) => {
 
   return (
     <nav
-      className={`fixed ${isCollapsed ? "left-[72px]" : "left-64"} right-0 top-0 z-10 flex h-16 items-center justify-between border-b border-gray-100 bg-white px-4`}
+      className={`fixed ${isCollapsed ? "left-[72px]" : "left-64"} right-0 top-0 z-10 flex h-16 items-center justify-between border-b border-gray-100 bg-white px-4 transition-all duration-300`}
     >
       <div className="flex max-w-full items-center gap-3">
         <div className="hidden max-w-full items-baseline gap-2 md:block">
@@ -39,28 +40,40 @@ const DashboardNavbar = ({ isCollapsed }: { isCollapsed: boolean }) => {
       <div className="flex items-center gap-4">
         {/* Notification Bell */}
         <button
-          className="relative rounded-lg p-2 hover:bg-gray-50"
+          className="relative rounded-lg p-2 transition-colors hover:bg-gray-100"
           aria-label="Notifications"
+          type="button"
         >
           <Bell className="h-5 w-5 text-gray-600" />
-          <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-xs text-white">
-            3 {/* Replace with dynamic value */}
-          </span>
+          {/* <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-xs text-white">
+            3
+          </span> */}
         </button>
 
         {/* User Avatar Dropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger
             className="focus:outline-none"
-            aria-label="User menu"
+            aria-label="Open user menu"
           >
-            <Avatar className="h-9 w-9">
-              <AvatarImage src="/user-avatar.jpg" alt="User Avatar" />
-              <AvatarFallback>JD</AvatarFallback>
-              <div className="absolute bottom-0 right-0 h-2 w-2 rounded-full bg-green-500 ring-2 ring-white" />
-            </Avatar>
+            <div className="relative">
+              <Avatar className="h-9 w-9">
+                <AvatarImage
+                  src={user?.profile?.photo || "/user-avatar.jpg"}
+                  alt="User Avatar"
+                />
+                <AvatarFallback>JD</AvatarFallback>
+              </Avatar>
+              <span className="absolute bottom-0 right-0 block h-2 w-2 rounded-full bg-green-500 ring-2 ring-white" />
+            </div>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-48">
+          <DropdownMenuContent className="w-56">
+            <div className="border-b px-3 py-2">
+              <p className="text-sm font-semibold text-gray-900">
+                {user?.displayName}
+              </p>
+              <p className="truncate text-xs text-gray-500">{user?.email}</p>
+            </div>
             <DropdownMenuItem asChild>
               <Link href="/profile" className="flex w-full items-center gap-2">
                 <Users className="h-4 w-4" />
@@ -69,7 +82,7 @@ const DashboardNavbar = ({ isCollapsed }: { isCollapsed: boolean }) => {
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={handleLogOut}
-              className="flex items-center gap-2 text-red-600"
+              className="flex cursor-pointer items-center gap-2 text-red-600"
             >
               <Settings className="h-4 w-4" />
               Log Out
