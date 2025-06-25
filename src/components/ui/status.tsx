@@ -20,7 +20,13 @@ const Status = ({ status }: { status: string }) => {
       case "block":
         return "bg-rose-100 text-rose-800";
       case "deleted":
-        return "bg-zinc-100 text-zinc-800";
+        return "bg-red-100 text-red-800";
+      case "in-stock":
+        return "bg-green-100 text-green-800";
+      case "out-of-stock":
+        return "bg-gray-100 text-gray-800";
+      case "out-of-stock":
+        return "bg-yellow-100 text-yellow-800";
       // for user roles
       case "admin":
         return "bg-purple-100 text-purple-800";

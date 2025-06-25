@@ -10,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Status from "@/components/ui/status";
 import {
   Table,
   TableBody,
@@ -19,17 +20,30 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
-import { TProduct } from "@/types/common";
-import { EllipsisVertical, Eye, Trash2 } from "lucide-react";
+import {
+  useChangeProductStatusMutation,
+  useGetAllProductsQuery,
+} from "@/redux/features/product/productApi";
+import { TProduct, TStatus } from "@/types/common";
+import {
+  EllipsisVertical,
+  Eye,
+  Lock,
+  ShieldCheck,
+  Trash2,
+  Unlock,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { BiLockAlt } from "react-icons/bi";
 import { BsCardText } from "react-icons/bs";
+import { toast } from "react-toastify";
 
 const AdminAllProducts = () => {
+  const router = useRouter();
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [changeProductStatus] = useChangeProductStatusMutation();
 
   // Fetch products
   const {
@@ -40,6 +54,14 @@ const AdminAllProducts = () => {
     limit: 6,
     page: currentPage,
   });
+
+  const handleChangeStatus = async (id: string, status: string) => {
+    const res = await changeProductStatus({ id, status }).unwrap();
+    if (res.success) {
+      toast.success(`Vendor status changed to ${status}`);
+      router.refresh();
+    }
+  };
 
   if (isLoading) return <Loading />;
 
@@ -87,18 +109,20 @@ const AdminAllProducts = () => {
                         {product.name.slice(0, 25)}...
                       </div>
                       <div className="text-sm text-gray-500">
-                        {product.status} ({product.stock})
+                        <Status status={product.status} /> ({product.stock})
                       </div>
                     </div>
                   </div>
                 </TableCell>
                 <TableCell className="p-4 text-base text-gray-600">
-                  {product.description.slice(0, 40)}...
-                  <br />
+                  <span className="block max-w-xs truncate whitespace-nowrap">
+                    {product.description}
+                  </span>
+                  {/* <br /> */}
                   {product.colors?.map((color, i) => (
                     <span
                       key={i}
-                      className="rounded-full px-3 text-sm text-white"
+                      className="rounded-full px-3 py-1 text-xs text-white"
                       style={{
                         backgroundColor: color,
                       }}
@@ -128,7 +152,6 @@ const AdminAllProducts = () => {
                     )}
                   </div>
                 </TableCell>
-
                 <TableCell className="space-x-2 p-4 text-center">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -143,13 +166,44 @@ const AdminAllProducts = () => {
                           Details
                         </Link>
                       </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <BiLockAlt />
-                        Block
-                      </DropdownMenuItem>
-                      <DropdownMenuItem className="text-red-500">
-                        <Trash2 /> Delete
-                      </DropdownMenuItem>
+                      {product.status === TStatus.BLOCK ? (
+                        <DropdownMenuItem
+                          onClick={() =>
+                            handleChangeStatus(product._id!, TStatus.INSTOCK)
+                          }
+                        >
+                          <Unlock />
+                          Unblock
+                        </DropdownMenuItem>
+                      ) : (
+                        <DropdownMenuItem
+                          onClick={() =>
+                            handleChangeStatus(product._id!, TStatus.BLOCK)
+                          }
+                        >
+                          <Lock />
+                          Block
+                        </DropdownMenuItem>
+                      )}
+                      {product.status === TStatus.DELETED ? (
+                        <DropdownMenuItem
+                          onClick={() =>
+                            handleChangeStatus(product._id!, TStatus.INSTOCK)
+                          }
+                        >
+                          <ShieldCheck className="h-4 w-4" />
+                          Make Active
+                        </DropdownMenuItem>
+                      ) : (
+                        <DropdownMenuItem
+                          className="text-red-500"
+                          onClick={() =>
+                            handleChangeStatus(product._id!, TStatus.DELETED)
+                          }
+                        >
+                          <Trash2 /> Delete
+                        </DropdownMenuItem>
+                      )}
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>

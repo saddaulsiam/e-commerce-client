@@ -96,6 +96,15 @@ const productApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Products"],
     }),
+
+    changeProductStatus: builder.mutation({
+      query: (payload) => ({
+        url: `/products/${payload.id}/status`,
+        method: "PUT",
+        body: payload,
+      }),
+      invalidatesTags: ["Products"],
+    }),
   }),
 });
 
@@ -107,4 +116,5 @@ export const {
   useUpdateProductMutation,
   useDeleteProductMutation,
   useMakeReviewMutation,
+  useChangeProductStatusMutation,
 } = productApi;

@@ -1,7 +1,6 @@
 "use client";
 
 import { Pagination } from "@/components/sharedComponents";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -20,7 +19,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { cn } from "@/lib/utils";
 import {
   useChangeVendorStatusMutation,
   useGetAllVendorsQuery,
@@ -31,27 +29,26 @@ import {
   Copy,
   EllipsisVertical,
   Eye,
+  Lock,
   ShieldCheck,
   Store,
   Trash2,
+  Unlock,
 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { BiLockAlt } from "react-icons/bi";
 import { toast } from "react-toastify";
 
 const AdminAllVendors = () => {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
+  const [changeVendorStatus] = useChangeVendorStatusMutation();
 
   const { data: vendors } = useGetAllVendorsQuery({
     page: currentPage,
     limit: 20,
-    // status: TStatus.DELETED,
   });
-
-  const [changeVendorStatus] = useChangeVendorStatusMutation();
 
   const handleChangeStatus = async (id: string, status: string) => {
     const res = await changeVendorStatus({ id, status }).unwrap();
@@ -141,7 +138,7 @@ const AdminAllVendors = () => {
                           <Eye className="h-4 w-4" />
                           Details
                         </DropdownMenuItem>
-                        {vendor.status !== TStatus.ACTIVE && (
+                        {vendor.status === TStatus.INACTIVE && (
                           <DropdownMenuItem
                             onClick={() =>
                               handleChangeStatus(vendor._id, TStatus.ACTIVE)
@@ -151,24 +148,44 @@ const AdminAllVendors = () => {
                             Make Active
                           </DropdownMenuItem>
                         )}
-
-                        <DropdownMenuItem
-                          onClick={() =>
-                            handleChangeStatus(vendor._id, TStatus.BLOCK)
-                          }
-                        >
-                          <BiLockAlt className="h-4 w-4" />
-                          Block
-                        </DropdownMenuItem>
-
-                        <DropdownMenuItem
-                          className="text-red-500"
-                          onClick={() =>
-                            handleChangeStatus(vendor._id, TStatus.DELETED)
-                          }
-                        >
-                          <Trash2 className="h-4 w-4" /> Delete
-                        </DropdownMenuItem>
+                        {vendor.status === TStatus.BLOCK ? (
+                          <DropdownMenuItem
+                            onClick={() =>
+                              handleChangeStatus(vendor._id, TStatus.ACTIVE)
+                            }
+                          >
+                            <Unlock />
+                            Unblock
+                          </DropdownMenuItem>
+                        ) : (
+                          <DropdownMenuItem
+                            onClick={() =>
+                              handleChangeStatus(vendor._id, TStatus.BLOCK)
+                            }
+                          >
+                            <Lock />
+                            Block
+                          </DropdownMenuItem>
+                        )}
+                        {vendor.status === TStatus.DELETED ? (
+                          <DropdownMenuItem
+                            onClick={() =>
+                              handleChangeStatus(vendor._id, TStatus.ACTIVE)
+                            }
+                          >
+                            <ShieldCheck className="h-4 w-4" />
+                            Make Active
+                          </DropdownMenuItem>
+                        ) : (
+                          <DropdownMenuItem
+                            className="text-red-500"
+                            onClick={() =>
+                              handleChangeStatus(vendor._id, TStatus.DELETED)
+                            }
+                          >
+                            <Trash2 /> Delete
+                          </DropdownMenuItem>
+                        )}
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>

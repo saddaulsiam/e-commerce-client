@@ -1,7 +1,6 @@
 "use client";
 
 import { Pagination } from "@/components/sharedComponents";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -10,6 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Status from "@/components/ui/status";
 import {
   Table,
   TableBody,
@@ -19,24 +19,43 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { USER_ROLE } from "@/constants/common";
-import { cn } from "@/lib/utils";
-import { useGetAllCustomersQuery } from "@/redux/features/admin/adminApi";
-import { TUser } from "@/types/common";
+import {
+  useChangeUserStatusMutation,
+  useGetAllUsersQuery,
+} from "@/redux/features/user/userApi";
+import { TStatus, TUser } from "@/types/common";
 import { format } from "date-fns";
-import { EllipsisVertical, Trash2 } from "lucide-react";
+import {
+  EllipsisVertical,
+  Lock,
+  ShieldCheck,
+  Trash2,
+  Unlock,
+} from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { BiLockAlt } from "react-icons/bi";
 import { BsPeople } from "react-icons/bs";
+import { toast } from "react-toastify";
 
 const AdminAllCustomers = () => {
+  const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
+  const [changeCustomerStatus] = useChangeUserStatusMutation();
 
-  const { data: customers } = useGetAllCustomersQuery({
+  // Fetch all customers with pagination
+  const { data: customers } = useGetAllUsersQuery({
     page: currentPage,
     limit: 20,
   });
+
+  const handleChangeStatus = async (id: string, status: string) => {
+    const res = await changeCustomerStatus({ id, status }).unwrap();
+    if (res.success) {
+      toast.success(`Vendor status changed to ${status}`);
+      router.refresh();
+    }
+  };
 
   return (
     <Card className="md:m-6">
@@ -80,20 +99,7 @@ const AdminAllCustomers = () => {
                     {customer?.displayName}
                   </TableCell>
                   <TableCell>
-                    <Badge
-                      className={
-                        (cn(
-                          customer?.role === (USER_ROLE.ADMIN as string)
-                            ? "bg-primary hover:bg-primary/90"
-                            : customer?.role === (USER_ROLE.CUSTOMER as string)
-                              ? "bg-green-500 hover:bg-green-600"
-                              : "bg-purple-500 hover:bg-purple-600",
-                        ),
-                        "capitalize")
-                      }
-                    >
-                      {customer?.role || "N/A"}
-                    </Badge>
+                    <Status status={customer?.role} />
                   </TableCell>
                   <TableCell>{customer?.email || "N/A"}</TableCell>
                   <TableCell>
@@ -117,7 +123,9 @@ const AdminAllCustomers = () => {
                     {format(new Date(customer?.createdAt), "dd-MMMM-yyyy ") ||
                       "N/A"}
                   </TableCell>
-                  <TableCell>{customer?.status}</TableCell>
+                  <TableCell>
+                    <Status status={customer?.status} />
+                  </TableCell>
                   <TableCell>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
@@ -126,13 +134,44 @@ const AdminAllCustomers = () => {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent className="w-40">
-                        <DropdownMenuItem>
-                          <BiLockAlt />
-                          Block
-                        </DropdownMenuItem>
-                        <DropdownMenuItem className="text-red-500">
-                          <Trash2 /> Delete
-                        </DropdownMenuItem>
+                        {customer.status === TStatus.BLOCK ? (
+                          <DropdownMenuItem
+                            onClick={() =>
+                              handleChangeStatus(customer._id, TStatus.ACTIVE)
+                            }
+                          >
+                            <Unlock />
+                            Unblock
+                          </DropdownMenuItem>
+                        ) : (
+                          <DropdownMenuItem
+                            onClick={() =>
+                              handleChangeStatus(customer._id, TStatus.BLOCK)
+                            }
+                          >
+                            <Lock />
+                            Block
+                          </DropdownMenuItem>
+                        )}
+                        {customer.status === TStatus.DELETED ? (
+                          <DropdownMenuItem
+                            onClick={() =>
+                              handleChangeStatus(customer._id, TStatus.ACTIVE)
+                            }
+                          >
+                            <ShieldCheck className="h-4 w-4" />
+                            Make Active
+                          </DropdownMenuItem>
+                        ) : (
+                          <DropdownMenuItem
+                            className="text-red-500"
+                            onClick={() =>
+                              handleChangeStatus(customer._id, TStatus.DELETED)
+                            }
+                          >
+                            <Trash2 /> Delete
+                          </DropdownMenuItem>
+                        )}
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>

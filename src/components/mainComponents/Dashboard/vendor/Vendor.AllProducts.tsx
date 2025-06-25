@@ -202,8 +202,11 @@ const VendorAllProducts = () => {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={6} className="text-center text-red-500">
-                  No products found.
+                <TableCell
+                  colSpan={6}
+                  className="text-center text-lg text-gray-600"
+                >
+                  No orders found at the moment.
                 </TableCell>
               </TableRow>
             )}

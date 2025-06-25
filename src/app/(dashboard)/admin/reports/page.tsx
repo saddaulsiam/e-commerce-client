@@ -1,4 +1,4 @@
-import { AdminMainReports } from "@/components/mainComponents/Dashboard/Admin/Reports";
+import { AdminMainReports } from "@/components/mainComponents/Dashboard/Admin";
 
 const Reports = () => {
   return <AdminMainReports />;
