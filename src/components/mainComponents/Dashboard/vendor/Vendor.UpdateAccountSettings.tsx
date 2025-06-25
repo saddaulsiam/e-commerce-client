@@ -14,12 +14,12 @@ import { BsFillCameraFill } from "react-icons/bs";
 import { toast } from "react-toastify";
 
 interface FormValues {
-  street: string;
+  region: string;
   city: string;
   area: string;
+  street: string;
   storeName: string;
   phoneNumber: string;
-  address: string;
   storeLogo: string | File;
   storeBanner: string | File;
 }
@@ -70,10 +70,10 @@ const VendorUpdateAccountSettings = () => {
   useEffect(() => {
     if (user?.vendor) {
       reset({
-        street: user?.vendor.address.street,
+        region: user?.vendor.address.region,
         city: user?.vendor.address.city,
         area: user?.vendor.address.area,
-        address: user?.vendor.address.address,
+        street: user?.vendor.address.street,
         storeName: user?.vendor.storeName,
         phoneNumber: String(user?.vendor.phoneNumber),
         storeBanner: user?.vendor.storeBanner || fallbackBanner,
@@ -196,7 +196,7 @@ const VendorUpdateAccountSettings = () => {
                 setValue={setValue}
                 watch={watch}
                 name="area"
-                placeholder={`${user?.vendor.address.street} > ${user?.vendor.address.city} > ${user?.vendor.address.area}`}
+                placeholder={`${user?.vendor.address.region} > ${user?.vendor.address.city} > ${user?.vendor.address.area}`}
               />
               {getValues("street") !== "" && getValues("area") === "" ? (
                 <p className="text-red-500">Complete the process</p>
@@ -210,7 +210,7 @@ const VendorUpdateAccountSettings = () => {
                 type="text"
                 id="address"
                 placeholder="Enter your store address"
-                {...register("address")}
+                {...register("street")}
               />
             </div>
           </div>

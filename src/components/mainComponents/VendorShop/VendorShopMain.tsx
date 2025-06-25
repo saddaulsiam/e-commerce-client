@@ -62,13 +62,13 @@ const VendorMain = () => {
               </p>
               <p className="flex items-center text-gray-600">
                 <MdLocationPin className="mr-2 text-lg" />{" "}
-                {vendor?.address.address +
+                {vendor?.address.street +
                   ", " +
                   vendor?.address.area +
                   " " +
                   vendor?.address.city +
                   " " +
-                  vendor?.address.street}
+                  vendor?.address.region}
               </p>
               <p className="flex items-center lowercase text-gray-600">
                 <MdEmail className="mr-2 text-lg" />{" "}

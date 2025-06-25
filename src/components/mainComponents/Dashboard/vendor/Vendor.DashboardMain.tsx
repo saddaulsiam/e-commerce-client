@@ -10,6 +10,7 @@ import DashboardMainStatsCard from "./Vendor.MainStatsCard";
 const VendorDashboardMain = () => {
   const { data: dashboardMeta } = useGetVendorDashboardMetaQuery(undefined);
   const meta = dashboardMeta?.data?.meta;
+  console.log(meta);
   return (
     <div className="flex min-h-screen w-full flex-col md:p-6">
       {/* Header Section */}

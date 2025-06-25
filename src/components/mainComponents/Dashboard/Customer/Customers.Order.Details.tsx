@@ -166,10 +166,10 @@ const DashboardCustomersOrderDetails = () => {
                     {singleOrder?.shippingAddress?.name}
                   </p>
                 )}
-                {singleOrder?.shippingAddress?.address && (
+                {singleOrder?.shippingAddress?.street && (
                   <p className="text-foreground">
                     <span className="text-muted-foreground">Address: </span>
-                    {singleOrder?.shippingAddress?.address}
+                    {singleOrder?.shippingAddress?.street}
                   </p>
                 )}
                 {

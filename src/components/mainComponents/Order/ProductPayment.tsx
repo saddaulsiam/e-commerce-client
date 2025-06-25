@@ -47,7 +47,7 @@ const ProductPayment = () => {
   };
 
   // Handle Cash on delivery order
-  const handleOrder = async () => {
+  const handleCODOrder = async () => {
     Swal.fire({
       title: "Are you sure?",
       text: "Confirm this order",
@@ -118,7 +118,7 @@ const ProductPayment = () => {
                     ? () => setOpenStripe(true)
                     : payWith === "sslCommerz"
                       ? handleSSLOrder
-                      : handleOrder
+                      : handleCODOrder
                 }
               >
                 Pay With {payWith || "Select payment option"}

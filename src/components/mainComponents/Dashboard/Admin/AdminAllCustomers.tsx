@@ -100,11 +100,11 @@ const AdminAllCustomers = () => {
                     {customer?.profile?.address[0]?.phoneNumber || "N/A"}
                   </TableCell>
                   <TableCell>
-                    {customer?.profile?.address[0]?.address &&
+                    {customer?.profile?.address[0]?.region &&
                     customer?.profile?.address[0]?.area &&
                     customer?.profile?.address[0]?.city &&
                     customer?.profile?.address[0]?.street
-                      ? customer?.profile?.address[0]?.address +
+                      ? customer?.profile?.address[0]?.region +
                         ", " +
                         customer?.profile?.address[0]?.area +
                         ", " +

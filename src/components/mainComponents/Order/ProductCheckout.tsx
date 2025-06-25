@@ -83,7 +83,7 @@ const ProductCheckout = () => {
                         <td className="px-4 py-3">{address?.phoneNumber}</td>
                         <td className="px-4 py-3">{address?.city}</td>
                         <td className="px-4 py-3">{address?.area}</td>
-                        <td className="px-4 py-3">{address?.address}</td>
+                        <td className="px-4 py-3">{address?.street}</td>
                       </tr>
                     ))}
                   </tbody>

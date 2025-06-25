@@ -81,10 +81,10 @@ const DashboardCustomersAddresses = () => {
                 <div className="space-y-2 text-sm text-gray-600">
                   <p className="flex items-start gap-2">
                     <MdLocationPin className="mt-1 shrink-0 text-gray-400" />
-                    <span className="break-words">{address.address}</span>
+                    <span className="break-words">{address.street}</span>
                   </p>
                   <p className="ml-6 text-gray-500">
-                    {[address.area, address.city, address.street]
+                    {[address.area, address.city, address.region]
                       .filter(Boolean)
                       .join(", ")}
                   </p>
@@ -132,10 +132,10 @@ const DashboardCustomersAddresses = () => {
                     {address.name}
                   </div>
                   <div className="col-span-2 truncate text-gray-600">
-                    {address.address}
+                    {address.street}
                   </div>
                   <div className="col-span-3 truncate text-gray-600">
-                    {[address.area, address.city, address.street]
+                    {[address.area, address.city, address.region]
                       .filter(Boolean)
                       .join(", ")}
                   </div>

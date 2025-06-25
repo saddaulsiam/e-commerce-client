@@ -69,7 +69,7 @@ const VendorAccountProfile = () => {
               <p className="text-sm text-gray-500">Address</p>
               <p className="text-lg font-medium text-gray-800">
                 {user?.vendor.address.street} {user?.vendor.address?.city}{" "}
-                {user?.vendor.address.area}, {user?.vendor.address?.address}
+                {user?.vendor.address.area}, {user?.vendor.address?.region}
               </p>
             </div>
           </div>

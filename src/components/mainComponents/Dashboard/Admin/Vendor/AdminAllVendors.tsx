@@ -105,7 +105,7 @@ const AdminAllVendors = () => {
                   <TableCell>{vendor?.phoneNumber || "N/A"}</TableCell>
                   <TableCell>
                     {vendor?.address
-                      ? `${vendor.address.street}, ${vendor.address.area}, ${vendor.address.city}, ${vendor.address.street}`
+                      ? `${vendor.address.street}, ${vendor.address.area}, ${vendor.address.city}, ${vendor.address.region}`
                       : "N/A"}
                   </TableCell>
                   <TableCell>

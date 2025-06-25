@@ -61,7 +61,7 @@ const CreateAddressForm = () => {
       {/* Address Selection */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <label className="mb-1 block text-sm text-gray-600">Street</label>
+          <label className="mb-1 block text-sm text-gray-600">Area</label>
           <AddressSelect
             control={control}
             setValue={setValue}
@@ -71,10 +71,10 @@ const CreateAddressForm = () => {
         </div>
         <div>
           <label className="mb-1 block text-sm text-gray-600">
-            Full Address
+            Street Address
           </label>
           <Input
-            {...register("address", { required: true })}
+            {...register("street", { required: true })}
             type="text"
             placeholder="House# 123, Street# 123, ABC Road"
             className="w-full rounded-md border bg-white px-3 py-2 focus:border-primary focus:ring-primary"
