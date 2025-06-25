@@ -1,9 +1,9 @@
 "use client";
 
+import { CustomerGrowthChart } from "@/components/mainComponents/Dashboard/Admin/Reports";
 import {
-  VendorDashboardCustomerGrowthReports,
-  VendorDashboardMonthlySalesReports,
   VendorDashboardOrderConfirmationRate,
+  VendorMonthlySalesReports,
 } from "@/components/mainComponents/Dashboard/vendor";
 import { useGetVendorDashboardMetaQuery } from "@/redux/features/vendor/vendorApi";
 import { ChartArea } from "lucide-react";
@@ -17,19 +17,15 @@ const Reports = () => {
         <ChartArea className="mr-2 text-primary" /> Analytics
       </h2>
 
-      <div className="mb-10 grid gap-6 md:grid-cols-1 lg:grid-cols-2">
+      <div className="mb-10 grid gap-6 md:grid-cols-1 lg:grid-cols-3">
         {/* Monthly Sales Report */}
-        <VendorDashboardMonthlySalesReports
-          salesData={meta?.salesData?.monthly}
-        />
+        <VendorMonthlySalesReports salesData={meta?.salesData?.monthly} />
         {/* Order Confirmation Rate */}
         <VendorDashboardOrderConfirmationRate overview={meta?.overview} />
       </div>
 
       {/* Customer Growth Report */}
-      <VendorDashboardCustomerGrowthReports
-        customerGrowth={meta?.customerGrowth}
-      />
+      <CustomerGrowthChart customerGrowthData={meta?.customerGrowth} />
     </div>
   );
 };

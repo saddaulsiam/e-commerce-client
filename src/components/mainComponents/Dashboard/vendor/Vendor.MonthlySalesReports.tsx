@@ -27,9 +27,9 @@ type TProps = {
   }[];
 };
 
-const VendorDashboardMonthlySalesReports = ({ salesData }: TProps) => {
+const VendorMonthlySalesReports = ({ salesData }: TProps) => {
   return (
-    <Card>
+    <Card className="lg:col-span-2">
       <CardHeader className="mx-8 my-2">
         <CardTitle className="flex text-xl md:text-2xl">
           <LucideBarChart className="mr-2 h-6 w-6 text-primary" />
@@ -58,4 +58,4 @@ const VendorDashboardMonthlySalesReports = ({ salesData }: TProps) => {
   );
 };
 
-export default VendorDashboardMonthlySalesReports;
+export default VendorMonthlySalesReports;

@@ -1,7 +1,6 @@
 "use client";
 
 import { useGetVendorDashboardMetaQuery } from "@/redux/features/vendor/vendorApi";
-import { useAppSelector } from "@/redux/hooks";
 import { FiAlertCircle, FiPackage, FiTrendingUp } from "react-icons/fi";
 import VendorDashboardMainResentOrders from "./Vendor.MainResentOrders";
 import VendorDashboardMainReviewsCard from "./Vendor.MainReviewsCard";
@@ -11,7 +10,6 @@ import DashboardMainStatsCard from "./Vendor.MainStatsCard";
 const VendorDashboardMain = () => {
   const { data: dashboardMeta } = useGetVendorDashboardMetaQuery(undefined);
   const meta = dashboardMeta?.data?.meta;
-  console.log(meta);
   return (
     <div className="flex min-h-screen w-full flex-col md:p-6">
       {/* Header Section */}

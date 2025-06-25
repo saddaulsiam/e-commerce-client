@@ -31,9 +31,9 @@ type TProps = {
 const VendorDashboardOrderConfirmationRate = ({ overview }: TProps) => {
   // Prepare data for the pie chart
   const data = [
-    { name: "Completed Orders", value: overview?.completedOrders },
-    { name: "Pending Orders", value: overview?.pendingOrders },
-    { name: "Cancelled Orders", value: overview?.cancelledOrders },
+    { name: "Completed", value: overview?.completedOrders },
+    { name: "Pending", value: overview?.pendingOrders },
+    { name: "Cancelled", value: overview?.cancelledOrders },
   ];
 
   // Define colors for the pie segments
