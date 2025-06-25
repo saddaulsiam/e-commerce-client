@@ -2,7 +2,7 @@
 
 import { useGetAdminDashboardMetaQuery } from "@/redux/features/admin/adminApi";
 import RevenueChart from "../MainDashboard/RevenueChart";
-import CustomerGrowthChart from "./CustomerGrowthChart";
+import CustomerGrowthChart from "../../Common/CustomerGrowthChart";
 import AdminSalesChart from "./SalesChart";
 
 const AdminMainReports = () => {

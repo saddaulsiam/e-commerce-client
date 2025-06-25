@@ -1,6 +1,6 @@
 "use client";
 
-import { CustomerGrowthChart } from "@/components/mainComponents/Dashboard/Admin/Reports";
+import CustomerGrowthChart from "@/components/mainComponents/Dashboard/Common/CustomerGrowthChart";
 import {
   VendorDashboardOrderConfirmationRate,
   VendorMonthlySalesReports,
