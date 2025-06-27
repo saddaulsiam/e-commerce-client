@@ -8,3 +8,4 @@ export { default as AdminCreateCategory } from "./Category/AdminCreateCategory";
 export { default as AdminAllProducts } from "./Products/AdminAllProducts";
 export { default as AdminMainReports } from "./Reports/AdminMainReports";
 export { default as AdminNewVendorRequest } from "./Vendor/AdminNewVendorRequest";
+export { default as AdminSettings } from "./Setting/AdminSettings";
