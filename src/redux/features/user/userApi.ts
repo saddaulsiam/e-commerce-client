@@ -26,13 +26,14 @@ const authApi = baseApi.injectEndpoints({
     }),
 
     getAllUsers: builder.query({
-      query: ({ limit, page, sort, search }) => {
+      query: ({ limit, page, sort, search, role }) => {
         const url = `/users?`;
         const params = new URLSearchParams();
 
         if (limit) params.append("limit", limit);
         if (page) params.append("page", page);
         if (sort) params.append("sort", sort);
+        if (role) params.append("role", role);
         if (search) params.append("search", search);
 
         return {

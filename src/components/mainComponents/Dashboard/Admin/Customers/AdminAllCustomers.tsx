@@ -47,6 +47,7 @@ const AdminAllCustomers = () => {
   const { data: customers } = useGetAllUsersQuery({
     page: currentPage,
     limit: 20,
+    role: "customer",
   });
 
   const handleChangeStatus = async (id: string, status: string) => {
