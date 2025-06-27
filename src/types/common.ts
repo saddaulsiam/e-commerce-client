@@ -53,6 +53,7 @@ export enum TStatus {
 }
 
 export type TSubcategory = {
+  _id: string;
   name: string;
   href: string;
   subcategories: TSubcategory[];

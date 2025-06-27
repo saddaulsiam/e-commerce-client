@@ -1,8 +1,17 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { authKey } from "@/constants/common";
@@ -13,6 +22,27 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { removeFromLocalStorage } from "@/utils/localStorage";
 import { Bell, Settings, Users } from "lucide-react";
 import Link from "next/link";
+
+const notifications = [
+  {
+    id: "1",
+    title: "New Order",
+    description: "Order #1234 has been placed.",
+    time: "2m ago",
+  },
+  {
+    id: "2",
+    title: "Vendor Approved",
+    description: "Vendor John Doe was approved.",
+    time: "1h ago",
+  },
+  {
+    id: "3",
+    title: "Stock Alert",
+    description: "Product ABC is low on stock.",
+    time: "5h ago",
+  },
+];
 
 const DashboardNavbar = ({ isCollapsed }: { isCollapsed: boolean }) => {
   const { logOut } = useAuth();
@@ -37,18 +67,65 @@ const DashboardNavbar = ({ isCollapsed }: { isCollapsed: boolean }) => {
           </h1>
         </div>
       </div>
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-5">
         {/* Notification Bell */}
-        <button
-          className="relative rounded-lg p-2 transition-colors hover:bg-gray-100"
-          aria-label="Notifications"
-          type="button"
-        >
-          <Bell className="h-5 w-5 text-gray-600" />
-          {/* <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-xs text-white">
-            3
-          </span> */}
-        </button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button
+              className="relative rounded-lg p-2 outline-none transition-colors hover:bg-gray-100"
+              aria-label="Notifications"
+              type="button"
+            >
+              <Bell className="h-5 w-5 text-gray-600 group-hover:text-primary" />
+              {/* {notifications.length > 0 && (
+                <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-medium text-white">
+                  {notifications.length}
+                </span>
+              )} */}
+            </button>
+          </DropdownMenuTrigger>
+
+          <DropdownMenuContent className="w-80 p-2" align="end">
+            <DropdownMenuLabel className="text-gray-800">
+              Notifications
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+
+            {/* {notifications.length > 0 ? (
+              notifications.map((item) => (
+                <DropdownMenuItem
+                  key={item.id}
+                  className="flex flex-col items-start space-y-0.5 px-3 py-2 hover:bg-muted"
+                >
+                  <span className="text-sm font-medium text-gray-900">
+                    {item.title}
+                  </span>
+                  <span className="text-xs text-gray-500">
+                    {item.description}
+                  </span>
+                  <span className="text-[10px] text-gray-400">{item.time}</span>
+                </DropdownMenuItem>
+              ))
+            ) : (
+              <div className="px-3 py-4 text-center text-sm text-gray-500">
+                No new notifications
+              </div>
+            )} */}
+
+            <div className="px-3 py-4 text-center text-sm text-gray-500">
+              No new notifications
+            </div>
+            {/*   <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+              <Link
+                href="/admin/notifications"
+                className="w-full text-center text-primary hover:underline"
+              >
+                View All Notifications
+              </Link>
+            </DropdownMenuItem> */}
+          </DropdownMenuContent>
+        </DropdownMenu>
 
         {/* User Avatar Dropdown */}
         <DropdownMenu>
@@ -56,16 +133,16 @@ const DashboardNavbar = ({ isCollapsed }: { isCollapsed: boolean }) => {
             className="focus:outline-none"
             aria-label="Open user menu"
           >
-            <div className="relative">
-              <Avatar className="h-9 w-9">
-                <AvatarImage
-                  src={user?.profile?.photo || "/user-avatar.jpg"}
-                  alt="User Avatar"
-                />
-                <AvatarFallback>JD</AvatarFallback>
-              </Avatar>
-              <span className="absolute bottom-0 right-0 block h-2 w-2 rounded-full bg-green-500 ring-2 ring-white" />
-            </div>
+            {/* <div className="relative"> */}
+            <Avatar className="h-9 w-9">
+              <AvatarImage
+                src={user?.profile?.photo || "/user-avatar.jpg"}
+                alt="User Avatar"
+              />
+              <AvatarFallback>JD</AvatarFallback>
+            </Avatar>
+            {/* <span className="absolute bottom-0 right-0 block h-2 w-2 rounded-full bg-green-500 ring-2 ring-white" />
+            </div> */}
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
             <div className="border-b px-3 py-2">

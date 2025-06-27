@@ -2,7 +2,7 @@ export { default as AdminAllVendors } from "./Vendor/AdminAllVendors";
 export { default as AdminAllCustomers } from "./Customers/AdminAllCustomers";
 export { default as AdminUserDetails } from "./Customers/AdminUserDetails";
 export { default as AdminMainDashboard } from "./MainDashboard/MainDashboard";
-export { default as AdminCategories } from "./Category/AdminCategories";
+export { default as AdminCategories } from "./Category/AdminAllCategories";
 export { default as AdminCategoryItem } from "./Category/AdminCategoryItem";
 export { default as AdminCreateCategory } from "./Category/AdminCreateCategory";
 export { default as AdminAllProducts } from "./Products/AdminAllProducts";
