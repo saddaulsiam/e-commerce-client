@@ -18,7 +18,6 @@ import Status from "@/components/ui/status";
 import { demoVendors } from "@/data/vendors";
 import { TStatus, TVendor } from "@/types/common";
 import {
-  ActivityIcon,
   Copy,
   EllipsisVertical,
   Eye,
@@ -50,7 +49,7 @@ const RecentVendor = ({
             Latest registered vendors in the system
           </CardDescription>
         </div>
-        <Link href="/admin/customers">
+        <Link href="/admin/vendors">
           <Button variant="outline">View All</Button>
         </Link>
       </CardHeader>
@@ -71,7 +70,7 @@ const RecentVendor = ({
                 <td className="flex items-center gap-3 px-4 py-3">
                   <div className="relative h-12 w-12 overflow-hidden rounded-full bg-gray-100">
                     <Image
-                      src={vendor.storeLogo || "/vendor-placeholder.jpg"}
+                      src={vendor.storeLogo || "/user-avatar.jpg"}
                       alt="Profile Photo"
                       fill
                       className="object-cover"

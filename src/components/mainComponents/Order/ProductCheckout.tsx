@@ -57,9 +57,8 @@ const ProductCheckout = () => {
                       <th className="px-4 py-3 text-left">Name</th>
                       <th className="px-4 py-3 text-left">Email</th>
                       <th className="px-4 py-3 text-left">Phone</th>
-                      <th className="px-4 py-3 text-left">City</th>
+                      <th className="px-4 py-3 text-left">Street</th>
                       <th className="px-4 py-3 text-left">Area</th>
-                      <th className="px-4 py-3 text-left">Address</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -81,9 +80,10 @@ const ProductCheckout = () => {
                         <td className="px-4 py-3">{address?.name}</td>
                         <td className="px-4 py-3">{address?.email || "N/A"}</td>
                         <td className="px-4 py-3">{address?.phoneNumber}</td>
-                        <td className="px-4 py-3">{address?.city}</td>
-                        <td className="px-4 py-3">{address?.area}</td>
                         <td className="px-4 py-3">{address?.street}</td>
+                        <td className="px-4 py-3">
+                          {address?.area},{address?.city},{address?.region}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
