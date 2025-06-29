@@ -10,7 +10,7 @@ import { BsBoxSeam } from "react-icons/bs";
 import { FaShoppingBag } from "react-icons/fa";
 import { FcCheckmark } from "react-icons/fc";
 import { TbTruckDelivery } from "react-icons/tb";
-import DashboardCustomersOrderDetailsCart from "./Customers.Order.Details.Cart";
+import DashboardCustomersOrderDetailsCart from "./CustomersOrderDetailsCart";
 import CustomersOrderDetailsSkeleton from "@/components/sharedComponents/loader/CustomersOrderDetailsSkeleton";
 
 const DashboardCustomersOrderDetails = () => {

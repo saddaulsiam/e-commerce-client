@@ -1,5 +1,7 @@
+import { AdminDashboardAllOrdersDetails } from "@/components/mainComponents/Dashboard/Admin";
+
 const OrderDetails = () => {
-  return <div>OrderDetails</div>;
+  return <AdminDashboardAllOrdersDetails />;
 };
 
 export default OrderDetails;

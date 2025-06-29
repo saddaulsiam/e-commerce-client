@@ -27,6 +27,11 @@ const Status = ({ status }: { status: string }) => {
         return "bg-gray-100 text-gray-800";
       case "out-of-stock":
         return "bg-yellow-100 text-yellow-800";
+      case "paid":
+        return "bg-green-100 text-green-800";
+      case "unpaid":
+        return "bg-red-100 text-red-800";
+
       // for user roles
       case "admin":
         return "bg-purple-100 text-purple-800";
