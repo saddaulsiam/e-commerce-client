@@ -189,7 +189,7 @@ const AdminNewVendorRequest = () => {
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={7}
+                  colSpan={9}
                   className="text-center text-lg text-gray-600"
                 >
                   No New Vendor Request found at the moment.

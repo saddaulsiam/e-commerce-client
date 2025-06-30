@@ -35,13 +35,11 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { BsCardText } from "react-icons/bs";
 import { toast } from "react-toastify";
 
 const AdminAllProducts = () => {
-  const router = useRouter();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [changeProductStatus] = useChangeProductStatusMutation();
 
@@ -58,8 +56,7 @@ const AdminAllProducts = () => {
   const handleChangeStatus = async (id: string, status: string) => {
     const res = await changeProductStatus({ id, status }).unwrap();
     if (res.success) {
-      toast.success(`Vendor status changed to ${status}`);
-      router.refresh();
+      toast.success(`Product ${status}`);
     }
   };
 
