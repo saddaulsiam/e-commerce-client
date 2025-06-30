@@ -2,8 +2,15 @@
 
 import { Pagination } from "@/components/sharedComponents";
 import { Loading } from "@/components/sharedComponents/loader";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import Status from "@/components/ui/status";
 import {
   Table,
   TableBody,
@@ -17,10 +24,15 @@ import { useGetVendorOrdersQuery } from "@/redux/features/vendor/vendorApi";
 import { useAppSelector } from "@/redux/hooks";
 import { TOrderStatus, TSubOrder } from "@/types/Orderstype";
 import { format } from "date-fns";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, EllipsisVertical, Eye, Printer } from "lucide-react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { FcCancel, FcShipped } from "react-icons/fc";
+import { toast } from "react-toastify";
 
 const VendorCompletedOrders = () => {
+  const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const { user } = useAppSelector(({ state }) => state.auth);
 
@@ -50,31 +62,52 @@ const VendorCompletedOrders = () => {
           <TableHeader>
             <TableRow className="bg-gray-100">
               <TableHead>Order ID</TableHead>
-              <TableHead>Product</TableHead>
+              <TableHead>Image</TableHead>
+              <TableHead>Product Name</TableHead>
               <TableHead>Quantity</TableHead>
               <TableHead>Price</TableHead>
               <TableHead>Total</TableHead>
-              <TableHead>Payment</TableHead>
+              <TableHead>Payment Method</TableHead>
+              <TableHead>IsPaid</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Order Date</TableHead>
+              <TableHead>Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {orders?.data?.data.length > 0 ? (
               orders?.data?.data?.map((order: TSubOrder) => (
                 <TableRow key={order._id} className="hover:bg-gray-50">
-                  <TableCell>{order._id}</TableCell>
+                  <TableCell
+                    onClick={() => {
+                      navigator.clipboard.writeText(order._id);
+                      toast.success("Order ID copied to clipboard");
+                    }}
+                    className="cursor-pointer hover:text-blue-600 hover:underline"
+                  >
+                    {order?._id?.slice(0, 5)}...
+                    {order?._id?.slice(-5)}
+                  </TableCell>
+                  <TableCell>
+                    <div className="relative h-16 w-24">
+                      <Image
+                        layout="fill"
+                        src={order.item.productId.images[0]}
+                        alt={order.item.name}
+                        priority
+                      />
+                    </div>
+                  </TableCell>
                   <TableCell>{order.item.name}</TableCell>
                   <TableCell>{order.item.quantity}</TableCell>
                   <TableCell>${order.item.price}</TableCell>
                   <TableCell>${order.totalAmount}</TableCell>
+                  <TableCell>{order.paymentMethod}</TableCell>
                   <TableCell>
-                    {order.paymentMethod} ({order.isPaid ? "Paid" : "Unpaid"})
+                    <Status status={order.isPaid ? "Paid" : "Unpaid"} />
                   </TableCell>
                   <TableCell>
-                    <Badge className="bg-green-500 capitalize hover:bg-green-600">
-                      {order.status}
-                    </Badge>
+                    <Status status={order.status} />
                   </TableCell>
                   <TableCell>
                     {format(
@@ -82,12 +115,30 @@ const VendorCompletedOrders = () => {
                       "dd-MMMM-yyyy | hh:mm a",
                     )}
                   </TableCell>
+                  <TableCell>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost">
+                          <EllipsisVertical size={20} />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="w-40">
+                        <DropdownMenuItem
+                          onClick={() =>
+                            router.push(`/vendor/orders/${order._id}`)
+                          }
+                        >
+                          <Eye /> View Details
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </TableCell>
                 </TableRow>
               ))
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={8}
+                  colSpan={9}
                   className="text-center text-lg text-gray-600"
                 >
                   No orders found at the moment.
@@ -98,10 +149,10 @@ const VendorCompletedOrders = () => {
 
           <TableFooter className="bg-gray-100">
             <TableRow>
-              <TableCell colSpan={4}>
+              <TableCell colSpan={8}>
                 Total {orders?.data?.meta?.total} Orders
               </TableCell>
-              <TableCell colSpan={4} className="text-right">
+              <TableCell colSpan={3} className="text-right">
                 <Pagination
                   currentPage={currentPage}
                   totalPages={orders?.data?.meta?.page}

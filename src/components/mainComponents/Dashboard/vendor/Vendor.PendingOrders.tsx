@@ -20,12 +20,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useUpdateSubOrderStatusMutation } from "@/redux/features/order/orders/ordersApi";
 import { useGetVendorOrdersQuery } from "@/redux/features/vendor/vendorApi";
 import { useAppSelector } from "@/redux/hooks";
-import { TStatus } from "@/types/common";
 import { TOrderStatus, TSubOrder } from "@/types/Orderstype";
 import { format } from "date-fns";
-import { Clock, EllipsisVertical, Eye, Lock, View } from "lucide-react";
+import { Clock, EllipsisVertical, Eye, Printer } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -37,12 +37,26 @@ const VendorPendingOrders = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const { user } = useAppSelector(({ state }) => state.auth);
 
-  const { data: orders, isLoading } = useGetVendorOrdersQuery({
+  const { data, isLoading, refetch } = useGetVendorOrdersQuery({
     limit: 8,
     page: currentPage,
     vendorId: user?.vendor._id,
-    status: TOrderStatus.PROCESSING,
   });
+
+  const orders = data?.data?.data.filter(
+    (o: TSubOrder) => o.status !== TOrderStatus.DELIVERED,
+  );
+
+  const [updateOrderStatus] = useUpdateSubOrderStatusMutation();
+
+  const handleStatusChange = async (id: string, status: string) => {
+    try {
+      await updateOrderStatus({ id, status }).unwrap();
+      refetch();
+    } catch {
+      toast.error("Failed to update order status");
+    }
+  };
 
   //  pagination
   const handlePageChange = (pageNumber: number) => {
@@ -77,8 +91,8 @@ const VendorPendingOrders = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {orders?.data?.data.length > 0 ? (
-              orders?.data?.data?.map((order: TSubOrder) => (
+            {orders?.length > 0 ? (
+              orders?.map((order: TSubOrder) => (
                 <TableRow key={order._id} className="hover:bg-gray-50">
                   <TableCell
                     onClick={() => {
@@ -132,14 +146,36 @@ const VendorPendingOrders = () => {
                         >
                           <Eye /> View Details
                         </DropdownMenuItem>
-                        {order.status === TOrderStatus.PROCESSING ? (
-                          <DropdownMenuItem>
-                            <FcCancel /> Cancel Order
-                          </DropdownMenuItem>
-                        ) : (
-                          <DropdownMenuItem>
-                            <FcShipped /> Make Shipped
-                          </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => {
+                            router.push(`/vendor/orders/${order._id}`);
+                          }}
+                        >
+                          <Printer /> Print Invoice
+                        </DropdownMenuItem>
+                        {order.status === TOrderStatus.PROCESSING && (
+                          <>
+                            <DropdownMenuItem
+                              onClick={() =>
+                                handleStatusChange(
+                                  order._id,
+                                  TOrderStatus.SHIPPED,
+                                )
+                              }
+                            >
+                              <FcShipped /> Make Shipped
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={() =>
+                                handleStatusChange(
+                                  order._id,
+                                  TOrderStatus.CANCELLED,
+                                )
+                              }
+                            >
+                              <FcCancel /> Cancel Order
+                            </DropdownMenuItem>
+                          </>
                         )}
                       </DropdownMenuContent>
                     </DropdownMenu>

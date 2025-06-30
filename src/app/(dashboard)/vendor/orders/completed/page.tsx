@@ -1,7 +1,12 @@
 import { VendorCompletedOrders } from "@/components/mainComponents/Dashboard/vendor";
+import PrivateRoute from "@/providers/PrivateRoute";
 
 const SingleOrderDetails = () => {
-  return <VendorCompletedOrders />;
+  return (
+    <PrivateRoute>
+      <VendorCompletedOrders />
+    </PrivateRoute>
+  );
 };
 
 export default SingleOrderDetails;

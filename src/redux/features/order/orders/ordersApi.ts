@@ -57,7 +57,16 @@ const orderNowApi = baseApi.injectEndpoints({
     updateOrderStatus: builder.mutation({
       query: ({ id, status }) => ({
         url: `/orders/${id}/status`,
-        method: "PATCH",
+        method: "PUT",
+        body: { status },
+      }),
+      invalidatesTags: ["Orders"],
+    }),
+
+    updateSubOrderStatus: builder.mutation({
+      query: ({ id, status }) => ({
+        url: `/orders/suborder/${id}/status`,
+        method: "PUT",
         body: { status },
       }),
       invalidatesTags: ["Orders"],
@@ -72,4 +81,5 @@ export const {
   useGetSingleSuborderQuery,
   useGetMyOrdersQuery,
   useUpdateOrderStatusMutation,
+  useUpdateSubOrderStatusMutation,
 } = orderNowApi;
