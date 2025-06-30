@@ -1,205 +1,196 @@
 "use client";
+
 import { Loading } from "@/components/sharedComponents/loader";
 import { Button } from "@/components/ui/button";
-import { useGetSingleOrderQuery } from "@/redux/features/order/orders/ordersApi";
+import {
+  useGetSingleSuborderQuery,
+  useUpdateOrderStatusMutation,
+} from "@/redux/features/order/orders/ordersApi";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { BsBagFill, BsBoxSeam } from "react-icons/bs";
-import { FcCheckmark } from "react-icons/fc";
-import { FiShoppingBag } from "react-icons/fi";
-import { TbTruckDelivery } from "react-icons/tb";
+import { useState } from "react";
 import VendorOrderDetailsCart from "./Vendor.Order.Details.Cart";
+import Status from "@/components/ui/status";
+import { TAddress } from "@/types/common";
+import { format } from "date-fns";
 
-const VendorOrderDetails = () => {
+export default function VendorOrderDetails() {
   const params = useParams();
+  const {
+    data: orderData,
+    isLoading,
+    refetch,
+  } = useGetSingleSuborderQuery(params.id);
+  const [updateOrderStatus, { isLoading: isUpdating }] =
+    useUpdateOrderStatusMutation();
+  const [statusError, setStatusError] = useState<string | null>(null);
 
-  const { data: order, isLoading } = useGetSingleOrderQuery(params.id);
+  const order = orderData?.data;
+  const shipping = order?.shippingAddress as TAddress;
+
+  const handleStatusChange = async (
+    e: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    const newStatus = e.target.value;
+    if (!newStatus || newStatus === order?.status) return;
+
+    try {
+      setStatusError(null);
+      await updateOrderStatus({ id: params.id, status: newStatus }).unwrap();
+      refetch();
+    } catch {
+      setStatusError("Failed to update status. Please try again.");
+    }
+  };
+
+  if (isLoading) return <Loading />;
+
   return (
-    <>
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <div className="container mb-10">
-          <div className="grid grid-cols-2 gap-y-5 print:hidden">
-            <div>
-              <h2 className="text-2xl font-semibold text-primary">
-                <BsBagFill className="mr-3 inline text-2xl text-primary" />
-                <span>Order Details</span>
-              </h2>
-            </div>
-
-            <div className="flex justify-end">
-              <Link href="/vendor/orders">
-                <Button className="bg-red-200 px-4 py-2 text-sm font-semibold text-secondary">
-                  Back To Orders
-                </Button>
-              </Link>
-            </div>
-          </div>
-
-          <div className="mt-10 rounded-md bg-white px-5 py-10 shadow print:hidden">
-            <div className="flex items-center">
-              <span className="relative rounded-full bg-primary p-4 text-2xl text-white">
-                <BsBoxSeam />
-                <span className="absolute -right-1 -top-1 rounded-full bg-slate-200 p-1 text-base text-green-600">
-                  <FcCheckmark />
-                </span>
-              </span>
-              <div className="w-full border-t-4 border-primary" />
-              <span className="rounded-full bg-primary p-4 text-2xl text-white">
-                <TbTruckDelivery />
-              </span>
-              <div className="w-full border-t-4 border-slate-300" />
-              <span className="rounded-full bg-slate-300 p-4 text-2xl text-primary">
-                <FiShoppingBag />
-              </span>
-            </div>
-            <div className="mt-10 flex justify-end">
-              <p className="rounded-full bg-red-200 px-4 py-1 text-secondary">
-                Estimated Delivery Date {order?.data?.orderDate.split("T")[0]}
-              </p>
-            </div>
-          </div>
-
-          <div className="mt-10 grid grid-cols-1 gap-10 rounded-md bg-white px-5 py-5 shadow lg:grid-cols-3 print:hidden">
-            <div>
-              <p className="mb-5 flex justify-center text-xl font-bold">
-                Status
-              </p>
-              <div className="flex justify-between">
-                <div>
-                  <p className="mb-3 font-semibold text-my-gray-200">
-                    Current Status
-                  </p>
-                  <p
-                    className={`badge capitalize ${
-                      order?.data?.status === "pending"
-                        ? "badge-warning"
-                        : order?.data?.status === "reject"
-                          ? "badge-error"
-                          : order?.data?.status === "delivery"
-                            ? "badge-success"
-                            : order?.data?.status === "cancel"
-                              ? "badge-error"
-                              : ""
-                    }`}
-                  >
-                    {order?.data?.status}
-                  </p>
-                </div>
-                <div>
-                  <p className="mb-3 font-semibold text-my-gray-200">
-                    Update Status
-                  </p>
-                  <p>
-                    <select className="select select-accent select-sm max-w-xs capitalize">
-                      <option disabled>{order?.data?.status}</option>
-                      <option value="pending">pending</option>
-                      <option value="cancel">cancel</option>
-                      <option value="reject">reject</option>
-                      <option value="delivery">delivery</option>
-                    </select>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div>
-              <p className="mb-5 flex justify-center text-xl font-bold">
-                Tracking
-              </p>
-              <div className="flex justify-center">
-                <div>
-                  <p className="font-semibold text-my-gray-200">
-                    Delivery by :{" "}
-                    <span className="font-normal">Sundarban Courier ltd</span>
-                  </p>
-                  <p className="mt-3 font-semibold text-my-gray-200">
-                    CN Number :{" "}
-                    <span className="font-normal">10163000167843</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="flex justify-center">
-              <div>
-                <p className="mb-5 text-xl font-bold">Download</p>
-                <Button
-                  onClick={() => window.print()}
-                  className="btn btn-sm rounded-md border-0 bg-red-200 text-sm font-semibold text-secondary hover:bg-red-300 print:hidden"
-                >
-                  Print Order
-                </Button>
-              </div>
-            </div>
-          </div>
-
-          <VendorOrderDetailsCart order={order?.data} />
-
-          <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 print:grid-cols-2">
-            <div className="rounded-md bg-white p-5">
-              <h3 className="mb-5 text-base font-semibold text-my-gray-200">
-                Shipping Address
-              </h3>
-              <div className="space-y-3">
-                <h3>Name: {order?.data?.shippingAddress?.name}</h3>
-                <p className="">
-                  Address:
-                  <span className="rounded-full bg-orange-500 px-1.5 text-white">
-                    Home
-                  </span>{" "}
-                  {order?.data?.shippingAddress?.address}
-                </p>
-                <p>
-                  Region: {order?.data?.shippingAddress?.area}-
-                  {order?.data?.shippingAddress?.city}-
-                  {order?.data?.shippingAddress?.region}
-                </p>
-                <p className="">Phone: {order?.data?.shippingAddress?.phone}</p>
-
-                {order?.data?.shippingAddress?.email && (
-                  <p className="">
-                    email: {order?.data?.shippingAddress?.email}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            <div className="space-y-2 rounded-md bg-white p-5">
-              <h3 className="text-base font-semibold text-my-gray-200">
-                Total Summary
-              </h3>
-              <div className="flex justify-between">
-                <p className="text-my-gray-100">Subtotal:</p>
-                <p>${order?.data?.total}</p>
-              </div>
-              <div className="flex justify-between">
-                <p className="text-my-gray-100">Shipping fee:</p>
-                <p>$10</p>
-              </div>
-              <div className="flex justify-between">
-                <p className="text-my-gray-100">Discount:</p>
-                <p>-$5</p>
-              </div>
-              <hr />
-              <div className="flex justify-between">
-                <p>Total</p>
-                <p>$ {order?.data?.total + 10 - 5}</p>
-              </div>
-              <p className="text-my-gray-100">
-                Paid by: {order?.data?.paymentDetails?.payWith}
-              </p>
-            </div>
-          </div>
-
-          {/* {showSideNavigation && (
-            <DashboardSideBarNavigation
-              setShowSideNavigation={setShowSideNavigation}
-            />
-          )} */}
+    <div className="container mx-auto max-w-6xl space-y-8 px-4 py-8 print:bg-white print:text-black">
+      {/* Header */}
+      <div className="flex flex-wrap items-center justify-between border-b pb-4">
+        <div>
+          <h1 className="text-2xl font-bold text-primary">Order Details</h1>
+          <p className="text-sm text-gray-500">Order ID: {order?._id}</p>
         </div>
-      )}
-    </>
-  );
-};
+        <Link href="/vendor/orders/pending">
+          <Button>Back to Orders</Button>
+        </Link>
+      </div>
 
-export default VendorOrderDetails;
+      {/* Status + Actions (Redesigned) */}
+      <section className="grid grid-cols-1 gap-6 rounded-lg bg-white p-6 shadow-sm md:grid-cols-3 print:border print:shadow-none">
+        {/* Status Update */}
+        <div className="flex flex-col gap-4">
+          <div>
+            <h2 className="mb-2 text-lg font-semibold">Order Status</h2>
+            <Status status={order?.status} />
+          </div>
+          <div>
+            <label className="mb-1 block text-xs font-medium text-gray-600">
+              Change Status
+            </label>
+            <select
+              value={order?.status}
+              onChange={handleStatusChange}
+              disabled={isUpdating}
+              className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:ring-primary"
+            >
+              <option value="pending">Pending</option>
+              <option value="cancel">Cancel</option>
+              <option value="reject">Reject</option>
+              <option value="delivery">Delivery</option>
+            </select>
+            {isUpdating && (
+              <span className="mt-1 block text-xs text-primary">
+                Updating...
+              </span>
+            )}
+            {statusError && (
+              <span className="mt-1 block text-xs text-red-500">
+                {statusError}
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* Order Info */}
+        <div className="flex flex-col gap-2 border-l border-gray-100 pl-6">
+          <h2 className="mb-2 text-lg font-semibold">Order Info</h2>
+          <div className="space-y-1 text-sm text-gray-700">
+            <div>
+              <span className="font-medium">Date:</span>{" "}
+              {order?.createdAt
+                ? format(new Date(order.createdAt), "dd-MMM-yyyy | hh:mm a")
+                : "--"}
+            </div>
+            <div>
+              <span className="font-medium">Payment:</span>{" "}
+              {order?.paymentMethod}
+            </div>
+            <div>
+              <span className="font-medium">Total Paid:</span> $
+              {order?.totalAmount + 10 - 5}
+            </div>
+          </div>
+        </div>
+
+        {/* Actions */}
+        <div className="flex flex-col items-start gap-4 border-l border-gray-100 pl-6">
+          <h2 className="mb-2 text-lg font-semibold">Actions</h2>
+          <Button onClick={() => window.print()} variant="outline">
+            Print Invoice
+          </Button>
+          <Link href="/vendor/orders/pending">
+            <Button variant="secondary">Back to Orders</Button>
+          </Link>
+        </div>
+      </section>
+
+      {/* Order Items */}
+      <section className="rounded-xl border border-gray-200 bg-white shadow-sm print:border print:shadow-none">
+        <header className="flex items-center justify-between rounded-t-xl border-b bg-gray-50 px-6 py-4">
+          <h2 className="text-lg font-bold text-primary">Order Items</h2>
+          <span className="text-sm text-gray-500">
+            Total Items: {order?.items?.length || 0}
+          </span>
+        </header>
+        <VendorOrderDetailsCart item={order?.item} />
+      </section>
+
+      {/* Shipping & Summary */}
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 print:grid-cols-2">
+        <div className="rounded-lg bg-white p-6 shadow-sm print:border print:shadow-none">
+          <h2 className="mb-4 text-lg font-semibold">Shipping Address</h2>
+          <div className="space-y-2 text-sm text-gray-700">
+            <p>
+              <span className="font-medium">Name:</span> {shipping?.name}
+            </p>
+            <p>
+              <span className="font-medium">Address:</span> {shipping?.street}
+            </p>
+            <p>
+              <span className="font-medium">Region:</span> {shipping?.area} -{" "}
+              {shipping?.city} - {shipping?.region}
+            </p>
+            <p>
+              <span className="font-medium">Phone:</span>{" "}
+              {shipping?.phoneNumber}
+            </p>
+            {shipping?.email && (
+              <p>
+                <span className="font-medium">Email:</span> {shipping?.email}
+              </p>
+            )}
+          </div>
+        </div>
+
+        <div className="rounded-lg bg-white p-6 shadow-sm print:border print:shadow-none">
+          <h2 className="mb-4 text-lg font-semibold">Total Summary</h2>
+          <div className="space-y-2 text-sm">
+            <div className="flex justify-between">
+              <span>Subtotal</span>
+              <span>${order?.totalAmount}</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Shipping Fee</span>
+              <span>$10</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Discount</span>
+              <span>-$5</span>
+            </div>
+            <hr />
+            <div className="flex justify-between font-semibold">
+              <span>Total</span>
+              <span>${order?.totalAmount + 10 - 5}</span>
+            </div>
+            <p className="text-sm capitalize text-gray-500">
+              Paid by: {order?.paymentMethod}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

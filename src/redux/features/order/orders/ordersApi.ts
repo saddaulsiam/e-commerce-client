@@ -38,12 +38,29 @@ const orderNowApi = baseApi.injectEndpoints({
       providesTags: ["Orders"],
     }),
 
+    getSingleSuborder: builder.query({
+      query: (id) => ({
+        url: `/orders/suborder/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["Orders"],
+    }),
+
     getMyOrders: builder.query({
       query: () => ({
         url: "/orders/my",
         method: "GET",
       }),
       providesTags: ["Orders"],
+    }),
+
+    updateOrderStatus: builder.mutation({
+      query: ({ id, status }) => ({
+        url: `/orders/${id}/status`,
+        method: "PATCH",
+        body: { status },
+      }),
+      invalidatesTags: ["Orders"],
     }),
   }),
 });
@@ -52,5 +69,7 @@ export const {
   useGetAllOrdersQuery,
   useOrderNowMutation,
   useGetSingleOrderQuery,
+  useGetSingleSuborderQuery,
   useGetMyOrdersQuery,
+  useUpdateOrderStatusMutation,
 } = orderNowApi;

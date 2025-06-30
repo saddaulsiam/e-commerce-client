@@ -2,8 +2,15 @@
 
 import { Pagination } from "@/components/sharedComponents";
 import { Loading } from "@/components/sharedComponents/loader";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import Status from "@/components/ui/status";
 import {
   Table,
   TableBody,
@@ -15,13 +22,18 @@ import {
 } from "@/components/ui/table";
 import { useGetVendorOrdersQuery } from "@/redux/features/vendor/vendorApi";
 import { useAppSelector } from "@/redux/hooks";
+import { TStatus } from "@/types/common";
 import { TOrderStatus, TSubOrder } from "@/types/Orderstype";
 import { format } from "date-fns";
-import { Clock } from "lucide-react";
+import { Clock, EllipsisVertical, Eye, Lock, View } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { FcCancel, FcShipped } from "react-icons/fc";
+import { toast } from "react-toastify";
 
 const VendorPendingOrders = () => {
+  const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const { user } = useAppSelector(({ state }) => state.auth);
 
@@ -57,16 +69,27 @@ const VendorPendingOrders = () => {
               <TableHead>Quantity</TableHead>
               <TableHead>Price</TableHead>
               <TableHead>Total</TableHead>
-              <TableHead>Payment</TableHead>
+              <TableHead>Payment Method</TableHead>
+              <TableHead>IsPaid</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Order Date</TableHead>
+              <TableHead>Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {orders?.data?.data.length > 0 ? (
               orders?.data?.data?.map((order: TSubOrder) => (
                 <TableRow key={order._id} className="hover:bg-gray-50">
-                  <TableCell>{order._id}</TableCell>
+                  <TableCell
+                    onClick={() => {
+                      navigator.clipboard.writeText(order._id);
+                      toast.success("Order ID copied to clipboard");
+                    }}
+                    className="cursor-pointer hover:text-blue-600 hover:underline"
+                  >
+                    {order?._id?.slice(0, 5)}...
+                    {order?._id?.slice(-5)}
+                  </TableCell>
                   <TableCell>
                     <div className="relative h-16 w-24">
                       <Image
@@ -81,19 +104,45 @@ const VendorPendingOrders = () => {
                   <TableCell>{order.item.quantity}</TableCell>
                   <TableCell>${order.item.price}</TableCell>
                   <TableCell>${order.totalAmount}</TableCell>
+                  <TableCell>{order.paymentMethod}</TableCell>
                   <TableCell>
-                    {order.paymentMethod} ({order.isPaid ? "Paid" : "Unpaid"})
+                    <Status status={order.isPaid ? "Paid" : "Unpaid"} />
                   </TableCell>
                   <TableCell>
-                    <Badge variant="default" className="capitalize">
-                      {order.status}
-                    </Badge>
+                    <Status status={order.status} />
                   </TableCell>
                   <TableCell>
                     {format(
                       new Date(order.createdAt),
                       "dd-MMMM-yyyy | hh:mm a",
                     )}
+                  </TableCell>
+                  <TableCell>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost">
+                          <EllipsisVertical size={20} />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="w-40">
+                        <DropdownMenuItem
+                          onClick={() =>
+                            router.push(`/vendor/orders/${order._id}`)
+                          }
+                        >
+                          <Eye /> View Details
+                        </DropdownMenuItem>
+                        {order.status === TOrderStatus.PROCESSING ? (
+                          <DropdownMenuItem>
+                            <FcCancel /> Cancel Order
+                          </DropdownMenuItem>
+                        ) : (
+                          <DropdownMenuItem>
+                            <FcShipped /> Make Shipped
+                          </DropdownMenuItem>
+                        )}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </TableCell>
                 </TableRow>
               ))
@@ -111,10 +160,10 @@ const VendorPendingOrders = () => {
 
           <TableFooter className="bg-gray-100">
             <TableRow>
-              <TableCell colSpan={4}>
+              <TableCell colSpan={8}>
                 Total {orders?.data?.meta?.total} Orders
               </TableCell>
-              <TableCell colSpan={5} className="text-right">
+              <TableCell colSpan={3} className="text-right">
                 <Pagination
                   currentPage={currentPage}
                   totalPages={orders?.data?.meta?.page}
