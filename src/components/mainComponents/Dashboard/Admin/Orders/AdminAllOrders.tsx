@@ -2,7 +2,14 @@
 
 import { Pagination } from "@/components/sharedComponents";
 import { Loading } from "@/components/sharedComponents/loader";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -21,26 +28,46 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useGetAllOrdersQuery } from "@/redux/features/order/orders/ordersApi";
+import {
+  useGetAllOrdersQuery,
+  useUpdateOrderStatusMutation,
+} from "@/redux/features/order/orders/ordersApi";
 import { TMainOrder, TOrderStatus } from "@/types/Orderstype";
 import { format } from "date-fns";
-import { Eye, Package } from "lucide-react";
-import Link from "next/link";
+import { EllipsisVertical, Eye, Package, PackageCheck } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { FcShipped } from "react-icons/fc";
 import { toast } from "react-toastify";
 
 const AdminDashboardAllOrders = () => {
+  const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const [statusFilter, setStatusFilter] = useState("");
   const [searchText, setSearchText] = useState("");
 
   // Include searchText (orderId) as part of query parameters
-  const { data: orders, isLoading } = useGetAllOrdersQuery({
+  const {
+    data: orders,
+    isLoading,
+    refetch,
+  } = useGetAllOrdersQuery({
     limit: 11,
     page: currentPage,
     status: statusFilter || undefined,
     search: searchText.trim() || undefined,
   });
+
+  const [updateOrderStatus] = useUpdateOrderStatusMutation();
+
+  const handleStatusChange = async (id: string, status: string) => {
+    try {
+      await updateOrderStatus({ id, status }).unwrap();
+      refetch();
+    } catch {
+      toast.error("Failed to update order status");
+    }
+  };
 
   if (isLoading) return <Loading />;
 
@@ -136,13 +163,46 @@ const AdminDashboardAllOrders = () => {
                     {format(new Date(order.createdAt), "dd-MMMM-yyyy")}
                   </TableCell>
                   <TableCell>
-                    <Link
-                      className="flex text-gray-600 hover:text-primary"
-                      href={`/admin/orders/${order._id}`}
-                    >
-                      <Eye className="mr-1 h-5 w-5" />
-                      Details
-                    </Link>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost">
+                          <EllipsisVertical size={20} />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="w-40">
+                        <DropdownMenuItem
+                          onClick={() =>
+                            router.push(`/admin/orders/${order._id}`)
+                          }
+                        >
+                          <Eye /> View Details
+                        </DropdownMenuItem>
+                        {order.status === TOrderStatus.PROCESSING && (
+                          <DropdownMenuItem
+                            onClick={() =>
+                              handleStatusChange(
+                                order._id!,
+                                TOrderStatus.SHIPPED,
+                              )
+                            }
+                          >
+                            <FcShipped /> Make Shipped
+                          </DropdownMenuItem>
+                        )}
+                        {order.status === TOrderStatus.SHIPPED && (
+                          <DropdownMenuItem
+                            onClick={() =>
+                              handleStatusChange(
+                                order._id!,
+                                TOrderStatus.DELIVERED,
+                              )
+                            }
+                          >
+                            <PackageCheck /> Make Delivered
+                          </DropdownMenuItem>
+                        )}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </TableCell>
                 </TableRow>
               ))
