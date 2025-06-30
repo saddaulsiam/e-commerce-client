@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { authKey } from "@/constants/common";
 import useAuth from "@/hooks/useAuth";
+import { cn } from "@/lib/utils";
 import { logOutUser } from "@/redux/features/auth/authSlice";
 import { removeOrderDetails } from "@/redux/features/order/orderDetails/orderDetailsSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -58,7 +59,10 @@ const DashboardNavbar = ({ isCollapsed }: { isCollapsed: boolean }) => {
 
   return (
     <nav
-      className={`fixed ${isCollapsed ? "left-[72px]" : "left-64"} right-0 top-0 z-10 flex h-16 items-center justify-between border-b border-gray-100 bg-white px-4 transition-all duration-300`}
+      className={cn(
+        isCollapsed ? "left-[72px]" : "left-64",
+        "fixed right-0 top-0 z-10 flex h-16 items-center justify-between border-b border-gray-100 bg-white px-4 transition-all duration-300 print:hidden",
+      )}
     >
       <div className="flex max-w-full items-center gap-3">
         <div className="hidden max-w-full items-baseline gap-2 md:block">
