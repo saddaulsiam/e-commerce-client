@@ -1,13 +1,14 @@
-export { default as AdminAllVendors } from "./Vendor/AdminAllVendors";
-export { default as AdminAllCustomers } from "./Customers/AdminAllCustomers";
-export { default as AdminUserDetails } from "./Customers/AdminUserDetails";
-export { default as AdminMainDashboard } from "./MainDashboard/MainDashboard";
 export { default as AdminCategories } from "./Category/AdminAllCategories";
 export { default as AdminCategoryItem } from "./Category/AdminCategoryItem";
 export { default as AdminCreateCategory } from "./Category/AdminCreateCategory";
-export { default as AdminAllProducts } from "./Products/AdminAllProducts";
-export { default as AdminMainReports } from "./Reports/AdminMainReports";
-export { default as AdminNewVendorRequest } from "./Vendor/AdminNewVendorRequest";
-export { default as AdminSettings } from "./Setting/AdminSettings";
+export { default as AdminAllCustomers } from "./Customers/AdminAllCustomers";
+export { default as AdminCustomerDetails } from "./Customers/AdminCustomerDetails";
+export { default as AdminMainDashboard } from "./MainDashboard/MainDashboard";
 export { default as AdminDashboardAllOrders } from "./Orders/AdminAllOrders";
 export { default as AdminDashboardAllOrdersDetails } from "./Orders/AdminAllOrdersDetails";
+export { default as AdminAllProducts } from "./Products/AdminAllProducts";
+export { default as AdminMainReports } from "./Reports/AdminMainReports";
+export { default as AdminSettings } from "./Setting/AdminSettings";
+export { default as AdminAllVendors } from "./Vendor/AdminAllVendors";
+export { default as AdminNewVendorRequest } from "./Vendor/AdminNewVendorRequest";
+
