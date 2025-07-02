@@ -3,6 +3,7 @@
 import { SwiperProductsCard } from "@/components/sharedComponents";
 import { ProductsSkeleton } from "@/components/sharedComponents/loader";
 import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
+import Link from "next/link";
 import { AiFillThunderbolt, AiOutlineArrowRight } from "react-icons/ai";
 
 const FlashDeals = () => {
@@ -19,9 +20,9 @@ const FlashDeals = () => {
             <AiFillThunderbolt className="inline" />
             Flash Deals
           </h2>
-          <a href="" className="text-sm text-my-gray-100">
+          <Link href="/flash-deals" className="text-sm text-my-gray-100">
             View all <AiOutlineArrowRight className="inline" />
-          </a>
+          </Link>
         </div>
 
         {isLoading ? (

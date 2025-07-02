@@ -74,7 +74,7 @@ const SearchingProducts = () => {
         <div className="mb-6">
           <h1 className="mb-2 text-2xl font-bold text-gray-900">
             Search Results for{" "}
-            <span className="text-primary">
+            <span className="capitalize text-primary text-xl">
               &quot;{categoryQuery || searchQuery}&quot;
             </span>
           </h1>
