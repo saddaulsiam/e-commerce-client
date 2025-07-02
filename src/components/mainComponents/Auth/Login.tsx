@@ -144,7 +144,7 @@ const Login = () => {
 
           <div className="relative my-4">
             {/* <hr className="absolute left-0 top-1/2 w-full border-t border-gray-300" /> */}
-            <span className="relative z-10 block bg-white px-2 text-center text-sm text-gray-500">
+            <span className="relative block bg-white px-2 text-center text-sm text-gray-500">
               or
             </span>
           </div>

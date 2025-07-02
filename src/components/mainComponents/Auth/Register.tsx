@@ -168,7 +168,7 @@ const Register = () => {
           </form>
 
           <div className="relative my-4">
-            <span className="relative z-10 block bg-white px-2 text-center text-sm text-gray-500">
+            <span className="relative block bg-white px-2 text-center text-sm text-gray-500">
               or
             </span>
           </div>

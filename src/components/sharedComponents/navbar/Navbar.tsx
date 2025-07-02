@@ -19,9 +19,9 @@ import { logOutUser } from "@/redux/features/auth/authSlice";
 import { removeOrderDetails } from "@/redux/features/order/orderDetails/orderDetailsSlice";
 import { useAppSelector } from "@/redux/hooks";
 import {
+  adminAccount,
   myAccount,
   vendorAccount,
-  adminAccount,
 } from "@/utils/navbarNavigation";
 import { X } from "lucide-react";
 import Image from "next/image";
