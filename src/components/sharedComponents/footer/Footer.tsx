@@ -162,16 +162,16 @@ const Footer = () => {
           {/* Legal */}
           <div className="flex flex-wrap justify-center gap-4 text-sm">
             <Link
-              href="#"
+              href="/PrivacyPolicy"
               className="transition-colors duration-300 hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary"
             >
               Privacy Policy
             </Link>
             <Link
-              href="#"
+              href="/TermsAndConditions"
               className="transition-colors duration-300 hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary"
             >
-              Terms of Service
+              Terms And Conditions
             </Link>
             <span>© 2024 Siam Store. All rights reserved.</span>
           </div>
