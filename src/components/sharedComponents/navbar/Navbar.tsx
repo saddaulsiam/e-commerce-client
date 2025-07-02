@@ -23,7 +23,7 @@ import {
   myAccount,
   vendorAccount,
 } from "@/utils/navbarNavigation";
-import { X } from "lucide-react";
+import { LogOut, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -237,9 +237,9 @@ const Navbar = () => {
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
                     onClick={handleLogOut}
-                    className="cursor-pointer text-red-600 hover:bg-red-50"
+                    className="flex cursor-pointer items-center justify-center bg-red-100 font-medium text-red-500 hover:bg-red-200 hover:text-red-500"
                   >
-                    Log Out
+                    <LogOut /> logout
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

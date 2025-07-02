@@ -28,6 +28,7 @@ import { usePathname } from "next/navigation";
 import { BiCategory } from "react-icons/bi";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import CategoriesDropDownContent from "../DropDown/CategoriesDropDownContent";
+import { cn } from "@/lib/utils";
 
 type TProps = {
   isScrolled: boolean;
@@ -86,13 +87,15 @@ const NavMegaMenu = ({ isScrolled, user }: TProps) => {
                       </Label>
                       <Separator />
                       {myAccount.map((item, i) => (
-                        <Link href={item.href!} passHref key={i}>
-                          <NavigationMenuLink asChild>
-                            <span className="p-1 pl-2 text-sm transition-all duration-100 ease-in hover:bg-accent hover:text-primary">
-                              {item.title}
-                            </span>
-                          </NavigationMenuLink>
-                        </Link>
+                        <NavigationMenuLink
+                          key={i}
+                          asChild
+                          className="p-1 pl-2 text-sm transition-all duration-100 ease-in hover:bg-accent hover:text-primary"
+                        >
+                          <Link href={item.href!} passHref>
+                            {item.title}
+                          </Link>
+                        </NavigationMenuLink>
                       ))}
                     </NavigationMenuContent>
                   </NavigationMenuItem>
@@ -119,13 +122,15 @@ const NavMegaMenu = ({ isScrolled, user }: TProps) => {
                     </Label>
                     <Separator />
                     {vendorAccount.map((item, i) => (
-                      <Link href={item.href!} passHref key={i}>
-                        <NavigationMenuLink asChild>
-                          <span className="p-1 pl-2 text-sm transition-all duration-100 ease-in hover:bg-accent hover:text-primary">
-                            {item.title}
-                          </span>
-                        </NavigationMenuLink>
-                      </Link>
+                      <NavigationMenuLink
+                        key={i}
+                        asChild
+                        className="p-1 pl-2 text-sm transition-all duration-100 ease-in hover:bg-accent hover:text-primary"
+                      >
+                        <Link href={item.href!} passHref>
+                          {item.title}
+                        </Link>
+                      </NavigationMenuLink>
                     ))}
                   </NavigationMenuContent>
                 </NavigationMenuItem>
@@ -141,13 +146,15 @@ const NavMegaMenu = ({ isScrolled, user }: TProps) => {
                     </Label>
                     <Separator />
                     {adminAccount.map((item, i) => (
-                      <Link href={item.href!} passHref key={i}>
-                        <NavigationMenuLink asChild>
-                          <span className="p-1 pl-2 text-sm transition-all duration-100 ease-in hover:bg-accent hover:text-primary">
-                            {item.title}
-                          </span>
-                        </NavigationMenuLink>
-                      </Link>
+                      <NavigationMenuLink
+                        key={i}
+                        asChild
+                        className="p-1 pl-2 text-sm transition-all duration-100 ease-in hover:bg-accent hover:text-primary"
+                      >
+                        <Link href={item.href!} passHref>
+                          {item.title}
+                        </Link>
+                      </NavigationMenuLink>
                     ))}
                   </NavigationMenuContent>
                 </NavigationMenuItem>
