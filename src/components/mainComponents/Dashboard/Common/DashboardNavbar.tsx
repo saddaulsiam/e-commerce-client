@@ -1,17 +1,10 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { authKey } from "@/constants/common";
@@ -24,26 +17,26 @@ import { removeFromLocalStorage } from "@/utils/localStorage";
 import { Bell, Settings, Users } from "lucide-react";
 import Link from "next/link";
 
-const notifications = [
-  {
-    id: "1",
-    title: "New Order",
-    description: "Order #1234 has been placed.",
-    time: "2m ago",
-  },
-  {
-    id: "2",
-    title: "Vendor Approved",
-    description: "Vendor John Doe was approved.",
-    time: "1h ago",
-  },
-  {
-    id: "3",
-    title: "Stock Alert",
-    description: "Product ABC is low on stock.",
-    time: "5h ago",
-  },
-];
+// const notifications = [
+//   {
+//     id: "1",
+//     title: "New Order",
+//     description: "Order #1234 has been placed.",
+//     time: "2m ago",
+//   },
+//   {
+//     id: "2",
+//     title: "Vendor Approved",
+//     description: "Vendor John Doe was approved.",
+//     time: "1h ago",
+//   },
+//   {
+//     id: "3",
+//     title: "Stock Alert",
+//     description: "Product ABC is low on stock.",
+//     time: "5h ago",
+//   },
+// ];
 
 const DashboardNavbar = ({ isCollapsed }: { isCollapsed: boolean }) => {
   const { logOut } = useAuth();

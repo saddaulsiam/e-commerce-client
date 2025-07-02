@@ -59,18 +59,18 @@ const NavMegaMenu = ({ isScrolled, user }: TProps) => {
             <NavigationMenuList>
               {/* Home Link */}
               <NavigationMenuItem>
-                <Link href="/" passHref legacyBehavior>
+                <Link href="/" passHref>
                   <NavigationMenuLink asChild>
-                    <a className={navigationMenuTriggerStyle()}>Home</a>
+                    <span className={navigationMenuTriggerStyle()}>Home</span>
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
 
               {/* Shop Link */}
               <NavigationMenuItem>
-                <Link href="/product" passHref legacyBehavior>
+                <Link href="/product" passHref>
                   <NavigationMenuLink asChild>
-                    <a className={navigationMenuTriggerStyle()}>Shop</a>
+                    <span className={navigationMenuTriggerStyle()}>Shop</span>
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
@@ -86,11 +86,11 @@ const NavMegaMenu = ({ isScrolled, user }: TProps) => {
                       </Label>
                       <Separator />
                       {myAccount.map((item, i) => (
-                        <Link href={item.href!} passHref legacyBehavior key={i}>
+                        <Link href={item.href!} passHref key={i}>
                           <NavigationMenuLink asChild>
-                            <a className="p-1 pl-2 text-sm transition-all duration-100 ease-in hover:bg-accent hover:text-primary">
+                            <span className="p-1 pl-2 text-sm transition-all duration-100 ease-in hover:bg-accent hover:text-primary">
                               {item.title}
-                            </a>
+                            </span>
                           </NavigationMenuLink>
                         </Link>
                       ))}
@@ -98,11 +98,11 @@ const NavMegaMenu = ({ isScrolled, user }: TProps) => {
                   </NavigationMenuItem>
 
                   <NavigationMenuItem>
-                    <Link href="/orders" passHref legacyBehavior>
+                    <Link href="/orders" passHref>
                       <NavigationMenuLink asChild>
-                        <a className={navigationMenuTriggerStyle()}>
+                        <span className={navigationMenuTriggerStyle()}>
                           Track My Order
-                        </a>
+                        </span>
                       </NavigationMenuLink>
                     </Link>
                   </NavigationMenuItem>
@@ -119,11 +119,11 @@ const NavMegaMenu = ({ isScrolled, user }: TProps) => {
                     </Label>
                     <Separator />
                     {vendorAccount.map((item, i) => (
-                      <Link href={item.href!} passHref legacyBehavior key={i}>
+                      <Link href={item.href!} passHref key={i}>
                         <NavigationMenuLink asChild>
-                          <a className="p-1 pl-2 text-sm transition-all duration-100 ease-in hover:bg-accent hover:text-primary">
+                          <span className="p-1 pl-2 text-sm transition-all duration-100 ease-in hover:bg-accent hover:text-primary">
                             {item.title}
-                          </a>
+                          </span>
                         </NavigationMenuLink>
                       </Link>
                     ))}
@@ -141,11 +141,11 @@ const NavMegaMenu = ({ isScrolled, user }: TProps) => {
                     </Label>
                     <Separator />
                     {adminAccount.map((item, i) => (
-                      <Link href={item.href!} passHref legacyBehavior key={i}>
+                      <Link href={item.href!} passHref key={i}>
                         <NavigationMenuLink asChild>
-                          <a className="p-1 pl-2 text-sm transition-all duration-100 ease-in hover:bg-accent hover:text-primary">
+                          <span className="p-1 pl-2 text-sm transition-all duration-100 ease-in hover:bg-accent hover:text-primary">
                             {item.title}
-                          </a>
+                          </span>
                         </NavigationMenuLink>
                       </Link>
                     ))}
