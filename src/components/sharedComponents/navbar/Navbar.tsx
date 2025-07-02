@@ -37,7 +37,7 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import AnnouncementBar from "../announcementBar/AnnouncementBar";
 import CategoriesDropDownContent from "../DropDown/CategoriesDropDownContent";
-import LoginModal from "../modal/Loginmodal";
+import LoginModal from "../modal/LoginModal";
 import NavMegaMenu from "./NavMegaMenu";
 
 const Navbar = () => {
