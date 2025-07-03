@@ -3,7 +3,7 @@ import PrivateRoute from "@/providers/PrivateRoute";
 
 const SingleOrderDetails = () => {
   return (
-    <PrivateRoute>
+    <PrivateRoute role="vendor">
       <VendorCompletedOrders />
     </PrivateRoute>
   );

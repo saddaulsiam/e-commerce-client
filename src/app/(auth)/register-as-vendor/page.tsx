@@ -79,7 +79,7 @@ const VendorRegister = () => {
     }`;
 
   return (
-    <PrivateRoute>
+    <PrivateRoute role="customer">
       <div className="flex min-h-[calc(100vh-180px)] items-center justify-center bg-gray-100">
         <div className="w-full max-w-2xl rounded bg-white p-8 shadow-md">
           <h2 className="mb-6 text-center text-2xl font-bold">

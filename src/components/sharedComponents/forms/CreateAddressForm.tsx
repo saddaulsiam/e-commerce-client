@@ -26,7 +26,9 @@ const CreateAddressForm = () => {
         setLoadUser(true);
       }
     } catch (error: any) {
-      toast.error(error.massage || "Failed to add address");
+      error.data.errorSources.map((err: any) => {
+        toast.error(err.message || "Failed to add address");
+      });
     }
   };
 

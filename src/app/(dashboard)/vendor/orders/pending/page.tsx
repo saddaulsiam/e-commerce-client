@@ -3,7 +3,7 @@ import PrivateRoute from "@/providers/PrivateRoute";
 
 const PendingOrders = () => {
   return (
-    <PrivateRoute>
+    <PrivateRoute role="vendor">
       <VendorPendingOrders />;
     </PrivateRoute>
   );

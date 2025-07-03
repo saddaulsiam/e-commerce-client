@@ -3,7 +3,7 @@ import PrivateRoute from "@/providers/PrivateRoute";
 
 const Cancel = () => {
   return (
-    <PrivateRoute>
+    <PrivateRoute role="customer">
       <PaymentFail />
     </PrivateRoute>
   );

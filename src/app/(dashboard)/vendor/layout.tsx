@@ -20,7 +20,7 @@ const VendorDashboardLayout = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <PrivateRoute>
+    <PrivateRoute role="vendor">
       <div className="min-h-screen bg-gray-50">
         <div className="flex">
           <aside

@@ -3,7 +3,7 @@ import PrivateRoute from "@/providers/PrivateRoute";
 
 const payment = () => {
   return (
-    <PrivateRoute>
+    <PrivateRoute role="customer">
       <ProductPayment />
     </PrivateRoute>
   );

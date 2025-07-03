@@ -1,7 +1,9 @@
 import { CustomersOrders } from "@/components/mainComponents/Dashboard/Customer";
 
 const Orders = () => {
-  return <CustomersOrders />;
+  return (
+    <CustomersOrders />
+  );
 };
 
 export default Orders;
