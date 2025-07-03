@@ -1,61 +1,65 @@
 "use client";
 
 import { useGetAdminDashboardMetaQuery } from "@/redux/features/admin/adminApi";
-import { BsEye, BsFillCreditCardFill } from "react-icons/bs";
+import { BsEye } from "react-icons/bs";
 import { FaUsers } from "react-icons/fa";
-import { FiShoppingCart } from "react-icons/fi";
+import { FiShoppingCart, FiTrendingUp } from "react-icons/fi";
+import DashboardMainStatsCard from "../../Common/DashboardMainStatsCard";
 import RecentUsers from "./RecentUsers";
+import RecentVendor from "./RecentVendor";
 import RevenueChart from "./RevenueChart";
 import SalesDistribution from "./SalesDistribution";
-import StatCard from "./StatCard";
 import VendorPerformance from "./VendorPerformance";
-import RecentVendor from "./RecentVendor";
+
+export const formatValue = (value?: number) => {
+  if (value == null) return "$0";
+  return value >= 1000 ? `${(value / 1000).toFixed(1)}K` : `${value}`;
+};
 
 const AdminMainDashboard = () => {
   const { data: dashboardMeta } = useGetAdminDashboardMetaQuery(undefined);
   const meta = dashboardMeta?.data?.meta;
 
-  const formatValue = (value?: number) => {
-    if (value == null) return "$0";
-    return value >= 1000 ? `${(value / 1000).toFixed(1)}K` : `${value}`;
-  };
-
   const dashboardStats = [
     {
       title: "Visitors",
       value: formatValue(meta?.overview?.totalVisitors),
-      change: `12.5%`,
-      icon: BsEye,
-      color: "#6366f1",
+      trend: `12.5%`,
+      icon: <BsEye className="h-6 w-6 text-white" />,
+      color: "from-blue-500 to-indigo-500",
+      positive: true,
     },
     {
       title: "Pending Orders",
       value: formatValue(meta?.overview?.pendingOrders),
-      change: `8.2%`,
-      icon: FiShoppingCart,
-      color: "#10b981",
+      trend: `8.2%`,
+      icon: <FiShoppingCart className="h-6 w-6 text-white" />,
+      color: "from-yellow-500 to-orange-500",
+      positive: true,
     },
     {
       title: "Revenue",
       value: `$${formatValue(meta?.overview?.yearlyRevenue)}`,
-      change: `18.4%`,
-      icon: BsFillCreditCardFill,
-      color: "#3b82f6",
+      trend: `18.4%`,
+      icon: <FiTrendingUp className="h-6 w-6 text-white" />,
+      color: "from-green-500 to-emerald-500",
+      positive: true,
     },
     {
       title: "Customers",
       value: formatValue(meta?.overview?.totalCustomers),
-      change: `5.1%`,
-      icon: FaUsers,
-      color: "#f59e0b",
+      trend: `5.1%`,
+      positive: false,
+      icon: <FaUsers className="h-6 w-6 text-white" />,
+      color: "from-purple-500 to-pink-500",
     },
   ];
   return (
     <div className="mx-4 my-5 space-y-8 md:mx-8">
       {/* Stats Grid */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-        {dashboardStats.map((stat, index) => (
-          <StatCard key={index} {...stat} />
+        {dashboardStats.map((card, index) => (
+          <DashboardMainStatsCard key={index} {...card} />
         ))}
       </div>
 

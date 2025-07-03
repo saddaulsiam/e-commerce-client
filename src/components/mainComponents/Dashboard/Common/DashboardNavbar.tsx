@@ -14,7 +14,7 @@ import { logOutUser } from "@/redux/features/auth/authSlice";
 import { removeOrderDetails } from "@/redux/features/order/orderDetails/orderDetailsSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { removeFromLocalStorage } from "@/utils/localStorage";
-import { Bell, Settings, Users } from "lucide-react";
+import { Bell, LogOut, Settings } from "lucide-react";
 import Link from "next/link";
 
 // const notifications = [
@@ -149,16 +149,19 @@ const DashboardNavbar = ({ isCollapsed }: { isCollapsed: boolean }) => {
               <p className="truncate text-xs text-gray-500">{user?.email}</p>
             </div>
             <DropdownMenuItem asChild>
-              <Link href="/profile" className="flex w-full items-center gap-2">
-                <Users className="h-4 w-4" />
-                Profile
+              <Link
+                href={`/${user?.role}/settings`}
+                className="flex w-full items-center gap-2"
+              >
+                <Settings className="h-4 w-4" />
+                Settings
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={handleLogOut}
               className="flex cursor-pointer items-center gap-2 text-red-600"
             >
-              <Settings className="h-4 w-4" />
+              <LogOut className="h-4 w-4" />
               Log Out
             </DropdownMenuItem>
           </DropdownMenuContent>

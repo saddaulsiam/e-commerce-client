@@ -19,7 +19,7 @@ const DashboardMainStatsCard = ({
   color,
 }: TProps) => (
   <div
-    className={`${color} rounded-2xl p-6 text-white transition-transform duration-500 hover:scale-[1.02]`}
+    className={`${color} rounded-2xl bg-gradient-to-br p-6 text-white transition-transform duration-500 hover:scale-[1.02]`}
   >
     <div className="flex items-start justify-between">
       <div>
