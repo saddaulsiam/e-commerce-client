@@ -85,7 +85,7 @@ export function getDashboardMenu(role: string): NavItem[] {
         href: "/admin/customers",
       },
       {
-        title: "Make New Admin",
+        title: "Make Admin",
         icon: <Settings className="h-5 w-5" />,
         href: "/admin/make-admin",
       },
