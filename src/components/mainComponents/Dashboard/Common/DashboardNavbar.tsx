@@ -7,7 +7,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useLogOut } from "@/hooks/useLogOut";
+import useAuth from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
 import { useAppSelector } from "@/redux/hooks";
 import { Bell, LogOut, Settings } from "lucide-react";
@@ -35,7 +35,7 @@ import Link from "next/link";
 // ];
 
 const DashboardNavbar = ({ isCollapsed }: { isCollapsed: boolean }) => {
-  const handleLogOut = useLogOut();
+  const { logOut } = useAuth();
   const { user } = useAppSelector(({ state }) => state.auth);
 
   return (
@@ -146,7 +146,7 @@ const DashboardNavbar = ({ isCollapsed }: { isCollapsed: boolean }) => {
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={handleLogOut}
+              onClick={logOut}
               className="flex cursor-pointer items-center gap-2 text-red-600"
             >
               <LogOut className="h-4 w-4" />

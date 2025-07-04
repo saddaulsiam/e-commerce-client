@@ -36,10 +36,11 @@ import AnnouncementBar from "../announcementBar/AnnouncementBar";
 import CategoriesDropDownContent from "../DropDown/CategoriesDropDownContent";
 import LoginModal from "../modal/LoginModal";
 import NavMegaMenu from "./NavMegaMenu";
+import useAuth from "@/hooks/useAuth";
 
 const Navbar = () => {
   const router = useRouter();
-  const handleLogOut = useLogOut();
+  const { logOut } = useAuth();
 
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
@@ -225,7 +226,7 @@ const Navbar = () => {
 
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
-                    onClick={handleLogOut}
+                    onClick={logOut}
                     className="flex cursor-pointer items-center justify-center bg-red-100 font-medium text-red-500 hover:bg-red-200 hover:text-red-500"
                   >
                     <LogOut /> logout
