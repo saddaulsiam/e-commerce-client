@@ -61,7 +61,11 @@ const Register = () => {
         }
       }
     } catch (error: any) {
-      toast.error(error.message);
+      if (error.message === "Firebase: Error (auth/email-already-in-use).") {
+        toast.error("Email already in use. Please try another one.");
+      } else {
+        toast.error(error.message);
+      }
       setLoading(false);
     } finally {
       setLoading(false);

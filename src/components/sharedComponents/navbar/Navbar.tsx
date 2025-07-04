@@ -14,9 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import { USER_ROLE } from "@/constants/common";
-import useAuth from "@/hooks/useAuth";
-import { logOutUser } from "@/redux/features/auth/authSlice";
-import { removeOrderDetails } from "@/redux/features/order/orderDetails/orderDetailsSlice";
+import { useLogOut } from "@/hooks/useLogOut";
 import { useAppSelector } from "@/redux/hooks";
 import {
   adminAccount,
@@ -34,7 +32,6 @@ import { FiSearch, FiShoppingCart } from "react-icons/fi";
 import { HiOutlineUserCircle } from "react-icons/hi";
 import { IoIosGitCompare } from "react-icons/io";
 import { MdKeyboardArrowDown } from "react-icons/md";
-import { useDispatch } from "react-redux";
 import AnnouncementBar from "../announcementBar/AnnouncementBar";
 import CategoriesDropDownContent from "../DropDown/CategoriesDropDownContent";
 import LoginModal from "../modal/LoginModal";
@@ -42,8 +39,7 @@ import NavMegaMenu from "./NavMegaMenu";
 
 const Navbar = () => {
   const router = useRouter();
-  const { logOut } = useAuth();
-  const dispatch = useDispatch();
+  const handleLogOut = useLogOut();
 
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
@@ -68,13 +64,6 @@ const Navbar = () => {
     if (searchQuery.trim()) {
       router.push(`/product?search=${searchQuery}`);
     }
-  };
-
-  const handleLogOut = async () => {
-    await logOut();
-    dispatch(logOutUser());
-    dispatch(removeOrderDetails());
-    localStorage.removeItem("access-token");
   };
 
   return (

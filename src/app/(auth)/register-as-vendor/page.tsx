@@ -3,6 +3,7 @@
 import AddressSelect from "@/components/sharedComponents/forms/AddressSelect";
 import { Button } from "@/components/ui/button";
 import useAuth from "@/hooks/useAuth";
+import { useLogOut } from "@/hooks/useLogOut";
 import PrivateRoute from "@/providers/PrivateRoute";
 import { useRegisterVendorMutation } from "@/redux/features/vendor/vendorApi";
 import { useAppSelector } from "@/redux/hooks";
@@ -37,6 +38,7 @@ const VendorRegister = () => {
   const [registerVendor] = useRegisterVendorMutation(undefined);
   const router = useRouter();
   const { setLoadUser } = useAuth();
+  const handleLogOut = useLogOut();
 
   const onSubmit = async (values: FieldValues) => {
     try {
@@ -60,6 +62,7 @@ const VendorRegister = () => {
         reset();
         toast.success(res?.message || "Vendor registered successfully");
         router.push("/vendor/dashboard");
+        handleLogOut();
       }
     } catch (err: any) {
       const apiError =

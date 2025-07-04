@@ -1,9 +1,11 @@
 "use client";
 
 import { authKey } from "@/constants/common";
+import { useLogOut } from "@/hooks/useLogOut";
 import { useGetAdminByEmailMutation } from "@/redux/features/admin/adminApi";
 import { useGetMeMutation } from "@/redux/features/auth/authApi";
-import { addUser } from "@/redux/features/auth/authSlice";
+import { addUser, logOutUser } from "@/redux/features/auth/authSlice";
+import { removeOrderDetails } from "@/redux/features/order/orderDetails/orderDetailsSlice";
 import { deleteCookies } from "@/services/deleteCookies";
 import { removeFromLocalStorage } from "@/utils/localStorage";
 import {
@@ -61,6 +63,7 @@ interface AuthProviderProps {
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const dispatch = useDispatch();
+  const handleLogOut = useLogOut();
 
   const [myData] = useGetMeMutation();
   const [getAdmin] = useGetAdminByEmailMutation();
@@ -85,7 +88,6 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       );
       return userCredential;
     } catch (error: any) {
-      toast.error(error.message);
       throw error;
     } finally {
       setLoading(false);
@@ -171,12 +173,16 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const unsubscribe = onAuthStateChanged(
       auth,
       async (currentUser: User | null) => {
-        if (currentUser) {
-          if (!currentUser.emailVerified) {
-            await signOut(auth);
-            return;
-          }
-          try {
+        try {
+          if (currentUser) {
+            if (!currentUser.emailVerified) {
+              await logOut();
+              // dispatch(logOutUser());
+              // dispatch(removeOrderDetails());
+              // removeFromLocalStorage(authKey.ACCESS_TOKEN);
+              handleLogOut();
+              return;
+            }
             const res = await myData(undefined).unwrap();
             if (res.data) {
               dispatch(addUser(res.data));
@@ -186,20 +192,24 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                 dispatch(addUser(admin.data.user));
               }
             }
-          } catch (error) {
-            console.log("Error fetching user data:", error);
-          } finally {
-            setLoading(false);
-            setLoadUser(false);
+          } else {
+            await deleteCookies(authKey.REFRESH_TOKEN);
+            // dispatch(logOutUser());
+            // dispatch(removeOrderDetails());
+            // removeFromLocalStorage(authKey.ACCESS_TOKEN);
+            handleLogOut();
           }
-        } else {
-          await deleteCookies(authKey.REFRESH_TOKEN);
+        } catch (error) {
+          console.log("Error fetching user data:", error);
+        } finally {
+          setLoading(false);
+          setLoadUser(false);
         }
       },
     );
 
     return () => unsubscribe();
-  }, [myData, getAdmin, loadUser]);
+  }, [myData, getAdmin, loadUser, dispatch]);
 
   const authInfo: AuthContextType = {
     loadUser,

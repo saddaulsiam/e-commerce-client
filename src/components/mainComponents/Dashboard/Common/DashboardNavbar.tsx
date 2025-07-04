@@ -7,13 +7,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { authKey } from "@/constants/common";
-import useAuth from "@/hooks/useAuth";
+import { useLogOut } from "@/hooks/useLogOut";
 import { cn } from "@/lib/utils";
-import { logOutUser } from "@/redux/features/auth/authSlice";
-import { removeOrderDetails } from "@/redux/features/order/orderDetails/orderDetailsSlice";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { removeFromLocalStorage } from "@/utils/localStorage";
+import { useAppSelector } from "@/redux/hooks";
 import { Bell, LogOut, Settings } from "lucide-react";
 import Link from "next/link";
 
@@ -39,16 +35,8 @@ import Link from "next/link";
 // ];
 
 const DashboardNavbar = ({ isCollapsed }: { isCollapsed: boolean }) => {
-  const { logOut } = useAuth();
-  const dispatch = useAppDispatch();
+  const handleLogOut = useLogOut();
   const { user } = useAppSelector(({ state }) => state.auth);
-
-  const handleLogOut = async () => {
-    await logOut();
-    dispatch(logOutUser());
-    dispatch(removeOrderDetails());
-    removeFromLocalStorage(authKey.ACCESS_TOKEN);
-  };
 
   return (
     <nav
