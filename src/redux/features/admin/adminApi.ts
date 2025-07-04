@@ -2,6 +2,14 @@ import baseApi from "../api/baseApi";
 
 const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    makeAdmin: builder.mutation({
+      query: (email) => ({
+        url: `/admin/make-admin`,
+        method: "POST",
+        body: { email },
+      }),
+    }),
+
     getAdminByEmail: builder.mutation({
       query: (email) => ({
         url: `/admin/${email}`,
@@ -18,5 +26,8 @@ const authApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetAdminByEmailMutation, useGetAdminDashboardMetaQuery } =
-  authApi;
+export const {
+  useMakeAdminMutation,
+  useGetAdminByEmailMutation,
+  useGetAdminDashboardMetaQuery,
+} = authApi;

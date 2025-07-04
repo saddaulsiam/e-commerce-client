@@ -13,7 +13,7 @@ import {
   ShoppingCart,
   StoreIcon,
   Tag,
-  Users
+  Users,
 } from "lucide-react";
 import React from "react";
 import { BiStore } from "react-icons/bi";
@@ -60,7 +60,7 @@ export function getDashboardMenu(role: string): NavItem[] {
         href: "/admin/reports",
       },
       {
-        title: "All Products",
+        title: "Products",
         icon: <Package className="h-5 w-5" />,
         href: "/admin/products",
       },
@@ -75,7 +75,7 @@ export function getDashboardMenu(role: string): NavItem[] {
         href: "/admin/new-vendor",
       },
       {
-        title: "All Vendors",
+        title: "Vendors",
         icon: <StoreIcon className="h-5 w-5" />,
         href: "/admin/vendors",
       },
@@ -83,6 +83,11 @@ export function getDashboardMenu(role: string): NavItem[] {
         title: "Customers",
         icon: <Users className="h-5 w-5" />,
         href: "/admin/customers",
+      },
+      {
+        title: "Make New Admin",
+        icon: <Settings className="h-5 w-5" />,
+        href: "/admin/make-admin",
       },
       {
         title: "Brands",
