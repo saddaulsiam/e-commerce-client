@@ -101,8 +101,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         "A verification email has been sent. Please check your inbox.",
       );
       return userCredential;
-    } catch (error: any) {
-      toast.error(error?.message || "Error creating user.");
+    } catch (error) {
       throw error;
     } finally {
       setLoading(false);
@@ -201,8 +200,8 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           if (res?.data) {
             dispatch(addUser(res.data));
           }
-        } catch {
-          // console.error("Error in onAuthStateChanged:", err);
+        } catch (error) {
+          throw error;
         } finally {
           setLoadUser(false);
           setLoading(false);

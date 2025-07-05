@@ -41,7 +41,7 @@ const Register = () => {
 
     try {
       const userCredential = await createUser(data.email, data.password);
-      if (userCredential.user) {
+      if (userCredential?.user) {
         await updateUserProfile(data.name);
 
         const userData = {
@@ -75,7 +75,7 @@ const Register = () => {
   const handleGoogleLogin = async () => {
     try {
       const userCredential = await googleLogIn();
-      if (userCredential.user) {
+      if (userCredential?.user) {
         const data = {
           displayName: userCredential.user.displayName,
           email: userCredential.user.email,

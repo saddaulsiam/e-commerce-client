@@ -2,10 +2,13 @@
 
 import AddressSelect from "@/components/sharedComponents/forms/AddressSelect";
 import { Button } from "@/components/ui/button";
-import useAuth from "@/hooks/useAuth";
+import { authKey } from "@/constants/common";
 import PrivateRoute from "@/providers/PrivateRoute";
+import { useLoginMutation } from "@/redux/features/auth/authApi";
+import { addUser } from "@/redux/features/auth/authSlice";
 import { useRegisterVendorMutation } from "@/redux/features/vendor/vendorApi";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { setToLocalStorage } from "@/utils/localStorage";
 import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -33,11 +36,11 @@ const VendorRegister = () => {
     watch,
     formState: { errors },
   } = useForm<VendorRegisterFormData>();
-  const { user } = useAppSelector(({ state }) => state.auth);
-  const [registerVendor] = useRegisterVendorMutation(undefined);
   const router = useRouter();
-  const { setLoadUser } = useAuth();
-  const { logOut } = useAuth();
+  const dispatch = useAppDispatch();
+  const [registerVendor, { isLoading }] = useRegisterVendorMutation(undefined);
+  const [login, { isLoading: isLogin }] = useLoginMutation();
+  const { user } = useAppSelector(({ state }) => state.auth);
 
   const onSubmit = async (values: FieldValues) => {
     try {
@@ -57,11 +60,18 @@ const VendorRegister = () => {
       const res = await registerVendor(payload).unwrap();
 
       if (res?.success) {
-        setLoadUser(true);
-        reset();
-        toast.success(res?.message || "Vendor registered successfully");
-        router.push("/vendor/dashboard");
-        logOut();
+        const loginUser = await login({ email: res.data.email }).unwrap();
+
+        if (loginUser.success) {
+          reset();
+          toast.success("Registration successfully");
+          dispatch(addUser(res.data.user));
+          setToLocalStorage({
+            key: authKey.ACCESS_TOKEN,
+            token: loginUser.data.accessToken,
+          });
+          router.replace("/vendor/dashboard");
+        }
       }
     } catch (err: any) {
       const apiError =
@@ -81,105 +91,103 @@ const VendorRegister = () => {
     }`;
 
   return (
-    <PrivateRoute role="customer">
-      <div className="flex min-h-[calc(100vh-180px)] items-center justify-center bg-gray-100">
-        <div className="w-full max-w-2xl rounded bg-white p-8 shadow-md">
-          <h2 className="mb-6 text-center text-2xl font-bold">
-            Vendor Registration
-          </h2>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            {/* Store Name */}
-            <div>
-              <label htmlFor="storeName" className="block text-gray-700">
-                Store Name
-              </label>
-              <input
-                id="storeName"
-                {...register("storeName", {
-                  required: "Store name is required",
-                })}
-                className={inputClasses(errors.storeName)}
-                placeholder="Enter your store name"
-              />
-              {errors.storeName && (
-                <p className="mt-1 text-sm text-red-500">
-                  {errors.storeName.message}
-                </p>
-              )}
-            </div>
+    // <PrivateRoute role="customer">
+    <div className="flex min-h-[calc(100vh-180px)] items-center justify-center bg-gray-100">
+      <div className="w-full max-w-2xl rounded bg-white p-8 shadow-md">
+        <h2 className="mb-6 text-center text-2xl font-bold">
+          Vendor Registration
+        </h2>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          {/* Store Name */}
+          <div>
+            <label htmlFor="storeName" className="block text-gray-700">
+              Store Name
+            </label>
+            <input
+              id="storeName"
+              {...register("storeName", {
+                required: "Store name is required",
+              })}
+              className={inputClasses(errors.storeName)}
+              placeholder="Enter your store name"
+            />
+            {errors.storeName && (
+              <p className="mt-1 text-sm text-red-500">
+                {errors.storeName.message}
+              </p>
+            )}
+          </div>
 
-            {/* Store Description */}
-            <div>
-              <label htmlFor="storeDescription" className="block text-gray-700">
-                Store Description
-              </label>
-              <textarea
-                id="storeDescription"
-                {...register("storeDescription", {
-                  required: "Store Description is required",
-                })}
-                className={inputClasses(errors.storeDescription)}
-                placeholder="Describe your store"
-              />
-              {errors.storeDescription && (
-                <p className="mt-1 text-sm text-red-500">
-                  {errors.storeDescription.message}
-                </p>
-              )}
-            </div>
+          {/* Store Description */}
+          <div>
+            <label htmlFor="storeDescription" className="block text-gray-700">
+              Store Description
+            </label>
+            <textarea
+              id="storeDescription"
+              {...register("storeDescription", {
+                required: "Store Description is required",
+              })}
+              className={inputClasses(errors.storeDescription)}
+              placeholder="Describe your store"
+            />
+            {errors.storeDescription && (
+              <p className="mt-1 text-sm text-red-500">
+                {errors.storeDescription.message}
+              </p>
+            )}
+          </div>
 
-            {/* Address Fields */}
-            <fieldset className="rounded border border-gray-300 p-4">
-              <legend className="font-medium text-gray-700">
-                Store Address
-              </legend>
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div>
-                  <label className="mb-1 block text-gray-600">Area</label>
-                  <AddressSelect
-                    control={control}
-                    setValue={setValue}
-                    watch={watch}
-                    name="area"
-                    required={true}
-                  />
-                </div>
-
-                {/* Full Address */}
-                <div>
-                  <label
-                    htmlFor="address.address"
-                    className="block text-gray-700"
-                  >
-                    Street
-                  </label>
-                  <input
-                    id="address.address"
-                    {...register("address.street", {
-                      required: "Full address is required",
-                    })}
-                    className={inputClasses(errors.address?.street)}
-                    placeholder="Enter your full address"
-                  />
-                  {errors.address?.street && (
-                    <p className="mt-1 text-sm text-red-500">
-                      {errors.address.street.message}
-                    </p>
-                  )}
-                </div>
+          {/* Address Fields */}
+          <fieldset className="rounded border border-gray-300 p-4">
+            <legend className="font-medium text-gray-700">Store Address</legend>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div>
+                <label className="mb-1 block text-gray-600">Area</label>
+                <AddressSelect
+                  control={control}
+                  setValue={setValue}
+                  watch={watch}
+                  name="area"
+                  required={true}
+                />
               </div>
-            </fieldset>
 
-            <Button
-              type="submit"
-              className="w-full rounded bg-primary py-2 text-white transition hover:bg-orange-700"
-            >
-              Register
-            </Button>
-          </form>
-        </div>
+              {/* Full Address */}
+              <div>
+                <label
+                  htmlFor="address.address"
+                  className="block text-gray-700"
+                >
+                  Street
+                </label>
+                <input
+                  id="address.address"
+                  {...register("address.street", {
+                    required: "Full address is required",
+                  })}
+                  className={inputClasses(errors.address?.street)}
+                  placeholder="Enter your full address"
+                />
+                {errors.address?.street && (
+                  <p className="mt-1 text-sm text-red-500">
+                    {errors.address.street.message}
+                  </p>
+                )}
+              </div>
+            </div>
+          </fieldset>
+
+          <Button
+            type="submit"
+            className="w-full rounded bg-primary py-2 text-white transition hover:bg-orange-700"
+          >
+            {isLoading || isLogin ? "Registering" : "Register"}
+          </Button>
+        </form>
       </div>
-    </PrivateRoute>
+    </div>
+    // </PrivateRoute>
   );
 };
 
