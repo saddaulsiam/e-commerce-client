@@ -1,5 +1,10 @@
 import { VendorProductCreateForm } from "@/components/mainComponents/Dashboard/vendor";
 import { BadgePlus } from "lucide-react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Vendor Create New Product",
+};
 
 const AddNewProduct = () => {
   return (

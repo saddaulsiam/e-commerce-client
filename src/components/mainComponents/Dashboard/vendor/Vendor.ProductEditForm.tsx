@@ -17,10 +17,13 @@ import { Textarea } from "@/components/ui/textarea";
 import colorsOptions from "@/data/colors";
 import { useGetBrandsQuery } from "@/redux/features/brands/brandsApi";
 import { useGetCategoriesQuery } from "@/redux/features/categories/categoriesApi";
-import { useUpdateProductMutation } from "@/redux/features/product/productApi";
+import {
+  useGetSingleProductQuery,
+  useUpdateProductMutation,
+} from "@/redux/features/product/productApi";
 import { useAppSelector } from "@/redux/hooks";
 import { uploadMultipleFilesToCloudinary } from "@/services/uploadToCloudinary";
-import { TBrand, TCategory, TProduct } from "@/types/common";
+import { TBrand, TCategory } from "@/types/common";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -48,7 +51,10 @@ interface ImageItem {
   isNew: boolean;
 }
 
-const VendorProductEditForm = ({ product }: { product: TProduct }) => {
+const VendorProductEditForm = ({ id }: { id: string }) => {
+  const { data } = useGetSingleProductQuery(id);
+  const product = data?.data;
+
   // Remove images from form default values since we manage them separately
   const { register, handleSubmit, reset, control } =
     useForm<ProductFormInputs>();
@@ -71,7 +77,7 @@ const VendorProductEditForm = ({ product }: { product: TProduct }) => {
         colors: product.colors || [],
       });
       if (product.images && product.images.length) {
-        const initialImages: ImageItem[] = product.images.map((url) => ({
+        const initialImages: ImageItem[] = product.images.map((url: any) => ({
           id: url, // using the URL as a unique id for existing images (assumes uniqueness)
           url,
           isNew: false,
@@ -146,7 +152,9 @@ const VendorProductEditForm = ({ product }: { product: TProduct }) => {
         data: productData,
         id: product._id,
       }).unwrap();
+
       if (res.success) {
+        console.log(res);
         toast.success(res.message);
         reset(productData);
         // Reset images state to updated final images as existing images.
