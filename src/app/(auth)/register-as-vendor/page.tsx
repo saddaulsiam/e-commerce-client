@@ -10,6 +10,7 @@ import { useRegisterVendorMutation } from "@/redux/features/vendor/vendorApi";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setToLocalStorage } from "@/utils/localStorage";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -41,6 +42,12 @@ const VendorRegister = () => {
   const [registerVendor, { isLoading }] = useRegisterVendorMutation(undefined);
   const [login, { isLoading: isLogin }] = useLoginMutation();
   const { user } = useAppSelector(({ state }) => state.auth);
+
+  useEffect(() => {
+    if (user?.vendor) {
+      router.push("/vendor/dashboard");
+    }
+  }, [user, router]);
 
   const onSubmit = async (values: FieldValues) => {
     try {
