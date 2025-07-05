@@ -1,14 +1,13 @@
 "use client";
 
 import { Loading } from "@/components/sharedComponents/loader";
-import { authKey, USER_ROLE } from "@/constants/common";
+import { authKey } from "@/constants/common";
 import useAuth from "@/hooks/useAuth";
 import { auth } from "@/providers/AuthProvider";
 import { getFromLocalStorage } from "@/utils/localStorage";
 import { usePathname, useRouter } from "next/navigation";
 import { ReactNode, useEffect, useMemo } from "react";
 
-// Simple JWT decoder (no validation, just decoding)
 function parseJwt(token: string) {
   try {
     return JSON.parse(atob(token.split(".")[1]));
@@ -19,7 +18,7 @@ function parseJwt(token: string) {
 
 interface PrivateRouteProps {
   children: ReactNode;
-  role: "superAdmin" | "admin" | "customer" | "vendor";
+  role?: "superAdmin" | "admin" | "customer" | "vendor";
 }
 
 const PrivateRoute = ({ children, role }: PrivateRouteProps) => {
@@ -28,7 +27,6 @@ const PrivateRoute = ({ children, role }: PrivateRouteProps) => {
   const { loading } = useAuth();
   const token = getFromLocalStorage(authKey.ACCESS_TOKEN);
 
-  // Decode role from token
   const userRole = useMemo(() => {
     if (!token) return null;
     const payload = parseJwt(token);
@@ -39,8 +37,8 @@ const PrivateRoute = ({ children, role }: PrivateRouteProps) => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (!user && !loading) {
         router.push(`/login?redirectTo=${pathname}`);
-      } else if (user && !loading && userRole !== role) {
-        router.push("/unauthorized"); // or any unauthorized page
+      } else if (user && !loading && role && userRole !== role) {
+        router.push("/unauthorized");
       }
     });
 
@@ -51,8 +49,11 @@ const PrivateRoute = ({ children, role }: PrivateRouteProps) => {
     return <Loading />;
   }
 
-  // If not authenticated or role doesn't match, don't render children
-  if (!token || userRole !== role) {
+  if (!token) {
+    return null;
+  }
+
+  if (role && userRole !== role) {
     return null;
   }
 

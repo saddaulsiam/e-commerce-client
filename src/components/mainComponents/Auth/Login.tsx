@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { authKey, USER_ROLE } from "@/constants/common";
+import { authKey } from "@/constants/common";
 import useAuth from "@/hooks/useAuth";
 import {
   useLoginMutation,
@@ -48,11 +48,7 @@ const Login = () => {
             key: authKey.ACCESS_TOKEN,
             token: res.data.accessToken,
           });
-          router.replace(
-            res.data.user.role !== USER_ROLE.CUSTOMER
-              ? `/${res.data.user.role}/dashboard`
-              : redirectTo,
-          );
+          router.replace(redirectTo);
         }
       }
     } catch (error: any) {
