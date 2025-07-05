@@ -3,7 +3,6 @@ import MotionProvider from "@/providers/AnimatedWrapper";
 import MainProviders from "@/providers/MainProviders";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Head from "next/head";
 import { ReactNode } from "react";
 import { ToastContainer } from "react-toastify";
 import "./globals.css";
@@ -25,13 +24,11 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <html lang="en">
-      <Head>
-        <meta name="gr:allow" content="false" />
-      </Head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html
+      lang="en"
+      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+    >
+      <body>
         <MotionProvider>
           <MainProviders>
             <TooltipProvider>{children}</TooltipProvider>
