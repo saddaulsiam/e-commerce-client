@@ -1,16 +1,12 @@
 import { VendorProductEditForm } from "@/components/mainComponents/Dashboard/vendor";
 import { FilePenLine } from "lucide-react";
 
-interface Props {
-  params: { id: string };
-}
-
 export const metadata = {
   title: "Vendor Edit Product",
   description: "Edit your product in the vendor dashboard.",
 };
 
-export default function SingleProductDetails({ params }: Props) {
+export default function SingleProductDetails({ params }: any) {
   const { id } = params;
 
   return (

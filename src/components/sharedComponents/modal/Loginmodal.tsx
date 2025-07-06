@@ -49,7 +49,7 @@ const LoginModal = ({ openLoginModal, setOpenLoginModal }: LoginModalProps) => {
   const onSubmit = async (data: FieldValues) => {
     try {
       const userCredential = await signIn(data.email, data.password);
-      if (userCredential.user) {
+      if (userCredential?.user) {
         const res = await login({ email: userCredential.user.email }).unwrap();
         if (res.success) {
           reset();
@@ -74,7 +74,7 @@ const LoginModal = ({ openLoginModal, setOpenLoginModal }: LoginModalProps) => {
   const handleGoogleLogin = async () => {
     try {
       const userCredential = await googleLogIn();
-      if (userCredential.user) {
+      if (userCredential?.user) {
         const data = {
           displayName: userCredential.user.displayName,
           email: userCredential.user.email,

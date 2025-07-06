@@ -3,12 +3,8 @@ import { ProductsCard } from "@/components/sharedComponents";
 import { ProductsSkeleton } from "@/components/sharedComponents/loader";
 import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
 import { TProduct } from "@/types/common";
-import { Metadata } from "next";
 import { MdFiberNew } from "react-icons/md";
 
-export const metadata: Metadata = {
-  title: "New Arrivals",
-};
 const NewArrivals = () => {
   const query = {
     page: 1,
