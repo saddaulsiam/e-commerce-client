@@ -58,7 +58,8 @@ const ProductCart = () => {
                     </div>
                     <div className="flex w-full justify-between">
                       <p className="text-sm text-gray-400">
-                        ${product.price} × {product.quantity}
+                        <span className="mr-1 text-xl">৳</span>
+                        {product.price} × {product.quantity}
                         <span className="text-base text-primary">
                           {" "}
                           = ${product.price * product.quantity}

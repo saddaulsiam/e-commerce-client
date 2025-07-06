@@ -15,6 +15,7 @@ const NewArrivals = () => {
     limit: 10,
     sortBy: "createdAt",
     sortOrder: "asc",
+    status: "in-stock",
   };
 
   const { data, isLoading } = useGetAllProductsQuery(query);

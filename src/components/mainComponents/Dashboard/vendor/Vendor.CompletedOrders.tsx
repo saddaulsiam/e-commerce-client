@@ -24,11 +24,10 @@ import { useGetVendorOrdersQuery } from "@/redux/features/vendor/vendorApi";
 import { useAppSelector } from "@/redux/hooks";
 import { TOrderStatus, TSubOrder } from "@/types/Orderstype";
 import { format } from "date-fns";
-import { CheckCircle, EllipsisVertical, Eye, Printer } from "lucide-react";
+import { CheckCircle, EllipsisVertical, Eye } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { FcCancel, FcShipped } from "react-icons/fc";
 import { toast } from "react-toastify";
 
 const VendorCompletedOrders = () => {
@@ -100,8 +99,14 @@ const VendorCompletedOrders = () => {
                   </TableCell>
                   <TableCell>{order.item.name}</TableCell>
                   <TableCell>{order.item.quantity}</TableCell>
-                  <TableCell>${order.item.price}</TableCell>
-                  <TableCell>${order.totalAmount}</TableCell>
+                  <TableCell>
+                    <span className="mr-1 text-xl">৳</span>
+                    {order.item.price}
+                  </TableCell>
+                  <TableCell>
+                    <span className="mr-1 text-xl">৳</span>
+                    {order.totalAmount}
+                  </TableCell>
                   <TableCell>{order.paymentMethod}</TableCell>
                   <TableCell>
                     <Status status={order.isPaid ? "Paid" : "Unpaid"} />

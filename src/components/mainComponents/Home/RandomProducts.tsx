@@ -13,6 +13,7 @@ const RandomProducts = () => {
   const { data: products, isLoading } = useGetAllProductsQuery({
     limit: 15,
     page: currentPage,
+    status: "in-stock",
   });
 
   // pagination

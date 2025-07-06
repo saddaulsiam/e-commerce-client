@@ -10,6 +10,7 @@ const FlashDeals = () => {
   const { data: products, isLoading } = useGetAllProductsQuery({
     limit: 15,
     page: 1,
+    status: "in-stock",
   });
 
   return (

@@ -149,7 +149,10 @@ const AdminDashboardAllOrders = () => {
                     {order?.shippingAddress.area}, {order?.shippingAddress.city}
                     ,{order?.shippingAddress.region}
                   </TableCell>
-                  <TableCell>${order?.totalAmount}</TableCell>
+                  <TableCell>
+                    <span className="mr-1 text-2xl">৳</span>
+                    {order?.totalAmount}
+                  </TableCell>
                   <TableCell className="capitalize">
                     {order.paymentMethod}
                   </TableCell>

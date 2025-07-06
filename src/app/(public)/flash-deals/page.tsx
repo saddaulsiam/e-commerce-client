@@ -13,6 +13,7 @@ const FlashDeals = () => {
   const query = {
     page: 1,
     limit: 10,
+    status: "in-stock",
     // sortBy: "createdAt",
     // sortOrder: "asc",
   };
@@ -27,7 +28,7 @@ const FlashDeals = () => {
         FlashDeals
       </h2>
       {isLoading ? (
-          <ProductsSkeleton />
+        <ProductsSkeleton />
       ) : (
         <div className="grid grid-cols-2 gap-x-3 gap-y-10 sm:grid-cols-4 lg:grid-cols-5">
           {products.map((product: TProduct) => (

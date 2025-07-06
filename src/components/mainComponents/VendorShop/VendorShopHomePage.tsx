@@ -10,7 +10,9 @@ import { TProduct } from "@/types/common";
 import { AiFillThunderbolt } from "react-icons/ai";
 
 const VendorShopHomePage = () => {
-  const { data: products, isLoading } = useGetAllProductsQuery({});
+  const { data: products, isLoading } = useGetAllProductsQuery({
+    status: "in-stock",
+  });
 
   return (
     <>

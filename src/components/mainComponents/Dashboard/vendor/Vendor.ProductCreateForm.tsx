@@ -22,6 +22,7 @@ import { useAppSelector } from "@/redux/hooks";
 import { uploadMultipleFilesToCloudinary } from "@/services/uploadToCloudinary";
 import { TBrand } from "@/types/common";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { BsX } from "react-icons/bs";
@@ -40,6 +41,7 @@ interface ProductFormInputs {
 }
 
 const VendorProductCreateForm = () => {
+  const router = useRouter();
   const { register, handleSubmit, reset, control, setValue, watch } =
     useForm<ProductFormInputs>();
 
@@ -47,7 +49,6 @@ const VendorProductCreateForm = () => {
   const [previewImages, setPreviewImages] = useState<string[]>([]);
 
   const { user } = useAppSelector(({ state }) => state.auth);
-
   const [createProduct] = useCreateProductMutation();
   const { data: brands } = useGetBrandsQuery(undefined);
 
@@ -81,7 +82,7 @@ const VendorProductCreateForm = () => {
       const productData = {
         ...inputData,
         images: images,
-        supplier: user?.vendor._id,
+        supplier: user!.vendor._id,
       };
 
       const res = await createProduct(productData).unwrap();
@@ -95,6 +96,7 @@ const VendorProductCreateForm = () => {
         reset();
         setPostImages([]);
         setPreviewImages([]);
+        router.push("/vendor/products");
       }
     } catch (err: any) {
       toast.update(toastId, {

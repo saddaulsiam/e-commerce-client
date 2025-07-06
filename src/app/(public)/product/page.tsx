@@ -5,11 +5,7 @@ export const metadata: Metadata = {
   title: "Products",
 };
 const Searching = () => {
-  return (
-    <>
-      <SearchingProducts />
-    </>
-  );
+  return <SearchingProducts />;
 };
 
 export default Searching;

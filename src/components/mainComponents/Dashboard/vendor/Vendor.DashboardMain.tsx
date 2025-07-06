@@ -15,7 +15,7 @@ const VendorDashboardMain = () => {
   const dashboardStats = [
     {
       title: "Total Revenue",
-      value: `$${formatValue(meta?.overview?.totalRevenue)}`,
+      value: `৳ ${formatValue(meta?.overview?.totalRevenue)}`,
       trend: "12.5%",
       positive: true,
       icon: <FiTrendingUp className="h-6 w-6 text-white" />,
@@ -39,7 +39,7 @@ const VendorDashboardMain = () => {
     },
     {
       title: "Earnings",
-      value: formatValue(meta?.overview?.earnings),
+      value: `৳ ${formatValue(meta?.overview?.earnings)}`,
       trend: "8%",
       positive: true,
       icon: <FiTrendingUp className="h-6 w-6 text-white" />,

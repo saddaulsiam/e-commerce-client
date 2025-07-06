@@ -283,7 +283,8 @@ export default function VendorOrderDetails() {
                   {order?.item?.quantity}
                 </td>
                 <td className="border border-gray-300 px-4 py-2 text-right">
-                  ${order?.item?.price}
+                  <span className="mr-1 text-2xl">৳</span>
+                  {order?.item?.price}
                 </td>
               </tr>
             </tbody>

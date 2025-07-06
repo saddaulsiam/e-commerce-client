@@ -139,12 +139,13 @@ const AdminAllProducts = () => {
                     <span
                       className={`text-sm ${product.discount ? "text-gray-400 line-through" : "font-bold text-primary"}`}
                     >
-                      ${product.price}
+                      {product.price}
                     </span>
 
                     {product.discount && (
                       <span className="font-bold text-primary">
-                        ${(product.price - product.discount).toFixed(2)}
+                        <span className="mr-1 text-2xl">৳</span>
+                        {(product.price - product.discount).toFixed(2)}
                       </span>
                     )}
                   </div>

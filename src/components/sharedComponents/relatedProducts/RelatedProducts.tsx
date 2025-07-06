@@ -9,6 +9,7 @@ const RelatedProducts = ({ category }: { category: string }) => {
     limit: 5,
     page: 1,
     category,
+    status: "in-stock",
   });
   return (
     <section className="my-16">

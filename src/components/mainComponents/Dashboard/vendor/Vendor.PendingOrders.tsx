@@ -116,8 +116,13 @@ const VendorPendingOrders = () => {
                   </TableCell>
                   <TableCell>{order.item.name}</TableCell>
                   <TableCell>{order.item.quantity}</TableCell>
-                  <TableCell>${order.item.price}</TableCell>
-                  <TableCell>${order.totalAmount}</TableCell>
+                  <TableCell>
+                    <span className="mr-1 text-xl">৳</span> {order.item.price}
+                  </TableCell>
+                  <TableCell>
+                    <span className="mr-1 text-xl">৳</span>
+                    {order.totalAmount}
+                  </TableCell>
                   <TableCell>{order.paymentMethod}</TableCell>
                   <TableCell>
                     <Status status={order.isPaid ? "Paid" : "Unpaid"} />

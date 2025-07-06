@@ -87,7 +87,8 @@ const CompareList = () => {
                       key={product._id}
                       className="border p-4 text-center font-semibold text-primary"
                     >
-                      ${product.price.toFixed(2)}
+                      <span className="mr-1 text-2xl">৳</span>
+                      {product.price.toFixed(2)}
                     </td>
                   ))}
                 </tr>

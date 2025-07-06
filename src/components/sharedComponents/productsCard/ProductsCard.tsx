@@ -110,10 +110,11 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
 
           {/* Price Section */}
           <div className="mt-2 flex items-center space-x-2 text-lg font-semibold">
-            <span className="text-primary">
-              ${(product.price * 0.9).toFixed(2)}
-            </span>
-            <span className="text-gray-400 line-through">${product.price}</span>
+            <p className="text-primary">
+              <span className="mr-1 text-2xl">৳</span>
+              {(product.price - product.discount).toFixed(0)}
+            </p>
+            <p className="text-gray-400 line-through">${product.price}</p>
           </div>
         </div>
 
@@ -145,7 +146,7 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
         {/* Discount Badge */}
         {product.price > 0 && (
           <div className="absolute left-2 top-2 rounded-full bg-red-500 px-2 py-0.5 text-xs font-medium text-white">
-            {`${(((product.price - product.price * 0.9) / product.price) * 100).toFixed(0)}% Off`}
+            {`${((product.discount / product.price) * 100).toFixed(0)}% Off`}
           </div>
         )}
 

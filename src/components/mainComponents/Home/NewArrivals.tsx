@@ -9,7 +9,13 @@ import { AiOutlineArrowRight } from "react-icons/ai";
 import { MdFiberNew } from "react-icons/md";
 
 const NewArrivals = () => {
-  const { data: products, isLoading } = useGetAllProductsQuery({});
+  const { data: products, isLoading } = useGetAllProductsQuery({
+    limit: 10,
+    page: 1,
+    status: "in-stock",
+    sortBy: "createdAt",
+    sortOrder: "asc",
+  });
 
   return (
     <section className="container px-2 pb-16 pt-10">
@@ -30,7 +36,7 @@ const NewArrivals = () => {
         <ProductsSkeleton />
       ) : (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
-          {products?.data?.data.slice(0, 10).map((product: TProduct) => (
+          {products?.data?.data.map((product: TProduct) => (
             <Link
               key={product._id}
               href={`/product/${product._id}`}
@@ -50,8 +56,9 @@ const NewArrivals = () => {
               <h3 className="mt-2 truncate text-sm font-semibold text-gray-800">
                 {product.name}
               </h3>
-              <p className="mt-1 text-sm font-medium text-primary">
-                ${product.price}
+              <p className="mt-1 text-base font-medium text-primary">
+                <span className="mr-1 text-xl">৳</span>
+                {Number(product.price - product.discount).toFixed(0)}
               </p>
             </Link>
           ))}

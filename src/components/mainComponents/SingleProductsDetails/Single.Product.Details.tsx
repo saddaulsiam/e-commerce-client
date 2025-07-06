@@ -84,8 +84,8 @@ const SingleProductDetails = ({ product }: Props) => {
           )}
           <div className="flex items-center gap-2">
             <span className="text-2xl font-bold text-primary">
-              $
-              {product?.discount ? discountedPrice?.toFixed(2) : product?.price}
+              <span className="mr-1 text-3xl">৳</span>
+              {product?.discount ? discountedPrice?.toFixed(0) : product?.price}
             </span>
             {product?.discount && (
               <span className="text-sm text-gray-500 line-through">

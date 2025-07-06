@@ -7,7 +7,6 @@ import {
 } from "@/redux/features/wishlist/wishlistSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { BsFillSuitHeartFill } from "react-icons/bs";
-import { GiHamburgerMenu } from "react-icons/gi";
 import WishlistCard from "./WishlistCard";
 
 const Wishlists = () => {
@@ -28,9 +27,7 @@ const Wishlists = () => {
           <span>My Wishlist</span>
         </h2>
 
-        <Button onClick={() => dispatch(clearWishlist())}>
-          Clear All
-        </Button>
+        <Button onClick={() => dispatch(clearWishlist())}>Clear All</Button>
       </div>
 
       {/* Wishlist Items */}

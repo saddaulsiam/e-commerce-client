@@ -9,7 +9,7 @@ import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
 
 type TProps = {
   priceRange: number[];
-  setPriceRange: Dispatch<SetStateAction<number[]>>
+  setPriceRange: Dispatch<SetStateAction<number[]>>;
   selectedColor: string | undefined;
   setSelectedColor: Dispatch<SetStateAction<string | undefined>>;
   selectedBrand: string | undefined;
@@ -30,8 +30,8 @@ const SearchingProductsSidebar = ({
   setSelectedStatus,
   onReset,
 }: TProps) => {
-  const { data: brands } = useGetBrandsQuery("");
-  const { data: products } = useGetAllProductsQuery({});
+  const { data: brands } = useGetBrandsQuery({ status: "active" });
+  const { data: products } = useGetAllProductsQuery({ status: "in-stock" });
 
   const brandsName = brands?.data?.map((brand: TBrand) => brand?.name) || [];
   const colors = [

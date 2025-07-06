@@ -74,7 +74,7 @@ const SearchingProducts = () => {
         <div className="mb-6">
           <h1 className="mb-2 text-2xl font-bold text-gray-900">
             Search Results for{" "}
-            <span className="capitalize text-primary text-xl">
+            <span className="text-xl capitalize text-primary">
               &quot;{categoryQuery || searchQuery}&quot;
             </span>
           </h1>
@@ -173,7 +173,9 @@ const SearchingProducts = () => {
               <div className="mt-14">
                 <Pagination
                   currentPage={currentPage}
-                  totalPages={products?.data?.meta?.page}
+                  totalPages={Math.ceil(
+                    products?.data?.meta?.total / products?.data?.meta?.limit,
+                  )}
                   onPageChange={setCurrentPage}
                 />
               </div>

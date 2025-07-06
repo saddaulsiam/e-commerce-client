@@ -1,7 +1,6 @@
 "use client";
 
 import { Pagination } from "@/components/sharedComponents";
-import { Loading } from "@/components/sharedComponents/loader";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -31,16 +30,12 @@ import Swal from "sweetalert2";
 
 const VendorAllProducts = () => {
   const router = useRouter();
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const { user } = useAppSelector(({ state }) => state.auth);
 
   // Fetch products
-  const {
-    data: products,
-    isLoading,
-    isError,
-  } = useGetAllProductsQuery({
+  const { data: products, isLoading } = useGetAllProductsQuery({
     limit: 6,
     page: currentPage,
     supplier: user?.vendor._id || undefined,
@@ -77,11 +72,7 @@ const VendorAllProducts = () => {
     setCurrentPage(pageNumber);
   };
 
-  // if (isLoading) return <Loading />;
-
-  // if (isError || !products?.data?.data)
-  //   return <div className="text-red-500">Error loading products.</div>;
-
+  console.log(products?.data?.meta);
   return (
     <Card className="md:m-6">
       <CardHeader>
@@ -166,15 +157,16 @@ const VendorAllProducts = () => {
                   </TableCell>
                   <TableCell className="p-4">
                     <div className="flex flex-col">
-                      <span
+                      <p
                         className={`text-sm ${product.discount ? "text-gray-400 line-through" : "font-bold text-primary"}`}
                       >
-                        ${product.price}
-                      </span>
+                        {product.price}
+                      </p>
                       {product.discount && (
-                        <span className="font-bold text-primary">
-                          ${(product.price - product.discount).toFixed(2)}
-                        </span>
+                        <p className="font-bold text-primary">
+                          <span className="mr-1 text-xl">৳</span>
+                          {(product.price - product.discount).toFixed(0)}
+                        </p>
                       )}
                     </div>
                   </TableCell>
@@ -220,7 +212,9 @@ const VendorAllProducts = () => {
               <TableCell colSpan={4}>
                 <Pagination
                   currentPage={currentPage}
-                  totalPages={products?.data?.meta?.page}
+                  totalPages={Math.ceil(
+                    products?.data?.meta?.total / products?.data?.meta?.limit,
+                  )}
                   onPageChange={handlePageChange}
                 />
               </TableCell>
