@@ -14,7 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import { USER_ROLE } from "@/constants/common";
-import { useLogOut } from "@/hooks/useLogOut";
+import useAuth from "@/hooks/useAuth";
 import { useAppSelector } from "@/redux/hooks";
 import {
   adminAccount,
@@ -36,7 +36,6 @@ import AnnouncementBar from "../announcementBar/AnnouncementBar";
 import CategoriesDropDownContent from "../DropDown/CategoriesDropDownContent";
 import LoginModal from "../modal/LoginModal";
 import NavMegaMenu from "./NavMegaMenu";
-import useAuth from "@/hooks/useAuth";
 
 const Navbar = () => {
   const router = useRouter();
