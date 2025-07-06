@@ -114,7 +114,10 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
               <span className="mr-1 text-2xl">৳</span>
               {(product.price - product.discount).toFixed(0)}
             </p>
-            <p className="text-gray-400 line-through">${product.price}</p>
+            <p className="text-gray-400">
+              <span className="text-2xl">৳</span>
+              <span className="line-through"> {product.price}</span>
+            </p>
           </div>
         </div>
 

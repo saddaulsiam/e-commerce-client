@@ -139,14 +139,6 @@ const Banner = () => {
             {banners.map(({ id, img }) => (
               <SwiperSlide key={id}>
                 <div className="relative h-full w-full">
-                  {/* <Image
-                    src={img}
-                    alt="Banner"
-                    className="object-fill object-center"
-                    fill
-                    sizes=""
-                    priority
-                  /> */}
                   <Image
                     src={img}
                     alt="Banner"
