@@ -1,5 +1,9 @@
 import { AdminSettings } from "@/components/mainComponents/Dashboard/Admin";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Admin Setting",
+};
 export default function AdminSettingsPage() {
   return (
     <div className="min-h-screen bg-gray-50 p-6">

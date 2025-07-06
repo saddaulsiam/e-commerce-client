@@ -13,3 +13,5 @@ export { default as AdminAllVendors } from "./Vendor/AdminAllVendors";
 export { default as AdminNewVendorRequest } from "./Vendor/AdminNewVendorRequest";
 export { default as CreateNewAdmin } from "./Admin/CreateNewAdmin";
 export { default as AllAdmins } from "./Admin/AllAdmins";
+export { default as CreateBrand } from "./Brand/CreateBrand";
+export { default as AllBrandsList } from "./Brand/AllBrands";

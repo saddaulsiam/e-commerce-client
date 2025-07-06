@@ -102,7 +102,7 @@ export function getDashboardMenu(role: string): NavItem[] {
           {
             title: "New Requests",
             icon: <BiStore className="h-5 w-5" />,
-            href: "/admin/new-vendor",
+            href: "/admin/vendors/new",
           },
         ],
       },
