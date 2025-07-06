@@ -3,8 +3,12 @@ import { ProductsCard } from "@/components/sharedComponents";
 import { ProductsSkeleton } from "@/components/sharedComponents/loader";
 import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
 import { TProduct } from "@/types/common";
+import { Metadata } from "next";
 import { AiFillThunderbolt } from "react-icons/ai";
 
+export const metadata: Metadata = {
+  title: "Flash Deals",
+};
 const FlashDeals = () => {
   const query = {
     page: 1,

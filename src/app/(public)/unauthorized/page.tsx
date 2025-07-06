@@ -2,6 +2,11 @@ import Link from "next/link";
 import { ShieldAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "You are Unauthorized",
+};
 export default function UnauthorizedPage() {
   return (
     <div className="flex h-[calc(100vh-19.5vh)] items-center justify-center bg-gradient-to-b from-gray-50 to-gray-100 px-4">

@@ -1,5 +1,8 @@
-import React from "react";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Terms and Conditions",
+};
 const TermsAndConditions = () => {
   return (
     <div className="container mx-auto px-4 py-8">

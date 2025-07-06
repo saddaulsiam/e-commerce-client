@@ -3,7 +3,11 @@ import { Button } from "@/components/ui/button";
 import Lottie from "lottie-react";
 import Link from "next/link";
 import notFoundAnimation from "../../public/animation/not-found.json";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Not Found",
+};
 const NotFound = () => {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 px-4">
