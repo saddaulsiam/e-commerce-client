@@ -7,11 +7,12 @@ import DashboardMainStatsCard from "../Common/DashboardMainStatsCard";
 import VendorDashboardMainResentOrders from "./Vendor.MainResentOrders";
 import VendorDashboardMainReviewsCard from "./Vendor.MainReviewsCard";
 import VendorSalesChart from "./Vendor.MainSalesChart";
+import { useAppSelector } from "@/redux/hooks";
 
 const VendorDashboardMain = () => {
   const { data: dashboardMeta } = useGetVendorDashboardMetaQuery(undefined);
   const meta = dashboardMeta?.data?.meta;
-
+  const { user } = useAppSelector(({ state }) => state.auth);
   const dashboardStats = [
     {
       title: "Total Revenue",
@@ -51,7 +52,9 @@ const VendorDashboardMain = () => {
       {/* Header Section */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight">Vendor Dashboard</h1>
-        <p className="text-muted-foreground">Welcome back, Vendor Name</p>
+        <p className="text-muted-foreground">
+          Welcome back, {user?.displayName}
+        </p>
       </div>
 
       {/* Stats Grid */}
