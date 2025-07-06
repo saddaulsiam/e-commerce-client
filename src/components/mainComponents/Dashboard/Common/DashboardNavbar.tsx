@@ -42,16 +42,9 @@ const DashboardNavbar = ({ isCollapsed }: { isCollapsed: boolean }) => {
     <nav
       className={cn(
         isCollapsed ? "left-[72px]" : "left-64",
-        "fixed right-0 top-0 z-10 flex h-16 items-center justify-between border-b border-gray-100 bg-white px-4 transition-all duration-300 print:hidden",
+        "fixed right-0 top-0 z-10 flex h-16 items-center justify-end border-b border-gray-100 bg-white px-4 transition-all duration-300 print:hidden",
       )}
     >
-      <div className="flex max-w-full items-center gap-3">
-        <div className="hidden max-w-full items-baseline gap-2 md:block">
-          <h1 className="truncate font-semibold text-gray-900 md:text-xl">
-            Welcome Back
-          </h1>
-        </div>
-      </div>
       <div className="flex items-center gap-5">
         {/* Notification Bell */}
         <DropdownMenu>
@@ -62,6 +55,7 @@ const DashboardNavbar = ({ isCollapsed }: { isCollapsed: boolean }) => {
               type="button"
             >
               <Bell className="h-5 w-5 text-gray-600 group-hover:text-primary" />
+              {/* Notification badge (uncomment if needed) */}
               {/* {notifications.length > 0 && (
                 <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-medium text-white">
                   {notifications.length}
@@ -100,7 +94,7 @@ const DashboardNavbar = ({ isCollapsed }: { isCollapsed: boolean }) => {
             <div className="px-3 py-4 text-center text-sm text-gray-500">
               No new notifications
             </div>
-            {/*   <DropdownMenuSeparator />
+            {/* <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
               <Link
                 href="/admin/notifications"
@@ -118,7 +112,6 @@ const DashboardNavbar = ({ isCollapsed }: { isCollapsed: boolean }) => {
             className="focus:outline-none"
             aria-label="Open user menu"
           >
-            {/* <div className="relative"> */}
             <Avatar className="h-9 w-9">
               <AvatarImage
                 src={user?.profile?.photo || "/user-avatar.jpg"}
@@ -126,8 +119,6 @@ const DashboardNavbar = ({ isCollapsed }: { isCollapsed: boolean }) => {
               />
               <AvatarFallback>JD</AvatarFallback>
             </Avatar>
-            {/* <span className="absolute bottom-0 right-0 block h-2 w-2 rounded-full bg-green-500 ring-2 ring-white" />
-            </div> */}
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
             <div className="border-b px-3 py-2">
