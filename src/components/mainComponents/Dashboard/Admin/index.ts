@@ -11,4 +11,5 @@ export { default as AdminMainReports } from "./Reports/AdminMainReports";
 export { default as AdminSettings } from "./Setting/AdminSettings";
 export { default as AdminAllVendors } from "./Vendor/AdminAllVendors";
 export { default as AdminNewVendorRequest } from "./Vendor/AdminNewVendorRequest";
-
+export { default as CreateNewAdmin } from "./Admin/CreateNewAdmin";
+export { default as AllAdmins } from "./Admin/AllAdmins";

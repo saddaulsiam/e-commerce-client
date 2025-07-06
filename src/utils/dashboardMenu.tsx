@@ -70,24 +70,41 @@ export function getDashboardMenu(role: string): NavItem[] {
         href: "/admin/orders",
       },
       {
-        title: "New Vendor Request",
-        icon: <BiStore className="h-5 w-5" />,
-        href: "/admin/new-vendor",
-      },
-      {
-        title: "Vendors",
-        icon: <StoreIcon className="h-5 w-5" />,
-        href: "/admin/vendors",
-      },
-      {
         title: "Customers",
         icon: <Users className="h-5 w-5" />,
         href: "/admin/customers",
       },
       {
-        title: "Make Admin",
+        title: "Admin",
         icon: <Settings className="h-5 w-5" />,
-        href: "/admin/make-admin",
+        children: [
+          {
+            title: "All Admin",
+            icon: <Settings className="h-5 w-5" />,
+            href: "/admin/all",
+          },
+          {
+            title: "Create New",
+            icon: <PlusCircle className="h-5 w-5" />,
+            href: "/admin/new",
+          },
+        ],
+      },
+      {
+        title: "Vendors",
+        icon: <StoreIcon className="h-5 w-5" />,
+        children: [
+          {
+            title: "All Vendors",
+            icon: <StoreIcon className="h-5 w-5" />,
+            href: "/admin/vendors",
+          },
+          {
+            title: "New Requests",
+            icon: <BiStore className="h-5 w-5" />,
+            href: "/admin/new-vendor",
+          },
+        ],
       },
       {
         title: "Brands",
@@ -115,7 +132,7 @@ export function getDashboardMenu(role: string): NavItem[] {
             href: "/admin/categories",
           },
           {
-            title: "Create Category",
+            title: "Create New",
             icon: <PlusCircle className="h-5 w-5" />,
             href: "/admin/categories/new",
           },

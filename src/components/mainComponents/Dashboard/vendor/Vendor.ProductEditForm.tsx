@@ -90,7 +90,7 @@ const VendorProductEditForm = ({ id }: { id: string }) => {
   const router = useRouter();
   const { data: brands } = useGetBrandsQuery(undefined);
   const { data: categories } = useGetCategoriesQuery(undefined);
-  const { user: vendor } = useAppSelector(({ state }) => state.auth);
+  const { user } = useAppSelector(({ state }) => state.auth);
   const [updateProduct, { isError, error, isLoading }] =
     useUpdateProductMutation();
 
@@ -145,7 +145,7 @@ const VendorProductEditForm = ({ id }: { id: string }) => {
       const productData = {
         ...inputData,
         images: finalImages,
-        supplier: vendor?._id,
+        supplier: user?.vendor?._id,
       };
 
       const res = await updateProduct({

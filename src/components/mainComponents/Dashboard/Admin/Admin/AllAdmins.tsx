@@ -20,43 +20,39 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import {
-  useChangeVendorStatusMutation,
-  useGetAllVendorsQuery,
-} from "@/redux/features/vendor/vendorApi";
-import { TStatus, TVendor } from "@/types/common";
+  useChangeUserStatusMutation,
+  useGetAllUsersQuery,
+} from "@/redux/features/user/userApi";
+import { TStatus, TUser } from "@/types/common";
 import { format } from "date-fns";
 import {
-  Copy,
   EllipsisVertical,
-  Eye,
   Lock,
   ShieldCheck,
-  Store,
   Trash2,
   Unlock,
 } from "lucide-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { BsPeople } from "react-icons/bs";
 import { toast } from "react-toastify";
 
-const AdminNewVendorRequest = () => {
-  const router = useRouter();
+const AllAdmins = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [changeCustomerStatus] = useChangeUserStatusMutation();
 
-  const { data: vendors } = useGetAllVendorsQuery({
+  // Fetch all customers with pagination
+  const { data: customers, refetch } = useGetAllUsersQuery({
     page: currentPage,
     limit: 20,
-    status: TStatus.INACTIVE,
+    role: "admin",
   });
 
-  const [changeVendorStatus] = useChangeVendorStatusMutation();
-
   const handleChangeStatus = async (id: string, status: string) => {
-    const res = await changeVendorStatus({ id, status }).unwrap();
+    const res = await changeCustomerStatus({ id, status }).unwrap();
     if (res.success) {
       toast.success(`Vendor status changed to ${status}`);
-      router.refresh();
+      refetch();
     }
   };
 
@@ -64,8 +60,8 @@ const AdminNewVendorRequest = () => {
     <Card className="md:m-6">
       <CardHeader>
         <CardTitle className="flex items-center text-xl font-bold text-slate-700 md:text-2xl">
-          <Store className="mr-2 text-primary" />
-          New Vendor Request
+          <BsPeople className="mr-2 text-primary" />
+          Admin&apos;s
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -73,7 +69,8 @@ const AdminNewVendorRequest = () => {
           <TableHeader>
             <TableRow className="bg-gray-100">
               <TableHead>Image</TableHead>
-              <TableHead>Store Name</TableHead>
+              <TableHead>Name</TableHead>
+              <TableHead>Role</TableHead>
               <TableHead>Email</TableHead>
               <TableHead>Phone</TableHead>
               <TableHead>Address</TableHead>
@@ -83,37 +80,50 @@ const AdminNewVendorRequest = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {vendors?.data?.data?.length > 0 ? (
-              vendors?.data?.data?.map((vendor: TVendor) => (
-                <TableRow key={vendor?._id} className="hover:bg-gray-50">
+            {customers?.data?.data?.length > 0 ? (
+              customers?.data?.data?.map((customer: TUser) => (
+                <TableRow key={customer?._id} className="hover:bg-gray-50">
                   <TableCell>
                     <div className="relative h-16 w-16">
                       <Image
                         layout="fill"
                         className="rounded-full"
-                        src={vendor?.storeLogo || "/user-avatar.jpg"}
+                        src={customer?.profile?.photo || "/user-avatar.jpg"}
                         alt="Customer Image"
                         priority
                       />
                     </div>
                   </TableCell>
                   <TableCell className="font-medium">
-                    {vendor?.storeName}
+                    {customer?.displayName}
                   </TableCell>
-                  <TableCell>{vendor?.email || "N/A"}</TableCell>
-                  <TableCell>{vendor?.phoneNumber || "N/A"}</TableCell>
                   <TableCell>
-                    {vendor?.address
-                      ? `${vendor.address.street}, ${vendor.address.area}, ${vendor.address.city}, ${vendor.address.region}`
+                    <Status status={customer?.role} />
+                  </TableCell>
+                  <TableCell>{customer?.email || "N/A"}</TableCell>
+                  <TableCell>
+                    {customer?.profile?.address[0]?.phoneNumber || "N/A"}
+                  </TableCell>
+                  <TableCell>
+                    {customer?.profile?.address[0]?.region &&
+                    customer?.profile?.address[0]?.area &&
+                    customer?.profile?.address[0]?.city &&
+                    customer?.profile?.address[0]?.street
+                      ? customer?.profile?.address[0]?.region +
+                        ", " +
+                        customer?.profile?.address[0]?.area +
+                        ", " +
+                        customer?.profile?.address[0]?.city +
+                        ", " +
+                        customer?.profile?.address[0]?.street
                       : "N/A"}
                   </TableCell>
                   <TableCell>
-                    {vendor?.createdAt
-                      ? format(new Date(vendor.createdAt), "dd-MMMM-yyyy")
-                      : "N/A"}
+                    {format(new Date(customer?.createdAt), "dd-MMMM-yyyy ") ||
+                      "N/A"}
                   </TableCell>
                   <TableCell>
-                    <Status status={vendor?.status} />
+                    <Status status={customer?.status} />
                   </TableCell>
                   <TableCell>
                     <DropdownMenu>
@@ -123,37 +133,10 @@ const AdminNewVendorRequest = () => {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent className="w-40">
-                        <DropdownMenuItem
-                          onClick={() => {
-                            navigator.clipboard.writeText(vendor._id);
-                            toast.success("Copied to clipboard");
-                          }}
-                        >
-                          <Copy className="h-4 w-4" />
-                          Copy UID
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          onClick={() =>
-                            router.push(`/shop/${vendor.storeName}`)
-                          }
-                        >
-                          <Eye className="h-4 w-4" />
-                          Details
-                        </DropdownMenuItem>
-                        {vendor.status === TStatus.INACTIVE && (
+                        {customer.status === TStatus.BLOCK ? (
                           <DropdownMenuItem
                             onClick={() =>
-                              handleChangeStatus(vendor._id, TStatus.ACTIVE)
-                            }
-                          >
-                            <ShieldCheck className="h-4 w-4" />
-                            Make Active
-                          </DropdownMenuItem>
-                        )}
-                        {vendor.status === TStatus.BLOCK ? (
-                          <DropdownMenuItem
-                            onClick={() =>
-                              handleChangeStatus(vendor._id, TStatus.ACTIVE)
+                              handleChangeStatus(customer._id, TStatus.ACTIVE)
                             }
                           >
                             <Unlock />
@@ -162,17 +145,17 @@ const AdminNewVendorRequest = () => {
                         ) : (
                           <DropdownMenuItem
                             onClick={() =>
-                              handleChangeStatus(vendor._id, TStatus.BLOCK)
+                              handleChangeStatus(customer._id, TStatus.BLOCK)
                             }
                           >
                             <Lock />
                             Block
                           </DropdownMenuItem>
                         )}
-                        {vendor.status === TStatus.DELETED ? (
+                        {customer.status === TStatus.DELETED ? (
                           <DropdownMenuItem
                             onClick={() =>
-                              handleChangeStatus(vendor._id, TStatus.ACTIVE)
+                              handleChangeStatus(customer._id, TStatus.ACTIVE)
                             }
                           >
                             <ShieldCheck className="h-4 w-4" />
@@ -182,7 +165,7 @@ const AdminNewVendorRequest = () => {
                           <DropdownMenuItem
                             className="text-red-500"
                             onClick={() =>
-                              handleChangeStatus(vendor._id, TStatus.DELETED)
+                              handleChangeStatus(customer._id, TStatus.DELETED)
                             }
                           >
                             <Trash2 /> Delete
@@ -196,10 +179,10 @@ const AdminNewVendorRequest = () => {
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={9}
+                  colSpan={7}
                   className="text-center text-lg text-gray-600"
                 >
-                  No New Vendor Request found at the moment.
+                  No customers found at the moment.
                 </TableCell>
               </TableRow>
             )}
@@ -208,12 +191,12 @@ const AdminNewVendorRequest = () => {
           <TableFooter className="bg-gray-100">
             <TableRow>
               <TableCell colSpan={6}>
-                Total {vendors?.data?.meta?.total} Vendors
+                Total {customers?.data?.meta?.total} Customers
               </TableCell>
               <TableCell colSpan={3} className="text-right">
                 <Pagination
                   currentPage={currentPage}
-                  totalPages={vendors?.data?.meta?.page}
+                  totalPages={customers?.data?.meta?.page}
                   onPageChange={setCurrentPage}
                 />
               </TableCell>
@@ -225,4 +208,4 @@ const AdminNewVendorRequest = () => {
   );
 };
 
-export default AdminNewVendorRequest;
+export default AllAdmins;

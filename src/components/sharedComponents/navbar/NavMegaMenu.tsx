@@ -136,7 +136,7 @@ const NavMegaMenu = ({ isScrolled, user }: TProps) => {
                 </NavigationMenuItem>
               )}
 
-              {/* My Account Dropdown - Vendor */}
+              {/* My Account Dropdown - Admin */}
               {user?.role === (USER_ROLE.ADMIN as string) && (
                 <NavigationMenuItem className="relative">
                   <NavigationMenuTrigger>My Account</NavigationMenuTrigger>

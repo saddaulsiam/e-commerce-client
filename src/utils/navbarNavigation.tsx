@@ -16,6 +16,7 @@ export const vendorAccount: NavLink[] = [
   { title: "My Products", href: "/vendor/products" },
   { title: "Add New Products", href: "/vendor/products/new" },
   { title: "All Orders", href: "/vendor/orders/pending" },
+  { title: "Analytics Reports", href: "/vendor/reports" },
   { title: "Accounts Settings", href: "/vendor/settings" },
 ];
 
