@@ -109,15 +109,12 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
           <RatingStars rating={product?.rating as number} />
 
           {/* Price Section */}
-          <div className="mt-2 flex items-center space-x-2 text-lg font-semibold">
-            <p className="text-primary">
-              <span className="mr-1 text-2xl">৳</span>
-              {(product.price - product.discount).toFixed(0)}
-            </p>
-            <p className="text-gray-400">
-              <span className="text-2xl">৳</span>
-              <span className="line-through"> {product.price}</span>
-            </p>
+          <div className="mt-2 flex items-center text-lg font-semibold text-primary">
+            <span className="mr-0.5 text-2xl">৳</span>
+            <span>{(product.price - product.discount).toFixed(0)}</span>
+            <span className="text-sm ml-1 text-gray-400 line-through">
+              {product.price}
+            </span>
           </div>
         </div>
 

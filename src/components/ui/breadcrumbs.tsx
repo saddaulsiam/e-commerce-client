@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 
 interface BreadcrumbItem {
@@ -14,7 +15,7 @@ interface BreadcrumbsProps {
 
 const Breadcrumbs = ({ items, className }: BreadcrumbsProps) => {
   return (
-    <nav className={`flex space-x-0.5 text-sm ${className}`}>
+    <nav className={cn(`flex space-x-0.5 text-xs md:text-sm`, className)}>
       {items.map((item, index) => (
         <div key={index} className="flex items-center">
           {item.href ? (

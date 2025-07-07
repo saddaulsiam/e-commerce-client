@@ -1,3 +1,5 @@
+import googlePlay from "@/../public/logo/googleplay.png";
+import logo from "@/../public/logo/logo.svg";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -5,11 +7,9 @@ import {
   FaFacebookF,
   FaInstagram,
   FaPhoneAlt,
-  FaTwitter,
-  FaYoutube,
+  FaYoutube
 } from "react-icons/fa";
-import googlePlay from "@/../public/logo/googleplay.png";
-import logo from "@/../public/logo/logo.svg";
+import { FaXTwitter } from "react-icons/fa6";
 
 const socialLinks = [
   {
@@ -18,9 +18,9 @@ const socialLinks = [
     link: "https://facebook.com",
   },
   {
-    icon: FaTwitter,
+    icon: FaXTwitter,
     label: "Twitter",
-    link: "https://twitter.com",
+    link: "https://x.com",
   },
   {
     icon: FaInstagram,
