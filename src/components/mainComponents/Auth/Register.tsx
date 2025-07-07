@@ -6,6 +6,8 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authKey } from "@/constants/common";
+import useAuth from "@/hooks/useAuth";
+import { useRegisterMutation } from "@/redux/features/auth/authApi";
 import { addUser } from "@/redux/features/auth/authSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { setToLocalStorage } from "@/utils/localStorage";
@@ -16,8 +18,6 @@ import { FieldValues, useForm } from "react-hook-form";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
-import useAuth from "@/hooks/useAuth";
-import { useRegisterMutation } from "@/redux/features/auth/authApi";
 
 const Register = () => {
   const router = useRouter();
@@ -30,8 +30,7 @@ const Register = () => {
 
   const { register, handleSubmit, reset } = useForm();
   const [postUser, { isLoading }] = useRegisterMutation();
-  const { createUser, googleLogIn, setLoading, loading, updateUserProfile } =
-    useAuth();
+  const { createUser, googleLogIn, updateUserProfile } = useAuth();
 
   const onSubmit = async (data: FieldValues) => {
     if (data.password !== data.confirmPassword) {
@@ -66,9 +65,6 @@ const Register = () => {
       } else {
         toast.error(error.message);
       }
-      setLoading(false);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -94,8 +90,6 @@ const Register = () => {
       }
     } catch (error: any) {
       toast.error(error.code);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -194,7 +188,7 @@ const Register = () => {
           </p>
         </div>
 
-        {(loading || isLoading) && (
+        {isLoading && (
           <div className="absolute inset-0 flex items-center justify-center bg-gray-900/40">
             <Loading />
           </div>

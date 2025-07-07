@@ -1,8 +1,6 @@
 "use client";
 
-import { Loading } from "@/components/sharedComponents/loader";
 import { authKey } from "@/constants/common";
-import useAuth from "@/hooks/useAuth";
 import { auth } from "@/providers/AuthProvider";
 import { getFromLocalStorage } from "@/utils/localStorage";
 import { usePathname, useRouter } from "next/navigation";
@@ -24,7 +22,6 @@ interface PrivateRouteProps {
 const PrivateRoute = ({ children, role }: PrivateRouteProps) => {
   const router = useRouter();
   const pathname = usePathname();
-  const { loading } = useAuth();
   const token = getFromLocalStorage(authKey.ACCESS_TOKEN);
 
   const userRole = useMemo(() => {
@@ -35,19 +32,15 @@ const PrivateRoute = ({ children, role }: PrivateRouteProps) => {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (!user && !loading) {
+      if (!user) {
         router.push(`/login?redirectTo=${pathname}`);
-      } else if (user && !loading && role && userRole !== role) {
+      } else if (user && role && userRole !== role) {
         router.push("/unauthorized");
       }
     });
 
     return () => unsubscribe();
-  }, [loading, pathname, router, userRole, role]);
-
-  if (loading) {
-    return <Loading />;
-  }
+  }, [pathname, router, userRole, role]);
 
   if (!token) {
     return null;

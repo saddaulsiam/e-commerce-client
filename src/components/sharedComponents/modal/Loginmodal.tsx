@@ -44,7 +44,7 @@ const LoginModal = ({ openLoginModal, setOpenLoginModal }: LoginModalProps) => {
   const { register, handleSubmit, reset } = useForm();
   const [postUser, { isLoading }] = useRegisterMutation();
   const [login, { isLoading: isLogin }] = useLoginMutation();
-  const { setLoading, loading, signIn, googleLogIn } = useAuth();
+  const { signIn, googleLogIn } = useAuth();
 
   const onSubmit = async (data: FieldValues) => {
     try {
@@ -65,9 +65,6 @@ const LoginModal = ({ openLoginModal, setOpenLoginModal }: LoginModalProps) => {
       }
     } catch (error: any) {
       toast.error(error.message);
-      setLoading(false);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -94,8 +91,6 @@ const LoginModal = ({ openLoginModal, setOpenLoginModal }: LoginModalProps) => {
       }
     } catch (error: any) {
       toast.error(error.code);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -189,7 +184,7 @@ const LoginModal = ({ openLoginModal, setOpenLoginModal }: LoginModalProps) => {
           </p>
         </Card>
 
-        {(loading || isLoading || isLogin) && (
+        {(isLoading || isLogin) && (
           <div className="absolute inset-0 flex items-center justify-center bg-gray-900/40">
             <Loading />
           </div>

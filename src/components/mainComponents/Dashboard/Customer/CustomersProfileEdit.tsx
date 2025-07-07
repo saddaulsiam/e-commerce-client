@@ -22,7 +22,7 @@ type ProfileFormData = {
 };
 
 const DashboardCustomersProfileEdit = () => {
-  const { setLoadUser } = useAuth();
+  const { refreshUser } = useAuth();
   const { user } = useAppSelector(({ state }) => state.auth);
   const [profilePhoto, setProfilePhoto] = useState(
     user?.profile.photo || "/user-avatar.jpg",
@@ -43,7 +43,13 @@ const DashboardCustomersProfileEdit = () => {
       email: user?.email || "",
       birthDate: user?.profile.birthDate || "",
     });
-  }, []);
+  }, [
+    reset,
+    user?.displayName,
+    user?.email,
+    user?.phoneNumber,
+    user?.profile.birthDate,
+  ]);
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -60,7 +66,7 @@ const DashboardCustomersProfileEdit = () => {
     const res = await changeProfile({ id: user?._id, data }).unwrap();
     if (res.success) {
       toast.success(res.message);
-      setLoadUser(true);
+      refreshUser();
     }
   };
 

@@ -1,37 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛒 Multi-Vendor E-Commerce Platform
 
-## Getting Started
+A scalable multi-vendor e-commerce solution built with **Next.js 15** frontend and **Node.js (Express, TypeScript)** backend. Vendors can manage stores and products, customers can shop and pay online (Stripe, SSLCommerz), and admins control the platform via dashboards.
 
-First, run the development server:
+## ✨ Features
+
+- Vendor registration, authentication, and dashboards
+- Admin management & role-based access control
+- Customer accounts with profiles and addresses
+- Product catalog with brands & categories
+- Shopping cart & checkout flow
+- Stripe and SSLCommerz payment integrations
+- Order management with suborders & status updates
+- Product reviews and ratings
+- Dashboard analytics/metrics
+- Responsive modern UI with Tailwind & Radix
+
+## ⚡ Tech Stack
+
+### 🖥️ Client
+
+- Next.js 15
+- React 19
+- Redux Toolkit & Redux Persist
+- Tailwind CSS, Radix UI, shadcn/ui
+- Stripe.js integration
+- React Hook Form + Zod
+- Framer Motion, Lottie
+- Recharts
+- Firebase (optional)
+
+### 🌐 Server
+
+- Node.js (Express)
+- TypeScript
+- MongoDB with Mongoose
+- JWT Authentication
+- Zod for validation
+- Stripe and SSLCommerz
+- Multer for file uploads
+- Cookie Parser, CORS
+
+## 🛠️ Installation
+
+### 1️⃣ Clone the repo
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+  git clone https://github.com/yourusername/your-repo.git
+  cd your-repo
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+```bash
+  cd client-new
+  npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+  npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📣 Contact
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# e-commerce-client
+- Author: Your Name
+- Email: saddaulsiam@gmail.com
+- GitHub: @saddaulsiam

@@ -10,8 +10,8 @@ import { toast } from "react-toastify";
 import AddressSelect from "./AddressSelect";
 
 const CreateAddressForm = () => {
+  const { refreshUser } = useAuth();
   const { register, handleSubmit, reset, control, setValue, watch } = useForm();
-  const { setLoadUser } = useAuth();
 
   const { user } = useAppSelector(({ state }) => state.auth);
   const [addAddress, { isLoading }] = useAddNewAddressMutation();
@@ -23,11 +23,11 @@ const CreateAddressForm = () => {
       if (res.success) {
         toast.success(res.message);
         reset();
-        setLoadUser(true);
+        await refreshUser();
       }
     } catch (error: any) {
-      error.data.errorSources.map((err: any) => {
-        toast.error(err.message || "Failed to add address");
+      error?.data?.errorSources?.forEach((err: any) => {
+        toast.error(err?.message || "Failed to add address");
       });
     }
   };

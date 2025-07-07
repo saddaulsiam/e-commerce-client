@@ -18,25 +18,14 @@ import {
   signInWithPopup,
   signOut,
   updateProfile,
-  User,
   UserCredential,
 } from "firebase/auth";
-import {
-  createContext,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, ReactNode, useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { app } from "../firebase/firebase.config";
 
 export interface AuthContextType {
-  loadUser: boolean;
-  setLoadUser: (value: boolean) => void;
-  loading: boolean;
-  setLoading: (value: boolean) => void;
   createUser: (
     email: string,
     password: string,
@@ -47,13 +36,10 @@ export interface AuthContextType {
   facebookLogIn: () => Promise<UserCredential | void>;
   logOut: () => Promise<void>;
   updateUserProfile: (name: string) => Promise<void>;
+  refreshUser: () => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextType>({
-  loadUser: false,
-  setLoadUser: () => {},
-  loading: false,
-  setLoading: () => {},
   createUser: async () => undefined,
   forgotPassword: async () => undefined,
   signIn: async () => undefined,
@@ -61,6 +47,7 @@ export const AuthContext = createContext<AuthContextType>({
   facebookLogIn: async () => undefined,
   logOut: async () => undefined,
   updateUserProfile: async () => undefined,
+  refreshUser: async () => undefined,
 });
 
 export const auth = getAuth(app);
@@ -71,16 +58,17 @@ interface AuthProviderProps {
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const dispatch = useDispatch();
-
   const [myData] = useGetMeMutation();
-
-  const [loading, setLoading] = useState(false);
-  const [loadUser, setLoadUser] = useState(true);
 
   const googleProvider = new GoogleAuthProvider();
   const facebookProvider = new FacebookAuthProvider();
 
-  // Utility: Clear all local auth state
+  const getErrorMessage = (error: unknown) => {
+    if (error instanceof Error) return error.message;
+    if (typeof error === "string") return error;
+    return "An unexpected error occurred.";
+  };
+
   const clearLocalAuth = useCallback(async () => {
     removeFromLocalStorage(authKey.ACCESS_TOKEN);
     await deleteCookies(authKey.REFRESH_TOKEN);
@@ -89,7 +77,6 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, [dispatch]);
 
   const createUser = async (email: string, password: string) => {
-    setLoading(true);
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -101,28 +88,23 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         "A verification email has been sent. Please check your inbox.",
       );
       return userCredential;
-    } catch (error) {
+    } catch (error: unknown) {
+      toast.error(getErrorMessage(error));
       throw error;
-    } finally {
-      setLoading(false);
     }
   };
 
   const forgotPassword = async (email: string) => {
-    setLoading(true);
     try {
       await sendPasswordResetEmail(auth, email);
       toast.success("Password reset email sent. Please check your inbox.");
-    } catch (error: any) {
-      toast.error(error?.message || "Error sending reset email.");
+    } catch (error: unknown) {
+      toast.error(getErrorMessage(error));
       throw error;
-    } finally {
-      setLoading(false);
     }
   };
 
   const signIn = async (email: string, password: string) => {
-    setLoading(true);
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
@@ -136,105 +118,87 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return;
       }
       return userCredential;
-    } catch (error: any) {
-      toast.error(error?.message || "Error signing in.");
+    } catch (error: unknown) {
+      toast.error(getErrorMessage(error));
       throw error;
-    } finally {
-      setLoading(false);
     }
   };
 
   const googleLogIn = async () => {
-    setLoading(true);
     try {
       return await signInWithPopup(auth, googleProvider);
-    } catch (error: any) {
-      toast.error(error?.message || "Error with Google login.");
+    } catch (error: unknown) {
+      toast.error(getErrorMessage(error));
       throw error;
-    } finally {
-      setLoading(false);
     }
   };
 
   const facebookLogIn = async () => {
-    setLoading(true);
     try {
       return await signInWithPopup(auth, facebookProvider);
-    } catch (error: any) {
-      toast.error(error?.message || "Error with Facebook login.");
+    } catch (error: unknown) {
+      toast.error(getErrorMessage(error));
       throw error;
-    } finally {
-      setLoading(false);
+    }
+  };
+
+  const updateUserProfile = async (name: string) => {
+    if (!auth.currentUser) return;
+    try {
+      await updateProfile(auth.currentUser, { displayName: name });
+      toast.success("Profile updated successfully.");
+    } catch (error: unknown) {
+      toast.error(`Error updating profile: ${getErrorMessage(error)}`);
     }
   };
 
   const logOut = useCallback(async () => {
-    setLoading(true);
     try {
       await signOut(auth);
-    } catch {
-      toast.warn("Sign-out from server failed");
+    } catch (error: unknown) {
+      toast.warn(`Sign-out from server failed: ${getErrorMessage(error)}`);
     } finally {
       await clearLocalAuth();
-      setLoading(false);
     }
   }, [clearLocalAuth]);
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(
-      auth,
-      async (currentUser: User | null) => {
-        setLoadUser(true);
-        setLoading(true);
+  const refreshUser = useCallback(async () => {
+    try {
+      const res = await myData(undefined).unwrap();
+      if (res?.data) {
+        dispatch(addUser(res.data));
+      }
+    } catch (error: unknown) {
+      console.error("Error refreshing user:", getErrorMessage(error));
+    }
+  }, [myData, dispatch]);
 
-        try {
-          if (!currentUser) {
-            await clearLocalAuth();
-            return;
-          }
-          if (!currentUser.emailVerified) {
-            await logOut();
-            return;
-          }
-          const res = await myData(undefined).unwrap();
-          if (res?.data) {
-            dispatch(addUser(res.data));
-          }
-        } catch (error) {
-          throw error;
-        } finally {
-          setLoadUser(false);
-          setLoading(false);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      try {
+        if (!currentUser || !currentUser.emailVerified) {
+          await logOut();
+          await clearLocalAuth();
+          return;
         }
-      },
-    );
+        await refreshUser();
+      } catch (error: unknown) {
+        console.error(getErrorMessage(error));
+      }
+    });
 
     return () => unsubscribe();
-  }, []);
+  }, [clearLocalAuth, logOut, refreshUser]);
 
   const authInfo: AuthContextType = {
-    loadUser,
-    setLoadUser,
-    loading,
-    setLoading,
     createUser,
     forgotPassword,
     signIn,
     googleLogIn,
     facebookLogIn,
     logOut,
-    updateUserProfile: async (name: string) => {
-      if (!auth.currentUser) return;
-      setLoading(true);
-      try {
-        await updateProfile(auth.currentUser, { displayName: name });
-        toast.success("Profile updated successfully.");
-      } catch (error: any) {
-        toast.error("Error updating profile: " + (error?.message || ""));
-      } finally {
-        setLoading(false);
-      }
-    },
+    updateUserProfile,
+    refreshUser,
   };
 
   return (

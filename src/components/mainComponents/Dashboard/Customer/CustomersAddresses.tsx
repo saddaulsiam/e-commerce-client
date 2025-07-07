@@ -1,6 +1,5 @@
 "use client";
 
-import { Loading } from "@/components/sharedComponents/loader";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -16,9 +15,9 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 
 const DashboardCustomersAddresses = () => {
-  const { setLoadUser } = useAuth();
+  const { refreshUser } = useAuth();
   const { user } = useAppSelector(({ state }) => state.auth);
-  const [removeAddress, { isLoading }] = useRemoveAddressMutation();
+  const [removeAddress] = useRemoveAddressMutation();
 
   const handleDelete = async (id: string) => {
     Swal.fire({
@@ -35,8 +34,8 @@ const DashboardCustomersAddresses = () => {
         try {
           const res = await removeAddress(id).unwrap();
           if (res.success) {
-            toast.success("Address has been successfully removed.");
-            setLoadUser(true);
+            await refreshUser();
+            toast.success("Address has been removed successfully.");
           }
         } catch (error: any) {
           toast.error(error.message);
@@ -44,8 +43,6 @@ const DashboardCustomersAddresses = () => {
       }
     });
   };
-
-  if (isLoading) return <Loading />;
 
   return (
     <div className="rounded-lg bg-white p-4 shadow-sm md:p-10">
