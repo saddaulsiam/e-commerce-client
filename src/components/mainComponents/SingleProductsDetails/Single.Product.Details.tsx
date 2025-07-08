@@ -76,23 +76,23 @@ const SingleProductDetails = ({ product }: Props) => {
         </div>
 
         {/* Pricing & Discount */}
-        <div className="flex flex-wrap items-baseline gap-3">
+        <div className="flex flex-wrap items-center justify-start gap-3">
+          <div className="mt-2 flex items-center text-2xl font-semibold text-primary">
+            <span className="mr-0.5 text-3xl">৳</span>
+            <span>
+              {product?.discount ? discountedPrice?.toFixed(0) : product?.price}
+            </span>
+            {product?.discount && (
+              <span className="ml-1 text-base text-gray-400 line-through">
+                {product.price}
+              </span>
+            )}
+          </div>
           {product?.discount > 0 && (
             <span className="rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-800">
               -{discountPercentage}% off
             </span>
           )}
-          <div className="flex items-center gap-2">
-            <span className="text-2xl font-bold text-primary">
-              <span className="mr-1 text-3xl">৳</span>
-              {product?.discount ? discountedPrice?.toFixed(0) : product?.price}
-            </span>
-            {product?.discount && (
-              <span className="text-sm text-gray-500 line-through">
-                ${product?.price.toFixed(2)}
-              </span>
-            )}
-          </div>
         </div>
 
         {/* Rating & Availability */}
@@ -103,7 +103,9 @@ const SingleProductDetails = ({ product }: Props) => {
             ))}
             <AiOutlineStar className="h-5 w-5" />
           </div>
-          <span className="text-sm text-gray-500">(128 reviews)</span>
+          <span className="text-sm text-gray-500">
+            ({product?.reviews?.length} reviews)
+          </span>
           <span className="text-sm text-gray-500">•</span>
           <span className="text-sm font-medium text-green-600">
             {product?.stock > 0 ? "In Stock" : "Out of Stock"}
