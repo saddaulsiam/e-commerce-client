@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useUpdateMyVendorMutation } from "@/redux/features/vendor/vendorApi";
 import { useAppSelector } from "@/redux/hooks";
-import { uploadToCloudinary } from "@/services/uploadToCloudinary";
+import { uploadToCloudinary } from "@/utils/uploadToCloudinary";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";

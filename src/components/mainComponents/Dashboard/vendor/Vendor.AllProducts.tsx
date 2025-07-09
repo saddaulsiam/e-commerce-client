@@ -71,8 +71,6 @@ const VendorAllProducts = () => {
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
-
-  console.log(products?.data?.meta);
   return (
     <Card className="md:m-6">
       <CardHeader>
@@ -137,7 +135,7 @@ const VendorAllProducts = () => {
                       ? `${product.description.slice(0, 40)}...`
                       : product.description}
                     <br />
-                    {product.colors?.map((color, i) => (
+                    {product.colors?.map(({ color, label }, i) => (
                       <span
                         key={i}
                         className="rounded-full px-3 text-sm text-white"
@@ -145,7 +143,7 @@ const VendorAllProducts = () => {
                           backgroundColor: color,
                         }}
                       >
-                        {color}
+                        {label}
                       </span>
                     ))}
                   </TableCell>

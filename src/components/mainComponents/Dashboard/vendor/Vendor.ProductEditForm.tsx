@@ -22,8 +22,8 @@ import {
   useUpdateProductMutation,
 } from "@/redux/features/product/productApi";
 import { useAppSelector } from "@/redux/hooks";
-import { uploadMultipleFilesToCloudinary } from "@/services/uploadToCloudinary";
 import { TBrand, TCategory } from "@/types/common";
+import { uploadMultipleFilesToCloudinary } from "@/utils/uploadToCloudinary";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

@@ -97,6 +97,7 @@ const SearchingProducts = () => {
               selectedStatus={selectedStatus}
               setSelectedStatus={setSelectedStatus}
               onReset={handleFilterReset}
+              products={products?.data?.data}
             />
           </div>
 
@@ -147,6 +148,7 @@ const SearchingProducts = () => {
                       selectedStatus={selectedStatus}
                       setSelectedStatus={setSelectedStatus}
                       onReset={handleFilterReset}
+                      products={products?.data?.data}
                     />
                   </SheetContent>
                 </Sheet>

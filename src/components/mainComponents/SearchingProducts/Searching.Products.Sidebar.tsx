@@ -1,11 +1,11 @@
+import { useGetBrandsQuery } from "@/redux/features/brands/brandsApi";
+import { TBrand, TProduct } from "@/types/common";
+import getProductUniqueColors from "@/utils/getProductUniqueColors";
 import { Dispatch, SetStateAction } from "react";
 import BrandFilter from "./Searching.Product.BrandFilter";
 import ColorFilter from "./Searching.Product.ColorFilter";
 import PriceFilter from "./Searching.Product.PriceFilter";
 import StatusFilter from "./Searching.Product.StatusFilter";
-import { useGetBrandsQuery } from "@/redux/features/brands/brandsApi";
-import { TBrand, TProduct } from "@/types/common";
-import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
 
 type TProps = {
   priceRange: number[];
@@ -17,6 +17,7 @@ type TProps = {
   selectedStatus: string | undefined;
   setSelectedStatus: Dispatch<SetStateAction<string | undefined>>;
   onReset: () => void;
+  products: TProduct[];
 };
 
 const SearchingProductsSidebar = ({
@@ -29,18 +30,11 @@ const SearchingProductsSidebar = ({
   selectedStatus,
   setSelectedStatus,
   onReset,
+  products,
 }: TProps) => {
   const { data: brands } = useGetBrandsQuery({ status: "active" });
-  const { data: products } = useGetAllProductsQuery({ status: "in-stock" });
-
   const brandsName = brands?.data?.map((brand: TBrand) => brand?.name) || [];
-  const colors = [
-    ...new Set(
-      products?.data?.data?.flatMap((product: TProduct) =>
-        product.colors.map((color) => color),
-      ),
-    ),
-  ];
+  const colors = getProductUniqueColors(products);
 
   return (
     <div className="space-y-8">
@@ -65,7 +59,7 @@ const SearchingProductsSidebar = ({
       <ColorFilter
         selectedColor={selectedColor}
         setSelectedColor={setSelectedColor}
-        colors={colors as string[]}
+        colors={colors}
       />
 
       <StatusFilter
