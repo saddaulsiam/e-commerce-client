@@ -5,7 +5,7 @@ import { Dispatch, SetStateAction } from "react";
 interface TProps {
   selectedColor: string | undefined;
   setSelectedColor: Dispatch<SetStateAction<string | undefined>>;
-  colors: string[];
+  colors: { label: string; color: string }[];
 }
 
 export const ColorFilter = ({
@@ -25,17 +25,18 @@ export const ColorFilter = ({
     <div className="space-y-3">
       <h4 className="font-medium text-gray-900">Color</h4>
       <div className="flex flex-wrap gap-2">
-        {colors.map((color: string, i: number) => (
+        {colors.map(({ label, color }, i: number) => (
           <button
             key={i}
-            onClick={() => handleColorToggle(color)}
+            title={label}
+            onClick={() => handleColorToggle(label)}
             className={`flex h-8 w-8 items-center justify-center rounded-full border-2 ${
-              selectedColor === color ? "border-primary" : "border-gray-200"
+              selectedColor === label ? "border-primary" : "border-gray-200"
             }`}
             style={{ backgroundColor: color }}
             aria-label={color}
           >
-            {selectedColor === color && (
+            {selectedColor === label && (
               <svg
                 className="h-4 w-4 text-white"
                 fill="none"

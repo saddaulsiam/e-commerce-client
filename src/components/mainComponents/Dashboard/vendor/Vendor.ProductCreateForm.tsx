@@ -15,12 +15,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import colorsOptions from "@/data/colors";
+import { ColorsOption } from "@/data/colors";
 import { useGetBrandsQuery } from "@/redux/features/brands/brandsApi";
 import { useCreateProductMutation } from "@/redux/features/product/productApi";
 import { useAppSelector } from "@/redux/hooks";
-import { uploadMultipleFilesToCloudinary } from "@/services/uploadToCloudinary";
 import { TBrand } from "@/types/common";
+import { uploadMultipleFilesToCloudinary } from "@/utils/uploadToCloudinary";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -37,7 +37,7 @@ interface ProductFormInputs {
   brand: string;
   price: number;
   discount: number;
-  colors: string[];
+  colors: ColorsOption[];
 }
 
 const VendorProductCreateForm = () => {
@@ -81,8 +81,10 @@ const VendorProductCreateForm = () => {
 
       const productData = {
         ...inputData,
-        images: images,
+        images,
         supplier: user!.vendor._id,
+        // send full colors array of objects, no mapping needed
+        colors: inputData.colors,
       };
 
       const res = await createProduct(productData).unwrap();
@@ -318,12 +320,8 @@ const VendorProductCreateForm = () => {
               name="colors"
               render={({ field }) => (
                 <ColorsSelect
-                  value={colorsOptions.filter((opt) =>
-                    field.value?.includes(opt.value),
-                  )}
-                  onChange={(selected) =>
-                    field.onChange(selected.map((s) => s.value))
-                  }
+                  value={field.value}
+                  onChange={(selected) => field.onChange(selected)}
                 />
               )}
             />

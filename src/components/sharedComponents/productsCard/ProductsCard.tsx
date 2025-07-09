@@ -31,7 +31,7 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
         name: product?.name,
         price: product?.price,
         quantity: 1,
-        color: product?.colors[0],
+        color: product?.colors[0].label,
         size: "L",
       }),
     );
@@ -112,7 +112,7 @@ const ProductsCard = ({ product }: { product: TProduct }) => {
           <div className="mt-2 flex items-center text-lg font-semibold text-primary">
             <span className="mr-0.5 text-2xl">৳</span>
             <span>{(product.price - product.discount).toFixed(0)}</span>
-            <span className="text-sm ml-1 text-gray-400 line-through">
+            <span className="ml-1 text-sm text-gray-400 line-through">
               {product.price}
             </span>
           </div>

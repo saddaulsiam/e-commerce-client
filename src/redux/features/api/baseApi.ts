@@ -53,18 +53,18 @@ const baseQueryWithRefreshToken: BaseQueryFn<
       },
     );
 
-    const data = await res.json();
+    const user = await res.json();
 
-    if (data?.data?.accessToken) {
+    if (user?.data?.accessToken) {
       setToLocalStorage({
         key: authKey.ACCESS_TOKEN,
-        token: data.data.accessToken,
+        token: user.data.accessToken,
       });
 
       // Update the headers within extraOptions
       extraOptions.headers = {
         ...extraOptions.headers,
-        authorization: `Barer ${data.data.accessToken}`,
+        authorization: `Barer ${user.data.accessToken}`,
       };
 
       // Re-running the base query with updated headers

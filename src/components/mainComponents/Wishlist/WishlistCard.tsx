@@ -36,7 +36,7 @@ const WishlistCard = ({ product, onRemove }: WishlistCardProps) => {
         name: product?.name,
         price: product?.price,
         quantity: 1,
-        color: product?.colors[0],
+        color: product?.colors[0].label,
         size: "L",
       }),
     );

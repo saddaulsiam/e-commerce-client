@@ -1,6 +1,6 @@
 import colorsOptions, { ColorsOption } from "@/data/colors";
 import chroma from "chroma-js";
-import React from "react";
+import { FC } from "react";
 import Select, { MultiValue, StylesConfig } from "react-select";
 
 const colorsStyles: StylesConfig<ColorsOption, true> = {
@@ -66,7 +66,7 @@ interface ColorsSelectProps {
   onChange: (selected: MultiValue<ColorsOption>) => void;
 }
 
-const ColorsSelect: React.FC<ColorsSelectProps> = ({ value, onChange }) => {
+const ColorsSelect: FC<ColorsSelectProps> = ({ value, onChange }) => {
   return (
     <Select
       isMulti

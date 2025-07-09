@@ -81,7 +81,7 @@ export interface TReview {
   createdAt?: string;
 }
 
-export interface TProduct {
+export type TProduct = {
   _id?: string;
   supplier: TVendor;
   name: string;
@@ -93,14 +93,14 @@ export interface TProduct {
   rating?: number;
   category: string;
   brand: string;
-  colors: string[];
+  colors: { label: string; color: string }[];
   sizes: string[];
   images: string[];
   reviews?: TReview[];
   status: string;
   createdAt?: string;
   updatedAt?: string;
-}
+};
 
 export type TVendor = {
   _id: string;

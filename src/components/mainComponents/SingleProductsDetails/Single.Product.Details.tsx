@@ -121,13 +121,14 @@ const SingleProductDetails = ({ product }: Props) => {
         <div>
           <h3 className="mb-3 text-sm font-medium text-gray-700">Colors</h3>
           <div className="flex flex-wrap gap-2">
-            {product.colors.map((color, i) => (
+            {product.colors.map(({ color, label }, i) => (
               <button
                 key={i}
-                onClick={() => setSelectedColor(color)}
+                title={label}
+                onClick={() => setSelectedColor(label)}
                 className={`h-10 w-10 rounded-full border-2 transition-all ${
-                  selectedColor === color
-                    ? "ring-2 ring-gray-900 ring-offset-2"
+                  selectedColor === label
+                    ? "ring-2 ring-gray-600 ring-offset-2"
                     : "hover:ring-1 hover:ring-gray-300"
                 }`}
                 style={{ backgroundColor: color }}

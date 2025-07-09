@@ -35,7 +35,7 @@ const productApi = baseApi.injectEndpoints({
         if (search) params.append("search", search);
         if (category) params.append("category", category);
         if (brand) params.append("brand", brand);
-        if (color) params.append("colors", color);
+        if (color) params.append("colors.label", color);
         if (status) params.append("status", status);
         if (minPrice) params.append("minPrice", minPrice);
         if (maxPrice) params.append("maxPrice", maxPrice);

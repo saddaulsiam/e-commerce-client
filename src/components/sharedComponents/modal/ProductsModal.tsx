@@ -54,7 +54,7 @@ const ProductsModal = ({ setIsOpen, isOpen, product }: TProps) => {
         vendorId: product?.supplier?._id,
         image: product?.images[0],
         quantity: quantity,
-        color: product?.colors ? product?.colors[0] : "",
+        color: product?.colors[0].label,
         size: product?.sizes ? product?.sizes[0] : "",
       }),
     );
