@@ -157,7 +157,7 @@ const DashboardSidebar = ({ isCollapsed }: { isCollapsed: boolean }) => {
         {!isCollapsed && (
           <div className="flex-1 truncate">
             <p className="truncate text-sm font-medium capitalize">
-              {user?.displayName}
+              {user?.vendor.storeName || user?.displayName}
             </p>
             <p className="truncate text-xs text-primary/60">
               {user?.role === (USER_ROLE.ADMIN as string)

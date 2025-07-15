@@ -1,5 +1,6 @@
 "use client";
 
+import CategorySelect from "@/components/sharedComponents/forms/CategorySelect";
 import { Button } from "@/components/ui/button";
 import ColorsSelect from "@/components/ui/ColorsSelect";
 import { Input } from "@/components/ui/input";
@@ -14,15 +15,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import colorsOptions from "@/data/colors";
+import { ColorsOption } from "@/data/colors";
 import { useGetBrandsQuery } from "@/redux/features/brands/brandsApi";
-import { useGetCategoriesQuery } from "@/redux/features/categories/categoriesApi";
-import {
-  useGetSingleProductQuery,
-  useUpdateProductMutation,
-} from "@/redux/features/product/productApi";
+import { useCreateProductMutation } from "@/redux/features/product/productApi";
 import { useAppSelector } from "@/redux/hooks";
-import { TBrand, TCategory } from "@/types/common";
+import { TBrand } from "@/types/common";
 import { uploadMultipleFilesToCloudinary } from "@/utils/uploadToCloudinary";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -40,144 +37,78 @@ interface ProductFormInputs {
   brand: string;
   price: number;
   discount: number;
-  colors: string[];
+  colors: ColorsOption[];
 }
 
-// Define an interface to manage each image item
-interface ImageItem {
-  id: string;
-  url: string;
-  file?: File; // present for new images
-  isNew: boolean;
-}
-
-const VendorProductEditForm = ({ id }: { id: string }) => {
-  const { data } = useGetSingleProductQuery(id);
-  const product = data?.data;
-
-  // Remove images from form default values since we manage them separately
-  const { register, handleSubmit, reset, control } =
+const VendorCreateProductForm = () => {
+  const router = useRouter();
+  const { register, handleSubmit, reset, control, setValue, watch } =
     useForm<ProductFormInputs>();
 
-  // Manage images (both existing and new) in separate state
-  const [images, setImages] = useState<ImageItem[]>([]);
+  const [postImages, setPostImages] = useState<File[]>([]);
+  const [previewImages, setPreviewImages] = useState<string[]>([]);
 
-  // When product prop changes, reset the form and initialize the images state.
-  useEffect(() => {
-    if (product) {
-      reset({
-        name: product.name,
-        category: product.category,
-        description: product.description,
-        status: product.status || "in-stock",
-        stock: Number(product.stock) || 0,
-        brand: product.brand,
-        price: Number(product.price) || 0,
-        discount: product.discount || 0,
-        colors: product.colors || [],
-      });
-      if (product.images && product.images.length) {
-        const initialImages: ImageItem[] = product.images.map((url: any) => ({
-          id: url, // using the URL as a unique id for existing images (assumes uniqueness)
-          url,
-          isNew: false,
-        }));
-        setImages(initialImages);
-      }
-    }
-  }, [product, reset]);
-
-  const router = useRouter();
-  const { data: brands } = useGetBrandsQuery(undefined);
-  const { data: categories } = useGetCategoriesQuery(undefined);
   const { user } = useAppSelector(({ state }) => state.auth);
-  const [updateProduct, { isError, error, isLoading }] =
-    useUpdateProductMutation();
+  const [createProduct] = useCreateProductMutation();
+  const { data: brands } = useGetBrandsQuery(undefined);
 
-  // Handle file selection: create ImageItem objects for new images and append them.
+  // Handle file selection and generate preview URLs.
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const files = Array.from(e.target.files || []);
-    const newImageItems: ImageItem[] = files
-      .filter((file) => file.type.startsWith("image/"))
-      .map((file) => ({
-        id: `${file.name}-${file.lastModified}-${Math.random()}`, // generate a unique id
-        url: URL.createObjectURL(file),
-        file,
-        isNew: true,
-      }));
-    setImages((prev) => [...prev, ...newImageItems]);
+    const imageFiles = files.filter((file) => file.type.startsWith("image/"));
+    setPostImages(imageFiles);
+
+    // Create object URLs for previews
+    const imagePreviews = imageFiles.map((file) => URL.createObjectURL(file));
+    setPreviewImages(imagePreviews);
   };
 
-  // Cleanup preview URLs for new images when component unmounts or images change
+  // Cleanup preview URLs when component unmounts or images change
   useEffect(() => {
     return () => {
-      images.forEach((image) => {
-        if (image.isNew) {
-          URL.revokeObjectURL(image.url);
-        }
-      });
+      previewImages.forEach((url) => URL.revokeObjectURL(url));
     };
-  }, [images]);
+  }, [previewImages]);
 
   const onSubmit: SubmitHandler<ProductFormInputs> = async (inputData) => {
+    const toastId = toast.loading("Creating the product...");
     try {
-      // Separate images: existing ones and new ones to upload.
-      const existingImageUrls = images
-        .filter((img) => !img.isNew)
-        .map((img) => img.url);
-      const newImageItems = images.filter(
-        (img) => img.isNew && img.file,
-      ) as ImageItem[];
-      const newFiles: File[] = newImageItems.map((img) => img.file!);
-
-      let uploadedUrls: string[] = [];
-      if (newFiles.length) {
-        toast.info("Uploading new images...");
-        uploadedUrls = await uploadMultipleFilesToCloudinary(newFiles);
+      if (!postImages.length) {
+        toast("Please provide an image");
+        return;
       }
-
-      // Combine existing and new image URLs.
-      const finalImages = [
-        ...existingImageUrls,
-        ...uploadedUrls.filter((url) => url !== ""),
-      ];
+      const images = await uploadMultipleFilesToCloudinary(postImages);
 
       const productData = {
         ...inputData,
-        images: finalImages,
-        supplier: user?.vendor?._id,
+        images,
+        supplier: user!.vendor._id,
+        // send full colors array of objects, no mapping needed
+        colors: inputData.colors,
       };
 
-      const res = await updateProduct({
-        data: productData,
-        id: product._id,
-      }).unwrap();
-
+      const res = await createProduct(productData).unwrap();
       if (res.success) {
-        console.log(res);
-        toast.success(res.message);
-        reset(productData);
-        // Reset images state to updated final images as existing images.
-        setImages(finalImages.map((url) => ({ id: url, url, isNew: false })));
+        toast.update(toastId, {
+          type: "success",
+          render: res.message,
+          isLoading: false,
+          autoClose: 3000,
+        });
+        reset();
+        setPostImages([]);
+        setPreviewImages([]);
         router.push("/vendor/products");
       }
     } catch (err: any) {
-      console.error(err);
-      toast.error(err.message);
+      toast.update(toastId, {
+        type: "error",
+        render: err?.data.message,
+        isLoading: false,
+        autoClose: 3000,
+      });
     }
   };
-
-  useEffect(() => {
-    if (isError) {
-      toast.error((error as any).data.message);
-    }
-  }, [isError, error]);
-
-  useEffect(() => {
-    if (isLoading) {
-      toast.info("Updating the product...");
-    }
-  }, [isLoading]);
 
   return (
     <div className="space-y-6 rounded-lg bg-white p-8 shadow-lg">
@@ -205,48 +136,25 @@ const VendorProductEditForm = ({ id }: { id: string }) => {
             >
               Category
             </Label>
-            <Controller
-              control={control}
+            <CategorySelect
               name="category"
-              rules={{ required: true }}
-              render={({ field }) => (
-                <Select value={field.value} onValueChange={field.onChange}>
-                  <SelectTrigger className="h-12 w-full rounded-md focus:ring-2 focus:ring-primary">
-                    <SelectValue placeholder="Select Category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Categories</SelectLabel>
-                      {categories?.data.flatMap((category: TCategory) =>
-                        category.subcategories.flatMap((subCategory) =>
-                          subCategory?.subcategories.map((item) => (
-                            <SelectItem
-                              key={`${category.name}-${subCategory.name}-${item.name}`}
-                              value={item.name}
-                              className="capitalize"
-                            >
-                              {item.name}
-                            </SelectItem>
-                          )),
-                        ),
-                      )}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              )}
+              control={control}
+              setValue={setValue}
+              watch={watch}
+              placeholder="Main-Category > Sub-Category > Nested-Subcategory"
             />
           </div>
         </div>
 
         {/* Image Upload & Preview */}
         <div className="mt-6">
-          {images.length > 0 ? (
-            <div className="grid grid-cols-3 gap-3">
-              {images.map((img) => (
-                <div key={img.id} className="w-68 relative h-44">
+          {previewImages.length > 0 ? (
+            <div className="grid grid-cols-3 gap-2">
+              {previewImages.map((previewUrl, index) => (
+                <div key={previewUrl} className="w-68 relative h-44">
                   <Image
-                    src={img.url}
-                    alt="Preview"
+                    src={previewUrl}
+                    alt={`Preview ${index}`}
                     layout="fill"
                     className="rounded-md object-cover"
                     priority
@@ -256,11 +164,11 @@ const VendorProductEditForm = ({ id }: { id: string }) => {
                     className="absolute right-0 top-0 p-1"
                     type="button"
                     onClick={() => {
-                      if (img.isNew) {
-                        URL.revokeObjectURL(img.url);
-                      }
-                      setImages((prev) =>
-                        prev.filter((image) => image.id !== img.id),
+                      setPreviewImages((prevImages) =>
+                        prevImages.filter((_, i) => i !== index),
+                      );
+                      setPostImages((prevImages) =>
+                        prevImages.filter((_, i) => i !== index),
                       );
                     }}
                   >
@@ -282,11 +190,11 @@ const VendorProductEditForm = ({ id }: { id: string }) => {
               </label>
               <input
                 type="file"
+                multiple
                 accept="image/*"
                 id="uploadPhoto"
                 onChange={handleFileSelect}
                 className="hidden"
-                multiple
               />
             </div>
           )}
@@ -412,12 +320,8 @@ const VendorProductEditForm = ({ id }: { id: string }) => {
               name="colors"
               render={({ field }) => (
                 <ColorsSelect
-                  value={colorsOptions.filter((opt) =>
-                    field.value?.includes(opt.value),
-                  )}
-                  onChange={(selected) =>
-                    field.onChange(selected.map((s) => s.value))
-                  }
+                  value={field.value}
+                  onChange={(selected) => field.onChange(selected)}
                 />
               )}
             />
@@ -469,4 +373,4 @@ const VendorProductEditForm = ({ id }: { id: string }) => {
   );
 };
 
-export default VendorProductEditForm;
+export default VendorCreateProductForm;

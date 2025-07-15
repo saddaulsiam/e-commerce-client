@@ -49,14 +49,6 @@ const VendorDashboardMain = () => {
   ];
   return (
     <div className="flex min-h-screen w-full flex-col md:p-6">
-      {/* Header Section */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight">Vendor Dashboard</h1>
-        <p className="text-muted-foreground">
-          Welcome back, {user?.displayName}
-        </p>
-      </div>
-
       {/* Stats Grid */}
       <div className="mb-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {dashboardStats.map((card, i) => (

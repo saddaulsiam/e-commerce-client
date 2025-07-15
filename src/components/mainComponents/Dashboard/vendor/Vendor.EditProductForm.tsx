@@ -15,9 +15,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { ColorsOption } from "@/data/colors";
+import colorsOptions from "@/data/colors";
 import { useGetBrandsQuery } from "@/redux/features/brands/brandsApi";
-import { useCreateProductMutation } from "@/redux/features/product/productApi";
+import { useGetCategoriesQuery } from "@/redux/features/categories/categoriesApi";
+import {
+  useGetSingleProductQuery,
+  useUpdateProductMutation,
+} from "@/redux/features/product/productApi";
 import { useAppSelector } from "@/redux/hooks";
 import { TBrand } from "@/types/common";
 import { uploadMultipleFilesToCloudinary } from "@/utils/uploadToCloudinary";
@@ -37,78 +41,144 @@ interface ProductFormInputs {
   brand: string;
   price: number;
   discount: number;
-  colors: ColorsOption[];
+  colors: string[];
 }
 
-const VendorProductCreateForm = () => {
-  const router = useRouter();
+// Define an interface to manage each image item
+interface ImageItem {
+  id: string;
+  url: string;
+  file?: File; // present for new images
+  isNew: boolean;
+}
+
+const VendorEditProductForm = ({ id }: { id: string }) => {
+  const { data } = useGetSingleProductQuery(id);
+  const product = data?.data;
+
+  // Remove images from form default values since we manage them separately
   const { register, handleSubmit, reset, control, setValue, watch } =
     useForm<ProductFormInputs>();
 
-  const [postImages, setPostImages] = useState<File[]>([]);
-  const [previewImages, setPreviewImages] = useState<string[]>([]);
+  // Manage images (both existing and new) in separate state
+  const [images, setImages] = useState<ImageItem[]>([]);
 
-  const { user } = useAppSelector(({ state }) => state.auth);
-  const [createProduct] = useCreateProductMutation();
+  // When product prop changes, reset the form and initialize the images state.
+  useEffect(() => {
+    if (product) {
+      reset({
+        name: product.name,
+        category: product.category,
+        description: product.description,
+        status: product.status || "in-stock",
+        stock: Number(product.stock) || 0,
+        brand: product.brand,
+        price: Number(product.price) || 0,
+        discount: product.discount || 0,
+        colors: product.colors || [],
+      });
+      if (product.images && product.images.length) {
+        const initialImages: ImageItem[] = product.images.map((url: any) => ({
+          id: url, // using the URL as a unique id for existing images (assumes uniqueness)
+          url,
+          isNew: false,
+        }));
+        setImages(initialImages);
+      }
+    }
+  }, [product, reset]);
+
+  const router = useRouter();
   const { data: brands } = useGetBrandsQuery(undefined);
+  // const { data: categories } = useGetCategoriesQuery(undefined);
+  const { user } = useAppSelector(({ state }) => state.auth);
+  const [updateProduct, { isError, error, isLoading }] =
+    useUpdateProductMutation();
 
-  // Handle file selection and generate preview URLs.
+  // Handle file selection: create ImageItem objects for new images and append them.
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const files = Array.from(e.target.files || []);
-    const imageFiles = files.filter((file) => file.type.startsWith("image/"));
-    setPostImages(imageFiles);
-
-    // Create object URLs for previews
-    const imagePreviews = imageFiles.map((file) => URL.createObjectURL(file));
-    setPreviewImages(imagePreviews);
+    const newImageItems: ImageItem[] = files
+      .filter((file) => file.type.startsWith("image/"))
+      .map((file) => ({
+        id: `${file.name}-${file.lastModified}-${Math.random()}`, // generate a unique id
+        url: URL.createObjectURL(file),
+        file,
+        isNew: true,
+      }));
+    setImages((prev) => [...prev, ...newImageItems]);
   };
 
-  // Cleanup preview URLs when component unmounts or images change
+  // Cleanup preview URLs for new images when component unmounts or images change
   useEffect(() => {
     return () => {
-      previewImages.forEach((url) => URL.revokeObjectURL(url));
+      images.forEach((image) => {
+        if (image.isNew) {
+          URL.revokeObjectURL(image.url);
+        }
+      });
     };
-  }, [previewImages]);
+  }, [images]);
 
   const onSubmit: SubmitHandler<ProductFormInputs> = async (inputData) => {
-    const toastId = toast.loading("Creating the product...");
     try {
-      if (!postImages.length) {
-        toast("Please provide an image");
-        return;
+      // Separate images: existing ones and new ones to upload.
+      const existingImageUrls = images
+        .filter((img) => !img.isNew)
+        .map((img) => img.url);
+      const newImageItems = images.filter(
+        (img) => img.isNew && img.file,
+      ) as ImageItem[];
+      const newFiles: File[] = newImageItems.map((img) => img.file!);
+
+      let uploadedUrls: string[] = [];
+      if (newFiles.length) {
+        toast.info("Uploading new images...");
+        uploadedUrls = await uploadMultipleFilesToCloudinary(newFiles);
       }
-      const images = await uploadMultipleFilesToCloudinary(postImages);
+
+      // Combine existing and new image URLs.
+      const finalImages = [
+        ...existingImageUrls,
+        ...uploadedUrls.filter((url) => url !== ""),
+      ];
 
       const productData = {
         ...inputData,
-        images,
-        supplier: user!.vendor._id,
-        // send full colors array of objects, no mapping needed
-        colors: inputData.colors,
+        images: finalImages,
+        supplier: user?.vendor?._id,
       };
 
-      const res = await createProduct(productData).unwrap();
+      const res = await updateProduct({
+        data: productData,
+        id: product._id,
+      }).unwrap();
+
       if (res.success) {
-        toast.update(toastId, {
-          type: "success",
-          render: res.message,
-          isLoading: false,
-          autoClose: 3000,
-        });
-        reset();
-        setPostImages([]);
-        setPreviewImages([]);
+        console.log(res);
+        toast.success(res.message);
+        reset(productData);
+        // Reset images state to updated final images as existing images.
+        setImages(finalImages.map((url) => ({ id: url, url, isNew: false })));
         router.push("/vendor/products");
       }
     } catch (err: any) {
-      toast.update(toastId, {
-        type: "error",
-        render: err?.data.message,
-        isLoading: false,
-        autoClose: 3000,
-      });
+      console.error(err);
+      toast.error(err.message);
     }
   };
+
+  useEffect(() => {
+    if (isError) {
+      toast.error((error as any).data.message);
+    }
+  }, [isError, error]);
+
+  useEffect(() => {
+    if (isLoading) {
+      toast.info("Updating the product...");
+    }
+  }, [isLoading]);
 
   return (
     <div className="space-y-6 rounded-lg bg-white p-8 shadow-lg">
@@ -141,6 +211,7 @@ const VendorProductCreateForm = () => {
               control={control}
               setValue={setValue}
               watch={watch}
+              defaultValue={product?.category}
               placeholder="Main-Category > Sub-Category > Nested-Subcategory"
             />
           </div>
@@ -148,13 +219,13 @@ const VendorProductCreateForm = () => {
 
         {/* Image Upload & Preview */}
         <div className="mt-6">
-          {previewImages.length > 0 ? (
-            <div className="grid grid-cols-3 gap-2">
-              {previewImages.map((previewUrl, index) => (
-                <div key={previewUrl} className="w-68 relative h-44">
+          {images.length > 0 ? (
+            <div className="grid grid-cols-3 gap-3">
+              {images.map((img) => (
+                <div key={img.id} className="w-68 relative h-44">
                   <Image
-                    src={previewUrl}
-                    alt={`Preview ${index}`}
+                    src={img.url}
+                    alt="Preview"
                     layout="fill"
                     className="rounded-md object-cover"
                     priority
@@ -164,11 +235,11 @@ const VendorProductCreateForm = () => {
                     className="absolute right-0 top-0 p-1"
                     type="button"
                     onClick={() => {
-                      setPreviewImages((prevImages) =>
-                        prevImages.filter((_, i) => i !== index),
-                      );
-                      setPostImages((prevImages) =>
-                        prevImages.filter((_, i) => i !== index),
+                      if (img.isNew) {
+                        URL.revokeObjectURL(img.url);
+                      }
+                      setImages((prev) =>
+                        prev.filter((image) => image.id !== img.id),
                       );
                     }}
                   >
@@ -190,11 +261,11 @@ const VendorProductCreateForm = () => {
               </label>
               <input
                 type="file"
-                multiple
                 accept="image/*"
                 id="uploadPhoto"
                 onChange={handleFileSelect}
                 className="hidden"
+                multiple
               />
             </div>
           )}
@@ -373,4 +444,4 @@ const VendorProductCreateForm = () => {
   );
 };
 
-export default VendorProductCreateForm;
+export default VendorEditProductForm;

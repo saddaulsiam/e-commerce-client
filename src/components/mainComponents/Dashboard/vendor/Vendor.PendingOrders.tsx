@@ -108,7 +108,7 @@ const VendorPendingOrders = () => {
                     <div className="relative h-16 w-24">
                       <Image
                         layout="fill"
-                        src={order.item.productId.images[0]}
+                        src={order?.item.image}
                         alt={order.item.name}
                         priority
                       />

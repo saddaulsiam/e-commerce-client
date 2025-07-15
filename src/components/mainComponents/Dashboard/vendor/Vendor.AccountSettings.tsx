@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 const VendorAccountSettings = () => {
   const router = useRouter();
   const { user } = useAppSelector(({ state }) => state.auth);
-  console.log(user);
   return (
     <div className="mx-auto max-w-4xl space-y-6">
       {/* Page Title */}

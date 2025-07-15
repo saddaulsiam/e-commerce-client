@@ -4,6 +4,7 @@ import AddressSelect from "@/components/sharedComponents/forms/AddressSelect";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import useAuth from "@/hooks/useAuth";
 import { useUpdateMyVendorMutation } from "@/redux/features/vendor/vendorApi";
 import { useAppSelector } from "@/redux/hooks";
 import { uploadToCloudinary } from "@/utils/uploadToCloudinary";
@@ -25,6 +26,7 @@ interface FormValues {
 }
 
 const VendorUpdateAccountSettings = () => {
+  const { refreshUser } = useAuth();
   const { user } = useAppSelector(({ state }) => state.auth);
   const [updateVendor] = useUpdateMyVendorMutation();
 
@@ -95,6 +97,7 @@ const VendorUpdateAccountSettings = () => {
 
     const res = await updateVendor({ id: user?.vendor._id, data }).unwrap();
     if (res.success) {
+      await refreshUser();
       toast.update(toastId, {
         type: "success",
         render: res.message,

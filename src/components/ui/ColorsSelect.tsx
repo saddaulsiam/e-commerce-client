@@ -62,11 +62,12 @@ const colorsStyles: StylesConfig<ColorsOption, true> = {
 };
 
 interface ColorsSelectProps {
-  value: ColorsOption[];
+  value: any;
   onChange: (selected: MultiValue<ColorsOption>) => void;
 }
 
 const ColorsSelect: FC<ColorsSelectProps> = ({ value, onChange }) => {
+  console.log(value);
   return (
     <Select
       isMulti

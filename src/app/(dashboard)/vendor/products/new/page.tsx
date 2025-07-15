@@ -1,4 +1,4 @@
-import { VendorProductCreateForm } from "@/components/mainComponents/Dashboard/vendor";
+import { VendorCreateProductForm } from "@/components/mainComponents/Dashboard/vendor";
 import { BadgePlus } from "lucide-react";
 import { Metadata } from "next";
 
@@ -13,7 +13,7 @@ const AddNewProduct = () => {
         <BadgePlus className="mr-2 text-primary" /> Create New Product
       </h2>
 
-      <VendorProductCreateForm />
+      <VendorCreateProductForm />
     </div>
   );
 };

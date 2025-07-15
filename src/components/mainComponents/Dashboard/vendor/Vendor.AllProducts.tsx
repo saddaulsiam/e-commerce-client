@@ -116,6 +116,7 @@ const VendorAllProducts = () => {
                           src={product.images[0]}
                           alt={product.name}
                           priority
+                          className="object-fill object-center"
                         />
                       </div>
                       <div>

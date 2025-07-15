@@ -16,6 +16,7 @@ interface CategorySelectProps {
   watch: any;
   placeholder: string;
   name: string;
+  defaultValue?: string;
 }
 
 const CategorySelect = ({
@@ -24,6 +25,7 @@ const CategorySelect = ({
   watch,
   placeholder,
   name,
+  defaultValue,
 }: CategorySelectProps) => {
   const { data } = useGetCategoriesQuery("");
   const categories: TCategory[] = data?.data || [];
@@ -117,6 +119,7 @@ const CategorySelect = ({
           <SelectTrigger className="h-12">
             <SelectValue
               placeholder={
+                defaultValue ||
                 placeholder ||
                 "Main-Category > Subcategory > Nested-subcategory"
               }
