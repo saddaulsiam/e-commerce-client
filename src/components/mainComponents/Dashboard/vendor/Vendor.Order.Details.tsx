@@ -7,13 +7,13 @@ import {
   useGetSingleSuborderQuery,
   useUpdateSubOrderStatusMutation,
 } from "@/redux/features/order/orders/ordersApi";
-import { TAddress, TStatus } from "@/types/common";
+import { TAddress } from "@/types/common";
+import { TOrderStatus } from "@/types/Orderstype";
 import { format } from "date-fns";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import VendorOrderDetailsCart from "./Vendor.Order.Details.Cart";
-import { TOrderStatus } from "@/types/Orderstype";
 
 export default function VendorOrderDetails() {
   const params = useParams();

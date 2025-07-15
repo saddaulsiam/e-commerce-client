@@ -55,7 +55,7 @@ const authApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
-      providesTags: ["Vendor"],
+      providesTags: ["Orders"],
     }),
 
     getVendorCustomers: builder.query({
