@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import useAuth from "@/hooks/useAuth";
 import { useChangeUserProfileMutation } from "@/redux/features/user/userApi";
 import { useAppSelector } from "@/redux/hooks";
-import { uploadToCloudinary } from "@/services/uploadToCloudinary";
+import { uploadToCloudinary } from "@/utils/uploadToCloudinary";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";

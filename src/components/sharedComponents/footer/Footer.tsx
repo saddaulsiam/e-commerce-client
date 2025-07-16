@@ -7,7 +7,7 @@ import {
   FaFacebookF,
   FaInstagram,
   FaPhoneAlt,
-  FaYoutube
+  FaYoutube,
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
@@ -15,22 +15,22 @@ const socialLinks = [
   {
     icon: FaFacebookF,
     label: "Facebook",
-    link: "https://facebook.com",
+    link: "https://facebook.com/@saddaulsiam",
   },
   {
     icon: FaXTwitter,
     label: "Twitter",
-    link: "https://x.com",
+    link: "https://x.com/Saddaul_Siam",
   },
   {
     icon: FaInstagram,
     label: "Instagram",
-    link: "https://instagram.com",
+    link: "https://instagram.com/@saddaulsiam",
   },
   {
     icon: FaYoutube,
     label: "YouTube",
-    link: "https://youtube.com",
+    link: "https://youtube.com/@saddaulsiam",
   },
 ];
 

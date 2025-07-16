@@ -116,7 +116,7 @@ const AdminAllProducts = () => {
                     {product.description}
                   </span>
                   {/* <br /> */}
-                  {product.colors?.map((color, i) => (
+                  {product.colors?.map(({ label, color }, i) => (
                     <span
                       key={i}
                       className="rounded-full px-3 py-1 text-xs text-white"
@@ -124,7 +124,7 @@ const AdminAllProducts = () => {
                         backgroundColor: color,
                       }}
                     >
-                      {color}
+                      {label}
                     </span>
                   ))}
                 </TableCell>

@@ -75,6 +75,7 @@ const VendorShopAllProducts = ({ search }: { search: string }) => {
             selectedStatus={selectedStatus}
             setSelectedStatus={setSelectedStatus}
             onReset={handleFilterReset}
+            products={products}
           />
         </div>
       </div>
@@ -123,6 +124,7 @@ const VendorShopAllProducts = ({ search }: { search: string }) => {
                   selectedStatus={selectedStatus}
                   setSelectedStatus={setSelectedStatus}
                   onReset={handleFilterReset}
+                  products={products}
                 />
               </SheetContent>
             </Sheet>
