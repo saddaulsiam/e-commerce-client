@@ -6,14 +6,14 @@ A scalable multi-vendor e-commerce solution built with **Next.js 15** frontend a
 
 - Vendor registration, authentication, and dashboards
 - Admin management & role-based access control
-- Customer accounts with profiles and addresses
+- Customer accounts with profiles
 - Product catalog with brands & categories
 - Shopping cart & checkout flow
 - Stripe and SSLCommerz payment integrations
-- Order management with suborders & status updates
+- Order management with status updates
 - Product reviews and ratings
 - Dashboard analytics/metrics
-- Responsive modern UI with Tailwind & Radix
+- Responsive modern UI with Tailwind & Shadcn
 
 ## ⚡ Tech Stack
 
@@ -22,12 +22,12 @@ A scalable multi-vendor e-commerce solution built with **Next.js 15** frontend a
 - Next.js 15
 - React 19
 - Redux Toolkit & Redux Persist
-- Tailwind CSS, Radix UI, shadcn/ui
-- Stripe.js integration
+- Tailwind CSS, Shadcn/ui
+- Stripe.js and SSLCommerz integration
 - React Hook Form + Zod
 - Framer Motion, Lottie
 - Recharts
-- Firebase (optional)
+- Firebase
 
 ### 🌐 Server
 
@@ -42,15 +42,17 @@ A scalable multi-vendor e-commerce solution built with **Next.js 15** frontend a
 
 ## 🛠️ Installation
 
-### 1️⃣ Clone the repo
+### 1️⃣ Clone this repo
 
 ```bash
-  git clone https://github.com/yourusername/your-repo.git
-  cd your-repo
+  git clone https://github.com/saddaulsiam/e-commerce-client.git
 ```
 
 ```bash
-  cd client-new
+  cd e-commerce-client
+```
+
+```bash
   npm install
 ```
 
