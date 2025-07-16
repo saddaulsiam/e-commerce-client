@@ -62,6 +62,6 @@ A scalable multi-vendor e-commerce solution built with **Next.js 15** frontend a
 
 ## 📣 Contact
 
-- Author: Your Name
+- Author: Saddaul Siam
 - Email: saddaulsiam@gmail.com
 - GitHub: @saddaulsiam
