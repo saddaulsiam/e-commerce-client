@@ -2,6 +2,8 @@
 
 A scalable multi-vendor e-commerce solution built with **Next.js 15** frontend and **Node.js (Express, TypeScript)** backend. Vendors can manage stores and products, customers can shop and pay online (Stripe, SSLCommerz), and admins control the platform via dashboards.
 
+### 🚀 Live Demo [Live Site](https://siam-store.vercel.app) | 🚀 Server Side Code [Visit Repositories](https://github.com/saddaulsiam/e-commerce-server)
+
 ## ✨ Features
 
 - Vendor registration, authentication, and dashboards
@@ -14,8 +16,6 @@ A scalable multi-vendor e-commerce solution built with **Next.js 15** frontend a
 - Product reviews and ratings
 - Dashboard analytics/metrics
 - Responsive modern UI with Tailwind & Shadcn
-  
-### 🚀 Live Demo [Live Site](https://siam-store.vercel.app) | 🚀 Server Side Code [Visit Repositories](https://github.com/saddaulsiam/e-commerce-server)
 
 ## ⚡ Tech Stack
 
